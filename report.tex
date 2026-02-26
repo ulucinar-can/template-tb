@@ -1,0 +1,109 @@
+\documentclass[
+    iai, % Saisir le nom de l'institut rattaché
+    eai, % Saisir le nom de l'orientation
+    %confidential, % Décommentez si le travail est confidentiel
+]{heig-tb}
+
+%% Choix de la police de caractères
+%% (décommenter si vous souhaitez une police sans serif)
+%\setmainfont{TeX Gyre Heros} % Sans sérif
+
+%% Packages supplémentaires si besoin
+\usepackage{lipsum} % Générer du texte de remplissage pour les exemples
+\usepackage{parcolumns} % Si besoin de gérer des colonnes parallèles
+\usepackage{tikzducks} % Utile pour générer des images temporaires
+\usepackage{chemfig} % Si besoin d'insérer des formules chimiques
+\usepackage[version=4]{mhchem} % Si besoin d'insérer des formules chimiques
+\usepackage[
+  nooldvoltagedirection,
+  european,
+  americaninductors]{circuitikz} % Pour les schémas électriques
+
+% Si vous voulez générer des graphiques avec pgfplots
+\usepackage{pgfplots}
+\usepgfplotslibrary{colormaps}
+\pgfplotsset{width=10cm,compat=1.18}
+
+% Types de théorèmes
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{corollary}{Corollaire}[theorem]
+\newtheorem{lemma}[theorem]{Lemme}
+
+\signature{signature.svg} % Remplacer par votre propre signature vectorielle.
+
+\makenomenclature
+\makenoidxglossaries
+\makeindex
+
+\addbibresource{bibliography.bib}
+
+\input{backmatter/acronyms}
+\input{backmatter/glossary}
+\input{meta}
+
+\surroundwithmdframed{minted}
+
+% Utilisé par la nomenclature
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+              \ifstrequal{#1}{A}{Constantes physiques}{%
+                \ifstrequal{#1}{B}{Groupes}{%
+                  \ifstrequal{#1}{C}{Autres Symboles}{}}}%
+        ]}
+
+\newcommand{\nomunit}[1]{%
+  \renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+
+
+%% Début du document
+\begin{document}
+
+\selectlanguage{french}
+\maketitle
+\frontmatter
+\clearemptydoublepage
+
+\inputdir[order=natural]{frontmatter}
+
+%% Sommaire et tables
+\clearemptydoublepage
+{
+  \tableofcontents
+  \let\cleardoublepage\clearpage
+  \listoffigures
+  \let\cleardoublepage\clearpage
+  \listoftables
+  \let\cleardoublepage\clearpage
+  \listoflistings
+}
+
+\printnomenclature
+\clearemptydoublepage
+\pagenumbering{arabic}
+
+%% Contenu
+\mainmatter
+
+\inputdir[order=natural]{content}
+
+\clearpage
+\printbibliography
+
+\appendix
+\appendixpage
+\addappheadtotoc
+
+\inputdir[order=natural]{appendix}
+
+\let\cleardoublepage\clearpage
+\backmatter
+
+\label{glossaire}
+\printnoidxglossary
+\label{index}
+\printindex
+
+\input{backmatter/colophon}
+\input{backmatter/nomenclature}
+
+\end{document}
