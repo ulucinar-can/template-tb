@@ -1,26 +1,95 @@
 \chapter{Situation de départ}
 
-
 \section{Contexte}
-Ce chapitre à pour but
-de revenir sur tout le travail réaliser dans
-le travail de Bachelôr précédent, c'est à dire
-le travail réalsier par Thomas Freyche.\\
+Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche.
 
-En cas de changement, celui-ci sera mentionnée
-en fin de sous-section avertissant le lecteur
-de la situation actuelle. Dans le cas contrainre,
-cela voudra dire qu'aucune modification n'a été apporté
-a cette partie de la maquette.
+En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
 
 \section{Mise en place}
 
 \subsection{Installation de Code Composer Studio}
 \label{subsec:CCS_install}
+Afin de programmer correctement le DSP, une version spécifique de Code Composer Studio (CCS) ainsi qu'une bibliothèque dédiée au DSP doivent être installées.
 
+La version requise de CCS est la suivante \cite{CCS_Install} :
+\url{https://www.ti.com/tool/download/CCSTUDIO/12.6.0} \\
+
+Pour la bibliothèque C2000Ware, la version suivante doit être installée \cite{C2000_Install} :
+\url{https://www.ti.com/tool/download/C2000WARE/5.02.00.00}\\
+
+Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'il détecte la bibliothèque. La procédure d'intégration est la suivante :
+
+\begin{enumerate}
+    \item Lancer Code Composer Studio.
+
+    \item Accéder au menu \textit{Window > Preferences}.
+
+    \item Dans la colonne de gauche, naviguer vers \textit{Code Composer Studio > Products}.
+
+    \item Vérifier la liste "Product discovery path". Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
+    \item Cliquer sur le bouton \textit{Refresh}.
+
+    \item La bibliothèque C2000Ware doit apparaître dans la liste « Discovered products ». Cliquer alors sur \textit{Install}.
+
+    \item Si l'explorateur de fichiers s'ouvre, sélectionner l'emplacement exact du dossier (généralement \verb|C:\ti\c2000\C2000Ware_5_02_00_00|).
+
+    \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La figure \ref{fig:Res_conf_C2000} illustre le résultat attendu.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.75\linewidth]{Image/Chap.2/Resultat_conf_C2000.png}
+        \caption{Résultat de la configuration du C2000}
+        \label{fig:Res_conf_C2000}
+    \end{figure}
+
+    \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
+\end{enumerate}
+
+Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est correctement établi en suivant ces étapes :
+
+\begin{enumerate}
+    \item Effectuer un clic droit sur le projet.
+
+    \item Sélectionner \textit{Properties}.
+
+    \item Dérouler l'onglet \textit{Build > C2000 Compiler > Optimization}.
+
+    \item Appliquer les paramètres tels qu'illustrés dans la fenêtre suivante :
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.75\linewidth]{Image/Chap.2/CCS_Opti_Windows.png}
+        \caption{Configuration des paramètres d'optimisation}
+        \label{fig:Res_conf_Opti}
+    \end{figure}
+\end{enumerate}
+
+\red{Pour finaliser la mise en service, il est nécessaire de charger le programme dans la mémoire Flash du processeur.}
+
+Il est désormais possible d'utiliser CCS pour la programmation du DSP.
+
+\subsection{Protocole de mise en service}
+La mise en service de la maquette s'effectue selon la procédure suivante :
+
+\begin{enumerate}
+    \item Allumer l'alimentation 48V en réglant la limitation de courant à 3.5A. Pour ajuster cette limite, presser le bouton de réglage correspondant sur l'alimentation.
+
+    \item Compiler et charger la dernière version du code depuis Code Composer Studio vers le DSP.
+
+    \item Configurer l'oscilloscope sur la résistance de charge des cartes de puissance (calibres : 50 ms/div et 10V/div pour les deux sondes). Placer le trigger du canal mesurant le côté électrique de la résistance (vers les cartes de puissance) à 20V. Régler l'oscilloscope en mode "Single" afin d'observer la charge des condensateurs lors de l'enclenchement de l'interrupteur S1.
+
+    \item Une fois la tension de 48V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
+\end{enumerate}
 
 \section{Hardware}
+Cette séction vient analyser toute la circuiterie réalisé. Notamment expliquer :
 
+\begin{itemize}
+    \item Le schéma fonctionnel
+    \item Les déscisions prises
+    \item Le layout et les PCB
+\end{itemize}
+
+Beaucoup d'élément seront repris du travail réalisé par Thomas Freyche \cite{Freyche}.
 
 \section{Software}
-
