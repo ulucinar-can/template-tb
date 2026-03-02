@@ -105,13 +105,39 @@ Cette section vient traiter le code réalisé jusqu'à maintenant. Elle essaiera
 Pour ce projet, les librairies suivantes ont été utilisées :
 
 \begin{minted}{c}
-    int main() {
-        printf("Hello HEIG-VD");
-        return 0;
-    }
+    #include "driverlib.h"
+    #include "device.h"
+
+    #include "board.h"
+    #include "sfo_v8.h"
+
+    #include "math.h"
+    #include "stdio.h"
+    #include "FunctionHeader.h"
 \end{minted}
 
-\subsection{Définition et variables globales}
+Voici une courte explication de chacunes des librairie :
+
+\begin{itemize}
+    \item \texttt{driverlib.h} : C'est la bibliothèque fondamentale pour le DSP (TI C2000). Elle contient toutes les fonctions de haut niveau pour configurer le matériel sans manipuler directement les registres binaires (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, \texttt{Interrupt\_initModule}, ...)
+
+    \item \texttt{device.h} : Ce fichier est spécifique au microcontrolleur du DSP. Elle définit les fonctions d'initialisations de base pour que le matériel tourne à la bonne vitesse.
+
+    \item \texttt{board.h} : C'est un fichier qui est généré par l'outil SysConfig. Il contient les définitions étbalies par l'interfaces pour les entrées/sorties du microcontrolleur.
+
+    \item \texttt{sfo\_v8.h} : C'est une bibliothèque cruciale pour le HRPWM(Un PWM a haute résolution). Elle permet une calibration en temps réel de la précision des signaux PWM pour compenser les variation de température et de tension du processeur par exemple.
+
+    \item \texttt{math.h} : C'est une simple librairie contenant différents outils mathématique.
+
+    \item \texttt{stdio.h} :  C'est une biblitohèque standards des entrées/sorties.
+
+    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette.
+\end{itemize}
+
+\subsection{Définition}
+
+
+\subsection{Variables globales}
 
 \subsection{Fonction propre au code}
 
