@@ -35,12 +35,12 @@ Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'
 
     \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La figure \ref{fig:Res_conf_C2000} illustre le résultat attendu.
 
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.75\linewidth]{Image/Chap.2/Resultat_conf_C2000.png}
-        \caption{Résultat de la configuration du C2000}
-        \label{fig:Res_conf_C2000}
-    \end{figure}
+          \begin{figure}[htbp]
+              \centering
+              \includegraphics[width=0.75\linewidth]{Image/Chap.2/Resultat_conf_C2000.png}
+              \caption{Résultat de la configuration du C2000}
+              \label{fig:Res_conf_C2000}
+          \end{figure}
 
     \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
 \end{enumerate}
@@ -56,12 +56,12 @@ Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est co
 
     \item Appliquer les paramètres tels qu'illustrés dans la fenêtre suivante :
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.75\linewidth]{Image/Chap.2/CCS_Opti_Windows.png}
-        \caption{Configuration des paramètres d'optimisation}
-        \label{fig:Res_conf_Opti}
-    \end{figure}
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.75\linewidth]{Image/Chap.2/CCS_Opti_Windows.png}
+              \caption{Configuration des paramètres d'optimisation}
+              \label{fig:Res_conf_Opti}
+          \end{figure}
 \end{enumerate}
 
 \red{Pour finaliser la mise en service, il est nécessaire de charger le programme dans la mémoire Flash du processeur.}
@@ -96,6 +96,64 @@ La section suivante traite l'électronique réalisé dans la version initiale du
 
 \subsection{Test de la carte}
 
-\section{PCB}
+\subsection{PCB}
 
 \section{Software}
+Cette section vient traiter le code réalisé jusqu'à maintenant. Elle essaiera d'expliquer au mieux possible les différentes partie du code allant des librairies utiliser jusqu'au intéruption.
+
+\subsection{Librairie}
+Pour ce projet, les librairies suivantes ont été utilisées :
+
+\begin{minted}{c}
+    int main() {
+        printf("Hello HEIG-VD");
+        return 0;
+    }
+\end{minted}
+
+\subsection{Définition et variables globales}
+
+\subsection{Fonction propre au code}
+
+\subsubsection{PI\_current\_regulator}
+
+\subsubsection{Filtre Savitzki}
+
+\subsubsection{Filtre IIR}
+
+\subsubsection{Autres fonctions}
+Dans cette courte section, les différentes fonction moins important seront rapidement expliquer.
+
+\subsection{Intéruption pour les ADC, l'algorithme de régulation, les PWM et la lecture du bouton}
+
+\subsubsection{ADC}
+
+\subsubsection{Algortihme de régulation}
+
+\textbf{Régulation de courant}
+
+\textbf{Régulation de position}
+
+\subsubsection{PWM}
+
+\subsubsection{Le bouton poussoir}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\textbf{error}
+
+\textbf{}
+
+\subsection{ADC}
+
+\subsection{PWM}
+
+\subsection{Régulation de position}
+
+\subsection{Régulation de courant}
