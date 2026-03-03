@@ -3,18 +3,30 @@
 \section{Contexte}
 L'institut d'Automatisation Industrielle dispose d'un démonstrateur de sustentation magnétique par attraction à quatre inducteurs. La régulation de position du véhicule a été étudiée et testée dans le cadre d'un précédent travail de Bachelor. Bien que le résultat final n'ait pas donné entière satisfaction, un certain nombre de pistes ont été mises en avant pour améliorer la stabilité du système global.
 
-La conception et le montage d’une nouvelle carte de commande avec un DSP et les circuits d’interfaçage des différents capteurs ont été réalisés lors d’un précédent travail de Bachelor.
+La conception et le montage d'une nouvelle carte de commande avec un DSP et les circuits d'interfaçage des différents capteurs ont été réalisés lors d'un précédent travail de Bachelor.
 
 Le but de ce travail consiste à finaliser le démonstrateur avec la mise en œuvre et la programmation de la carte de commande pour la régulation des quatre inducteurs. Il faut également implémenter une interface utilisateur sur un site embarqué accessible par WIFI.
 
 
-\section{La sustentation mangétique}
+\section{Les trains à sustentation mangétique}
 
 \subsection{Histoire}
+
+Les trains à sustentation magnétique (également Maglev) sont des trains employant le phénomène de sustentation magnétique, c'est à dire qui utilise les forces magnétique pour se déplacer. Il n'y a aucun contact avec les rails. Grâce à ce procéder, les résistances de roulement sont supprimer ce qui permet d'atteindre des grandes vitesses(Par exemple le train japonais L0 qui a atteint 603 km/h).\\
+
+
 
 \subsection{Principe}
 
 \section{Historique du projet}
+
+Son origine remonte Michel Zayadine \cite{Zayadine}, étudiant à l'EPFL, qui devait réaliser une thèse de doctorant pour le projet SwissMetro en 1996. Le travail de sa thèses devait étudier une sustentation magnétique. Pour ce faire, diffé-rente simulation et un banc de test à quatre inducteur ont permis de développer une régulation d'états. Après de nombreux test, la maquette a atteint un état fonctionnel mais de loin encore satisfaisant.
+
+Plusieurs années après, le projet fut repris par M. Girardin et devint le travail de Bachelor de Aymeric Dutruel \cite{Aymeric}. Le travail réalisé fut la conception de la carte de puissance et l'étude de la régulation de courant et de position pour un seul inducteur.  Malheureusement les cartes de puissances réalisées n'ont pas pu montrer leur plein potentiel dû à des problèmes de câblages.
+
+Par la suite, Mattia Laucella \cite{Laucella} repris le flambeau. Durant son travail consistait à reprendre. Dans un premier temps l'étude d'une régulation par PID fut réalisée qui donna d'excellent résultat. Grâce à cela et une étude du placement des pôles, il a été possible de réaliser cette fois-ci la régulation d'état. Le fonctionnement était bon cependant lors du rassemblement des différentes partie sur le banc de test, la sustention ne fonctionnait plus.
+
+
 
 \section{Logicielle employé}
 \begin{itemize}
