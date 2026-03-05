@@ -1,0 +1,278 @@
+\chapter{Situation de départ}
+
+\section{Contexte}
+Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche.
+
+En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
+
+\section{Mise en place}
+
+\subsection{Installation de Code Composer Studio}
+\label{subsec:CCS_install}
+Afin de programmer correctement le DSP, une version spécifique de Code Composer Studio (CCS) ainsi qu'une bibliothèque dédiée au DSP doivent être installées.
+
+La version requise de CCS est la suivante \cite{CCS_Install} :
+\url{https://www.ti.com/tool/download/CCSTUDIO/12.6.0} \\
+
+Pour la bibliothèque C2000Ware, la version suivante doit être installée \cite{C2000_Install} :
+\url{https://www.ti.com/tool/download/C2000WARE/5.02.00.00}\\
+
+Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'il détecte la bibliothèque. La procédure d'intégration est la suivante :
+
+\begin{enumerate}
+    \item Lancer Code Composer Studio.
+
+    \item Accéder au menu \textit{Window > Preferences}.
+
+    \item Dans la colonne de gauche, naviguer vers \textit{Code Composer Studio > Products}.
+
+    \item Vérifier la liste "Product discovery path". Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
+    \item Cliquer sur le bouton \textit{Refresh}.
+
+    \item La bibliothèque C2000Ware doit apparaître dans la liste « Discovered products ». Cliquer alors sur \textit{Install}.
+
+    \item Si l'explorateur de fichiers s'ouvre, sélectionner l'emplacement exact du dossier (généralement \verb|C:\ti\c2000\C2000Ware_5_02_00_00|).
+
+    \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La figure \ref{fig:Res_conf_C2000} illustre le résultat attendu.
+
+          \begin{figure}[htbp]
+              \centering
+              \includegraphics[width=0.75\linewidth]{Image/Chap.2/Resultat_conf_C2000.png}
+              \caption{Résultat de la configuration du C2000}
+              \label{fig:Res_conf_C2000}
+          \end{figure}
+
+    \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
+\end{enumerate}
+
+Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est correctement établi en suivant ces étapes :
+
+\begin{enumerate}
+    \item Effectuer un clic droit sur le projet.
+
+    \item Sélectionner \textit{Properties}.
+
+    \item Dérouler l'onglet \textit{Build > C2000 Compiler > Optimization}.
+
+    \item Appliquer les paramètres tels qu'illustrés dans la fenêtre suivante :
+
+          \begin{figure}[H]
+              \centering
+              \includegraphics[width=0.75\linewidth]{Image/Chap.2/CCS_Opti_Windows.png}
+              \caption{Configuration des paramètres d'optimisation}
+              \label{fig:Res_conf_Opti}
+          \end{figure}
+\end{enumerate}
+
+\red{Pour finaliser la mise en service, il est nécessaire de charger le programme dans la mémoire Flash du processeur.}
+
+Il est désormais possible d'utiliser CCS pour la programmation du DSP.
+
+\subsection{Protocole de mise en service}
+La mise en service de la maquette s'effectue selon la procédure suivante :
+
+\begin{enumerate}
+    \item Allumer l'alimentation 48 V en réglant la limitation de courant à 3.5A. Pour ajuster cette limite, presser le bouton de réglage correspondant sur l'alimentation.
+
+    \item Compiler et charger la dernière version du code depuis Code Composer Studio vers le DSP.
+
+    \item Configurer l'oscilloscope sur la résistance de charge des cartes de puissance (calibres : 50 ms/div et 10 V/div pour les deux sondes). Placer le trigger du canal mesurant le côté électrique de la résistance (vers les cartes de puissance) à 20 V. Régler l'oscilloscope en mode "Single" afin d'observer la charge des condensateurs lors de l'enclenchement de l'interrupteur S1.
+
+    \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
+\end{enumerate}
+
+\section{Hardware}
+La section suivante traite l'électronique réalisée dans la version initiale du projet.
+
+\subsection{Schéma fonctionnel}
+Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
+
+\subsection{Alimentation}
+
+\subsection{Conditionneur}
+
+\subsection{DSP}
+
+\subsection{ESP32}
+
+\subsection{Test de la carte}
+
+\subsection{PCB}
+
+\section{Software}
+Cette section vient traiter le code réalisé jusqu'à maintenant. Elle essaiera d'expliquer au mieux possible les différentes partie du code allant des librairies utiliser jusqu'aux interruptions.
+
+\subsection{Fichiers principaux}
+
+Cette sous-section vient traiter les différents fichiers principaux du projet.
+
+\subsubsection{hrpwm\_ex1\_duty\_sfo.syscfg}
+Dans ce fichier, il est possible de retrouver l'interface graphique permettant de configurer facilement le DSP. Il est en autre utiliser pour initialiser les options suivantes :
+
+\begin{itemize}
+    \item Les ADC
+    \item les PWM
+    \item Le SCI (UART)
+\end{itemize}
+
+D'autres options peuvent également être ajouté aux moyens de cette interface.\\
+
+Des points d'interrogation apparaissent dans certains onglets. En cliquant dessus, l'outil renvoie vers des liens du "TI Ressource Explorer". Cela permet d'avoir à disposition différentes informations utiles pour chaque microcontrôleur. C'est un bon moyen d'initiation dans le cas d'une non maitrise de la logicielle.\\
+
+L'interface propose également une vue du microcontrôleur est également disponible. Cela permet de gérer de manière simple les entrées/sorties des systèmes. Une fois les entrées/sorties sélectionnées, l'interface générera deux fichiers (\texttt{board.h} et \texttt{board.c}) contenant les configurations établies.
+
+\subsubsection{FunctionHeader.h}
+
+C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
+
+\begin{itemize}
+    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines)
+
+    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits)
+
+    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections
+
+    \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
+
+    \item Les paramètres de la régulation (Espace d'état) : $$
+\end{itemize}
+
+\subsubsection{hrpwm\_ex1\_duty\_sfo.c}
+
+Ce fichier est le fichier principal. C'est ici que l'on retrouve le code pour réaliser toute la régulation, la lecture des ADC, la communication sans fil\dots. On retrouve donc les fonctionnalités suivantes :
+
+\begin{itemize}
+    \item La gestion des interruptions
+    \item La lecture des 8 ADC (ADC pour la position et ADC pour le courant par inducteur)
+    \item La conversion des valeurs de l'ADC en grandeur physiques
+    \item Le lancement d'une sustentation
+    \item La régulation des positions par réglage d'étant
+    \item \red{La régulation de courant avec des régulateurs PI}
+    \item Le calcul des PWM régler en fonction de la régulation
+    \item L'écriture des PWM sur les pins qui correspond à des directions sur le pont en H
+    \item La communication en UART avec l'ESP32
+\end{itemize}
+
+La grande majorité du code se situe dans une interruption pour la lecture des ADC ainsi que sa conversion, les algorithmes de régulations, les PWM et la gestion du bouton.\\
+
+Une analyse plus approfondie de ce fichier sera réalisée dans les sous-sections suivantes.
+
+\subsection{Librairie}
+Pour ce projet, les librairies suivantes ont été utilisées :
+
+\begin{minted}{c}
+    #include "driverlib.h"
+    #include "device.h"
+
+    #include "board.h"
+    #include "sfo_v8.h"
+
+    #include "math.h"
+    #include "stdio.h"
+    #include "FunctionHeader.h"
+\end{minted}
+
+Voici une courte explication de chacunes des librairie :
+
+\begin{itemize}
+    \item \texttt{driverlib.h} : C'est la bibliothèque fondamentale pour le DSP (TI C2000). Elle contient toutes les fonctions de haut niveau pour configurer le matériel sans manipuler directement les registres binaires (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, \texttt{Interrupt\_initModule}, ...)
+
+    \item \texttt{device.h} : Ce fichier est spécifique au microcontrôleur du DSP. Elle définit les fonctions d'initialisations de base pour que le matériel tourne à la bonne vitesse.
+
+    \item \texttt{board.h} : C'est un fichier qui est généré par l'outil SysConfig. Il contient les définitions étbalies par l'interfaces pour les entrées/sorties du microcontrolleur.
+
+    \item \texttt{sfo\_v8.h} : C'est une bibliothèque cruciale pour le HRPWM(Un PWM a haute résolution). Elle permet une calibration en temps réel de la précision des signaux PWM pour compenser les variation de température et de tension du processeur par exemple.
+
+    \item \texttt{math.h} : C'est une simple librairie contenant différents outils mathématique.
+
+    \item \texttt{stdio.h} :  C'est une bibliothèque standards des entrées/sorties.
+
+    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette.
+\end{itemize}
+
+\subsection{Définition}
+
+Les définitions suivantes ont été écrite dans le code :
+
+\begin{minted}{c}
+
+    #define LIMITE_MAX_DUTY_FINE 80 // en %
+    #define LIMITE_MIN_DUTY_FINE 30
+
+    #define NUM_OF_PWM_CHANNEL     4
+    #define EPWM_TIMER_TBPRD       100UL
+    #define MIN_HRPWM_DUTY_PERCENT 4.0f/((float)EPWM_TIMER_TBPRD)*100.0f
+    #define TIME_BASE_PERIOD       599
+    #define INV_FACTOR             0.01f
+    #define OFFSET_COUNT_INV       0.001f
+
+    #define POS_CORRECTION_1       1.07f
+    #define POS_CORRECTION_2       1.06f
+    #define TAKEOFF_CURRENT_STEP1  0.04f
+    #define TAKEOFF_CURRENT_STEP2  0.004f
+    #define POS_DETECT             0.99f
+
+    //POUR ANTI REBOND   10'000 X 40 us = 400ms
+    #define COUNT_TO_REACH         10000
+
+    // Rapport cyclique de base a 50%
+    // -> courant theorique de 0A dans les inducteurs
+    // (Forcer les PWMs à 50%, sinon de base à 0% et PWMA = 0 et
+    // PWMB = 1 (fort courant car 1 transistor toujours enclenché))
+    #define DUTY_CYCLE_1 50
+    #define DUTY_CYCLE_2 50
+    #define DUTY_CYCLE_3 50
+    #define DUTY_CYCLE_4 50
+
+\end{minted}
+
+Ces définitions constituent le paramétrage global de la machine. Elles fixent d'abord les limites de sécurité et la précision des signaux électriques (PWM) pour protéger les composants. Elles servent ensuite à calibrer les capteurs de position pour corriger les erreurs de mesure réelles. Enfin, elles définissent la stratégie de décollage, en réglant la vitesse des rampes de courant pour que la lévitation commence en douceur, tout en filtrant les parasites du bouton de commande (anti-rebond).
+
+\subsection{Variables globales}
+
+Les variables globales étant un gros du code
+
+\subsection{Fonction propre au code}
+
+\subsubsection{PI\_current\_regulator}
+
+\subsubsection{Filtre Savitzki}
+
+\subsubsection{Filtre IIR}
+
+\subsubsection{Autres fonctions}
+Dans cette courte section, les différentes fonction moins important seront rapidement expliquer.
+
+\subsection{Intéruption pour les ADC, l'algorithme de régulation, les PWM et la lecture du bouton}
+
+\subsubsection{ADC}
+
+\subsubsection{Algortihme de régulation}
+
+\textbf{Régulation de courant}
+
+\textbf{Régulation de position}
+
+\subsubsection{PWM}
+
+\subsubsection{Le bouton poussoir}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\subsubsection{}
+
+\textbf{error}
+
+\textbf{}
+
+\subsection{ADC}
+
+\subsection{PWM}
+
+\subsection{Régulation de position}
+
+\subsection{Régulation de courant}
