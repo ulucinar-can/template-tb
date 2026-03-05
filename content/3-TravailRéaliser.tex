@@ -10,17 +10,26 @@ Les différents objectifs à atteindre sont les suivants :
     \item Trouver le problème du code principal
     \item Réaliser l'interface utilisateur
     \item Réaliser une synthèse d'un régulateur PID
-    \item
 \end{itemize}
 
 \section{Vérification de l'électronique}
-Afin de faire une simple vérification, une première mise en service a été réalisé. Cela permet d'observer l'état dans lequel se trouve l'électronique réalisée. Pour ce faire, la mise en place ainsi le protocole détaillé dans les sections \ref{sec:MiseEnPlace} et \ref{sec:Protocole} ont été suivis.
+Pour commencer, une simple vérification par une première mise en service a été réalisé. Cela permet d'observer l'état dans lequel se trouve l'électronique réalisée. Pour ce faire, la mise en place ainsi le protocole détaillé dans les sections \ref{sec:MiseEnPlace} et \ref{sec:Protocole} ont été suivis.
 
 \subsection{Vérification de la charge du condensateur}
-Le condensateur a été vérifié afin de voir si le résultat obtenu est similaire à celui de Thomas Freyche que l'on observe dans la figure :
+Le condensateur a été vérifié afin de voir si le résultat obtenu est similaire à celui de Thomas Freyche que l'on observe dans la figure  \ref{fig:ResFreycheCapa} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Image/Chap.3/Result_Freyche_Capa.png}
+    \caption{Résultat de la mesure du condensateur du rapport de Thomas Freyche}
+    \label{fig:ResFreycheCapa}
+\end{figure}
+
+Lors de la mesure pour ce travail, un résultat identique est retenue représentée par la figure :
 
 
-\subsection{Observation de la maquette en marche}
+
+\subsection{Première mise }
 Au départ, il est facilement constatable que l'électronique fonctionne. Les inducteurs se soulèvent effectivement. Cependant, la régulation ne semble pas fonctionner. Cela vient donc pointer vers le fait qu'il y a un problème d'un point de vue software que hardware.\\
 
 Cela reste tout de même un bon départ, car il est possible de concentrer sur une partie qui cause potentiellement les problèmes. Les différentes hypothèses seront détaillées dans la sous-section \ref{subsec:Hypothese}.
