@@ -13,9 +13,22 @@ Les différents objectifs à atteindre sont les suivants :
     \item
 \end{itemize}
 
+\section{Vérification de l'électronique}
+Afin de faire une simple vérification, une première mise en service a été réalisé. Cela permet d'observer l'état dans lequel se trouve l'électronique réalisée. Pour ce faire, la mise en place ainsi le protocole détaillé dans les sections \ref{sec:MiseEnPlace} et \ref{sec:Protocole} ont été suivis.
+
+\subsection{Vérification de la charge du condensateur}
+Le condensateur a été vérifié afin de voir si le résultat obtenu est similaire à celui de Thomas Freyche que l'on observe dans la figure :
+
+
+\subsection{Observation de la maquette en marche}
+Au départ, il est facilement constatable que l'électronique fonctionne. Les inducteurs se soulèvent effectivement. Cependant, la régulation ne semble pas fonctionner. Cela vient donc pointer vers le fait qu'il y a un problème d'un point de vue software que hardware.\\
+
+Cela reste tout de même un bon départ, car il est possible de concentrer sur une partie qui cause potentiellement les problèmes. Les différentes hypothèses seront détaillées dans la sous-section \ref{subsec:Hypothese}.
+
 \section{Recherche du problème lié au code principal}
 
 \subsection{Hypothèse}
+\label{subsec:Hypothese}
 
 Les hypothèses suivantes ont été pensée qui causerait potentiellement le problème :
 
@@ -27,7 +40,7 @@ Les sous-sections suivantes viennent traiter les hypothèses établies.
 
 \subsection{Vérifications des interruptions}
 
-Afin de vérifier si les interruptiosn liée à la communication sans fil viendrait à gêner l'interruption principal (ADC, régulation, PWM,...), il suffit simplement de mettre en commentaire les parties concernant la communication sans fil et flashé le DSP afin de vérifier l'hypothèses.\\
+Afin de vérifier si l'interruption liée à la communication sans fil viendrait à gêner l'interruption principale (ADC, régulation, PWM,...), il suffit simplement de mettre en commentaire les parties concernant la communication sans fil et flashé le DSP afin de vérifier l'hypothèses.\\
 
 Les parties mises en commentaire sont les suivantes :
 

@@ -5,10 +5,10 @@ Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors
 
 En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
 
-\section{Mise en place}
+\section{Mise en place de CCS}
+\label{sec:MiseEnPlace}
 
 \subsection{Installation de Code Composer Studio}
-\label{subsec:CCS_install}
 Afin de programmer correctement le DSP, une version spécifique de Code Composer Studio (CCS) ainsi qu'une bibliothèque dédiée au DSP doivent être installées.
 
 La version requise de CCS est la suivante \cite{CCS_Install} :
@@ -16,6 +16,8 @@ La version requise de CCS est la suivante \cite{CCS_Install} :
 
 Pour la bibliothèque C2000Ware, la version suivante doit être installée \cite{C2000_Install} :
 \url{https://www.ti.com/tool/download/C2000WARE/5.02.00.00}\\
+
+\subsection{Configuration de CCS}
 
 Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'il détecte la bibliothèque. La procédure d'intégration est la suivante :
 
@@ -68,7 +70,8 @@ Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est co
 
 Il est désormais possible d'utiliser CCS pour la programmation du DSP.
 
-\subsection{Protocole de mise en service}
+\section{Protocole de mise en service}
+\label{sec:Protocole}
 La mise en service de la maquette s'effectue selon la procédure suivante :
 
 \begin{enumerate}
@@ -134,7 +137,7 @@ C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prot
 
     \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
 
-    \item Les paramètres de la régulation (Espace d'état) : $$
+    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$
 \end{itemize}
 
 \subsubsection{hrpwm\_ex1\_duty\_sfo.c}
