@@ -194,7 +194,31 @@ float *ue, float *uc){
 }
 \end{minted}
 
-Cette fonction assure l'asservissement du courant avec une gestion de l'anti-saturation (anti-windup) pour stabiliser le comportement du régulateur lors des saturations de commande.
+Cette fonction réalise la régulation de courant par une structure PI. Elle prend en entrée les paramètres suivants :
+
+\begin{itemize}
+    \item Le courant de consigne $ic$.
+    \item Le courant réel actuel $current$.
+    \item L'adresse de l'intégrale $integral$.
+    \item L'adresse de l'erreur de tension $ue$.
+    \item L'adresse de la consigne de tension $uc$.
+\end{itemize}
+
+Les étapes de la régulation sont les suivantes :
+
+\begin{enumerate}
+    \item Calcul de l'erreur $i_e$ entre le courant de consigne et le courant réel, puis multiplication de cette différence par le gain proportionnel du régulateur.
+
+    \item Calcul de l'intégrale en ajoutant à la valeur précédente la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, multipliée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
+
+    \item Calcul de la tension de consigne intermédiaire ($u_{c\_prim}$) par la somme de l'intégrale et de l'erreur de courant.
+
+    \item Vérification des limites de tension afin de ne pas dépasser les plages de fonctionnement de la maquette (entre 0 V et $U_{MAX}$ = 48 V). En cas de dépassement, la consigne est fixée à la borne correspondante.
+
+    \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
+\end{enumerate}
+
+Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines(voir \red{xxxx}).
 
 \subsubsection{Filtre Savitzky}
 Le filtre de Savitzky est le suivant :
@@ -215,7 +239,9 @@ Le filtre de Savitzky est le suivant :
     }
 \end{minted}
 
-Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit de mesure important tout en préservant la tendance de la variation du signal, ce qui est crucial pour la précision de la régulation.
+Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit de mesure important tout en préservant la tendance de la variation du signal, ce qui est crucial pour la précision de la régulation.\\
+
+Le fonctionnement du filtre est le suivant
 
 \subsubsection{Filtre IIR}
 Le filtre IIR est la suivante :
