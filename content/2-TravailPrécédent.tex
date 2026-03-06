@@ -103,7 +103,7 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{PCB}
 
 \section{Software}
-Cette section vient traiter le code réalisé jusqu'à maintenant. Elle essaiera d'expliquer au mieux possible les différentes partie du code allant des librairies utiliser jusqu'aux interruptions.
+Cette section vient traiter le fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) réalisé jusqu'à maintenant. Elle essaiera d'expliquer au mieux possible les différentes parties du code allant des librairies utiliser jusqu'aux interruptions.
 
 \subsection{Fichiers principaux}
 
@@ -129,15 +129,20 @@ L'interface propose également une vue du microcontrôleur est également dispon
 C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
 
 \begin{itemize}
-    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines)
+    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines).
 
-    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits)
+    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits).
 
-    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections
+    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections.
 
     \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
 
-    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$
+    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$, $K_d$ et $K_r$.
+
+    \item Les paramètres des filtres numériques (IIR et FIR) : Les coefficients et la taille de la fenêtre du filtre Savitzki.
+
+    \item Les séquences temporelles : Différents délais pour passer
+
 \end{itemize}
 
 \subsubsection{hrpwm\_ex1\_duty\_sfo.c}
@@ -175,7 +180,7 @@ Pour ce projet, les librairies suivantes ont été utilisées :
     #include "FunctionHeader.h"
 \end{minted}
 
-Voici une courte explication de chacunes des librairie :
+Voici une courte explication de chacune des librairies :
 
 \begin{itemize}
     \item \texttt{driverlib.h} : C'est la bibliothèque fondamentale pour le DSP (TI C2000). Elle contient toutes les fonctions de haut niveau pour configurer le matériel sans manipuler directement les registres binaires (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, \texttt{Interrupt\_initModule}, ...)
@@ -186,11 +191,55 @@ Voici une courte explication de chacunes des librairie :
 
     \item \texttt{sfo\_v8.h} : C'est une bibliothèque cruciale pour le HRPWM(Un PWM a haute résolution). Elle permet une calibration en temps réel de la précision des signaux PWM pour compenser les variation de température et de tension du processeur par exemple.
 
-    \item \texttt{math.h} : C'est une simple librairie contenant différents outils mathématique.
+    \item \texttt{math.h} : C'est une simple librairie contenant différents outils mathématiques.
 
-    \item \texttt{stdio.h} :  C'est une bibliothèque standards des entrées/sorties.
+    \item \texttt{stdio.h} :  C'est une bibliothèque standard des entrées/sorties.
 
-    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette.
+    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette. (Voir pour plus de détails)
+\end{itemize}
+
+\subsubsection{FunctionHeader.h}
+
+C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
+
+\begin{itemize}
+    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines).
+
+    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits).
+
+    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections.
+
+    \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
+
+    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$, $K_d$ et $K_r$.
+
+    \item Les paramètres des filtres numériques (IIR et FIR) : Les coefficients et la taille de la fenêtre du filtre Savitzki.
+
+    \item Les séquences temporelles : Différents délais pour passer
+
+\end{itemize}
+
+\subsubsection{Géneration de \texttt{board.h}}
+Ce fichier est, comme précisé précédemment, générer par un autre outil. Celui-ci est l'interface
+
+
+C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
+
+\begin{itemize}
+    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines).
+
+    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits).
+
+    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections.
+
+    \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
+
+    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$, $K_d$ et $K_r$.
+
+    \item Les paramètres des filtres numériques (IIR et FIR) : Les coefficients et la taille de la fenêtre du filtre Savitzki.
+
+    \item Les séquences temporelles : Différents délais pour passer
+
 \end{itemize}
 
 \subsection{Définition}
