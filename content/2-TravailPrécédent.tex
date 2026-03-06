@@ -195,58 +195,125 @@ Des points d'interrogation apparaissent dans certains onglets. En cliquant dessu
 
 L'interface propose également une vue du microcontrôleur est également disponible. Cela permet de gérer de manière simple les entrées/sorties des systèmes. Une fois les entrées/sorties sélectionnées, l'interface générera deux fichiers (\texttt{board.h} et \texttt{board.c}) contenant les configurations établies.
 
-\subsection{Définition}
+% \subsection{Définition}
 
-Les définitions suivantes ont été écrite dans le code :
+% Les définitions suivantes ont été écrite dans le code :
 
-\begin{minted}{c}
+% \begin{minted}{c}
 
-    #define LIMITE_MAX_DUTY_FINE 80 // en %
-    #define LIMITE_MIN_DUTY_FINE 30
+%     #define LIMITE_MAX_DUTY_FINE 80 // en %
+%     #define LIMITE_MIN_DUTY_FINE 30
 
-    #define NUM_OF_PWM_CHANNEL     4
-    #define EPWM_TIMER_TBPRD       100UL
-    #define MIN_HRPWM_DUTY_PERCENT 4.0f/((float)EPWM_TIMER_TBPRD)*100.0f
-    #define TIME_BASE_PERIOD       599
-    #define INV_FACTOR             0.01f
-    #define OFFSET_COUNT_INV       0.001f
+%     #define NUM_OF_PWM_CHANNEL     4
+%     #define EPWM_TIMER_TBPRD       100UL
+%     #define MIN_HRPWM_DUTY_PERCENT 4.0f/((float)EPWM_TIMER_TBPRD)*100.0f
+%     #define TIME_BASE_PERIOD       599
+%     #define INV_FACTOR             0.01f
+%     #define OFFSET_COUNT_INV       0.001f
 
-    #define POS_CORRECTION_1       1.07f
-    #define POS_CORRECTION_2       1.06f
-    #define TAKEOFF_CURRENT_STEP1  0.04f
-    #define TAKEOFF_CURRENT_STEP2  0.004f
-    #define POS_DETECT             0.99f
+%     #define POS_CORRECTION_1       1.07f
+%     #define POS_CORRECTION_2       1.06f
+%     #define TAKEOFF_CURRENT_STEP1  0.04f
+%     #define TAKEOFF_CURRENT_STEP2  0.004f
+%     #define POS_DETECT             0.99f
 
-    //POUR ANTI REBOND   10'000 X 40 us = 400ms
-    #define COUNT_TO_REACH         10000
+%     //POUR ANTI REBOND   10'000 X 40 us = 400ms
+%     #define COUNT_TO_REACH         10000
 
-    // Rapport cyclique de base a 50%
-    // -> courant theorique de 0A dans les inducteurs
-    // (Forcer les PWMs à 50%, sinon de base à 0% et PWMA = 0 et
-    // PWMB = 1 (fort courant car 1 transistor toujours enclenché))
-    #define DUTY_CYCLE_1 50
-    #define DUTY_CYCLE_2 50
-    #define DUTY_CYCLE_3 50
-    #define DUTY_CYCLE_4 50
+%     // Rapport cyclique de base a 50%
+%     // -> courant theorique de 0A dans les inducteurs
+%     // (Forcer les PWMs à 50%, sinon de base à 0% et PWMA = 0 et
+%     // PWMB = 1 (fort courant car 1 transistor toujours enclenché))
+%     #define DUTY_CYCLE_1 50
+%     #define DUTY_CYCLE_2 50
+%     #define DUTY_CYCLE_3 50
+%     #define DUTY_CYCLE_4 50
 
-\end{minted}
+% \end{minted}
 
-Ces définitions constituent le paramétrage global de la machine. Elles fixent d'abord les limites de sécurité et la précision des signaux électriques (PWM) pour protéger les composants. Elles servent ensuite à calibrer les capteurs de position pour corriger les erreurs de mesure réelles. Enfin, elles définissent la stratégie de décollage, en réglant la vitesse des rampes de courant pour que la lévitation commence en douceur, tout en filtrant les parasites du bouton de commande (anti-rebond).
+% Ces définitions constituent le paramétrage global de la machine. Elles fixent d'abord les limites de sécurité et la précision des signaux électriques (PWM) pour protéger les composants. Elles servent ensuite à calibrer les capteurs de position pour corriger les erreurs de mesure réelles. Enfin, elles définissent la stratégie de décollage, en réglant la vitesse des rampes de courant pour que la lévitation commence en douceur, tout en filtrant les parasites du bouton de commande (anti-rebond).
 
-\subsection{Variables globales}
+% \subsection{Variables globales}
 
-Les variables globales étant un gros du code
+% Les variables globales étant un gros du code
 
 \subsection{Fonction propre au code}
 
 \subsubsection{PI\_current\_regulator}
+La fonction \texttt{PI\_current\_regulator} est la suivante :
+
+\begin{minted}{c}
+    void PI_current_regulator(float ic, float current, float *integral, float *ue, float *uc){
+        float ie = (ic - current) * KP_I;
+        *integral += (ie - *ue) * GI_I * H;
+        float uc_prim = ie + *integral;
+
+        *uc = uc_prim;
+        if (uc_prim > UMAX) {
+            *uc = UMAX;
+        }
+        if (uc_prim < 0) {
+            *uc = 0;
+        }
+
+        *ue = (uc_prim - *uc) * ANTIWINDUP_EN;
+    }
+\end{minted}
 
 \subsubsection{Filtre Savitzki}
+Le filtre Savitzki est la suivante :
+
+\begin{minted}{c}
+    float savitzky_Filter(float *Buffer)
+    {
+        float v = 0.0f;
+        uint16_t m = 0;
+
+        //savitzky algorithm
+            for(m = 0; m < FILTWINDOW; m++)
+                v += F_PWM*Buffer[m]*SAVITZKY[m];
+
+        //update buffer for next position
+            for(m = 0; m < FILTWINDOW-1; m++)
+            Buffer[m] = Buffer[(m+1)];
+
+        return v;
+    }
+\end{minted}
+
 
 \subsubsection{Filtre IIR}
+La filtre IIR est la suivante :
+
+\begin{minted}{c}
+    float IIR_Filter(float *entree, float *sortie)
+    {
+        float somme = 0.0;
+        float somme2 = 0.0;
+
+        uint16_t k = 0;
+
+        //difference equation
+            for(k = 0; k < Nb; k++) //Num.
+                somme += b[k]*entree[k];
+            for(k = 0; k < Na; k++) //Den.
+                somme2 += a[k]*sortie[k];
+
+        //update buffers
+            for(k = (Na-1); k > 0; k--)
+                sortie[k] = sortie[(k-1)];
+            sortie[0] = (somme-somme2);
+
+            for(k = (Nb-1); k > 0; k--)
+                    entree[k] = entree[(k-1)];
+
+            return (somme-somme2);
+    }
+\end{minted}
+
 
 \subsubsection{Autres fonctions}
-Dans cette courte section, les différentes fonction moins important seront rapidement expliquer.
+Dans cette courte section, d'autres fonctions moins compliquée vont être expliqué.
 
 \subsection{Intéruption pour les ADC, l'algorithme de régulation, les PWM et la lecture du bouton}
 
