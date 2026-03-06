@@ -103,49 +103,8 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{PCB}
 
 \section{Software}
-Cette section vient traiter le fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) réalisé jusqu'à maintenant. Elle essaiera d'expliquer au mieux possible les différentes parties du code allant des librairies utiliser jusqu'aux interruptions.
+Cette section vient traiter le fichier (\texttt{hrpwm\_ex1\_duty\_sfo.c}) réalisé jusqu'à maintenant.
 
-\subsection{Fichiers principaux}
-
-Cette sous-section vient traiter les différents fichiers principaux du projet.
-
-\subsubsection{hrpwm\_ex1\_duty\_sfo.syscfg}
-Dans ce fichier, il est possible de retrouver l'interface graphique permettant de configurer facilement le DSP. Il est en autre utiliser pour initialiser les options suivantes :
-
-\begin{itemize}
-    \item Les ADC
-    \item les PWM
-    \item Le SCI (UART)
-\end{itemize}
-
-D'autres options peuvent également être ajouté aux moyens de cette interface.\\
-
-Des points d'interrogation apparaissent dans certains onglets. En cliquant dessus, l'outil renvoie vers des liens du "TI Ressource Explorer". Cela permet d'avoir à disposition différentes informations utiles pour chaque microcontrôleur. C'est un bon moyen d'initiation dans le cas d'une non maitrise de la logicielle.\\
-
-L'interface propose également une vue du microcontrôleur est également disponible. Cela permet de gérer de manière simple les entrées/sorties des systèmes. Une fois les entrées/sorties sélectionnées, l'interface générera deux fichiers (\texttt{board.h} et \texttt{board.c}) contenant les configurations établies.
-
-\subsubsection{FunctionHeader.h}
-
-C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
-
-\begin{itemize}
-    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines).
-
-    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits).
-
-    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections.
-
-    \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
-
-    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$, $K_d$ et $K_r$.
-
-    \item Les paramètres des filtres numériques (IIR et FIR) : Les coefficients et la taille de la fenêtre du filtre Savitzki.
-
-    \item Les séquences temporelles : Différents délais pour passer
-
-\end{itemize}
-
-\subsubsection{hrpwm\_ex1\_duty\_sfo.c}
 
 Ce fichier est le fichier principal. C'est ici que l'on retrouve le code pour réaliser toute la régulation, la lecture des ADC, la communication sans fil\dots. On retrouve donc les fonctionnalités suivantes :
 
@@ -163,7 +122,7 @@ Ce fichier est le fichier principal. C'est ici que l'on retrouve le code pour r�
 
 La grande majorité du code se situe dans une interruption pour la lecture des ADC ainsi que sa conversion, les algorithmes de régulations, les PWM et la gestion du bouton.\\
 
-Une analyse plus approfondie de ce fichier sera réalisée dans les sous-sections suivantes.
+Cette section vient donc essayer d'expliquer au mieux possible les différentes parties du code allant des librairies utiliser jusqu'aux interruptions.
 
 \subsection{Librairie}
 Pour ce projet, les librairies suivantes ont été utilisées :
@@ -187,7 +146,7 @@ Voici une courte explication de chacune des librairies :
 
     \item \texttt{device.h} : Ce fichier est spécifique au microcontrôleur du DSP. Elle définit les fonctions d'initialisations de base pour que le matériel tourne à la bonne vitesse.
 
-    \item \texttt{board.h} : C'est un fichier qui est généré par l'outil SysConfig. Il contient les définitions étbalies par l'interfaces pour les entrées/sorties du microcontrolleur.
+    \item \texttt{board.h} : C'est un fichier qui est généré par l'outil SysConfig(Voir \ref{subsubsec:SysConfig} pour plus de détails). Il contient les définitions étbalies par l'interfaces pour les entrées/sorties du microcontrolleur.
 
     \item \texttt{sfo\_v8.h} : C'est une bibliothèque cruciale pour le HRPWM(Un PWM a haute résolution). Elle permet une calibration en temps réel de la précision des signaux PWM pour compenser les variation de température et de tension du processeur par exemple.
 
@@ -195,10 +154,11 @@ Voici une courte explication de chacune des librairies :
 
     \item \texttt{stdio.h} :  C'est une bibliothèque standard des entrées/sorties.
 
-    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette. (Voir pour plus de détails)
+    \item \texttt{FunctionHeader.h} :  C'est une librairie locale crée afin de contenir les nombreuses définitions de la maquette. (Voir \ref{subsubsec:FunctionHeader} pour plus de détails)
 \end{itemize}
 
-\subsubsection{FunctionHeader.h}
+\subsubsection{\texttt{FunctionHeader.h}}
+\label{subsubsec:FunctionHeader}
 
 C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
 
@@ -219,28 +179,21 @@ C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prot
 
 \end{itemize}
 
-\subsubsection{Géneration de \texttt{board.h}}
-Ce fichier est, comme précisé précédemment, générer par un autre outil. Celui-ci est l'interface
-
-
-C'est dans ce fichier que l'on retrouve tous les définitions ainsi que les prototypes des fonctions. Nous y retrouvons donc :
+\subsubsection{SysConfig}
+\label{subsubsec:SysConfig}
+SysConfig est contenue dans le fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}. C'est une interface graphique permettant de configurer facilement le DSP. Il est en autre utiliser pour initialiser les options suivantes :
 
 \begin{itemize}
-    \item Les paramètres physiques du système : caractéristiques de la maquette (entrefer, masse, inductance et distances des bobines).
-
-    \item Les configurations électriques (Pont en H et ADC) : tension du bus DC (48 V) et les paramètre de conversions des capteurs (ADC 12 bits).
-
-    \item Les paramètres PWM : fréquence de découplage (25 kHz), les temps morts des MOSFET et les calculs de corrections.
-
-    \item Les paramètres de la régulation de courant (PI) : consigne de décollage (3A), $K_p$, $\tau_i$ et $G_i$.
-
-    \item Les paramètres de la régulation (Espace d'état) : $K_\omega$, $K_d$ et $K_r$.
-
-    \item Les paramètres des filtres numériques (IIR et FIR) : Les coefficients et la taille de la fenêtre du filtre Savitzki.
-
-    \item Les séquences temporelles : Différents délais pour passer
-
+    \item Les ADC
+    \item les PWM
+    \item Le SCI (UART)
 \end{itemize}
+
+D'autres options peuvent également être ajouté aux moyens de cette interface.\\
+
+Des points d'interrogation apparaissent dans certains onglets. En cliquant dessus, l'outil renvoie vers des liens du "TI Ressource Explorer". Cela permet d'avoir à disposition différentes informations utiles pour chaque microcontrôleur. C'est un bon moyen d'initiation dans le cas d'une non maitrise de la logicielle.\\
+
+L'interface propose également une vue du microcontrôleur est également disponible. Cela permet de gérer de manière simple les entrées/sorties des systèmes. Une fois les entrées/sorties sélectionnées, l'interface générera deux fichiers (\texttt{board.h} et \texttt{board.c}) contenant les configurations établies.
 
 \subsection{Définition}
 
