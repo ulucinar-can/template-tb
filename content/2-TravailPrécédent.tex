@@ -218,10 +218,10 @@ Les étapes de la régulation sont les suivantes :
     \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
 \end{enumerate}
 
-Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines(voir \red{xxxx}).
+Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines(voir \ref{subsubsec:RegCourant}).
 
-\subsubsection{Filtre Savitzky}
-Le filtre de Savitzky est le suivant :
+\subsubsection{Filtre de Savitzky}
+L'implémentation du filtre de Savitzky est la suivante :
 
 \begin{minted}{c}
 float savitzky_Filter(float *Buffer)
@@ -239,18 +239,18 @@ float savitzky_Filter(float *Buffer)
 }
 \end{minted}
 
-Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal, ce qui est crucial pour la précision de la régulation.\\
+Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal.
 
-Le fonctionnement du filtre est le suivant :
+Le fonctionnement du filtre est illustré ci-dessous :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
-    \caption{Principe du filtre Savitzky}
+    \caption{Principe du filtre de Savitzky}
     \label{fig:PrincipeSavitzky}
 \end{figure}
 
-Le filtre Savitzky est en quelque mot un filtre FIR à fenêtre glissante. Le filtre vient garder dans le cas actuel les 9 dernières positions de l'inducteur. Par la suite il vient appliquer une moyenne. La moyenne est réalisée en multipliant chaque position aux coefficients Savitzky qui sont les suivants :
+Le filtre de Savitzky s'apparente à un filtre FIR à fenêtre glissante. Dans la configuration actuelle, les 9 dernières positions de l'inducteur sont conservées en mémoire. Une moyenne pondérée est ensuite calculée en multipliant chaque position par les coefficients de Savitzky correspondants :
 
 \begin{minted}{c}
 //savitzky filter coefficients, order = 2, window = 9
@@ -258,71 +258,59 @@ const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
                                      0.0, 0.0167, 0.0333, 0.05, 0.0667};
 \end{minted}
 
-Il est possible d'augmenter la taille de la fenêtre
+L'augmentation de la taille de la fenêtre permet d'obtenir un signal plus lisse, mais entraîne en contrepartie une augmentation du temps de calcul.
+
+Ce filtre est actuellement utilisé dans le code pour traiter le bruit des mesures provenant des ADC de position (voir \ref{subsubsec:ADC}).
 
 \subsubsection{Filtre IIR}
-Le filtre IIR est la suivante :
+L'implémentation du filtre IIR est la suivante :
 
 \begin{minted}{c}
-    float IIR_Filter(float *entree, float *sortie)
-    {
-        float somme = 0.0;
-        float somme2 = 0.0;
+float IIR_Filter(float *entree, float *sortie)
+{
+    float somme = 0.0;
+    float somme2 = 0.0;
 
-        uint16_t k = 0;
+    uint16_t k = 0;
 
-        //difference equation
-            for(k = 0; k < Nb; k++) //Num.
-                somme += b[k]*entree[k];
-            for(k = 0; k < Na; k++) //Den.
-                somme2 += a[k]*sortie[k];
+    //difference equation
+    for(k = 0; k < Nb; k++) //Num.
+        somme += b[k]*entree[k];
+    for(k = 0; k < Na; k++) //Den.
+        somme2 += a[k]*sortie[k];
 
-        //update buffers
-            for(k = (Na-1); k > 0; k--)
-                sortie[k] = sortie[(k-1)];
-            sortie[0] = (somme-somme2);
+    //update buffers
+    for(k = (Na-1); k > 0; k--)
+        sortie[k] = sortie[(k-1)];
 
-            for(k = (Nb-1); k > 0; k--)
-                    entree[k] = entree[(k-1)];
+    sortie[0] = (somme-somme2);
 
-            return (somme-somme2);
-    }
+    for(k = (Nb-1); k > 0; k--)
+        entree[k] = entree[(k-1)];
+
+    return (somme-somme2);
+}
 \end{minted}
 
+Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
 
 \subsubsection{Autres fonctions}
 Dans cette courte section, d'autres fonctions moins compliquée vont être expliqué.
 
-\subsection{Intéruption pour les ADC, l'algorithme de régulation, les PWM et la lecture du bouton}
+\textbf{}
+
+\subsection{Interruption principale}
 
 \subsubsection{ADC}
+\label{subsubsec:ADC}
 
-\subsubsection{Algortihme de régulation}
+\subsubsection{Régulation de courants}
+\label{subsubsec:RegCourant}
 
-\textbf{Régulation de courant}
-
-\textbf{Régulation de position}
+\subsubsection{Régulation de positions}
 
 \subsubsection{PWM}
 
+\subsubsection{Machine d'état}
+
 \subsubsection{Le bouton poussoir}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\subsubsection{}
-
-\textbf{error}
-
-\textbf{}
-
-\subsection{ADC}
-
-\subsection{PWM}
-
-\subsection{Régulation de position}
-
-\subsection{Régulation de courant}

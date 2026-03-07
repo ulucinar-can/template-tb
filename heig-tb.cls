@@ -184,6 +184,9 @@
 
 \ProcessOptions
 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
 % Améliore le mode mathématique, aligne les équations à gauche
 \RequirePackage[fleqn]{amsmath}
 \RequirePackage{nccmath}
