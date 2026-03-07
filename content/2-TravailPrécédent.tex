@@ -224,24 +224,41 @@ Cette fonction sera principalement utilisée dans l'interruption principale pour
 Le filtre de Savitzky est le suivant :
 
 \begin{minted}{c}
-    float savitzky_Filter(float *Buffer)
-    {
-        float v = 0.0f;
-        uint16_t m = 0;
+float savitzky_Filter(float *Buffer)
+{
+    float v = 0.0f;
+    uint16_t m = 0;
 
-        for(m = 0; m < FILTWINDOW; m++)
-            v += F_PWM*Buffer[m]*SAVITZKY[m];
+    for(m = 0; m < FILTWINDOW; m++)
+        v += F_PWM*Buffer[m]*SAVITZKY[m];
 
-        for(m = 0; m < FILTWINDOW-1; m++)
-            Buffer[m] = Buffer[(m+1)];
+    for(m = 0; m < FILTWINDOW-1; m++)
+        Buffer[m] = Buffer[(m+1)];
 
-        return v;
-    }
+    return v;
+}
 \end{minted}
 
-Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit de mesure important tout en préservant la tendance de la variation du signal, ce qui est crucial pour la précision de la régulation.\\
+Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal, ce qui est crucial pour la précision de la régulation.\\
 
-Le fonctionnement du filtre est le suivant
+Le fonctionnement du filtre est le suivant :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
+    \caption{Principe du filtre Savitzky}
+    \label{fig:PrincipeSavitzky}
+\end{figure}
+
+Le filtre Savitzky est en quelque mot un filtre FIR à fenêtre glissante. Le filtre vient garder dans le cas actuel les 9 dernières positions de l'inducteur. Par la suite il vient appliquer une moyenne. La moyenne est réalisée en multipliant chaque position aux coefficients Savitzky qui sont les suivants :
+
+\begin{minted}{c}
+//savitzky filter coefficients, order = 2, window = 9
+const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
+                                     0.0, 0.0167, 0.0333, 0.05, 0.0667};
+\end{minted}
+
+Il est possible d'augmenter la taille de la fenêtre
 
 \subsubsection{Filtre IIR}
 Le filtre IIR est la suivante :

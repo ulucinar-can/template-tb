@@ -19,3 +19,4 @@ PWM
 Freyche
 IIR
 FIR
+Savitzky
