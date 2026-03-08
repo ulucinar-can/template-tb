@@ -1,7 +1,7 @@
 \chapter{Situation de départ}
 
 \section{Contexte}
-Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche.
+Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche. De nombreuses images sont reprises de son rapport \cite{Freyche}.
 
 En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
 
@@ -119,9 +119,19 @@ Ce fichier centralise l'ensemble de la logique de commande, notamment la régula
     \item Communication UART avec l'ESP32.
 \end{itemize}
 
-La majeure partie du code est exécutée au sein d'une routine d'interruption. Celle-ci englobe la lecture et la conversion des ADC, les algorithmes de régulation, la mise à jour des PWM ainsi que la gestion de l'interface utilisateur (bouton).
-
 Les paragraphes suivants détaillent les différentes composantes logicielles, des bibliothèques utilisées jusqu'aux structures d'interruption.
+
+\subsection{Algorithme du code principal}
+Actuellement, l'algorithme du code principal suit la structure suivante :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Image/Chap.2/Algorithme.png}
+    \caption{Structure de l'algorithme du code principal}
+    \label{fig:AlgorithmeCodePrincipal}
+\end{figure}
+
+La majeure partie du code est exécutée au sein d'une routine d'interruption. Celle-ci englobe la lecture et la conversion des ADC, les algorithmes de régulation, la mise à jour des PWM ainsi que la gestion de l'interface utilisateur (bouton).
 
 \subsection{Librairies}
 Le projet s'appuie sur les bibliothèques suivantes :
@@ -170,7 +180,7 @@ Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes 
     \item Filtres numériques : Coefficients et taille de fenêtre pour les filtres IIR, FIR et Savitzky.
 \end{itemize}
 
-\subsection{Fonctions spécifiques}
+\subsection{Fonctions importantes}
 
 \subsubsection{PI\_current\_regulator}
 La fonction \texttt{PI\_current\_regulator} est la suivante :
@@ -294,10 +304,97 @@ float IIR_Filter(float *entree, float *sortie)
 
 Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
 
-\subsubsection{Autres fonctions}
-Dans cette courte section, d'autres fonctions moins compliquée vont être expliqué.
+\subsection{Main}
+Le programme pirncipale tourne dans le main qui suit :
 
-\textbf{}
+\begin{minted}{c}
+void main(void)
+{
+    //
+    // Initialize device clock and peripherals
+    //
+    Device_init();
+
+    //
+    // Disable pin locks and enable internal pull ups.
+    //
+    Device_initGPIO();
+
+    //
+    // Initialize PIE and clear PIE registers. Disables CPU interrupts.
+    //
+    Interrupt_initModule();
+
+    //
+    // Initialize the PIE vector table with pointers to the shell Interrupt
+    // Service Routines (ISR).
+    //
+    Interrupt_initVectorTable();
+
+    //
+    // Calling SFO() updates the HRMSTEP register with calibrated MEP_ScaleFactor.
+    // HRMSTEP must be populated with a scale factor value prior to enabling
+    // high resolution period control.
+    //
+    while(status == SFO_INCOMPLETE)
+    {
+        status = SFO();
+        if(status == SFO_ERROR)
+        {
+            error();   // SFO function returns 2 if an error occurs & # of MEP
+        }              // steps/coarse step exceeds maximum of 255.
+    }
+
+    //
+    // Disable sync(Freeze clock to PWM as well)
+    //
+    SysCtl_disablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+
+    //
+    // Initialize the EPWM GPIO Pins, the SCI and change the XBAR inputs from using GPIO0
+    //
+    Board_init();
+    SCI_enableInterrupt(mySCI0_BASE, SCI_INT_RXFF); // Autorise l'interruption Rx
+
+    //
+    // Enable sync and clock to PWM
+    //
+    SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+
+    //
+    // Enable Global Interrupt (INTM) and realtime interrupt (DBGM)
+    //
+    EINT;
+    ERTM;
+
+    //Affection des PWMs sur les x inducteurs (en fonction de NUM_OF_PWM_CHANNEL, 4 par default)
+    for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
+    {
+        dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
+        count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+        compCount = (count);
+        HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+        HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+    }
+
+    // Extinctions LEDs
+    GPIO_writePin(myLED_D1,1);
+    GPIO_writePin(myLED_D2,1);
+    GPIO_writePin(LED_D5_carte_principale,0);
+    GPIO_writePin(LED_D6_carte_principale,0);
+
+// Infinite loop
+    for(;;)
+    {
+
+    }
+}
+\end{minted}
+
+Au départ, on initialise le microcontrôleur par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} présentes dans la librairie device.h.\\
+Ensuite on initialise les interruptions par les fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt_initVectorTable} contenue dans la librairie interupt.h (Présente dans le fichier device.h).\\
+
+
 
 \subsection{Interruption principale}
 
