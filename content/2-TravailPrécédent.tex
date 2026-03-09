@@ -305,7 +305,7 @@ float IIR_Filter(float *entree, float *sortie)
 Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
 
 \subsection{Main}
-Le programme pirncipale tourne dans le main qui suit :
+Le programme principal s'exécute au sein de la fonction \texttt{main} suivante :
 
 \begin{minted}{c}
 void main(void)
@@ -367,7 +367,8 @@ void main(void)
     EINT;
     ERTM;
 
-    //Affection des PWMs sur les x inducteurs (en fonction de NUM_OF_PWM_CHANNEL, 4 par default)
+    // Affection des PWMs sur les x inducteurs (en fonction de
+    // NUM_OF_PWM_CHANNEL, 4 par default)
     for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
     {
         dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
@@ -391,22 +392,33 @@ void main(void)
 }
 \end{minted}
 
-Au départ, on initialise le microcontrôleur par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} présentes dans la librairie device.h.\\
+L'initialisation du microcontrôleur est effectuée par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} issues de la bibliothèque \texttt{device.h}.
 
-Ensuite on initialise les interruptions par les fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt_initVectorTable} contenue dans la librairie interupt.h (Présente dans le fichier device.h).\\
+L'initialisation des interruptions est réalisée au moyen des fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt\_initVectorTable} (définies dans \texttt{device.h}).
 
-La boucle qui suit est une calibration des PWM. Grâce à cela, les impulsions émises permettent d'être le plus précis possible.\\
+La boucle \texttt{while} assure la calibration du module SFO (Scale Factor Optimizer). Ce processus garantit une précision optimale des impulsions PWM.
 
-La fonction \texttt{SysCtl\_disablePeripheral(...)} vient geler l'horloge des PWM.\\
+La fonction \texttt{SysCtl\_disablePeripheral} désactive la synchronisation et gèle l'horloge des modules PWM.
 
-Ensuite la fonction \texttt{Board\_init()} vient configurer les périphériques (ADC, PWM, UART, ...) par les réglages de SysConfig.\\
+La fonction \texttt{Board\_init} configure les périphériques (ADC, PWM, UART, etc.) selon les réglages établis dans SysConfig.
 
+Les interruptions de communication sont activées par la fonction \texttt{SCI\_enableInterrupt}.
 
+Une fois ces étapes validées, l'horloge et la synchronisation des modules PWM sont rétablies.
+
+Les interruptions globales sont autorisées.
+
+Les signaux PWM sont affectés aux quatre inducteurs via une boucle d'initialisation.
+
+Enfin, le programme entre dans une boucle infinie, le traitement étant intégralement géré par les routines d'interruption.
 
 \subsection{Interruption principale}
+L'interruption principale étant d'une taille importante, celle-ci sera découpée en plusieurs parties.
 
 \subsubsection{ADC}
 \label{subsubsec:ADC}
+
+Les ADC ont un rôles cruciale dans la régulation de position. Ceux-ci sont utilisé pour
 
 \subsubsection{Régulation de courants}
 \label{subsubsec:RegCourant}
