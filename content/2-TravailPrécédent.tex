@@ -399,6 +399,8 @@ La boucle qui suit est une calibration des PWM. Grâce à cela, les impulsions �
 
 La fonction \texttt{SysCtl\_disablePeripheral(...)} vient geler l'horloge des PWM.\\
 
+Ensuite la fonction \texttt{Board\_init()} vient configurer les périphériques (ADC, PWM, UART, ...) par les réglages de SysConfig.\\
+
 
 
 \subsection{Interruption principale}
