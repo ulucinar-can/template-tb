@@ -93,6 +93,7 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{Alimentation}
 
 \subsection{Conditionneur}
+\label{subsec:Conditionneur}
 
 \subsection{DSP}
 
@@ -418,10 +419,64 @@ L'interruption principale étant d'une taille importante, celle-ci sera découp�
 \subsubsection{ADC}
 \label{subsubsec:ADC}
 
-Les ADC ont un rôles cruciale dans la régulation de position. Ceux-ci sont utilisé pour
+Les ADC ont un rôle crucial dans la régulation. Ceux-ci permettent de récupérer les informations liées à la mesure du courant et de position.\\
+
+Tout d'abord, une lecture des valeurs des ADC est réalisés :
+
+\begin{minted}{c}
+// Lecture de la position
+ADC_pos_1 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
+ADC_pos_2 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
+ADC_pos_3 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
+ADC_pos_4 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
+
+// Lecture du courant, pour pinout, voir syscfig SOCx configurations - Device Pin Name
+ADC_cur_1 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
+ADC_cur_2 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
+ADC_cur_3 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER2);
+ADC_cur_4 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
+\end{minted}
+
+
+Cette lecture est le résultat brut numérique après que le signal soit passé par le conditionneur(voir \ref{subsec:Conditionneur}).\\
+
+Pour le cas de l'ADC de courant, il faut cependant supprimer l'offset avant que la sustentation ne commence. Pour cela le bout de code suivant permet de réaliser cela :
+
+\begin{minted}{c}
+// Lecture de l'offset du conditionnement par rapport a la valeur theorique 0A au début de l'interruption (1 fois)
+// Adaptation de l'offset : 1.5 / 3.3 * 4095 = 1861.36 (1.5V correspond a un courant de 0A = point de reference)
+if(Offset_count <= 999 && Offset_stop == 0)
+        {
+            Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
+            Offset_ADC2 += ((float)ADC_cur_2) - ADC_ZERO_CURRENT;
+            Offset_ADC3 += ((float)ADC_cur_3) - ADC_ZERO_CURRENT;
+            Offset_ADC4 += ((float)ADC_cur_4) - ADC_ZERO_CURRENT;
+            Offset_count++;
+
+            // Moyenne pour definir l'offset de mesure de courant
+            if(Offset_count > 999){
+
+                Offset_ADC1 = Offset_ADC1 * OFFSET_COUNT_INV;
+                Offset_ADC2 = Offset_ADC2 * OFFSET_COUNT_INV;
+                Offset_ADC3 = Offset_ADC3 * OFFSET_COUNT_INV;
+                Offset_ADC4 = Offset_ADC4 * OFFSET_COUNT_INV;
+
+                Offset_stop = 1; // Arret de l'echantillonnage
+
+                Position_c1_dec = Position1 * POS_DETECT; // Mesure de position une fois stabilisée
+                Position_c3_dec = Position3 * POS_DETECT;
+
+                // Test pour 1 inducteur
+                Position_c2_dec = Position2 * POS_DETECT;
+            }
+        }
+\end{minted}
+
+
 
 \subsubsection{Régulation de courants}
 \label{subsubsec:RegCourant}
+
 
 \subsubsection{Régulation de positions}
 
