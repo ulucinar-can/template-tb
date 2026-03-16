@@ -84,7 +84,7 @@ La mise en service de la maquette s'effectue selon la procédure suivante :
     \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
 \end{enumerate}
 
-\section{Hardware}
+\section{Présentation du hardware}
 La section suivante traite l'électronique réalisée dans la version initiale du projet.
 
 \subsection{Schéma fonctionnel}
@@ -103,7 +103,7 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 
 \subsection{PCB}
 
-\section{Software}
+\section{Programme dans le DSP}
 Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
 
 Ce fichier centralise l'ensemble de la logique de commande, notamment la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
@@ -414,7 +414,7 @@ Les signaux PWM sont affectés aux quatre inducteurs via une boucle d'initialisa
 Enfin, le programme entre dans une boucle infinie, le traitement étant intégralement géré par les routines d'interruption.
 
 \subsection{Interruption principale}
-L'interruption principale étant d'une taille importante, celle-ci sera découpée en plusieurs parties.
+L'interruption principale étant d'une taille importante, celle-ci sera découpée en plusieurs parties. L'interruption est censé durer 40 $\mu s$. 
 
 \subsubsection{ADC}
 \label{subsubsec:ADC}
@@ -443,8 +443,10 @@ Cette lecture est le résultat brut numérique après que le signal soit passé 
 Pour le cas de l'ADC de courant, il faut cependant supprimer l'offset avant que la sustentation ne commence. Pour cela le bout de code suivant permet de réaliser cela :
 
 \begin{minted}{c}
-// Lecture de l'offset du conditionnement par rapport a la valeur theorique 0A au début de l'interruption (1 fois)
-// Adaptation de l'offset : 1.5 / 3.3 * 4095 = 1861.36 (1.5V correspond a un courant de 0A = point de reference)
+// Lecture de l'offset du conditionnement par rapport a la
+// valeur theorique 0A au début de l'interruption (1 fois)
+// Adaptation de l'offset : 1.5 / 3.3 * 4095 = 1861.36
+// (1.5V correspond a un courant de 0A = point de reference)
 if(Offset_count <= 999 && Offset_stop == 0)
         {
             Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
@@ -463,7 +465,8 @@ if(Offset_count <= 999 && Offset_stop == 0)
 
                 Offset_stop = 1; // Arret de l'echantillonnage
 
-                Position_c1_dec = Position1 * POS_DETECT; // Mesure de position une fois stabilisée
+                // Mesure de position une fois stabilisée
+                Position_c1_dec = Position1 * POS_DETECT;
                 Position_c3_dec = Position3 * POS_DETECT;
 
                 // Test pour 1 inducteur
@@ -472,7 +475,8 @@ if(Offset_count <= 999 && Offset_stop == 0)
         }
 \end{minted}
 
-
+Cette partie du code va permettre d'enlever l'offset de courant qui est de 1.5 A. Cette offset est dû à l'ADC qui a la possibilité de lire des courants négatifs.
+Ce procédé permet également pour réaliser une moyenne au bout de 1000 échantillons (Une durée d'environ 40 ms) qui permet d'avoir un résultat plus robuste face au bruit.
 
 \subsubsection{Régulation de courants}
 \label{subsubsec:RegCourant}
@@ -485,3 +489,5 @@ if(Offset_count <= 999 && Offset_stop == 0)
 \subsubsection{Machine d'état}
 
 \subsubsection{Le bouton poussoir}
+
+\section{Programme dans l'ESP32}

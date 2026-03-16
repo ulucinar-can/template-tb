@@ -363,8 +363,11 @@
 \setminted{
   %frame=single,
   style=friendly,
-  fontsize=\footnotesize
+  fontsize=\footnotesize,
+  breaklines=true,
+  breakanywhere=true
 }
+
 
 \newcommand{\clearemptydoublepage}{%
   \newpage{\thispagestyle{empty}\cleardoublepage}}
