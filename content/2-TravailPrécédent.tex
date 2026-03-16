@@ -602,7 +602,7 @@ if(dt_mean == 200)//dt = 8ms
 }
 \end{minted}
 
-Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant se situe dans la bonne plage de fonctionnement. Dans le cas où les 4 inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
+Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant mesuré se situe dans la bonne plage de fonctionnement. Dans le cas où les 4 inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
 
 \begin{minted}{c}
 // Rampe generale de courant pour les 4 inducteurs
@@ -620,7 +620,24 @@ else
 }
 \end{minted}
 
-En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Seulement la valeur
+En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Seulement la valeur du courant de la bobine 1 va être augmenté. Elle a un rôle de "variable maîtresse". C'est elle qui, une fois la valeur de 3A dépasser va venir appliquer un saut indicielle de 3A sur le restant des inducteurs :
+
+\begin{minted}{c}
+// Set point generator(Current)
+if(ic1 < I_SP)
+{
+    ic1 += TAKEOFF_CURRENT_STEP1; // 0.04 ramp from 0A to 3A (4e-7 [s])
+}
+else
+{
+    ic1 = I_SP;
+    ic2 = ic1;
+    ic3 = ic1;
+    ic4 = ic1;
+}
+\end{minted}
+
+I
 
 \subsubsection{PWM}
 
