@@ -229,9 +229,10 @@ Les étapes de la régulation sont les suivantes :
     \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
 \end{enumerate}
 
-Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines(voir \ref{subsubsec:RegCourant}).
+Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines(voir \ref{Pos}).
 
 \subsubsection{Filtre de Savitzky}
+\label{subsubsec:Savitzky}
 L'implémentation du filtre de Savitzky est la suivante :
 
 \begin{minted}{c}
@@ -306,122 +307,139 @@ float IIR_Filter(float *entree, float *sortie)
 Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
 
 \subsection{Main}
-Le programme principal s'exécute au sein de la fonction \texttt{main} suivante :
+Le main est principalement employé pour réaliser les initialisations des différents parties du DSP ainsi qu'atteindre la boucle infinie qui reste bloqué à un endroit qui sera exploité par les interruptions.\\
+
+L'initialisation du microcontrôleur est effectuée par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} issues de la bibliothèque \texttt{device.h} :
 
 \begin{minted}{c}
-void main(void)
+//
+// Initialize device clock and peripherals
+//
+Device_init();
+
+//
+// Disable pin locks and enable internal pull ups.
+//
+Device_initGPIO();
+\end{minted}
+
+L'initialisation des interruptions est réalisée au moyen des fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt\_initVectorTable} (définies dans \texttt{device.h}) :
+
+\begin{minted}{c}
+//
+// Initialize PIE and clear PIE registers. Disables CPU interrupts.
+//
+Interrupt_initModule();
+
+//
+// Initialize the PIE vector table with pointers to the shell Interrupt
+// Service Routines (ISR).
+//
+Interrupt_initVectorTable();
+\end{minted}
+
+La boucle \texttt{while} assure la calibration du module SFO (Scale Factor Optimizer). Ce processus garantit une précision optimale des impulsions PWM :
+
+\begin{minted}{c}
+//
+// Calling SFO() updates the HRMSTEP register with calibrated MEP_ScaleFactor.
+// HRMSTEP must be populated with a scale factor value prior to enabling
+// high resolution period control.
+//
+while(status == SFO_INCOMPLETE)
 {
-    //
-    // Initialize device clock and peripherals
-    //
-    Device_init();
-
-    //
-    // Disable pin locks and enable internal pull ups.
-    //
-    Device_initGPIO();
-
-    //
-    // Initialize PIE and clear PIE registers. Disables CPU interrupts.
-    //
-    Interrupt_initModule();
-
-    //
-    // Initialize the PIE vector table with pointers to the shell Interrupt
-    // Service Routines (ISR).
-    //
-    Interrupt_initVectorTable();
-
-    //
-    // Calling SFO() updates the HRMSTEP register with calibrated MEP_ScaleFactor.
-    // HRMSTEP must be populated with a scale factor value prior to enabling
-    // high resolution period control.
-    //
-    while(status == SFO_INCOMPLETE)
+    status = SFO();
+    if(status == SFO_ERROR)
     {
-        status = SFO();
-        if(status == SFO_ERROR)
-        {
-            error();   // SFO function returns 2 if an error occurs & # of MEP
-        }              // steps/coarse step exceeds maximum of 255.
-    }
-
-    //
-    // Disable sync(Freeze clock to PWM as well)
-    //
-    SysCtl_disablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
-
-    //
-    // Initialize the EPWM GPIO Pins, the SCI and change the XBAR inputs from using GPIO0
-    //
-    Board_init();
-    SCI_enableInterrupt(mySCI0_BASE, SCI_INT_RXFF); // Autorise l'interruption Rx
-
-    //
-    // Enable sync and clock to PWM
-    //
-    SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
-
-    //
-    // Enable Global Interrupt (INTM) and realtime interrupt (DBGM)
-    //
-    EINT;
-    ERTM;
-
-    // Affection des PWMs sur les x inducteurs (en fonction de
-    // NUM_OF_PWM_CHANNEL, 4 par default)
-    for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
-    {
-        dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
-        count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-        compCount = (count);
-        HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-        HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-    }
-
-    // Extinctions LEDs
-    GPIO_writePin(myLED_D1,1);
-    GPIO_writePin(myLED_D2,1);
-    GPIO_writePin(LED_D5_carte_principale,0);
-    GPIO_writePin(LED_D6_carte_principale,0);
-
-// Infinite loop
-    for(;;)
-    {
-
-    }
+        error();   // SFO function returns 2 if an error occurs & # of MEP
+    }              // steps/coarse step exceeds maximum of 255.
 }
 \end{minted}
 
-L'initialisation du microcontrôleur est effectuée par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} issues de la bibliothèque \texttt{device.h}.
+La fonction \texttt{SysCtl\_disablePeripheral} désactive la synchronisation et gèle l'horloge des modules PWM :
 
-L'initialisation des interruptions est réalisée au moyen des fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt\_initVectorTable} (définies dans \texttt{device.h}).
+\begin{minted}{c}
+//
+// Disable sync(Freeze clock to PWM as well)
+//
+SysCtl_disablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+\end{minted}
 
-La boucle \texttt{while} assure la calibration du module SFO (Scale Factor Optimizer). Ce processus garantit une précision optimale des impulsions PWM.
+La fonction \texttt{Board\_init} configure les périphériques (ADC, PWM, UART, etc.) selon les réglages établis dans SysConfig :
 
-La fonction \texttt{SysCtl\_disablePeripheral} désactive la synchronisation et gèle l'horloge des modules PWM.
+\begin{minted}{c}
+//
+// Initialize the EPWM GPIO Pins, the SCI and change the XBAR inputs from using GPIO0
+//
+Board_init();
 
-La fonction \texttt{Board\_init} configure les périphériques (ADC, PWM, UART, etc.) selon les réglages établis dans SysConfig.
+\end{minted}
 
-Les interruptions de communication sont activées par la fonction \texttt{SCI\_enableInterrupt}.
+Les interruptions de communication sont activées par la fonction \texttt{SCI\_enableInterrupt} :
 
-Une fois ces étapes validées, l'horloge et la synchronisation des modules PWM sont rétablies.
+\begin{minted}{c}
+SCI_enableInterrupt(mySCI0_BASE, SCI_INT_RXFF); // Autorise l'interruption Rx
+\end{minted}
 
-Les interruptions globales sont autorisées.
+Une fois ces étapes validées, l'horloge et la synchronisation des modules PWM sont rétablies :
+
+\begin{minted}{c}
+//
+// Enable sync and clock to PWM
+//
+SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+\end{minted}
+
+Les interruptions globales sont autorisées :
+
+\begin{minted}{c}
+//
+// Enable Global Interrupt (INTM) and realtime interrupt (DBGM)
+//
+EINT;
+ERTM;
+\end{minted}
 
 Les signaux PWM sont affectés aux quatre inducteurs via une boucle d'initialisation.
 
+\begin{minted}{c}
+// Affection des PWMs sur les x inducteurs (en fonction de
+// NUM_OF_PWM_CHANNEL, 4 par default)
+for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
+{
+    dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
+    count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+    compCount = (count);
+    HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+    HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+}
+\end{minted}
+
 Enfin, le programme entre dans une boucle infinie, le traitement étant intégralement géré par les routines d'interruption.
 
-\subsection{Interruption principale}
-L'interruption principale étant d'une taille importante, celle-ci sera découpée en plusieurs parties. L'interruption est censé durer 40 $\mu s$. 
+\begin{minted}{c}
+// Extinctions LEDs
+GPIO_writePin(myLED_D1,1);
+GPIO_writePin(myLED_D2,1);
+GPIO_writePin(LED_D5_carte_principale,0);
+GPIO_writePin(LED_D6_carte_principale,0);
 
-\subsubsection{ADC}
+// Infinite loop
+for(;;)
+{
+
+}
+\end{minted}
+
+\subsection{Interruption principale}
+En raison de sa complexité et de sa taille importante, l'interruption principale est subdivisée en plusieurs sections logiques. Le temps d'exécution cible pour l'ensemble de cette routine est de 40~$\mu$s.
+
+\subsubsection{Convertisseurs Analogique-Numérique (ADC)}
 \label{subsubsec:ADC}
 
-Les ADC ont un rôle crucial dans la régulation. Ceux-ci permettent de récupérer les informations liées à la mesure du courant et de position.\\
+Les convertisseurs ADC jouent un rôle déterminant dans la boucle de régulation. Ils permettent l'acquisition des données relatives aux mesures de courant et de position.
 
-Tout d'abord, une lecture des valeurs des ADC est réalisés :
+Dans un premier temps, une lecture des valeurs brutes est effectuée via les fonctions dédiées :
 
 \begin{minted}{c}
 // Lecture de la position
@@ -430,59 +448,179 @@ ADC_pos_2 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
 ADC_pos_3 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
 ADC_pos_4 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
 
-// Lecture du courant, pour pinout, voir syscfig SOCx configurations - Device Pin Name
+// Lecture du courant
 ADC_cur_1 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
 ADC_cur_2 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
 ADC_cur_3 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER2);
 ADC_cur_4 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
 \end{minted}
 
+Ces données représentent le résultat numérique brut (codé sur 12 bits) après le traitement du signal par l'étage de conditionnement (voir \ref{subsec:Conditionneur}).
 
-Cette lecture est le résultat brut numérique après que le signal soit passé par le conditionneur(voir \ref{subsec:Conditionneur}).\\
-
-Pour le cas de l'ADC de courant, il faut cependant supprimer l'offset avant que la sustentation ne commence. Pour cela le bout de code suivant permet de réaliser cela :
+Concernant la mesure du courant, une procédure de suppression de l'offset résiduel est indispensable avant l'activation de la sustentation. L'algorithme suivant assure cette fonction :
 
 \begin{minted}{c}
-// Lecture de l'offset du conditionnement par rapport a la
-// valeur theorique 0A au début de l'interruption (1 fois)
-// Adaptation de l'offset : 1.5 / 3.3 * 4095 = 1861.36
-// (1.5V correspond a un courant de 0A = point de reference)
+// Calcul de l'offset du conditionnement (phase initiale)
 if(Offset_count <= 999 && Offset_stop == 0)
-        {
-            Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
-            Offset_ADC2 += ((float)ADC_cur_2) - ADC_ZERO_CURRENT;
-            Offset_ADC3 += ((float)ADC_cur_3) - ADC_ZERO_CURRENT;
-            Offset_ADC4 += ((float)ADC_cur_4) - ADC_ZERO_CURRENT;
-            Offset_count++;
+{
+    Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
+    Offset_ADC2 += ((float)ADC_cur_2) - ADC_ZERO_CURRENT;
+    Offset_ADC3 += ((float)ADC_cur_3) - ADC_ZERO_CURRENT;
+    Offset_ADC4 += ((float)ADC_cur_4) - ADC_ZERO_CURRENT;
+    Offset_count++;
 
-            // Moyenne pour definir l'offset de mesure de courant
-            if(Offset_count > 999){
+    // Calcul de la moyenne après 1000 échantillons
+    if(Offset_count > 999){
+        Offset_ADC1 = Offset_ADC1 * OFFSET_COUNT_INV;
+        Offset_ADC2 = Offset_ADC2 * OFFSET_COUNT_INV;
+        Offset_ADC3 = Offset_ADC3 * OFFSET_COUNT_INV;
+        Offset_ADC4 = Offset_ADC4 * OFFSET_COUNT_INV;
 
-                Offset_ADC1 = Offset_ADC1 * OFFSET_COUNT_INV;
-                Offset_ADC2 = Offset_ADC2 * OFFSET_COUNT_INV;
-                Offset_ADC3 = Offset_ADC3 * OFFSET_COUNT_INV;
-                Offset_ADC4 = Offset_ADC4 * OFFSET_COUNT_INV;
+        Offset_stop = 1; // Fin de la phase de calibration
 
-                Offset_stop = 1; // Arret de l'echantillonnage
-
-                // Mesure de position une fois stabilisée
-                Position_c1_dec = Position1 * POS_DETECT;
-                Position_c3_dec = Position3 * POS_DETECT;
-
-                // Test pour 1 inducteur
-                Position_c2_dec = Position2 * POS_DETECT;
-            }
-        }
+        // Enregistrement des positions de référence au repos
+        Position_c1_dec = Position1 * POS_DETECT;
+        Position_c3_dec = Position3 * POS_DETECT;
+        Position_c2_dec = Position2 * POS_DETECT;
+    }
+}
 \end{minted}
 
-Cette partie du code va permettre d'enlever l'offset de courant qui est de 1.5 A. Cette offset est dû à l'ADC qui a la possibilité de lire des courants négatifs.
-Ce procédé permet également pour réaliser une moyenne au bout de 1000 échantillons (Une durée d'environ 40 ms) qui permet d'avoir un résultat plus robuste face au bruit.
+Cette section du code permet d'éliminer le décalage de tension statique présent sur les voies de courant. Cet offset, théoriquement centré à 1,5~V (soit environ 1861 en valeur numérique), permet à l'ADC de quantifier des courants bidirectionnels.
 
-\subsubsection{Régulation de courants}
-\label{subsubsec:RegCourant}
+L'intégration sur 1000 échantillons, correspondant à une durée d'environ 40~ms, permet d'obtenir une moyenne temporelle stable, garantissant ainsi une robustesse accrue face au bruit de mesure aléatoire.\\
 
+À la suite de l'acquisition des données brutes, une conversion est opérée pour transformer les valeurs numériques codées sur 12 bits en grandeurs physiques exploitables par les algorithmes de contrôle. Pour la mesure de position, le calcul intègre un facteur de conversion ainsi qu'un coefficient de correction spécifique à chaque capteur afin de compenser les écarts de linéarité :
 
-\subsubsection{Régulation de positions}
+\begin{minted}{c}
+// 3722.7 / 3500 = 1.06, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
+Position1 = (float)(ADC_pos_1) * CONV_POS2 * POS_CORRECTION_1;
+// 3722.7 / 3480 = 1.07, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
+Position2 = (float)(ADC_pos_2) * CONV_POS2 * POS_CORRECTION_2;
+Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
+Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
+\end{minted}
+
+De manière analogue, une transformation est appliquée aux résultats bruts des mesures de courant pour obtenir une valeur en Ampères. Ce calcul normalise le signal en soustrayant le point de repos théorique (\texttt{ADC\_ZERO\_CURRENT}) et l'offset statique mesuré précédemment :
+
+\begin{minted}{c}
+// Calcul du courant (Version optimisée TFE 2025)
+Current1 = (((float)(ADC_cur_1) - ADC_ZERO_CURRENT - Offset_ADC1) /
+           (ADC_ZERO_CURRENT + Offset_ADC1)) * I_MAX;
+Current2 = (((float)(ADC_cur_2) - ADC_ZERO_CURRENT - Offset_ADC2) /
+           (ADC_ZERO_CURRENT + Offset_ADC2)) * I_MAX;
+Current3 = (((float)(ADC_cur_3) - ADC_ZERO_CURRENT - Offset_ADC3) /
+           (ADC_ZERO_CURRENT + Offset_ADC3)) * I_MAX;
+Current4 = (((float)(ADC_cur_4) - ADC_ZERO_CURRENT - Offset_ADC4) /
+           (ADC_ZERO_CURRENT + Offset_ADC4)) * I_MAX;
+\end{minted}
+
+Une fois ces traitements effectués, les grandeurs physiques sont exploitables par les régulateurs de position et de courant. \red{Les informations sur la position sont également transmises à l'ESP32 pour permettre un affichage de celle-ci :}
+
+\begin{minted}{c}
+// Envoi des données UART toutes les 40us * 25000 = 1 s
+UartCounter++;
+
+if (UartCounter >= 25000) {
+    UartCounter = 0; // Réinitialisation du compteur
+    SendFloatAsText(Position1*1000.0f, Position2*1000.0f,
+                    Position3*1000.0f, Position4*1000.0f);
+}
+\end{minted}
+
+Le délai de transmission est fixé à une seconde afin de ne pas surcharger les ressources de communication. Une multiplication par 1000 est appliquée aux variables de position lors de l'envoi afin d'exprimer les grandeurs en millimètres plutôt qu'en mètres, facilitant ainsi leur exploitation par l'interface utilisateur.
+
+\subsubsection{Régulation de courants et de positions}
+\label{subsubsec:RegCourantPos}
+La régulation est le gros de l'interruption principale. Cependant celle-ci s'active seulement si le bouton poussoir a été pressé ou non ou alors si elle a été enclenché depuis l'interface utilisateur :
+
+\begin{minted}{c}
+if(start_ISOZ == 1 || state_PIN == 1)
+{
+    ...
+}
+\end{minted}
+
+Dans le cas ou l'une des deux conditions est atteinte, alors à ce moment la commence la régulation. Une LED s'enclenche lorsque celle-ci sont atteinte.\\
+
+Au départ, le filtre Savitzky est employé pour filtrer les données de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
+
+\begin{minted}{c}
+pos1Buff[FILTWINDOW-1] = Position1;
+v1 = savitzky_Filter(pos1Buff);
+
+pos2Buff[FILTWINDOW-1] = Position2;
+v2 = savitzky_Filter(pos2Buff);
+
+pos3Buff[FILTWINDOW-1] = Position3;
+v3 = savitzky_Filter(pos3Buff);
+
+pos4Buff[FILTWINDOW-1] = Position4;
+v4 = savitzky_Filter(pos4Buff);
+\end{minted}
+
+Par la suite, deux stratégies de décollages sont mise en place (Take off). Une première concernant les inducteurs 1 et 2 (Les inducteurs devant) et une seconde concernant les inducteurs 3 et 4 (Les inducteurs arrières). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. \\
+
+Pour commencer, la stratégie de "Take off 1" sera détaillé. Celle-ci contient les phases 1 et 2.
+La première phase est en réalité un peu spécial, car elle va s'occuper du décollage sur les 4 inducteurs. Elle va permettre de réaliser un décollage en douceur pour atteindre les 3A.\\
+
+Au départ, on va accumuler la valeur du courant mesurée jusqu'à ce que la variable \texttt{dt\_mean} atteignent 200 cycles (Durée d'environ 8 ms) :
+
+\begin{minted}{c}
+if(takeOff == 1)
+{
+    //////////////////////////PHASE 1 : INDUCTOR 1 & 2 //////////////////////////////////////////
+
+    // Premiere phase de decollage : rampe de courant sur chaque inducteur jusqu'a 3A.
+    if(phase1 == 1) // mean calculation
+    {
+        mean1 += Current1;
+        mean2 += Current2;
+        mean3 += Current3;
+        mean4 += Current4;
+        dt_mean++;
+
+        ...
+    }
+    ...
+}
+\end{minted}
+
+Lorsque les 200 cycles sont atteints, alors à ce moment-là une moyenne est réalisée en divisant le tout par les 200 cycles pour obtenir la valeur réelle du courant sur cette petite fenêtre de temps :
+
+\begin{minted}{c}
+// if current has reached final value of initial current input(I_SP)
+// phase 1 end and phase2 begins
+if(dt_mean == 200)//dt = 8ms
+{
+    mean1 = mean1 / dt_mean;
+    mean2 = mean2 / dt_mean;
+    mean3 = mean3 / dt_mean;
+    mean4 = mean4 / dt_mean;
+
+    ...
+}
+\end{minted}
+
+Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant se situe dans la bonne plage de fonctionnement. Dans le cas où les 4 inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
+
+\begin{minted}{c}
+// Rampe generale de courant pour les 4 inducteurs
+if(mean1 <= I_SP105 && mean1 >= I_SP095 && mean2 <= I_SP105 && mean2 >= I_SP095&& mean3 <= I_SP105 && mean3 >= I_SP095 && mean4 <= I_SP105 && mean4 >= I_SP095){
+
+phase1 = 0;
+}
+else
+{
+    mean1 = 0;
+    mean2 = 0;
+    mean3 = 0;
+    mean4 = 0;
+    dt_mean = 0;
+}
+\end{minted}
+
+En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Seulement la valeur
 
 \subsubsection{PWM}
 
