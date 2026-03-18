@@ -98,27 +98,29 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{DSP}
 
 \subsection{ESP32}
-L'ESP32 est une petite carte qui, dans le projet, va permettre d'avoir une interface web afin que les utilisateurs puissent manier différente info. La carte employée est la carte Carbon S2 réalisé par GroundStudio \cite{ESP32}.\\
+L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
 
-Du datasheet \cite{ESP32}, les informations suivantes peuvent être récupérées :\\
+D'après la documentation technique \cite{ESP32}, les caractéristiques principales sont les suivantes :
 
-Microcontroller : ESP32-S2FN4R2
 \begin{itemize}
-    \item 128KB ROM for booting and basic functions
-    \item 320KB SRAM for data instructions
-    \item 16 KB SRAM in RTC
+    \item Microcontrôleur : ESP32-S2FN4R2
+          \begin{itemize}
+              \item[$\ast$] 128 KB de ROM pour le démarrage et les fonctions de base
+              \item[$\ast$] 320 KB de SRAM pour les données et instructions
+              \item[$\ast$] 16 KB de SRAM RTC
+          \end{itemize}
+    \item Convertisseur USB-Série : intégré nativement dans l'ESP32-S2
+    \item Régulateur de tension 3,3 V : ME6211C33U4AG-N
+    \item Broches GPIO : 18
+    \item Connecteur : USB 2.0 type C
+    \item Interfaces : ADC, DAC, contrôleur SD/SDIO/MMC, SPI, EMAC, PWM moteur, PWM LED, UART, I2C, I2S
+    \item Fréquence maximale du processeur : 240 MHz
+    \item Dimensions approximatives du PCB : 37 mm x 18 mm
 \end{itemize}
 
-USB-Serial converter: ESP32-S2 integrated internally
-Voltage regulator 3.3V: ME6211C33U4AG-N
-GPIO pins: 18
-USB 2.0 type C adapter
-ROM memory: 128 KB
-SRAM memory: 320 KB
-Interfaces: ADC, DAC, SD/SDIO/MMC Host Controller, SPI, SDIO/SPI Slave Controller,
-EMAC, PWM motor, PWM LED, UART, I2C, I2S, GPIO
-Maximum processor frequency: 240 MHz
-Dimensions approx. pcb: 37mm x 18mm
+Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci s'avère suffisante pour l'hébergement d'un serveur web léger.
+
+Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, deux options seraient envisageables : le remplacement par un modèle doté d'une capacité de stockage supérieure ou, dans un cas plus critique, une modification de la carte principale du système afin d'accepter une autre carte.
 
 \subsection{Test de la carte}
 
