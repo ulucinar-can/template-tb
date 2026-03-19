@@ -100,6 +100,13 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Image/Chap.2/ESP32_Board.png}
+    \caption{Carte Carbon S2 \cite{ESP32}}
+    \label{fig:Esp32Board}
+\end{figure}
+
 D'après la documentation technique \cite{ESP32}, les caractéristiques principales sont les suivantes :
 
 \begin{itemize}
@@ -120,11 +127,19 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
 
 Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci s'avère suffisante pour l'hébergement d'un serveur web léger.
 
-Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, deux options seraient envisageables : le remplacement par un modèle doté d'une capacité de stockage supérieure ou, dans un cas plus critique, une modification de la carte principale du système afin d'accepter une autre carte.
+Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, deux options seraient envisageables : le remplacement par un modèle doté d'une capacité de stockage supérieure ou, dans un cas plus critique, une modification de la carte principale du système afin d'accepter une autre carte.\\
 
-\subsection{Test de la carte}
+La carte est connectée comme suit :
 
-\subsection{PCB}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Image/Chap.2/Scheme/ESP32_Scheme.png}
+    \caption{Schématique de l'ESP32 \cite{Freyche}}
+    \label{fig:Res_conf_Opti}
+\end{figure}
+
+\subsection{PCB sur la maquette}
+A l'heure actuelle, 5 pcb sont utilisées.
 
 \section{Programme dans le DSP}
 Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
