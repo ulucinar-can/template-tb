@@ -133,10 +133,18 @@ La carte est connectée comme suit :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{Image/Chap.2/Scheme/ESP32_Scheme.png}
+    \includegraphics[width=1\linewidth]{Image/Chap.2/Scheme/ESP32_Scheme.png}
     \caption{Schématique de l'ESP32 \cite{Freyche}}
     \label{fig:Res_conf_Opti}
 \end{figure}
+
+La schématique donne le pinout suivant :
+
+\begin{itemize}
+    \item Les broches 24 et 23 (TX/RX) pour la communication en UART
+    \item L'alimentation de 3.3 V (Pin 4)
+    \item
+\end{itemize}
 
 \subsection{PCB sur la maquette}
 A l'heure actuelle, 5 pcb sont utilisées.
@@ -600,9 +608,9 @@ v4 = savitzky_Filter(pos4Buff);
 Par la suite, deux stratégies de décollages sont mise en place (Take off). Une première concernant les inducteurs 1 et 2 (Les inducteurs devant) et une seconde concernant les inducteurs 3 et 4 (Les inducteurs arrières). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. \\
 
 Pour commencer, la stratégie de "Take off 1" sera détaillé. Celle-ci contient les phases 1 et 2.
-La première phase est en réalité un peu spécial, car elle va s'occuper du décollage sur les 4 inducteurs. Elle va permettre de réaliser un décollage en douceur pour atteindre les 3A.\\
+La première phase est de permettre aux inducteurs d'augmenter le courant jusquà atteindre les 3A.\\
 
-Au départ, on va accumuler la valeur du courant mesurée jusqu'à ce que la variable \texttt{dt\_mean} atteignent 200 cycles (Durée d'environ 8 ms) :
+Au départ, on vient mesurer et sommer la valeur mesurée du courant dans l'inducteur. jusqu'à ce que la variable \texttt{dt\_mean} atteignent 200 cycles (Durée d'environ 8 ms) :
 
 \begin{minted}{c}
 if(takeOff == 1)
@@ -640,7 +648,7 @@ if(dt_mean == 200)//dt = 8ms
 }
 \end{minted}
 
-Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant mesuré se situe dans la bonne plage de fonctionnement. Dans le cas où les 4 inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
+Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant mesuré se situe dans une bonne plage de fonctionnement (Entre 2.85A et 3.15A). Dans le cas où les quatres inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
 
 \begin{minted}{c}
 // Rampe generale de courant pour les 4 inducteurs
@@ -658,7 +666,7 @@ else
 }
 \end{minted}
 
-En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Seulement la valeur du courant de la bobine 1 va être augmenté. Elle a un rôle de "variable maîtresse". C'est elle qui, une fois la valeur de 3A dépasser va venir appliquer un saut indicielle de 3A sur le restant des inducteurs :
+En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Une fois que le courant est dépassé :
 
 \begin{minted}{c}
 // Set point generator(Current)
@@ -675,7 +683,33 @@ else
 }
 \end{minted}
 
-I
+Une constatation à faire ici est que seule le courant sur la bobine un est augmentée. Les autres variables étant initialisées à 0, celle-ci reste à cette valeur et change d'un coup lorsque le courant de la première bobine dépassent les 3A. Mais cela veut dire qu'au départ la condition pour passer à l'état suivant n'est jamais respecté. Lors de la mesure du courant celle-ci va récupérer une valeur de zéro pendant un certain temps. En théorie, cela ne devrait pas déranger le bon fonctionnement de la première étape, mais celle-ci devrait être modifié pour réaliser une rampe sur les quatres inducteurs.\\
+
+La phase 2 concerne la montée des deux inducteurs placée à l'avant. Celle-ci va devoir venir réaliser un décollage de ces deux inducteurs.
+
+\begin{minted}{c}
+else // phase2 for inductor 1,2
+{
+    if(Position1 < Position_c1_dec) // if inductor starts to move
+    {
+        takeOff = 0;
+        Position_c1 = Position1;
+    }
+    // Current limiting at value necessary to take off inductor at Delta_0 (3mm)
+    else if(ic1 < 7.82f){
+        ic1 += TAKEOFF_CURRENT_STEP1; //"infinite" ramp until inductor starts to move
+    }
+    else
+    {
+//                   if(ic1 < 9.0f)
+//                       ic1 += 0.004f; // rampe plus douce, pour assurer la levitation du sustentateur
+//                   else
+//                       ic1 = 9.0f;
+        ic1 = 7.82;
+    }
+    ic2 = ic1;
+}
+\end{minted}
 
 \subsubsection{PWM}
 
