@@ -814,11 +814,22 @@ ic1 = (sqrtf(K_FC * fc1f)) * Position1;
 ic2 = (sqrtf(K_FC * fc2f)) * Position2;
 \end{minted}
 
-Ces calculs ont pour but de réaliser une inversion de la caractéristique non-linéair de l'électroaimant. Pour expliquer plus en détail cela, il faut rentrer dans la physique de l'électroaimant :
+Ces calculs ont pour but de réaliser d'employer la force pour trouver l'inconnue qui est partie de l'équation de la force dans l'électroaimant :
 
 \begin{equation}
     F=k\cdot (\frac{I}{d})²
+    \label{eq:ForceElectro}
 \end{equation}
+
+Avec :
+\begin{enumerate}
+    \item F : La force magnétique [N].
+    \item k : La constante de l'électroaimant [$\frac{N\cdot m²}{I²}$].
+    \item d : La distance de l'entrefer [m].
+    \item I : Le courant traversant la bobine [A].
+\end{enumerate}
+
+De
 
 \subsubsection{PWM}
 

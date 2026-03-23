@@ -188,7 +188,7 @@
 \setcounter{tocdepth}{3}
 
 % Améliore le mode mathématique, aligne les équations à gauche
-\RequirePackage[fleqn]{amsmath}
+\RequirePackage{amsmath}
 \RequirePackage{nccmath}
 
 % Symboles mathématiques étendus
