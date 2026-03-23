@@ -797,12 +797,28 @@ les étapes de la régulation sont les suivantes :
 
 \begin{enumerate}
     \item \texttt{ep1} : On calcule l'erreur entre la position de la consigne et celle mesurée.
-    \item \texttt{xr1} : On calcule une intégrale à partir de l'erreur et l'antiwindup.
+    \item \texttt{xr1} : On calcule une intégrale à partir de l'erreur de position et l'erreur sur la force.
     \item \texttt{sum\_vp1} : On calcule l'amortissement à partir de la vitesse et de la position mesurée.
     \item \texttt{fc1\_prim} : On calcule la force totale demandée à partir de la position, l'intégrale, l'amortssiement et la force du poids.
+    \item On vérifie que les plages ne sont pas dépassées dans le cas contraire des valeurs sont appliquées.
+    \item texttt{fce1} : On calcule l'erreur sur la force à partir de la différence entre la force de la consigne et la force de consigne prime, l'antiwindup et la constante de l'antiwindup. Elle est normalement toujours à 0 sauf lorsque les plages sont dépassées qui sera utilisé comme système d'urgence.
 \end{enumerate}
 
-Par la suite, on vérifie que la force ne déborde pas en ehors des plages admises dans le cas contraire, on lui force la valeur de la plage.
+
+Une observation à faire ici est que la plage n'est que vérifier par la suite. Cela permet entre autre de soit avoir une erreur sur la force de 0 soit d'avoir un moyen de contrer l'erreur si jamais les plages sont dépassées.\\
+
+Pour terminer la stratégie de take-off, les calculs suivants sont réalisés sur les courants :
+
+\begin{minted}{c}
+ic1 = (sqrtf(K_FC * fc1f)) * Position1;
+ic2 = (sqrtf(K_FC * fc2f)) * Position2;
+\end{minted}
+
+Ces calculs ont pour but de réaliser une inversion de la caractéristique non-linéair de l'électroaimant. Pour expliquer plus en détail cela, il faut rentrer dans la physique de l'électroaimant :
+
+\begin{equation}
+    F=k\cdot (\frac{I}{d})²
+\end{equation}
 
 \subsubsection{PWM}
 
