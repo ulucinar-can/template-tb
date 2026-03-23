@@ -529,6 +529,8 @@ if(Offset_count <= 999 && Offset_stop == 0)
         // Enregistrement des positions de référence au repos
         Position_c1_dec = Position1 * POS_DETECT;
         Position_c3_dec = Position3 * POS_DETECT;
+
+        // Test pour 1 inducteur
         Position_c2_dec = Position2 * POS_DETECT;
     }
 }
@@ -536,7 +538,9 @@ if(Offset_count <= 999 && Offset_stop == 0)
 
 Cette section du code permet d'éliminer le décalage de tension statique présent sur les voies de courant. Cet offset, théoriquement centré à 1,5~V (soit environ 1861 en valeur numérique), permet à l'ADC de quantifier des courants bidirectionnels.
 
-L'intégration sur 1000 échantillons, correspondant à une durée d'environ 40~ms, permet d'obtenir une moyenne temporelle stable, garantissant ainsi une robustesse accrue face au bruit de mesure aléatoire.\\
+L'intégration sur 1000 échantillons, correspondant à une durée d'environ 40~ms, permet d'obtenir une moyenne temporelle stable, garantissant ainsi une robustesse accrue face au bruit de mesure aléatoire.
+
+Le calcul des positions de référence est également effectué durant cette phase. Ces valeurs de référence permettent de détecter tout mouvement lors de la phase de décollage, assurant ainsi le bon déroulement de la sustentation.\\
 
 À la suite de l'acquisition des données brutes, une conversion est opérée pour transformer les valeurs numériques codées sur 12 bits en grandeurs physiques exploitables par les algorithmes de contrôle. Pour la mesure de position, le calcul intègre un facteur de conversion ainsi qu'un coefficient de correction spécifique à chaque capteur afin de compenser les écarts de linéarité :
 
@@ -563,7 +567,7 @@ Current4 = (((float)(ADC_cur_4) - ADC_ZERO_CURRENT - Offset_ADC4) /
            (ADC_ZERO_CURRENT + Offset_ADC4)) * I_MAX;
 \end{minted}
 
-Une fois ces traitements effectués, les grandeurs physiques sont exploitables par les régulateurs de position et de courant. \red{Les informations sur la position sont également transmises à l'ESP32 pour permettre un affichage de celle-ci :}
+Une fois ces traitements effectués, les grandeurs physiques sont exploitables par les régulateurs de position et de courant. Les informations sur la position sont également transmises à l'ESP32 pour permettre un affichage de celle-ci :
 
 \begin{minted}{c}
 // Envoi des données UART toutes les 40us * 25000 = 1 s
@@ -580,7 +584,22 @@ Le délai de transmission est fixé à une seconde afin de ne pas surcharger les
 
 \subsubsection{Régulation de courants et de positions}
 \label{subsubsec:RegCourantPos}
-La régulation est le gros de l'interruption principale. Cependant celle-ci s'active seulement si le bouton poussoir a été pressé ou non ou alors si elle a été enclenché depuis l'interface utilisateur :
+La régulation est le gros de l'interruption principale. Elle doit normalement suivre les étapes suivantes :
+
+\begin{itemize}
+    \item Etat 1 : On monte le courant des 4 inducteurs à 3 A (pour ne pas partir de zéro).
+
+    \item Etat 2 : On augmente le courant des inducteurs 1 et 2 avec une rampe (régulation de courant seule).
+
+    \item Etat 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, on les passe les deux en régulation de position (lévitation de l'avant du véhicule).
+
+    \item Etat 4 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
+
+    \item Etat 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, on les passe les deux en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
+\end{itemize}
+
+
+Pour la démarer, il est néscessaire de presser le bouton S2 ou l'enclencher depuis l'interface utilisateur :
 
 \begin{minted}{c}
 if(start_ISOZ == 1 || state_PIN == 1)
@@ -713,7 +732,40 @@ else // phase2 for inductor 1,2
 }
 \end{minted}
 
-Ici, la position est mesurée pour voir lorsque celle-ci atteint la hauteur désirée celle-ci étant de 3mm. Dans le cas contraire, le courant est augmenté en pente dans le premier inducteur ainsi que le deuxième.
+Ici, on regarde si la distance entre l'inducteur et le rail change. Le capteur de position vient en réalité mesurer la disstance entre l'indcuteur et le rail. Celle-ci au repos est de 3mm. Lors du décollage, le rail et l'inducteur se rapproche diminuant alors la distance entre les deux. La variable \texttt{Position\_c1\_dec} se situe à 99\% des 3mm (2.97 mm). Lorsque le décollage commence et que la position mesurée devient alors plus petite que la distance de référence, il est possible de passer de l'état 2 à l'état 3. Dans le cas contraire, le courant est encore augmenté par une rampe jusqu'à atteindre un courant suffisament grand pour décoller l'avant. Mais une limite existe qui se trouve à 7.82 A. Il est probable qu'au dela de cela, la maquette puisse prendre des dégats.
+
+Pour simplifier le tout, le courant de l'inducteur 1 est appliqué à l'inducteur 2 afin d'avoir la meme valeur de rampe.\\
+
+C'est dès à présent que l'état 3 rentre en oeuvre.
+
+\begin{minted}{c}
+// Start takeoff 1 & 2//
+else
+{
+    //SET POINT GENERATOR FOR INDUCTOR 1 & 2
+    // Ce bloc permet de baisser petit � petit la consigne de position pour que la regulation puisse suivre et s'adapter
+    if(Position_c1 > Pos1_to_regul)
+    {
+        // ramp from 3mm to 2mm (4e-7 [s]) par 0.25 mm
+        Position_c1 -= 2.5 * 4e-7;
+    }
+    else
+    {
+        Position_c1 = Pos1_to_regul;
+    }
+
+    if(Position_c2 > Pos2_to_regul)
+    {
+        // ramp from 3mm to 2mm (4e-7 [s])
+        Position_c2 -= 2.5 * 4e-7;
+    }
+    else
+    {
+        Position_c2 = Pos2_to_regul;
+    }
+
+    ...
+\end{minted}
 
 \subsubsection{PWM}
 
