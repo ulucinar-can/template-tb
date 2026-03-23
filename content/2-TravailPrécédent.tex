@@ -736,7 +736,8 @@ Ici, on regarde si la distance entre l'inducteur et le rail change. Le capteur d
 
 Pour simplifier le tout, le courant de l'inducteur 1 est appliqué à l'inducteur 2 afin d'avoir la meme valeur de rampe.\\
 
-C'est dès à présent que l'état 3 rentre en oeuvre.
+C'est dès à présent que l'état 3 rentre en œuvre. Pour les étapes suivantes le code complet ne sera pas présentée, car les étapes pour l'inducteur 1 et 2 sont identique. cependant les explications toucheront uniquement à la régulation de position de l'inducteur 1, car les étapes sont identiques pour l'inducteur 2.
+Pour permettre à la régulation de position de suivre et s'adapter en douceur, les étapes suivantes sont appliquées :
 
 \begin{minted}{c}
 // Start takeoff 1 & 2//
@@ -746,26 +747,62 @@ else
     // Ce bloc permet de baisser petit � petit la consigne de position pour que la regulation puisse suivre et s'adapter
     if(Position_c1 > Pos1_to_regul)
     {
-        // ramp from 3mm to 2mm (4e-7 [s]) par 0.25 mm
+        // ramp from 3mm to 2mm par 0.25 mm
         Position_c1 -= 2.5 * 4e-7;
     }
     else
     {
         Position_c1 = Pos1_to_regul;
     }
-
-    if(Position_c2 > Pos2_to_regul)
-    {
-        // ramp from 3mm to 2mm (4e-7 [s])
-        Position_c2 -= 2.5 * 4e-7;
-    }
-    else
-    {
-        Position_c2 = Pos2_to_regul;
-    }
-
-    ...
 \end{minted}
+
+Lorsque la position se trouve à une valeur supérieure à 2mm, une rampe pour diminuer la position d'un pas de 0.25 mm est appliqué. Lorsque la position devient plus petite que 2mm, la valeur de 2 mm est fixée.\\
+
+Par la suite, le filtre coupe-bande est employé pour enlever les fréquences parasites :
+
+\begin{minted}{c}
+//Fc1 bandstop filter
+        IN1[0] = fc1;
+        fc1f = IIR_Filter(IN1,OUT1);
+        //fc1f = fc1;
+        //introducing limit because IIR filter may cause overtaking
+        if (fc1f <= 0)
+            fc1f = 0;
+        if (fc1f >= FMAX)
+            fc1f = FMAX;
+\end{minted}
+
+C'est dès à présent que la régulation d'espace d'état intervient :
+
+\begin{minted}{c}
+// Position control inductor 1 - state regulation
+        ep1 = Position_c1 - Position1;
+
+        xr1 += (ep1 - fce1);
+        sum_vp1 = v1 * Kddot + Position1 * Kd;
+        fc1_prim = Kw * Position_c1 + Kr * xr1 * I - sum_vp1 + FP;
+//             fc1_prim = fc1_prim - fperturb1;
+        fc1 = fc1_prim;
+
+        if (fc1_prim <= 0){
+            fc1 = 0;
+        }
+        if (fc1_prim >= FMAX){
+            fc1 = FMAX;
+        }
+        fce1 = (fc1_prim - fc1) * K_antiwindup * antiwindup_pos;
+\end{minted}
+
+les étapes de la régulation sont les suivantes :
+
+\begin{enumerate}
+    \item \texttt{ep1} : On calcule l'erreur entre la position de la consigne et celle mesurée.
+    \item \texttt{xr1} : On calcule une intégrale à partir de l'erreur et l'antiwindup.
+    \item \texttt{sum\_vp1} : On calcule l'amortissement à partir de la vitesse et de la position mesurée.
+    \item \texttt{fc1\_prim} : On calcule la force totale demandée à partir de la position, l'intégrale, l'amortssiement et la force du poids.
+\end{enumerate}
+
+Par la suite, on vérifie que la force ne déborde pas en ehors des plages admises dans le cas contraire, on lui force la valeur de la plage.
 
 \subsubsection{PWM}
 
