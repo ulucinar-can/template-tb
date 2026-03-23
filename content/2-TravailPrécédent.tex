@@ -814,7 +814,7 @@ ic1 = (sqrtf(K_FC * fc1f)) * Position1;
 ic2 = (sqrtf(K_FC * fc2f)) * Position2;
 \end{minted}
 
-Ces calculs ont pour but de réaliser d'employer la force pour trouver l'inconnue qui est partie de l'équation de la force dans l'électroaimant :
+Ces calculs ont pour but d'employer la force pour trouver le courant. Pour obtenir le courant, il faut partir de l'équation de la force émise par l'électroaimant \ref{eq:ForceElectro} :
 
 \begin{equation}
     F=k\cdot (\frac{I}{d})²
@@ -829,7 +829,14 @@ Avec :
     \item I : Le courant traversant la bobine [A].
 \end{enumerate}
 
-De
+De cette équation, il est possible de récupérer le courant induit dans la bobine en l'isolant de l'équation \ref{eq:CourantElectro} :
+
+\begin{equation}
+    I = \sqrt{\frac{F}{k}} \cdot d
+    \label{eq:CourantElectro}
+\end{equation}
+
+La stratégie de take-off pour les inducteurs 3 et 4 sont identiques à celle de la stratégie de take-off 1 et 2. C'est pourquoi celle-ci ne sera pas détaillée.
 
 \subsubsection{PWM}
 
