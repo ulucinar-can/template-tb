@@ -584,22 +584,21 @@ Le délai de transmission est fixé à une seconde afin de ne pas surcharger les
 
 \subsubsection{Régulation de courants et de positions}
 \label{subsubsec:RegCourantPos}
-La régulation est le gros de l'interruption principale. Pour la réaliser, une machine d'état doit d'abord passer par les étapes suivantes :
+La régulation constitue la partie principale de l'interruption. Pour la réaliser, une machine d'états doit d'abord passer par les étapes suivantes :
 
 \begin{itemize}
-    \item Etat 1 : On monte le courant des 4 inducteurs à 3 A (pour ne pas partir de zéro).
+    \item État 1 : Le courant des 4 inducteurs est monté à 3 A (pour ne pas partir de zéro).
 
-    \item Etat 2 : On augmente le courant des inducteurs 1 et 2 avec une rampe (régulation de courant seule).
+    \item État 2 : Le courant des inducteurs 1 et 2 est augmenté progressivement via une rampe (régulation de courant seule).
 
-    \item Etat 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, on les passe les deux en régulation de position (lévitation de l'avant du véhicule).
+    \item État 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, les deux passent en régulation de position (lévitation de l'avant du véhicule).
 
-    \item Etat 4 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
+    \item État 4 : Le courant des inducteurs 3 et 4 est augmenté progressivement via une rampe (régulation de courant seule).
 
-    \item Etat 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, on les passe les deux en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
+    \item État 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, les deux passent en régulation de position (lévitation de l'arrière du véhicule, l'avant lévitant déjà).
 \end{itemize}
 
-
-Pour la démarer, il est néscessaire de presser le bouton S2 ou l'enclencher depuis l'interface utilisateur :
+Pour la démarrer, il est nécessaire de presser le bouton S2 ou de l'enclencher depuis l'interface utilisateur :
 
 \begin{minted}{c}
 if(start_ISOZ == 1 || state_PIN == 1)
@@ -608,9 +607,9 @@ if(start_ISOZ == 1 || state_PIN == 1)
 }
 \end{minted}
 
-Dans le cas ou l'une des deux conditions est atteinte, alors à ce moment la commence la régulation. Une LED s'enclenche lorsque celle-ci sont atteinte.\\
+Dans le cas où l'une des deux conditions est atteinte, la régulation débute. Une LED s'enclenche lorsque celles-ci sont respectées.\\
 
-Au départ, le filtre Savitzky est employé pour filtrer les données de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
+Au départ, le filtre de Savitzky est employé pour filtrer les données issues de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
 
 \begin{minted}{c}
 pos1Buff[FILTWINDOW-1] = Position1;
@@ -626,12 +625,12 @@ pos4Buff[FILTWINDOW-1] = Position4;
 v4 = savitzky_Filter(pos4Buff);
 \end{minted}
 
-Par la suite, deux stratégies de décollages sont mise en place (Take off). Une première concernant les inducteurs 1 et 2 (Les inducteurs devant) et une seconde concernant les inducteurs 3 et 4 (Les inducteurs arrières). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. La régulation de courant est toujours active et se situe après la machine d'état.\\
+Par la suite, deux stratégies de décollage sont mises en place (Take off). Une première concerne les inducteurs 1 et 2 (inducteurs avant) et une seconde concerne les inducteurs 3 et 4 (inducteurs arrière). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. La régulation de courant est, quant à elle, toujours active et se situe chronologiquement après la machine d'états dans le code.\\
 
-Pour commencer, la stratégie de "Take off 1" sera détaillé. Celle-ci contient les phases 1 et 2.
-La première phase est de permettre aux inducteurs d'augmenter le courant jusquà atteindre les 3A.\\
+Pour commencer, la stratégie de "Take off 1" est détaillée. Celle-ci contient les phases 1 et 2.
+La première phase permet d'augmenter la consigne de courant dans les inducteurs jusqu'à atteindre 3 A.\\
 
-Au départ, on vient mesurer et sommer la valeur mesurée du courant dans l'inducteur. jusqu'à ce que la variable \texttt{dt\_mean} atteignent 200 cycles (Durée d'environ 8 ms) :
+Initialement, la valeur du courant dans l'inducteur est mesurée et sommée jusqu'à ce que la variable \texttt{dt\_mean} atteigne 200 cycles (durée d'environ 8 ms) :
 
 \begin{minted}{c}
 if(takeOff == 1)
@@ -653,7 +652,7 @@ if(takeOff == 1)
 }
 \end{minted}
 
-Lorsque les 200 cycles sont atteints, alors à ce moment-là une moyenne est réalisée en divisant le tout par les 200 cycles pour obtenir la valeur réelle du courant sur cette petite fenêtre de temps :
+Lorsque les 200 cycles sont atteints, une moyenne est calculée en divisant la somme par ces 200 cycles pour obtenir la valeur réelle du courant sur cette petite fenêtre de temps :
 
 \begin{minted}{c}
 // if current has reached final value of initial current input(I_SP)
@@ -669,13 +668,14 @@ if(dt_mean == 200)//dt = 8ms
 }
 \end{minted}
 
-Juste après cela, une vérification est réalisée sur les moyennes afin de vérifier si le courant mesuré se situe dans une bonne plage de fonctionnement (Entre 2.85A et 3.15A). Dans le cas où les quatres inducteurs ont bien atteint une valeur proche de la consigne, alors on passe à la seconde phase. Dans le cas contraire, les moyennes et le temps sont remises à 0 et il est une nouvelle fois nécessaires de faire les 200 cycles :
+Juste après cela, une vérification est effectuée sur les moyennes afin de s'assurer que le courant mesuré se situe dans une plage de fonctionnement correcte (entre 2.85 A et 3.15 A). Dans le cas où les quatre inducteurs ont bien atteint une valeur proche de la consigne, la transition vers la seconde phase s'opère. Dans le cas contraire, les moyennes et le temps sont remis à 0, et il est à nouveau nécessaire de réaliser 200 cycles :
 
 \begin{minted}{c}
 // Rampe generale de courant pour les 4 inducteurs
-if(mean1 <= I_SP105 && mean1 >= I_SP095 && mean2 <= I_SP105 && mean2 >= I_SP095&& mean3 <= I_SP105 && mean3 >= I_SP095 && mean4 <= I_SP105 && mean4 >= I_SP095){
+if(mean1 <= I_SP105 && mean1 >= I_SP095 && mean2 <= I_SP105 && mean2 >= I_SP095\
+       && mean3 <= I_SP105 && mean3 >= I_SP095 && mean4 <= I_SP105 && mean4 >= I_SP095){
 
-phase1 = 0;
+    phase1 = 0;
 }
 else
 {
@@ -687,7 +687,7 @@ else
 }
 \end{minted}
 
-En parallèle de cela, une rampe est gentiment créée allant de 0 A à 3A avec un pas de 0.04A. Une fois que le courant est dépassé :
+En parallèle, une rampe est progressivement créée, allant de 0 A à 3 A avec un pas de 0.04 A. Une fois cette valeur atteinte :
 
 \begin{minted}{c}
 // Set point generator(Current)
@@ -704,9 +704,9 @@ else
 }
 \end{minted}
 
-Une constatation à faire ici est que seule le courant sur la bobine un est augmentée. Les autres variables étant initialisées à 0, celle-ci reste à cette valeur et change d'un coup lorsque le courant de la première bobine dépassent les 3A. Mais cela veut dire qu'au départ la condition pour passer à l'état suivant n'est jamais respecté. Lors de la mesure du courant celle-ci va récupérer une valeur de zéro pendant un certain temps. En théorie, cela ne devrait pas déranger le bon fonctionnement de la première étape, mais celle-ci devrait être modifié pour réaliser une rampe sur les quatres inducteurs.\\
+Une constatation s'impose ici : seul le courant de consigne de la bobine 1 est incrémenté. Les autres variables étant initialisées à 0, elles conservent cette valeur et changent brusquement lorsque la première consigne dépasse 3 A. Cela signifie qu'au départ, la condition de vérification des moyennes n'est jamais respectée pour les autres bobines. En théorie, cela ne devrait pas perturber le fonctionnement final de la première étape, mais le code mériterait d'être modifié pour appliquer une rampe synchronisée sur les quatre inducteurs simultanément.\\
 
-La phase 2 concerne la montée des deux inducteurs placée à l'avant. Celle-ci va devoir venir réaliser un décollage de ces deux inducteurs. Afin de réaliser cela, il va falloir augmenter une nouvelle fois en rampe ces deux indeucteurs. La raison derrière cela est de permettre aux inducteurs d'atteindre un courant suffisament grand pour permettre a la maquette de s'envoler :
+La phase 2 concerne la montée des deux inducteurs placés à l'avant. L'objectif est de réaliser le décollage de ces éléments. Pour y parvenir, il est nécessaire d'augmenter le courant de ces deux inducteurs via une nouvelle rampe. La raison sous-jacente est de permettre aux inducteurs d'atteindre une force magnétique suffisamment grande pour que la maquette s'envole :
 
 \begin{minted}{c}
 else // phase2 for inductor 1,2
@@ -732,23 +732,22 @@ else // phase2 for inductor 1,2
 }
 \end{minted}
 
-Ici, on regarde si la distance entre l'inducteur et le rail change. Le capteur de position vient en réalité mesurer la disstance entre l'indcuteur et le rail. Celle-ci au repos est de 3mm. Lors du décollage, le rail et l'inducteur se rapproche diminuant alors la distance entre les deux. La variable \texttt{Position\_c1\_dec} se situe à 99\% des 3mm (2.97 mm). Lorsque le décollage commence et que la position mesurée devient alors plus petite que la distance de référence, il est possible de passer de l'état 2 à l'état 3. Dans le cas contraire, le courant est encore augmenté par une rampe jusqu'à atteindre un courant suffisament grand pour décoller l'avant. Mais une limite existe qui se trouve à 7.82 A. Il est probable qu'au dela de cela, la maquette puisse prendre des dégats.
+Dans ce bloc, la distance entre l'inducteur et le rail est surveillée. Le capteur de position mesure en réalité cet écart, qui est de 3 mm au repos. Lors du décollage, le rail et l'inducteur se rapprochent, diminuant ainsi cette distance. La variable \texttt{Position\_c1\_dec} correspond à 99\% de ces 3 mm (2.97 mm). Lorsque le mouvement débute et que la position mesurée devient inférieure à cette distance de détection, il est possible de passer de l'état 2 à l'état 3. Dans le cas contraire, le courant est encore augmenté par une rampe. Cependant, une limite de sécurité est fixée à 7.82 A ; au-delà de cette valeur, la maquette risquerait de subir des dommages.
 
-Pour simplifier le tout, le courant de l'inducteur 1 est appliqué à l'inducteur 2 afin d'avoir la meme valeur de rampe.\\
+Pour simplifier le processus, la consigne de courant de l'inducteur 1 est copiée sur l'inducteur 2 afin de garantir une montée symétrique.\\
 
-C'est dès à présent que l'état 3 rentre en œuvre. Pour les étapes suivantes le code complet ne sera pas présentée, car les étapes pour l'inducteur 1 et 2 sont identique. cependant les explications toucheront uniquement à la régulation de position de l'inducteur 1, car les étapes sont identiques pour l'inducteur 2.
-Pour permettre à la régulation de position de suivre et s'adapter en douceur, les étapes suivantes sont appliquées :
+C'est à présent que l'état 3 entre en œuvre. Pour les étapes suivantes, le code complet ne sera pas présenté, car les actions pour les inducteurs 1 et 2 sont identiques. Les explications se concentreront donc uniquement sur la régulation de position de l'inducteur 1.
+Pour permettre à la régulation de position de s'adapter en douceur et d'atteindre sa hauteur de croisière, les étapes suivantes sont appliquées :
 
 \begin{minted}{c}
 // Start takeoff 1 & 2//
 else
 {
     //SET POINT GENERATOR FOR INDUCTOR 1 & 2
-    // Ce bloc permet de baisser petit � petit la consigne de position pour que la regulation puisse suivre et s'adapter
+    // Ce bloc permet de baisser petit  petit la consigne de position pour que la regulation puisse suivre et s'adapter
     if(Position_c1 > Pos1_to_regul)
     {
-        // ramp from 3mm to 2mm par 0.25 mm
-        Position_c1 -= 2.5 * 4e-7;
+        Position_c1 -= 2.5 * 4e-7; // ramp from 3mm to 2mm (4e-7 [s]) par 0.25 mm
     }
     else
     {
@@ -756,9 +755,9 @@ else
     }
 \end{minted}
 
-Lorsque la position se trouve à une valeur supérieure à 2mm, une rampe pour diminuer la position d'un pas de 0.25 mm est appliqué. Lorsque la position devient plus petite que 2mm, la valeur de 2 mm est fixée.\\
+Lorsque la consigne de position se trouve à une valeur supérieure à 2 mm, une rampe est appliquée pour la diminuer progressivement. Dès que cette consigne devient plus petite que 2 mm, elle est alors fixée à cette valeur cible.\\
 
-Par la suite, le filtre coupe-bande est employé pour enlever les fréquences parasites :
+Par la suite, un filtre coupe-bande est employé pour éliminer les fréquences de résonance parasites :
 
 \begin{minted}{c}
 //Fc1 bandstop filter
@@ -772,7 +771,7 @@ Par la suite, le filtre coupe-bande est employé pour enlever les fréquences pa
             fc1f = FMAX;
 \end{minted}
 
-C'est dès à présent que la régulation d'espace d'état intervient :
+La régulation par retour d'état intervient ensuite :
 
 \begin{minted}{c}
 // Position control inductor 1 - state regulation
@@ -793,57 +792,56 @@ C'est dès à présent que la régulation d'espace d'état intervient :
         fce1 = (fc1_prim - fc1) * K_antiwindup * antiwindup_pos;
 \end{minted}
 
-les étapes de la régulation sont les suivantes :
+Les étapes de cette régulation sont les suivantes :
 
 \begin{enumerate}
-    \item \texttt{ep1} : On calcule l'erreur entre la position de la consigne et celle mesurée.
-    \item \texttt{xr1} : On calcule une intégrale à partir de l'erreur de position et l'erreur sur la force.
-    \item \texttt{sum\_vp1} : On calcule l'amortissement à partir de la vitesse et de la position mesurée.
-    \item \texttt{fc1\_prim} : On calcule la force totale demandée à partir de la position, l'intégrale, l'amortssiement et la force du poids.
-    \item On vérifie que les plages ne sont pas dépassées dans le cas contraire des valeurs sont appliquées.
-    \item texttt{fce1} : On calcule l'erreur sur la force à partir de la différence entre la force de la consigne et la force de consigne prime, l'antiwindup et la constante de l'antiwindup. Elle est normalement toujours à 0 sauf lorsque les plages sont dépassées qui sera utilisé comme système d'urgence.
+    \item \texttt{ep1} : L'erreur entre la position de la consigne et celle mesurée est calculée.
+    \item \texttt{xr1} : L'action intégrale est calculée à partir de l'erreur de position, soustraite de l'erreur de saturation.
+    \item \texttt{sum\_vp1} : L'amortissement est évalué à partir de la vitesse et de la position mesurées.
+    \item \texttt{fc1\_prim} : La force totale demandée est calculée en additionnant l'effet du ressort, de l'intégrale, de la force du poids et en soustrayant l'amortissement.
+    \item Une vérification des plages admissibles est effectuée ; en cas de dépassement, la force est saturée aux limites physiques.
+    \item \texttt{fce1} : L'erreur de saturation (système d'Anti-Windup) est calculée à partir de la différence entre la force demandée et la force saturée. Cette variable reste à 0 en fonctionnement nominal et n'agit pour freiner l'intégrateur que lorsque les limites matérielles sont atteintes.
 \end{enumerate}
 
+Une observation importante est que l'écrêtage (saturation) n'est vérifié qu'après le calcul mathématique initial. Cela permet d'obtenir un moyen de contrer l'erreur de manière préventive si jamais les limites de puissance viennent à être dépassées.\\
 
-Une observation à faire ici est que la plage n'est que vérifier par la suite. Cela permet entre autre de soit avoir une erreur sur la force de 0 soit d'avoir un moyen de contrer l'erreur si jamais les plages sont dépassées.\\
-
-Pour terminer la stratégie de take-off, les calculs suivants sont réalisés sur les courants :
+Pour terminer la stratégie de décollage, les calculs suivants sont réalisés pour convertir les forces en consignes de courant :
 
 \begin{minted}{c}
 ic1 = (sqrtf(K_FC * fc1f)) * Position1;
 ic2 = (sqrtf(K_FC * fc2f)) * Position2;
 \end{minted}
 
-Ces calculs ont pour but d'employer la force pour trouver le courant. Pour obtenir le courant, il faut partir de l'équation de la force émise par l'électroaimant \ref{eq:ForceElectro} :
+Ces calculs ont pour but de linéariser le comportement du système. Pour obtenir le courant nécessaire, il faut partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
 
 \begin{equation}
-    F=k\cdot (\frac{I}{d})²
+    F = k \cdot \left(\frac{I}{d}\right)^2
     \label{eq:ForceElectro}
 \end{equation}
 
 Avec :
-\begin{enumerate}
-    \item F : La force magnétique [N].
-    \item k : La constante de l'électroaimant [$\frac{N\cdot m²}{I²}$].
-    \item d : La distance de l'entrefer [m].
-    \item I : Le courant traversant la bobine [A].
-\end{enumerate}
+\begin{itemize}
+    \item $F$ : La force magnétique [N].
+    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
+    \item $d$ : La distance de l'entrefer [m].
+    \item $I$ : Le courant traversant la bobine [A].
+\end{itemize}
 
-De cette équation, il est possible de récupérer le courant induit dans la bobine en l'isolant de l'équation \ref{eq:CourantElectro} :
+À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
 
 \begin{equation}
     I = \sqrt{\frac{F}{k}} \cdot d
     \label{eq:CourantElectro}
 \end{equation}
 
-Pour gagner du temps dans le code, la division par k est fait au préalable d'où la multiplication par k et non pas la division.
+Afin de réduire le temps d'exécution du code sur le processeur, la constante \texttt{K\_FC} correspond à l'inverse de la constante $k$. Une multiplication est ainsi effectuée à la place d'une division, opération beaucoup plus coûteuse en cycles d'horloge.
 
-De ça, le courant pour la régulation de courant de l'état 3 est obtenue.\\
+C'est de cette manière que la consigne de courant pour l'état 3 est calculée.\\
 
-Une étape qui se fait à partir de l'état 3, est un compteur qui s'active pour permettre d'avoir des pôles plus doux en abaissant la valeur des gains statiques. Pour cela, le code commence à compter pour savoir quand est-ce qu'on décide de changer les gains.
+À partir de ce même état 3, un compteur s'incrémente afin de déclencher un adoucissement des pôles (baisse de la valeur des gains statiques). Le code utilise ce chronomètre pour déterminer le moment exact de la modification des gains de régulation, garantissant ainsi la stabilité lors de la transition :
 
 \begin{minted}{c}
-if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulation de 2 � 4 inducteurs (stabilit�)
+if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulation de 2  4 inducteurs (stabilit)
 {
     Kr = Kr_change;
     Kw = Kw_change;
@@ -852,7 +850,7 @@ if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulat
 }
 \end{minted}
 
-La stratégie de take-off pour les inducteurs 3 et 4 sont identiques à celle de la stratégie de take-off 1 et 2. C'est pourquoi celle-ci ne sera pas détaillée. Une différence à noter est l'utilisation d'un gain statique sans intégrateur. Ceci a pour but de donner de la souplesse au code. Cela est fait en mettant le gain statique du régulateur de l'inducteur 3 à 0. Par la suite celui-la est remis à 1 pour aider à maintenir le tout :
+La stratégie de décollage des inducteurs 3 et 4 est identique à celle des inducteurs 1 et 2 ; par conséquent, elle n'est pas détaillée ici. Une différence majeure réside toutefois dans la désactivation initiale de l'intégrateur pour l'inducteur 3. Cette asymétrie vise à octroyer de la souplesse mécanique au châssis (hyperstatisme). Le gain intégral de l'inducteur 3 est d'abord forcé à 0 pendant le décollage. Après une courte temporisation permettant au système de se stabiliser, une faible valeur lui est restituée pour corriger l'erreur d'inclinaison de manière douce :
 
 \begin{minted}{c}
 //        Modify Kr of the regulator "without integrator" for stay the position
@@ -863,9 +861,9 @@ if(i_store >= (i_store_2e_decollage + 1000))
 }
 \end{minted}
 
-Une première réflexion sur cette partie-là de l'intéeruption est le fait qu'il est néscessaire de refaire la machine d'état. Le code ne semble pas assez robuste.\\
+Une première conclusion concernant cette partie de l'interruption est la nécessité de restructurer la machine d'états. L'architecture actuelle, basée sur des variables booléennes implicites, manque de robustesse et de lisibilité.\\
 
-À la fin de la machine d'état, la régulation de courant est réalisée à partir de la fonction \texttt{PI\_current\_regulator} :
+En toute fin d'interruption, et de manière inconditionnelle, la régulation matérielle du courant est exécutée à l'aide de la fonction \texttt{PI\_current\_regulator} :
 
 \begin{minted}{c}
 // Inductor 1
@@ -881,7 +879,10 @@ PI_current_regulator(ic3, Current3, &integral_i3, &ue3, &uc3);
 PI_current_regulator(ic4, Current4, &integral_i4, &ue4, &uc4);
 \end{minted}
 
-Une fois le passage par la régulation de courant réalisée, il est néscessaire de calculer le duty-cycle des signaux PWM employé par les pont en H des inducteurs. Pour cela les lignes de codes suivantes sont écrites :
+\subsubsection{PWM}
+Les signaux PWM sont employés pour gérer les ponts en H
+
+Une fois le passage par la régulation de courant réalisée, il est néscessaire de calculer le duty-cycle des signaux PWM employé par les ponts en H des inducteurs. Pour cela les lignes de codes suivantes sont écrites :
 
 \begin{minted}{c}
 // Calcul de l'angle theta
@@ -895,7 +896,6 @@ dutyCycle3 = 0.5f + (CONV_DUTY_CYCLE * uc3) + DA;
 dutyCycle4 = 0.5f + (CONV_DUTY_CYCLE * uc4) + DA;
 \end{minted}
 
-\subsubsection{PWM}
 
 \subsubsection{Machine d'état}
 
