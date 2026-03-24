@@ -1,1 +1,2 @@
 {"rule":"SOFTWARE","sentence":"^\\QCela vient donc pointer vers le fait qu'il y a un problème d'un point de vue software que hardware.\\E$"}
+{"rule":"ACCORD_V_PPA","sentence":"^\\QCette section vient donc détailler différent élément du code.\\E$"}
