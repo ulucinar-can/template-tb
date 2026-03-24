@@ -880,9 +880,9 @@ PI_current_regulator(ic4, Current4, &integral_i4, &ue4, &uc4);
 \end{minted}
 
 \subsubsection{PWM}
-Les signaux PWM sont employés pour gérer les ponts en H
+Les signaux PWM (Pulse Width Modulation) sont employés pour contrôler les ponts en H placés sur les bobines. Ces signaux indiquent aux transistors MOSFET s'ils doivent être passants ou bloqués, modulant ainsi l'énergie envoyée aux électroaimants.
 
-Une fois le passage par la régulation de courant réalisée, il est néscessaire de calculer le duty-cycle des signaux PWM employé par les ponts en H des inducteurs. Pour cela les lignes de codes suivantes sont écrites :
+Pour commencer, il est nécessaire de déterminer le rapport cyclique (duty cycle). Suite à l'exécution de la régulation de courant, qui fournit les tensions de consigne, le rapport cyclique est calculé de la manière suivante :
 
 \begin{minted}{c}
 // Calcul de l'angle theta
@@ -896,9 +896,149 @@ dutyCycle3 = 0.5f + (CONV_DUTY_CYCLE * uc3) + DA;
 dutyCycle4 = 0.5f + (CONV_DUTY_CYCLE * uc4) + DA;
 \end{minted}
 
+Une fois cette étape accomplie, les rapports cycliques sont convertis en pourcentages :
 
-\subsubsection{Machine d'état}
+\begin{minted}{c}
+duty1 = dutyCycle1 * 100;
+duty2 = dutyCycle2 * 100;
+duty3 = dutyCycle3 * 100;
+duty4 = dutyCycle4 * 100;
+\end{minted}
+
+Une vérification est ensuite effectuée afin de s'assurer que les plages de fonctionnement matérielles sont respectées, protégeant ainsi l'électronique de puissance :
+
+\begin{minted}{c}
+// Limite min et max des rapports cycliques
+if(duty1 >= LIMITE_MAX_DUTY_FINE)
+    duty1 = LIMITE_MAX_DUTY_FINE;
+else if(duty1 <= LIMITE_MIN_DUTY_FINE)
+    duty1 = LIMITE_MIN_DUTY_FINE;
+
+if(duty2 >= LIMITE_MAX_DUTY_FINE)
+    duty2 = LIMITE_MAX_DUTY_FINE;
+else if(duty2 <= LIMITE_MIN_DUTY_FINE)
+    duty2 = LIMITE_MIN_DUTY_FINE;
+
+if(duty3 >= LIMITE_MAX_DUTY_FINE)
+    duty3 = LIMITE_MAX_DUTY_FINE;
+else if(duty3 <= LIMITE_MIN_DUTY_FINE)
+    duty3 = LIMITE_MIN_DUTY_FINE;
+
+if(duty4 >= LIMITE_MAX_DUTY_FINE)
+    duty4 = LIMITE_MAX_DUTY_FINE;
+else if(duty4 <= LIMITE_MIN_DUTY_FINE)
+    duty4 = LIMITE_MIN_DUTY_FINE;
+\end{minted}
+
+Pour chaque inducteur, la consigne mathématique est convertie en impulsions d'horloge et appliquée aux registres matériels selon la méthode suivante :
+
+\begin{minted}{c}
+// Affection des compteurs PWM :
+// Plus propre de faire une boucle et un tableau de duty[4]
+
+dutyFine = ((float)(duty1*TIME_BASE_PERIOD) * INV_FACTOR);
+count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+compCount = (count);
+i = 1;
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+dutyFine = ((float)(duty2*TIME_BASE_PERIOD) * INV_FACTOR);
+count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+compCount = (count);
+i = 2;
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+dutyFine = ((float)(duty3*TIME_BASE_PERIOD) * INV_FACTOR);
+count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+compCount = (count);
+i = 3;
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+dutyFine = ((float)(duty4 * TIME_BASE_PERIOD) * INV_FACTOR);
+count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+compCount = (count);
+i = 4;
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+\end{minted}
+
+Comme souligné dans les commentaires du code, l'utilisation d'une boucle itérative (\texttt{for}) serait plus pertinente pour optimiser et factoriser cette section.
+
+Enfin, afin de garantir un fonctionnement optimal malgré les éventuelles fluctuations de la tension d'alimentation interne ou l'échauffement du microcontrôleur, la fonction d'étalonnage suivante est employée. Elle permet d'ajuster dynamiquement la haute résolution des signaux PWM (HRPWM) :
+
+\begin{minted}{c}
+// in background, MEP calibration module
+// continuously updates MEP_ScaleFactor
+status = SFO();
+
+if (status == SFO_ERROR)
+{
+    error();   // SFO function returns 2 if an error occurs & #
+                // of MEP steps/coarse step
+}              // exceeds maximum of 255.
+\end{minted}
+
+Dans l'éventualité où une erreur de calibration matérielle survient (dépassement des capacités de compensation du processeur), le système est mis en sécurité en appelant la fonction d'erreur, permettant ainsi l'investigation du dysfonctionnement thermique ou électrique.
+
+\subsection{Arret de la sustentation}
+Lorsque le bouton S2 est une nouvelle fois pressé, il faut arreter la sustentation comme suit :
+
+\begin{minted}{c}
+// Arret de la sustentation
+else if(stop_ISOZ == 1 || state_PIN == 0)
+{
+    GPIO_writePin(myLED_D2,1); // Eteindre la LED2 apres sustentation
+
+    for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
+        {
+            dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
+            count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+            compCount = (count);
+
+            HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+            HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+        }
+
+    i_store = 0;
+
+    //
+    // Call the scale factor optimizer lib function SFO()
+    // periodically to track for any change due to temp/voltage.
+    // This function generates MEP_ScaleFactor by running the
+    // MEP calibration module in the HRPWM logic. This scale
+    // factor can be used for all HRPWM channels. The SFO()
+    // function also updates the HRMSTEP register with the
+    // scale factor value.
+    //
+    status = SFO(); // in background, MEP calibration module
+                    // continuously updates MEP_ScaleFactor
+    if (status == SFO_ERROR)
+    {
+        error();   // SFO function returns 2 if an error occurs & #
+                    // of MEP steps/coarse step
+    }              // exceeds maximum of 255.
+}
+\end{minted}
 
 \subsubsection{Le bouton poussoir}
 
+\subsubsection{Autre partie du code}
+\textbf{Compteur du changement de variable}
+La variable qui permet de compter pour atteindre le moment du changement de variable est gérée comme suit :
+
+\begin{minted}{c}
+if(takeOff == 0){
+    i_store++;
+}
+\end{minted}
+
+C'est un simple if qui vérifie si on est encore en takeOff ou non.
+
 \section{Programme dans l'ESP32}
+
