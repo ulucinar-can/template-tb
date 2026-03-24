@@ -986,8 +986,8 @@ if (status == SFO_ERROR)
 
 Dans l'éventualité où une erreur de calibration matérielle survient (dépassement des capacités de compensation du processeur), le système est mis en sécurité en appelant la fonction d'erreur, permettant ainsi l'investigation du dysfonctionnement thermique ou électrique.
 
-\subsection{Arret de la sustentation}
-Lorsque le bouton S2 est une nouvelle fois pressé, il faut arreter la sustentation comme suit :
+\subsection{Arrêt de la sustentation}
+Lorsqu'une nouvelle pression est exercée sur le bouton S2 (ou via l'interface de commande), la sustentation est interrompue de la manière suivante :
 
 \begin{minted}{c}
 // Arret de la sustentation
@@ -1026,19 +1026,47 @@ else if(stop_ISOZ == 1 || state_PIN == 0)
 }
 \end{minted}
 
-\subsubsection{Le bouton poussoir}
+Cette procédure désactive instantanément l'asservissement en forçant les signaux PWM à leur valeur de repos via les données du tableau \texttt{duty\_table}, provoquant ainsi la coupure immédiate de l'alimentation des électroaimants. Le chronomètre interne \texttt{i\_store} est également réinitialisé pour préparer le système à un éventuel redémarrage. En parallèle, la fonction d'étalonnage matériel \texttt{SFO()} est maintenue active afin de préserver la calibration haute résolution du microcontrôleur.
 
-\subsubsection{Autre partie du code}
-\textbf{Compteur du changement de variable}
-La variable qui permet de compter pour atteindre le moment du changement de variable est gérée comme suit :
+\subsection{Le bouton-poussoir}
+Le bouton-poussoir matériel dispose de sa propre routine d'interruption externe. Le rôle exclusif de cette dernière est de lever un drapeau d'état (\textit{flag}) :
 
 \begin{minted}{c}
-if(takeOff == 0){
-    i_store++;
+__interrupt void INT_Push_Button_Start_XINT_ISR(void)
+{
+    Ext_Int_Flag = 1;
+    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
 }
 \end{minted}
 
-C'est un simple if qui vérifie si on est encore en takeOff ou non.
+L'activation de ce drapeau permet au programme principal de détecter l'actionnement du bouton. Un mécanisme anti-rebond logiciel (\textit{debounce}) est appliqué via une boucle d'attente avant de procéder à la vérification finale de l'état logique de la broche. Selon cet état, le système bascule la consigne globale de la maquette (démarrage ou arrêt de la lévitation) :
+
+\begin{minted}{c}
+if(Ext_Int_Flag == 1) // Detection passage INTERRUPT car flanc montant
+{
+    count_ext_int = 0;
+    while(count_ext_int < COUNT_TO_REACH) // Anti-rebond logiciel
+        count_ext_int++;
+
+    if(GPIO_readPin(Push_Button_Start) == 0)
+    {
+        // APPUI CONFIRMÉ
+        if(start_ISOZ == 1)
+        {
+            start_ISOZ = 0;
+            stop_ISOZ = 1;
+        }
+        else if(start_ISOZ == 0)
+        {
+            start_ISOZ = 1;
+            stop_ISOZ = 0;
+        }
+    }
+    Ext_Int_Flag = 0; // Réarmement du drapeau
+}
+\end{minted}
 
 \section{Programme dans l'ESP32}
+\subsection{Poids des codes}
+
 
