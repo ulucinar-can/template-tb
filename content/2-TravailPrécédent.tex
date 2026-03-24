@@ -584,7 +584,7 @@ Le délai de transmission est fixé à une seconde afin de ne pas surcharger les
 
 \subsubsection{Régulation de courants et de positions}
 \label{subsubsec:RegCourantPos}
-La régulation est le gros de l'interruption principale. Elle doit normalement suivre les étapes suivantes :
+La régulation est le gros de l'interruption principale. Pour la réaliser, une machine d'état doit d'abord passer par les étapes suivantes :
 
 \begin{itemize}
     \item Etat 1 : On monte le courant des 4 inducteurs à 3 A (pour ne pas partir de zéro).
@@ -626,7 +626,7 @@ pos4Buff[FILTWINDOW-1] = Position4;
 v4 = savitzky_Filter(pos4Buff);
 \end{minted}
 
-Par la suite, deux stratégies de décollages sont mise en place (Take off). Une première concernant les inducteurs 1 et 2 (Les inducteurs devant) et une seconde concernant les inducteurs 3 et 4 (Les inducteurs arrières). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. \\
+Par la suite, deux stratégies de décollages sont mise en place (Take off). Une première concernant les inducteurs 1 et 2 (Les inducteurs devant) et une seconde concernant les inducteurs 3 et 4 (Les inducteurs arrières). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. La régulation de courant est toujours active et se situe après la machine d'état.\\
 
 Pour commencer, la stratégie de "Take off 1" sera détaillé. Celle-ci contient les phases 1 et 2.
 La première phase est de permettre aux inducteurs d'augmenter le courant jusquà atteindre les 3A.\\
@@ -836,7 +836,64 @@ De cette équation, il est possible de récupérer le courant induit dans la bob
     \label{eq:CourantElectro}
 \end{equation}
 
-La stratégie de take-off pour les inducteurs 3 et 4 sont identiques à celle de la stratégie de take-off 1 et 2. C'est pourquoi celle-ci ne sera pas détaillée.
+Pour gagner du temps dans le code, la division par k est fait au préalable d'où la multiplication par k et non pas la division.
+
+De ça, le courant pour la régulation de courant de l'état 3 est obtenue.\\
+
+Une étape qui se fait à partir de l'état 3, est un compteur qui s'active pour permettre d'avoir des pôles plus doux en abaissant la valeur des gains statiques. Pour cela, le code commence à compter pour savoir quand est-ce qu'on décide de changer les gains.
+
+\begin{minted}{c}
+if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulation de 2 � 4 inducteurs (stabilit�)
+{
+    Kr = Kr_change;
+    Kw = Kw_change;
+    Kd = Kd_change;
+    Kddot = Kddot_change;
+}
+\end{minted}
+
+La stratégie de take-off pour les inducteurs 3 et 4 sont identiques à celle de la stratégie de take-off 1 et 2. C'est pourquoi celle-ci ne sera pas détaillée. Une différence à noter est l'utilisation d'un gain statique sans intégrateur. Ceci a pour but de donner de la souplesse au code. Cela est fait en mettant le gain statique du régulateur de l'inducteur 3 à 0. Par la suite celui-la est remis à 1 pour aider à maintenir le tout :
+
+\begin{minted}{c}
+//        Modify Kr of the regulator "without integrator" for stay the position
+//        at 2 mm slowly after 40ms (not immediatly, cause to second take off "agressivity")
+if(i_store >= (i_store_2e_decollage + 1000))
+{
+    Kr_sans_int = -1.0; // valeur initiale -1.0
+}
+\end{minted}
+
+Une première réflexion sur cette partie-là de l'intéeruption est le fait qu'il est néscessaire de refaire la machine d'état. Le code ne semble pas assez robuste.\\
+
+À la fin de la machine d'état, la régulation de courant est réalisée à partir de la fonction \texttt{PI\_current\_regulator} :
+
+\begin{minted}{c}
+// Inductor 1
+PI_current_regulator(ic1, Current1, &integral_i1, &ue1, &uc1);
+
+// Inductor 2
+PI_current_regulator(ic2, Current2, &integral_i2, &ue2, &uc2);
+
+// Inductor 3
+PI_current_regulator(ic3, Current3, &integral_i3, &ue3, &uc3);
+
+// Inductor 4
+PI_current_regulator(ic4, Current4, &integral_i4, &ue4, &uc4);
+\end{minted}
+
+Une fois le passage par la régulation de courant réalisée, il est néscessaire de calculer le duty-cycle des signaux PWM employé par les pont en H des inducteurs. Pour cela les lignes de codes suivantes sont écrites :
+
+\begin{minted}{c}
+// Calcul de l'angle theta
+// theta = ((Position1)-(Position2))*UN_SUR_d;
+// Convert Uc1,...,Uc3 into dutycycle and add DA (dutycycle correction) as ucx will always be >0 in our application, otherwise
+// DA would have been subtracted for ucx <0
+
+dutyCycle1 = 0.5f + (CONV_DUTY_CYCLE * uc1) + DA;
+dutyCycle2 = 0.5f + (CONV_DUTY_CYCLE * uc2) + DA;
+dutyCycle3 = 0.5f + (CONV_DUTY_CYCLE * uc3) + DA;
+dutyCycle4 = 0.5f + (CONV_DUTY_CYCLE * uc4) + DA;
+\end{minted}
 
 \subsubsection{PWM}
 
