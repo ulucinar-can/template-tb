@@ -861,6 +861,16 @@ if(i_store >= (i_store_2e_decollage + 1000))
 }
 \end{minted}
 
+Pour démarrer le décollage des inducteurs 3 et 4, la condtion suivante est à atteindre :
+
+\begin{minted}{c}
+if((takeOff == 0) && (takeOff2 == 1) && (i_store >= i_store_2e_decollage))
+...
+}
+\end{minted}
+
+Cees états s'enlenche uniquement lorqu'un certain temps et passer.
+
 Une première conclusion concernant cette partie de l'interruption est la nécessité de restructurer la machine d'états. L'architecture actuelle, basée sur des variables booléennes implicites, manque de robustesse et de lisibilité.\\
 
 En toute fin d'interruption, et de manière inconditionnelle, la régulation matérielle du courant est exécutée à l'aide de la fonction \texttt{PI\_current\_regulator} :
