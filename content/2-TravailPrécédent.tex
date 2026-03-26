@@ -100,7 +100,7 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{DSP}
 
 \subsection{ESP32}
-L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
+L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
 
 \begin{figure}[H]
     \centering
@@ -127,26 +127,29 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
     \item Dimensions approximatives du PCB : 37 mm x 18 mm
 \end{itemize}
 
-Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci devrait s'avérer suffisante (voir \ref{sec:CodeESP32}).\\
+Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci s'avère suffisante pour l'application visée (voir \ref{sec:CodeESP32}).
 
-Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, il sera néscessaire de réaliser une modification de la carte principale du système afin d'accepter une autre carte. La version 3 de la carte ayant un pinout entièrement différent (voir \autoref{annexe:PinoutCarbon}).\\
+Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, une modification de la carte principale du système serait nécessaire afin d'accueillir un autre modèle. La version 3 \cite{CarbonV3} de la carte présente notamment un brochage (pinout) entièrement différent (voir \autoref{annexe:PinoutCarbon}).
 
-La carte est connectée comme suit :
+Le raccordement de la carte est établi selon le schéma suivant :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Image/Chap.2/Scheme/ESP32_Scheme.png}
-    \caption{Schématique de l'ESP32 \cite{Freyche}}
+    \caption{Schéma de connexion de l'ESP32 \cite{Freyche}}
     \label{fig:Res_conf_Opti}
 \end{figure}
 
-La schématique donne le pinout suivant :
+Le schéma définit le brochage suivant :
 
 \begin{itemize}
-    \item Les broches 24 et 23 (TX/RX) pour la communication en UART
-    \item L'alimentation de 3.3 V (Pin 4)
-    \item
+    \item Les broches 24 et 23 (TX/RX) pour la communication UART.
+    \item L'alimentation sur la broche 4 (3,3 V) et les broches 2/22 (GND).
+    \item Le reset sur la broche 23.
+    \item Les signaux MISO, MOSI et SCK sur les broches 13, 14 et 15.
 \end{itemize}
+
+Cette configuration devra impérativement être respectée dans l'éventualité d'un changement de matériel.
 
 \subsection{PCB sur la maquette}
 A l'heure actuelle, 5 pcb sont utilisées.
@@ -154,7 +157,7 @@ A l'heure actuelle, 5 pcb sont utilisées.
 \section{Programme dans le DSP}
 Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
 
-Ce fichier centralise l'ensemble de la logique de commande, notamment la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
+Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
 
 \begin{itemize}
     \item Gestion des interruptions.
