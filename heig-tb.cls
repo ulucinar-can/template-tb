@@ -466,6 +466,21 @@
 }
 
 % Annexes
+\RequirePackage{titlesec}
+% --- Style spécial pour les Annexes (Haut à gauche) ---
+\newcommand{\setupappendixstyle}{
+  \titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\raggedright} % \raggedright = aligné à gauche
+  {\chaptertitlename\ \thechapter}        % Affiche "Annexe A"
+  {0pt}                                   % Espace entre "Annexe A" et le titre
+  {\Huge}                                 % Taille du titre
+
+  \titlespacing*{\chapter}
+  {0pt}   % Pas de marge à gauche
+  {-50pt} % Remonte le titre au maximum (ajuste entre -30pt et -60pt selon tes goûts)
+  {20pt}  % Espace après le titre avant de commencer le texte
+}
+
 \renewcommand\appendixpagename{Annexes}
 
 \renewcommand\listoflistingscaption{Liste des codes sources}

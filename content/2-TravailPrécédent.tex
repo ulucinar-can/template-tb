@@ -127,9 +127,9 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
     \item Dimensions approximatives du PCB : 37 mm x 18 mm
 \end{itemize}
 
-Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci s'avère suffisante pour l'hébergement d'un serveur web léger.
+Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci devrait s'avérer suffisante (voir \ref{sec:CodeESP32}).\\
 
-Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, deux options seraient envisageables : le remplacement par un modèle doté d'une capacité de stockage supérieure ou, dans un cas plus critique, une modification de la carte principale du système afin d'accepter une autre carte. \red{Actuellement la V3 n'a pas le meme pinout}\\
+Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, il sera néscessaire de réaliser une modification de la carte principale du système afin d'accepter une autre carte. La version 3 de la carte ayant un pinout entièrement différent (voir \autoref{annexe:PinoutCarbon}).\\
 
 La carte est connectée comme suit :
 
@@ -1077,13 +1077,17 @@ if(Ext_Int_Flag == 1) // Detection passage INTERRUPT car flanc montant
 \end{minted}
 
 \section{Programme dans l'ESP32}
+\label{sec:CodeESP32}
 Le code de l'ESP32 est principalement employé pour la communication entre lui et le DSP et aussi pour host l'interface web. Cette section vient donc détailler les différents éléments de son code.
 
 \subsection{Poids des codes}
-À partir du compiler d'Arduino, il est possible de réaliser une vérification de l'espace prise dans la mémoire de l'ESP32. De cela on obtient les informations suivante :
+À partir du compiler d'Arduino, il est possible de réaliser une vérification de l'espace prise dans la mémoire de l'ESP32. De cela on obtient les informations suivantes :
 
-Le croquis utilise 979768 octets (74\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
-Les variables globales utilisent 45324 octets (13\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
+\begin{quote}
+    Le croquis utilise 979768 octets (74\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
 
-D'un point de vue de la taille des fichiers, on a pour le code de l'esp32 mesure 9.9 ko et celui du site web 10.6 ko.
+    Les variables globales utilisent 45324 octets (13\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
+\end{quote}
+
+D'un point de vue de la taille des fichiers, on a pour le code de l'ESP32 mesure 9.9 ko et celui du site web 10.6 ko.
 
