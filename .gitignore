@@ -1,5 +1,4 @@
 ## Core latex/pdflatex auxiliary files:
-!Image/
 *.aux
 *.lof
 *.log
@@ -294,3 +293,6 @@ TSWLatexianTemp*
 
 build/
 dist/
+
+!Image/
+!Image/**
