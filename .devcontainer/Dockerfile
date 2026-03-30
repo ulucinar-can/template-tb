@@ -36,7 +36,7 @@ ENV LC_ALL=en_US.UTF-8
 RUN fc-cache -fv
 
 # Need more Python Packages?
-RUN apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y python3-pip
 RUN rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
 RUN pip install control numpy
