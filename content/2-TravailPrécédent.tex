@@ -1180,7 +1180,15 @@ Les parties mises en commentaire sont les suivantes :
 
 Actuellement, celle-ci sont employé pour la réception da la varibale permettant d'enclencher la maquette à distance et l'envoie des valeurs de la position :
 
+\begin{minted}{c}
+UartCounter++;
 
+if (UartCounter >= 25000)
+{
+    UartCounter = 0; // Reset du compteur (~1s)
+    SendFloatAsText(Position1*1000.0f, Position2*1000.0f, Position3*1000.0f, Position4*1000.0f);
+}
+\end{minted}
 
 \section{Programme dans l'ESP32}
 \label{sec:CodeESP32}
