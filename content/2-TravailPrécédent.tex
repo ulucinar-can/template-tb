@@ -1079,115 +1079,72 @@ if(Ext_Int_Flag == 1) // Detection passage INTERRUPT car flanc montant
 }
 \end{minted}
 
-\subsection{Intteruption de la communication en UART}
-La communication en UART possède deux interruptions. L'une pour la réception du message et la seconde pour l'envoie d'un message. Les voici :
-
-\section{Vérification de l'électronique}
-Pour commencer, une simple vérification par une première mise en service a été réalisé. Cela permet d'observer l'état dans lequel se trouve l'électronique réalisée. Pour ce faire, la mise en place ainsi le protocole détaillé dans les sections \ref{sec:MiseEnPlace} et \ref{sec:Protocole} ont été suivis.
-
-\subsection{Vérification de la charge du condensateur}
-Le condensateur a été vérifié afin de voir si le résultat obtenu est similaire à celui de Thomas Freyche que l'on observe dans la figure  \ref{fig:ResFreycheCapa} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.3/Result_Freyche_Capa.png}
-    \caption{Résultat de la mesure du condensateur du rapport de Thomas Freyche}
-    \label{fig:ResFreycheCapa}
-\end{figure}
-
-Lors de la mesure pour ce travail, un résultat identique est retenue représentée par la figure \ref{ResCanCapa}:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.3/MesureCondoCan.JPG}
-    \caption{Résultat de la mesure du condensateur personnel}
-    \label{fig:ResCanCapa}
-\end{figure}
-
-\subsection{Première mise en service}
-Au départ, il est facilement constatable que l'électronique fonctionne. Les inducteurs se soulèvent effectivement. Cependant, la régulation ne semble pas fonctionner. Cela vient donc pointer vers le fait qu'il y a un problème d'un point de vue software que hardware.\\
-
-Cela reste tout de même un bon départ, car il est possible de concentrer sur une partie qui cause potentiellement les problèmes. Les différentes hypothèses seront détaillées dans la sous-section \ref{sec:Hypothese}.
-
-\section{Hypothèse}
-\label{sec:Hypothese}
-
-Les hypothèses suivantes ont été pensée qui causerait potentiellement le problème :
-
-\begin{itemize}
-    \item Les interruptions liées à la communication sans fil empêchent le bon déroulement de l'interruption de la régulation.
-    \item Les temps ne sont plus bons, il faudrait vérifier que tout ce qui est dans réaliser dans l'interruption est correctement
-    \item Un intégrateur a été ajouté, il se peut que celui la cause problème.
-\end{itemize}
-
-Les sous-sections suivantes viennent traiter les hypothèses établies.
-
-\section{Vérifications des interruptions}
-
-Afin de vérifier si l'interruption liée à la communication sans fil viendrait à gêner l'interruption principale (ADC, régulation, PWM,...), il suffit simplement de mettre en commentaire les parties concernant la communication sans fil et flashé le DSP afin de vérifier l'hypothèses.\\
-
-Les parties mises en commentaire sont les suivantes :
+\subsection{Interruption de la communication UART}
+La communication UART s'appuie sur deux interruptions distinctes : l'une dédiée à la réception des messages (RX) et la seconde à l'envoi (TX). Les routines d'interruption sont les suivantes :
 
 \begin{minted}{c}
-    __interrupt void INT_mySCI0_RX_ISR(void) // .xxx
-    {
-        uint16_t c;
+__interrupt void INT_mySCI0_RX_ISR(void) // .xxx
+{
+    uint16_t c;
 
-        while (SCI_getRxFIFOStatus(SCIA_BASE) > 0) {
-            c = SCI_readCharBlockingFIFO(SCIA_BASE);
-            if (rxIndex < RX_BUF_LEN) {
-                rxBuffer[rxIndex++] = c;
+    while (SCI_getRxFIFOStatus(SCIA_BASE) > 0) {
+        c = SCI_readCharBlockingFIFO(SCIA_BASE);
+        if (rxIndex < RX_BUF_LEN) {
+             rxBuffer[rxIndex++] = c;
+         }
+         if(c == '\x02'){
+            // Marque le dbut de trame
+            dataIndex = rxIndex; // Sauvegarde la position pour les donnes
+         }
+         if(c == '\x03'){
+            // Fin de trame - traite les donnes
+            if(dataIndex > 0 && dataIndex < rxIndex-1) {
+                state_PIN = (rxBuffer[dataIndex] == '1') ? 1 : 0;
             }
-            if(c == '\x02'){
-                // Marque le début de trame
-                dataIndex = rxIndex; // Sauvegarde la position pour les données
+            // Reset du buffer
+            rxIndex = 0;
+            int b;
+            for(b = 0; b < RX_BUF_LEN; b++) {
+                rxBuffer[b] = 0;
             }
-            if(c == '\x03'){
-                // Fin de trame - traite les données
-                if(dataIndex > 0 && dataIndex < rxIndex-1) {
-                    state_PIN = (rxBuffer[dataIndex] == '1') ? 1 : 0;
-                }
-                // Reset du buffer
-                rxIndex = 0;
-                int b;
-                for(b = 0; b < RX_BUF_LEN; b++) {
-                    rxBuffer[b] = 0;
-                }
-            }
-        }
-
-        SCI_clearOverflowStatus(SCIA_BASE);
-        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
-        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
+         }
     }
 
-    __interrupt void INT_mySCI0_TX_ISR(void)
-    {
-        while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength) {
-            SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
-        }
+    SCI_clearOverflowStatus(SCIA_BASE);
+    SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
+    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
+}
 
-        if (txIndex >= txLength) {
-            SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin d’envoi
-        }
-
-        // Acquitter l'interruption
-        SCI_clearOverflowStatus(SCIA_BASE);
-        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
-        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9); // For the PIE acknowledge
+__interrupt void INT_mySCI0_TX_ISR(void)
+{
+    while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength) {
+        SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
     }
+
+    if (txIndex >= txLength) {
+        SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin denvoi
+    }
+
+    // Acquitter l'interruption
+    SCI_clearOverflowStatus(SCIA_BASE);
+    SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
+    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9); // For the PIE acknowledge
+}
 \end{minted}
 
-Actuellement, celle-ci sont employé pour la réception da la varibale permettant d'enclencher la maquette à distance et l'envoie des valeurs de la position :
+La communication est actuellement employée pour assurer la réception de la commande d'enclenchement de la maquette ainsi que l'envoi des variables de position vers l'ESP32 :
 
 \begin{minted}{c}
-UartCounter++;
+      // Envoi des donnes UART toute les 40*10e-6 * 25000 = 1 s
+      UartCounter++;
 
-if (UartCounter >= 25000)
-{
-    UartCounter = 0; // Reset du compteur (~1s)
-    SendFloatAsText(Position1*1000.0f, Position2*1000.0f, Position3*1000.0f, Position4*1000.0f);
-}
+      if (UartCounter >= 25000) {
+          UartCounter = 0; // Reset du compteur
+          SendFloatAsText(Position1*1000.0f,Position2*1000.0f,Position3*1000.0f,Position4*1000.0f);
+
+//          SendFloatAsText(1.234f,2.567f,3.891,4.234f); // Trame de test envoye : "\x02float1,float2,float3float4\x03" avec les float sous cette forme x.xxx
+//          sendString("\x02Hello World!\r\x03");
+      }
 \end{minted}
 
 \section{Programme dans l'ESP32}

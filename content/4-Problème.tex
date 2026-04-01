@@ -2,61 +2,7 @@
 
 Ce chapitre se concentrera sur le travail réalisé durant ce travail de Bachelor.
 
-\section{Vérifications des interruptions}
 
-Afin de vérifier si l'interruption liée à la communication sans fil viendrait à gêner l'interruption principale (ADC, régulation, PWM,...), il suffit simplement de mettre en commentaire les parties concernant la communication sans fil et flashé le DSP afin de vérifier l'hypothèses.\\
-
-Les parties mises en commentaire sont les suivantes :
-
-\begin{minted}{c}
-    __interrupt void INT_mySCI0_RX_ISR(void) // .xxx
-    {
-        uint16_t c;
-
-        while (SCI_getRxFIFOStatus(SCIA_BASE) > 0) {
-            c = SCI_readCharBlockingFIFO(SCIA_BASE);
-            if (rxIndex < RX_BUF_LEN) {
-                rxBuffer[rxIndex++] = c;
-            }
-            if(c == '\x02'){
-                // Marque le début de trame
-                dataIndex = rxIndex; // Sauvegarde la position pour les données
-            }
-            if(c == '\x03'){
-                // Fin de trame - traite les données
-                if(dataIndex > 0 && dataIndex < rxIndex-1) {
-                    state_PIN = (rxBuffer[dataIndex] == '1') ? 1 : 0;
-                }
-                // Reset du buffer
-                rxIndex = 0;
-                int b;
-                for(b = 0; b < RX_BUF_LEN; b++) {
-                    rxBuffer[b] = 0;
-                }
-            }
-        }
-
-        SCI_clearOverflowStatus(SCIA_BASE);
-        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
-        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
-    }
-
-    __interrupt void INT_mySCI0_TX_ISR(void)
-    {
-        while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength) {
-            SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
-        }
-
-        if (txIndex >= txLength) {
-            SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin d’envoi
-        }
-
-        // Acquitter l'interruption
-        SCI_clearOverflowStatus(SCIA_BASE);
-        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
-        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9); // For the PIE acknowledge
-    }
-\end{minted}
 
 \section{Vérifications des temps de l'intéruption principal}
 
