@@ -88,7 +88,24 @@ La mise en service de la maquette s'effectue selon la procédure suivante :
 La section suivante traite l'électronique réalisée dans la version initiale du projet.
 
 \subsection{Schéma fonctionnel}
-Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
+Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemFonct.png}
+    \caption{Schéma fonctionnel \cite{Freyche}}
+    \label{fig:SchemFonct}
+\end{figure}
+
+Les éléments suivants constituent la maquette :
+
+\begin{itemize}
+    \item La carte principale intégrant l'unité de traitement du système.
+    \item Les inducteurs et les chariots.
+    \item Une alimentation générale de 48 V.
+\end{itemize}
+
+Ces différents composants sont détaillés dans les sous-sections suivantes.
 
 \subsection{Alimentation}
 
@@ -97,7 +114,8 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est le suivant :
 \subsection{Conditionneur}
 \label{subsec:Conditionneur}
 
-\subsection{DSP}
+\subsection{Carte principale (DSP)}
+La carte principale est celle ou se situe le cerveau du système.
 
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
@@ -1162,3 +1180,5 @@ Le code de l'ESP32 est principalement employé pour la communication entre lui e
 
 D'un point de vue de la taille des fichiers, on a pour le code de l'ESP32 mesure 9.9 ko et celui du site web 10.6 ko.
 
+\subsection{Code arduino}
+\subsection{Code HTML}
