@@ -29,7 +29,13 @@ En suisse, un projet de Maglev a vu le jour s'appelant Swissmetro. Le but était
 \end{figure}
 
 \subsection{Principe}
-Ici le principe employé est celle d'un système de suspension électromagnétique (EMS).
+Le démonstrateur utilise le principe de la sustentation magnétique par attraction(En anglais EMS pour Electromagntic Suspension). La lévitation repose sur trois élements :
+
+\begin{enumerate}
+    \item Disposition mécanique : Le chariot possède des électroaimants (inducteurs) qui sont placés sous des rails ferromagnétiques fixes.
+    \item Compensation de la gravité : Lorque le courant circule au travers des bobines, un champ magnétique se produit et crée une force d'attraction vers le haut (direction du rail) compensant ainsi son propre poids.
+    \item
+\end{enumerate}
 
 \begin{figure}[H]
     \centering
@@ -39,14 +45,7 @@ Ici le principe employé est celle d'un système de suspension électromagnétiq
 
 \section{Historique du projet}
 
-Son origine remonte Michel Zayadine \cite{Zayadine}, étudiant à l'EPFL, qui devait réaliser une thèse de doctorant pour le projet SwissMetro en 1996. Le travail de sa thèses devait étudier une sustentation magnétique. Pour ce faire, diffé-rente simulation et un banc de test à quatre inducteur ont permis de développer une régulation d'états. Après de nombreux tests, la maquette a atteint un état fonctionnel, mais de loin encore satisfaisant.
 
-Plusieurs années après, le projet fut repris par M. Girardin et devint le travail de Bachelor de Aymeric Dutruel \cite{Aymeric}. Le travail réalisé fut la conception de la carte de puissance et l'étude de la régulation de courant et de position pour un seul inducteur.  Malheureusement les cartes de puissances réalisées n'ont pas pu montrer leur plein potentiel dû à des problèmes de câblages.
-
-Par la suite, Mattia Laucella \cite{Laucella} repris le flambeau. Durant son travail consistait à reprendre. Dans un premier temps l'étude d'une régulation par PID fut réalisée qui donna d'excellent résultat. Grâce à cela et une étude du placement des pôles, il a été possible de réaliser cette fois-ci la régulation d'état. Le fonctionnement était bon cependant lors du rassemblement des différentes partie sur le banc de test, la sustention ne fonctionnait plus.
-
-\section{Résumé de la maquette}
-La maquette fonctionne sur le principe de la sustentation EMS. Pour réaliser cela, il est néscessaire d'employer une régulation de courant ainsi qu'une régulation de position. La régulation de courant est réaliser avec un PI tandis ce que la régulation de position est réalisée par une régulation d'espace d'état. Il est également possible de réaliser la régulation de position avec un PID.
 
 \section{Travaux à réaliser}
 Les travaux qui vont devoir être réalisés sont les suivant :
@@ -61,7 +60,7 @@ Les travaux qui vont devoir être réalisés sont les suivant :
 \begin{itemize}
     \item Code Composer Studio pour la programmation du DSP
     \item Visual Studio Code pour le rapport réalisé en \LaTeX
-    \item Excel libre pour le Gantt
+    \item Excel pour le Gantt
     \item Draw.io pour la réalisation de dessins
 \end{itemize}
 
