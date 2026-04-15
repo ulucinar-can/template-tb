@@ -53,7 +53,9 @@ En 2019, Mattia Laucella a rendu les cartes de puissances plus fiables et a réu
 
 En 2022, Franck Yersin améliora grandement le projet en réalisant une séquence de décollage. C'est également à partir d'ici qu'une interface utilisateur a été réalisée par le moyen d'un raspberry pi couplé à un écran tactile. L'interface communiquait avec le DSP par un câble et permettait d'observer un tracé de la position ainsi que la modification des paramètres de la régulation.\\
 
-En 2024, Christophe Isoz a repris le travail afin de centraliser l'électronique sur une seule carte de contrôle. Il a notamment remplacé le DSP par une version plus moderne, ajouter un circuit de précharge pour les alimentations et un module de communication sans fil pour le raspberry pi (RaspBeeII). Malheuresement, son travail n'a pas pu remettre la maquette en lévitation
+En 2024, Christophe Isoz a repris le travail afin de centraliser l'électronique sur une seule carte de contrôle. Il a notamment remplacé le DSP par une version plus moderne, ajouter un circuit de précharge pour les alimentations et un module de communication sans fil pour le raspberry pi (RaspBeeII). Malheuresement, son travail n'a pas pu remettre la maquette en lévitation suite à de nombreux bugs matériels et des temps de calculs trop longs.\\
+
+En 2025, Thomas Freyche a dû résoudre les problèmes introduits précédement dans la maquette. Cela consista donc à corriger les erreurs de la conception et optimiser le code. Ce travail permis dans un premier temps de réaliser une sustentation sur quatre inducteurs, mais suite une mauvaise calibration, la maquette ne fut plus apte à décoller.
 
 \section{Travaux à réaliser}
 Les travaux qui vont devoir être réalisés sont les suivants :
@@ -64,7 +66,7 @@ Les travaux qui vont devoir être réalisés sont les suivants :
     \item Réaliser une synthèse d'un régulateur PID.
 \end{itemize}
 
-\section{Logicielle employé}
+\section{Logiciel employé}
 \begin{itemize}
     \item Code Composer Studio pour la programmation du DSP
     \item Visual Studio Code pour le rapport réalisé en \LaTeX
