@@ -106,10 +106,29 @@ Il est possible de commander la maquette par l'aide d'une interface web qui peut
 
 Les différents composants sont détaillés dans les sous-sections suivantes.
 
-\section{Schéma électrique}
-La section suivante traite l'électronique réalisée dans la version initiale du projet.
+\section{Schéma électrique de la carte principale}
+La section suivante traite l'électronique réalisée dans la version initiale du projet. Le schéma électrique complet est la suivante :
 
-\subsection{Carte principale}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth,clip,trim=5mm 0 1mm 0]{Image/Chap.2/Scheme/SchemaComplet.png}
+    \caption{Schéma électrique \cite{Freyche}}
+    \label{fig:SchemaComplet}
+\end{figure}
+
+C'est ici que se stiue le cerveau de la maquette. On y retrouve :
+
+\begin{itemize}
+    \item Le DSP qui tourne le code de sustentation
+    \item Les circuits de conditionnement pour les capteurs de positions et de courants
+    \item L'ESP32 pour l'interface web
+    \item L'alimentation des différents élements de la carte
+    \item Les connecteurs pour les cartes de puissances et des capteurs de positions
+\end{itemize}
+
+Les sous-sections suivantes viennent traiter les parties décrites au-dessus.
+
+\subsection{DSP}
 La carte principale est celle où se situe le cerveau du système. C'est ici que se trouve le DSP et les circuits de contionnements.\\
 
 \subsection{Conditionneur}

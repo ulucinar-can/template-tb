@@ -210,6 +210,9 @@
 % l'environnement [H] de la classe float
 \RequirePackage{float}
 
+% Permet de générer de vraies pages en paysage dans le PDF
+\RequirePackage{pdflscape}
+
 % Meilleure gestion des annexes
 \RequirePackage{appendix}
 
