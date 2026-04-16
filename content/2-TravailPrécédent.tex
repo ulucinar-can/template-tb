@@ -84,38 +84,43 @@ La mise en service de la maquette s'effectue selon la procédure suivante :
     \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
 \end{enumerate}
 
-\section{Présentation du hardware}
-La section suivante traite l'électronique réalisée dans la version initiale du projet.
+\section{Présentation de la maquette}
+
+\subsection{La maquette}
 
 \subsection{Schéma fonctionnel}
 Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemFonct.png}
+    \includegraphics[width=0.7\linewidth]{Image/Chap.2/SchemFonct.png}
     \caption{Schéma fonctionnel \cite{Freyche}}
     \label{fig:SchemFonct}
 \end{figure}
 
-Les éléments suivants constituent la maquette :
+Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
 
-\begin{itemize}
-    \item La carte principale intégrant l'unité de traitement du système.
-    \item Les inducteurs et les chariots.
-    \item Une alimentation générale de 48 V.
-\end{itemize}
+Actuellement une alimentation externe est employée. Par la suite un convertisseur sera employé pour alimenter la maquette.
 
-Ces différents composants sont détaillés dans les sous-sections suivantes.
+Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
+
+Les différents composants sont détaillés dans les sous-sections suivantes.
+
+\section{Schéma électrique}
+La section suivante traite l'électronique réalisée dans la version initiale du projet.
+
+\subsection{Carte principale}
+La carte principale est celle où se situe le cerveau du système. C'est ici que se trouve le DSP et les circuits de contionnements.\\
+
+\subsection{Conditionneur}
+\label{subsec:Conditionneur}
+
+Le DSP possède le programme principal qui permet de réaliser une lévitation. La schématique
 
 \subsection{Alimentation}
 
 \subsection{Carte de puissances}
 
-\subsection{Conditionneur}
-\label{subsec:Conditionneur}
-
-\subsection{Carte principale (DSP)}
-La carte principale est celle ou se situe le cerveau du système.
 
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
