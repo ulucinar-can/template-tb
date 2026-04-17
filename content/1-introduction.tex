@@ -7,6 +7,19 @@ La conception et le montage d'une nouvelle carte de commande avec un DSP, ainsi 
 
 Le but de ce travail consiste à finaliser le démonstrateur avec la mise en œuvre et la programmation de la carte de commande pour la régulation des quatre inducteurs. Une interface utilisateur doit également être implémentée sur un site web embarqué accessible par Wi-Fi.
 
+\section{Historique du projet}
+
+La maquette de démonstration a d'abord été conçue en 1996 par Michel Zayadine \cite{Zayadine}, durant sa thèse de doctorat à l'EPFL en lien avec le projet Swissmetro. Son travail a consisté en la réalisation de la structure mécanique (chariot, quatre inducteurs et deux rails) ainsi qu'en sa régulation. Le projet est néanmoins resté à l'abandon pendant plusieurs années, avant que la maquette soit récupérée par l'institut iAi.
+
+En 2018, Aymeric Dutruel \cite{Aymeric} relance le projet pour son travail de bachelor. Ce travail comprend la réalisation des cartes de puissance pour chaque inducteur, d'une carte d'interfaçage, l'ajout de capteurs laser de position et une première version des régulations de courant et de position pour un seul inducteur. Cependant, des problèmes de câblage ont rendu les cartes peu fiables, et le système nécessitait une aide manuelle pour se stabiliser.
+
+En 2019, Mattia Laucella \cite{Laucella} a rendu les cartes de puissance plus fiables et a réussi à réaliser une régulation sur deux, puis quatre inducteurs. L'électronique a également pu être regroupée et placée sur une planche en bois afin que l'ensemble puisse être monté sur le chariot. Ce travail a permis d'obtenir une sustentation complète, bien qu'encore non optimale.
+
+En 2022, Franck Yersin \cite{Yersin} a grandement amélioré le projet en réalisant une séquence de décollage. C'est également à partir de ce travail qu'une interface utilisateur a été mise en place au moyen d'un Raspberry Pi couplé à un écran tactile. L'interface communiquait avec le DSP par un câble et permettait d'observer un tracé de la position, ainsi que de modifier les paramètres de régulation.
+
+En 2024, Christophe Isoz \cite{Isoz} a repris le travail afin de centraliser l'électronique sur une seule carte de contrôle. Le DSP a notamment été remplacé par une version plus moderne, un circuit de précharge pour les alimentations a été ajouté, ainsi qu'un module de communication sans fil pour le Raspberry Pi (RaspBeeII). Malheureusement, ce travail n'a pas permis de remettre la maquette en lévitation en raison de nombreux bugs matériels et de temps de calcul trop longs.
+
+En 2025, Thomas Freyche \cite{Freyche} a dû résoudre les problèmes introduits précédemment dans la maquette. Le travail a donc consisté à corriger les erreurs de conception et à optimiser le code. Cette étape a permis, dans un premier temps, de réaliser une sustentation sur quatre inducteurs, mais à la suite d'une mauvaise calibration, la maquette n'a plus été apte à décoller.
 
 \section{Les trains à sustentation magnétique}
 
@@ -43,19 +56,10 @@ Le démonstrateur utilise le principe de la sustentation magnétique par attract
     \caption{Principe de l'EMS \cite{Swissmetro}}
 \end{figure}
 
-\section{Historique du projet}
+\subsection{La régulation}
+Pour réalsier cela une régulation de courant imbiqué à une régulation de positions est néscessaire. Le schéma suivant démontre la chose :
 
-La maquette de démonstration a d'abord été conçue en 1996 par Michel Zayadine \cite{Zayadine}, durant sa thèse de doctorat à l'EPFL en lien avec le projet Swissmetro. Son travail a consisté en la réalisation de la structure mécanique (chariot, quatre inducteurs et deux rails) ainsi qu'en sa régulation. Le projet est néanmoins resté à l'abandon pendant plusieurs années, avant que la maquette soit récupérée par l'institut iAi.
 
-En 2018, Aymeric Dutruel \cite{Aymeric} relance le projet pour son travail de bachelor. Ce travail comprend la réalisation des cartes de puissance pour chaque inducteur, d'une carte d'interfaçage, l'ajout de capteurs laser de position et une première version des régulations de courant et de position pour un seul inducteur. Cependant, des problèmes de câblage ont rendu les cartes peu fiables, et le système nécessitait une aide manuelle pour se stabiliser.
-
-En 2019, Mattia Laucella \cite{Laucella} a rendu les cartes de puissance plus fiables et a réussi à réaliser une régulation sur deux, puis quatre inducteurs. L'électronique a également pu être regroupée et placée sur une planche en bois afin que l'ensemble puisse être monté sur le chariot. Ce travail a permis d'obtenir une sustentation complète, bien qu'encore non optimale.
-
-En 2022, Franck Yersin \cite{Yersin} a grandement amélioré le projet en réalisant une séquence de décollage. C'est également à partir de ce travail qu'une interface utilisateur a été mise en place au moyen d'un Raspberry Pi couplé à un écran tactile. L'interface communiquait avec le DSP par un câble et permettait d'observer un tracé de la position, ainsi que de modifier les paramètres de régulation.
-
-En 2024, Christophe Isoz \cite{Isoz} a repris le travail afin de centraliser l'électronique sur une seule carte de contrôle. Le DSP a notamment été remplacé par une version plus moderne, un circuit de précharge pour les alimentations a été ajouté, ainsi qu'un module de communication sans fil pour le Raspberry Pi (RaspBeeII). Malheureusement, ce travail n'a pas permis de remettre la maquette en lévitation en raison de nombreux bugs matériels et de temps de calcul trop longs.
-
-En 2025, Thomas Freyche \cite{Freyche} a dû résoudre les problèmes introduits précédemment dans la maquette. Le travail a donc consisté à corriger les erreurs de conception et à optimiser le code. Cette étape a permis, dans un premier temps, de réaliser une sustentation sur quatre inducteurs, mais à la suite d'une mauvaise calibration, la maquette n'a plus été apte à décoller.
 
 \section{Travaux à réaliser}
 \red{A completer}
