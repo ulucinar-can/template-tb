@@ -87,6 +87,27 @@ La mise en service de la maquette s'effectue selon la procédure suivante :
 \section{Présentation de la maquette}
 
 \subsection{La maquette}
+La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteDown}.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
+        \caption{La maquette vue de dessus}
+        \label{fig:MaquetteUp}
+    \end{minipage}
+    \hfill % Ajoute un espace flexible entre les deux images
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
+        \caption{La maquette vue de dessous}
+        \label{fig:MaquetteDown}
+    \end{minipage}
+    \label{fig:MaquetteVues}
+\end{figure}
+
+Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
 
 \subsection{Schéma fonctionnel}
 Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
@@ -100,11 +121,21 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-d
 
 Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
 
-Actuellement une alimentation externe est employée. Par la suite un convertisseur sera employé pour alimenter la maquette.
-
 Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
 
 Les différents composants sont détaillés dans les sous-sections suivantes.
+
+\subsection{La régulation}
+La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/SchémaBlocRégulation.jpg}
+    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
+    \label{fig:SchemaBlocRégulation}
+\end{figure}
+
+Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
 
 \section{Schéma électrique de la carte principale}
 La section suivante traite l'électronique réalisée dans la version initiale du projet. Le schéma électrique complet est la suivante :
@@ -192,9 +223,6 @@ Le schéma définit le brochage suivant :
 \end{itemize}
 
 Cette configuration devra impérativement être respectée dans l'éventualité d'un changement de matériel.
-
-\subsection{PCB sur la maquette}
-A l'heure actuelle, 5 pcb sont utilisées.
 
 \section{Programme dans le DSP}
 Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
