@@ -160,12 +160,19 @@ C'est ici que se stiue le cerveau de la maquette. On y retrouve :
 Les sous-sections suivantes viennent traiter les parties décrites au-dessus.
 
 \subsection{DSP}
-La carte principale est celle où se situe le cerveau du système. C'est ici que se trouve le DSP et les circuits de contionnements.\\
+Le DSP héberge le programme principal assurant la lévitation. Le schéma présente un connecteur standard permettant de relier les broches du DSP aux différentes sections de la carte :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth,clip,trim= 5mm 0 0 5mm]{Image/Chap.2/Scheme/DSP_scheme.png}
+    \caption{Connecteur pour la carte du DSP \cite{Freyche}}
+    \label{fig:DspScheme}
+\end{figure}
+
+Ce connecteur permet de retirer efficacement la carte en cas de dysfonctionnement du DSP.
 
 \subsection{Conditionneur}
 \label{subsec:Conditionneur}
-
-Le DSP possède le programme principal qui permet de réaliser une lévitation. La schématique
 
 \subsection{Alimentation}
 
