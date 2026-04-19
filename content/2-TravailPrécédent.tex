@@ -197,8 +197,35 @@ Le DSP héberge le programme principal assurant la lévitation. Le schéma prés
 
 Ce connecteur permet de retirer efficacement la carte en cas de dysfonctionnement du DSP.
 
-\subsection{Conditionneur}
+\subsection{Conditionneurs}
 \label{subsec:Conditionneur}
+Les conditionneurs permettent de convertir les valeurs brutes des capteurs en signaux exploitables par le microcontrôleur. Cette section se divise en deux parties : la structure supérieure traite le signal du capteur de courant, tandis que la structure inférieure gère celui du capteur de position.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/Scheme/Cond_Scheme.jpg}
+    \caption{Schématique des conditionneurs de courant et de position \cite{Freyche}}
+    \label{fig:ConditionneursScheme}
+\end{figure}
+
+Ces circuits permettent d'adapter les tensions mesurées à une plage comprise entre 0 et 3 V.
+
+Le conditionnement du capteur de courant s'effectue selon les étapes suivantes :
+
+\begin{enumerate}
+    \item Le capteur fournit une tension comprise entre 0,625 V et 4,375 V avec un point milieu à 1,5 V.
+    \item Un diviseur de tension par un facteur 0,8 est réalisé à l'aide de résistances pour ramener la plage de 0,5 V à 3,5 V.
+    \item Un montage à amplificateur opérationnel (AOP) en mode soustracteur est utilisé pour retirer 0,5 V au signal, afin d'obtenir une plage finale de 0 V à 3 V.
+\end{enumerate}
+
+Le conditionnement du capteur de position suit les étapes suivantes :
+
+\begin{enumerate}
+    \item Le capteur fournit une tension comprise entre 0 et 10 V.
+    \item Un pont diviseur de tension est appliqué avec un facteur 0,3 pour atteindre une plage de 0 à 3 V.
+\end{enumerate}
+
+L'ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
 \subsection{Alimentation}
 
