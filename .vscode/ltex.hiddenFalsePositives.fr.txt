@@ -3,3 +3,4 @@
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QIl a notamment remplacé le DSP par une version plus moderne, ajouter un circuit de précharge pour les alimentations et\\E$"}
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QIl a notamment remplacé le DSP par une version plus moderne, ajouter un circuit de précharge pour les alimentations et un module de communication sans fil pour le raspberry pi\\E$"}
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QLors de l'enclenchement du switch de précharge, un signal en creux à 25kHz apparaissait.\\E$"}
+{"rule":"ACCORD_SUJET_VERBE","sentence":"^\\QCircuit de précharges.\\E$"}
