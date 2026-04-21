@@ -4,3 +4,5 @@
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QIl a notamment remplacé le DSP par une version plus moderne, ajouter un circuit de précharge pour les alimentations et un module de communication sans fil pour le raspberry pi\\E$"}
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QLors de l'enclenchement du switch de précharge, un signal en creux à 25kHz apparaissait.\\E$"}
 {"rule":"ACCORD_SUJET_VERBE","sentence":"^\\QCircuit de précharges.\\E$"}
+{"rule":"PREP_VERBECONJUGUE","sentence":"^\\QCelui-ci prend en entrée le 48V dans les deux positions du switch de précharge pour garantir que la carte est entièrement alimenter.\\E$"}
+{"rule":"ACCORD_SUJET_VERBE","sentence":"^\\QCelui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.\\E$"}

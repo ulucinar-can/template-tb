@@ -233,12 +233,25 @@ Le conditionnement du capteur de position suit les étapes suivantes :
 L'ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
 \subsection{Alimentation}
+L'alimentation est en réalité l'alimentation des différentes parties de la carte. Celle-ci sont observables sur l'image \ref{fig:AlimSchema} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth,clip, trim=5mm 0 0 5mm]{Image/Chap.2/Scheme/Alimentation_Scheme.png}
     \caption{Bloc d'alimentation}
+    \label{fig:AlimSchema}
 \end{figure}
+
+Elle contient alors :
+
+\begin{itemize}
+    \item Un régulateur de tension à 5V pour l'alimentation du DSP et de l'ESP32. Il prend en entrée 24V.
+    \item Un régulateur de 15V qui sert d'alimentation des capteurs de positions. Il prend en entrée 24V.
+    \item Un régulateur pour obtenir une tension de 0.5V employé dans le conditionnement des données des capteurs de courants.
+    \item Un régulateur de 24V est employé pour alimenter le reste des régulateurs. Celui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.
+    \item Un régulateur de 3.3V est employé pour alimenter l'ESP32. Il prend en entrée le 5V.
+    \item
+\end{itemize}
 
 \subsection{Circuit de précharges}
 
