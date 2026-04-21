@@ -187,6 +187,9 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
+% Package pour les pdf
+\usepackage{pdfpages}
+
 % Améliore le mode mathématique, aligne les équations à gauche
 \RequirePackage{amsmath}
 \RequirePackage{nccmath}

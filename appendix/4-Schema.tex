@@ -1,34 +1,16 @@
-\begin{landscape}
-    \pagestyle{headings}
-    \chapter{Schéma électrique}
+\label{chap:SchemaElectrique}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=\textheight, width=\linewidth, keepaspectratio, trim=5mm 5mm 1mm 0, clip]{Image/Chap.2/Scheme/SchemaComplet.png}
-        \caption{Schéma électrique complet \cite{Freyche}}
-    \end{figure}
+\includepdf[
+    pages=1,
+    landscape,
+    scale=0.8125,          % rétrécit la page PDF
+    offset=0 -20mm,      % la descend un peu
+    pagecommand={\chapter{Schéma électrique}\thispagestyle{plain}}
+]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=\textheight, width=\linewidth, keepaspectratio, trim=5mm 0 1mm 5mm, clip]{Image/Chap.2/Scheme/DSP_Scheme.png}
-        \caption{Connecteur pour la carte DSP \cite{Freyche}}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=\textheight, width=\linewidth, keepaspectratio, trim=5mm 0 1mm 5mm, clip]{Image/Chap.2/Scheme/ALimentation_Scheme.png}
-        \caption{Canal de conditionnement \cite{Freyche}}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=\textheight, width=\linewidth, keepaspectratio, trim=5mm 0 1mm 5mm, clip]{Image/Chap.2/Scheme/Prech_Scheme.png}
-        \caption{Circuit de précharge \cite{Freyche}}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=\textheight, width=\linewidth, keepaspectratio, trim=5mm 0 1mm 0, clip]{Image/Chap.2/Scheme/ESP32_Scheme.png}
-        \caption{Schéma de connexion de l'ESP32 \cite{Freyche}}
-    \end{figure}
-\end{landscape}
+\includepdf[
+    pages=2-,
+    landscape,
+    fitpaper,
+    pagecommand={}
+]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
