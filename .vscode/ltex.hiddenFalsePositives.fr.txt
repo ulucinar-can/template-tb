@@ -6,3 +6,4 @@
 {"rule":"ACCORD_SUJET_VERBE","sentence":"^\\QCircuit de précharges.\\E$"}
 {"rule":"PREP_VERBECONJUGUE","sentence":"^\\QCelui-ci prend en entrée le 48V dans les deux positions du switch de précharge pour garantir que la carte est entièrement alimenter.\\E$"}
 {"rule":"ACCORD_SUJET_VERBE","sentence":"^\\QCelui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.\\E$"}
+{"rule":"D_N_E_OU_E","sentence":"^\\QCela devait surement être la pin mentionnée.\\E$"}
