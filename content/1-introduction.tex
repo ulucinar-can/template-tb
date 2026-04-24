@@ -56,6 +56,85 @@ Le démonstrateur utilise le principe de la sustentation magnétique par attract
     \caption{Principe de l'EMS \cite{Swissmetro}}
 \end{figure}
 
+\section{Présentation de la maquette}
+
+\subsection{La maquette}
+La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteDown}.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
+        \caption{La maquette vue de dessus}
+        \label{fig:MaquetteUp}
+    \end{minipage}
+    \hfill % Ajoute un espace flexible entre les deux images
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
+        \caption{La maquette vue de dessous}
+        \label{fig:MaquetteDown}
+    \end{minipage}
+    \label{fig:MaquetteVues}
+\end{figure}
+
+Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
+
+\subsection{Schéma fonctionnel}
+Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Image/Chap.2/SchemFonct.png}
+    \caption{Schéma fonctionnel \cite{Freyche}}
+    \label{fig:SchemFonct}
+\end{figure}
+
+Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
+
+Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
+
+Les différents composants sont détaillés dans les sous-sections suivantes.
+
+\subsection{La régulation}
+La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemaBlocRegulation.jpg}
+    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
+    \label{fig:SchemaBlocRégulation}
+\end{figure}
+
+Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
+
+Les blocs "Reg i1" à "Reg i4" représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
+
+Les blocs "Reg $\delta$1" à "Reg $\delta$4" représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
+
+Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
+
+\begin{equation}
+    F = k \cdot \left(\frac{I}{d}\right)^2
+    \label{eq:ForceElectro}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $F$ : La force magnétique [N].
+    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
+    \item $d$ : La distance de l'entrefer [m].
+    \item $I$ : Le courant traversant la bobine [A].
+\end{itemize}
+
+À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
+
+\begin{equation}
+    I = \sqrt{\frac{F}{k}} \cdot d
+    \label{eq:CourantElectro}
+\end{equation}
+
 \section{Travaux à réaliser}
 \red{A completer}
 Les travaux à réaliser sont les suivants :
