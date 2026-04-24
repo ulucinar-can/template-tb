@@ -245,14 +245,15 @@ L'alimentation est en réalité l'alimentation des différentes parties de la ca
 Elle contient alors :
 
 \begin{itemize}
-    \item Un régulateur de tension à 5V pour l'alimentation du DSP et de l'ESP32. Il prend en entrée 24V.
+    \item Un régulateur de tension à 5V pour l'alimentation du DSP, de l'ESP32 et certains AOP. Il prend en entrée 24V.
     \item Un régulateur de 15V qui sert d'alimentation des capteurs de positions. Il prend en entrée 24V.
     \item Un régulateur pour obtenir une tension de 0.5V employé dans le conditionnement des données des capteurs de courants.
     \item Un régulateur de 24V est employé pour alimenter le reste des régulateurs. Celui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.
-    \item Un régulateur de 3.3V est employé pour alimenter l'ESP32. Il prend en entrée le 5V.
+    \item Un régulateur de 3.3V est employé pour alimenter l'ESP32 et certains AOP. Il prend en entrée le 5V.
 \end{itemize}
 
 \subsection{Circuit de précharges}
+Le circuit de précharge 
 
 \begin{figure}[H]
     \centering
