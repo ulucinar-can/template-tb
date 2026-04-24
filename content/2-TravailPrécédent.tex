@@ -233,7 +233,7 @@ Le conditionnement du capteur de position suit les étapes suivantes :
 L'ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
 \subsection{Alimentation}
-L'alimentation est en réalité l'alimentation des différentes parties de la carte. Celle-ci sont observables sur l'image \ref{fig:AlimSchema} :
+Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la figure \ref{fig:AlimSchema} :
 
 \begin{figure}[H]
     \centering
@@ -242,18 +242,20 @@ L'alimentation est en réalité l'alimentation des différentes parties de la ca
     \label{fig:AlimSchema}
 \end{figure}
 
-Elle contient alors :
+Le système se compose des éléments suivants :
 
 \begin{itemize}
-    \item Un régulateur de tension à 5V pour l'alimentation du DSP, de l'ESP32 et certains AOP. Il prend en entrée 24V.
-    \item Un régulateur de 15V qui sert d'alimentation des capteurs de positions. Il prend en entrée 24V.
-    \item Un régulateur pour obtenir une tension de 0.5V employé dans le conditionnement des données des capteurs de courants.
-    \item Un régulateur de 24V est employé pour alimenter le reste des régulateurs. Celui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.
-    \item Un régulateur de 3.3V est employé pour alimenter l'ESP32 et certains AOP. Il prend en entrée le 5V.
+    \item Un régulateur de tension à 5 V pour l'alimentation du DSP, de l'ESP32 et de certains AOP. Sa tension d'entrée est de 24 V.
+    \item Un régulateur de 15 V dédié à l'alimentation des capteurs de position. Sa tension d'entrée est de 24 V.
+    \item Un régulateur permettant d'obtenir une tension de 0,5 V, employée dans le conditionnement des signaux des capteurs de courant.
+    \item Un régulateur de 24 V utilisé pour alimenter l'ensemble des autres régulateurs. Ce dernier est alimenté par le bus 48 V dans les deux positions du switch de précharge, garantissant ainsi l'alimentation continue de la carte.
+    \item Un régulateur de 3,3 V pour l'alimentation de l'ESP32 et de certains AOP. Sa tension d'entrée est de 5 V.
 \end{itemize}
 
+Ces composants assurent la distribution des tensions nécessaires au fonctionnement des différents éléments de la carte principale.
+
 \subsection{Circuit de précharges}
-Le circuit de précharge 
+Le circuit de précharge permet d'apporter doucement
 
 \begin{figure}[H]
     \centering
