@@ -188,17 +188,24 @@ Le fonctionnement repose sur les étapes suivantes :
     \item Une fois le seuil de tension atteint, le comparateur délivre un signal rendant le MOSFET passant. Ce dernier agit alors comme un court-circuit, permettant l'alimentation directe des cartes de puissance.
 \end{enumerate}
 
-\subsection{Carte de puissances}
-Les cartes de précharges sont représenté par l'image suivante :
+\subsection{Cartes de puissance}
+Les cartes de puissance sont représentées par le schéma \ref{fig:PowerSchem} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=3]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
-    \caption{Circuits des cartes de puissances \cite{Laucella}}
+    \includegraphics[width=1\linewidth]{Image/AnnexeShemaElectrique/power2_V2.pdf}
+    \caption{Circuits des cartes de puissance \cite{Laucella}}
     \label{fig:PowerSchem}
 \end{figure}
 
-Cette carte est en réalité un pont en H. Un signal PWM envoie
+Chaque carte intègre les éléments suivants :
+
+\begin{itemize}
+    \item Un pont en H permettant de faire circuler un courant bidirectionnel au sein de la bobine.
+    \item Deux drivers assurant l'amplification des signaux PWM appliqués sur les MOSFET.
+    \item Des capteurs de courant destinés à la mesure de l'intensité traversant les bobines.
+    \item Des condensateurs de découplage en parallèle des ponts en H afin de garantir la stabilité de la tension d'alimentation.
+\end{itemize}
 
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
