@@ -164,23 +164,41 @@ Le système se compose des éléments suivants :
     \item Un régulateur de tension à 5 V pour l'alimentation du DSP, de l'ESP32 et de certains AOP. Sa tension d'entrée est de 24 V.
     \item Un régulateur de 15 V dédié à l'alimentation des capteurs de position. Sa tension d'entrée est de 24 V.
     \item Un régulateur permettant d'obtenir une tension de 0,5 V, employée dans le conditionnement des signaux des capteurs de courant.
-    \item Un régulateur de 24 V utilisé pour alimenter l'ensemble des autres régulateurs. Ce dernier est alimenté par le bus 48 V dans les deux positions du switch de précharge, garantissant ainsi l'alimentation continue de la carte.
+    \item Un régulateur de 24 V utilisé pour alimenter l'ensemble des autres régulateurs. Ce dernier est alimenté par le bus 48 V. Ce bus est également relié au commutateur (switch) permettant l'alimentation des cartes de puissance.
     \item Un régulateur de 3,3 V pour l'alimentation de l'ESP32 et de certains AOP. Sa tension d'entrée est de 5 V.
 \end{itemize}
 
 Ces composants assurent la distribution des tensions nécessaires au fonctionnement des différents éléments de la carte principale.
 
-\subsection{Circuit de précharges}
-Le circuit de précharge permet d'apporter doucement
+\subsection{Circuit de précharge}
+Le circuit de précharge a pour objectif d'assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la figure \ref{fig:PrechSchem}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth,page=3]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
-    \caption{Circuits de précharges \cite{Freyche}}
+    \caption{Circuits de précharge \cite{Freyche}}
+    \label{fig:PrechSchem}
 \end{figure}
 
-\subsection{Carte de puissances}
+Le fonctionnement repose sur les étapes suivantes :
 
+\begin{enumerate}
+    \item À l'enclenchement, le MOSFET est à l'état bloqué et le courant circule à travers deux résistances de puissance. Celles-ci limitent le courant de charge du condensateur.
+    \item Un comparateur confronte la tension aux bornes du condensateur à une tension de référence de 5 V.
+    \item Une fois le seuil de tension atteint, le comparateur délivre un signal rendant le MOSFET passant. Ce dernier agit alors comme un court-circuit, permettant l'alimentation directe des cartes de puissance.
+\end{enumerate}
+
+\subsection{Carte de puissances}
+Les cartes de précharges sont représenté par l'image suivante :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth,page=3]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \caption{Circuits des cartes de puissances \cite{Laucella}}
+    \label{fig:PowerSchem}
+\end{figure}
+
+Cette carte est en réalité un pont en H. Un signal PWM envoie
 
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
