@@ -84,96 +84,12 @@ La mise en service de la maquette s'effectue selon la procédure suivante :
     \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
 \end{enumerate}
 
-\section{Présentation de la maquette}
-
-\subsection{La maquette}
-La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteDown}.
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
-        \caption{La maquette vue de dessus}
-        \label{fig:MaquetteUp}
-    \end{minipage}
-    \hfill % Ajoute un espace flexible entre les deux images
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
-        \caption{La maquette vue de dessous}
-        \label{fig:MaquetteDown}
-    \end{minipage}
-    \label{fig:MaquetteVues}
-\end{figure}
-
-Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
-
-\subsection{Schéma fonctionnel}
-Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{Image/Chap.2/SchemFonct.png}
-    \caption{Schéma fonctionnel \cite{Freyche}}
-    \label{fig:SchemFonct}
-\end{figure}
-
-Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
-
-Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
-
-Les différents composants sont détaillés dans les sous-sections suivantes.
-
-\subsection{La régulation}
-La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemaBlocRegulation.jpg}
-    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
-    \label{fig:SchemaBlocRégulation}
-\end{figure}
-
-Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
-
-Les blocs "Reg i1" à "Reg i4" représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
-
-Les blocs "Reg $\delta$1" à "Reg $\delta$4" représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
-
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
-
-\begin{equation}
-    F = k \cdot \left(\frac{I}{d}\right)^2
-    \label{eq:ForceElectro}
-\end{equation}
-
-Avec :
-\begin{itemize}
-    \item $F$ : La force magnétique [N].
-    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
-    \item $d$ : La distance de l'entrefer [m].
-    \item $I$ : Le courant traversant la bobine [A].
-\end{itemize}
-
-À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
-
-\begin{equation}
-    I = \sqrt{\frac{F}{k}} \cdot d
-    \label{eq:CourantElectro}
-\end{equation}
-
-\subsection{Capteur de position}
-Les capteurs de positions sont des capteurs de
-
-\subsection{Capteur de courant}
-
 \section{Schéma électrique de la carte principale}
 La section suivante traite l'électronique réalisée dans la version initiale du projet. Le schéma électrique complet est la suivante :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth,clip,trim=5mm 0 1mm 0]{Image/Chap.2/Scheme/SchemaComplet.png}
+    \includegraphics[width=1\linewidth,page=1]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Schéma électrique \cite{Freyche}}
     \label{fig:SchemaComplet}
 \end{figure}
@@ -195,7 +111,7 @@ Le DSP héberge le programme principal assurant la lévitation. Le schéma prés
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,clip,trim= 5mm 0 0 5mm]{Image/Chap.2/Scheme/DSP_scheme.png}
+    \includegraphics[page=8, width=1\linewidth]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Connecteur pour la carte du DSP \cite{Freyche}}
     \label{fig:DspScheme}
 \end{figure}
@@ -208,7 +124,7 @@ Les conditionneurs permettent de convertir les valeurs brutes des capteurs en si
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/Scheme/Cond_Scheme.jpg}
+    \includegraphics[width=1\linewidth,page=4]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Schématique des conditionneurs de courant et de position \cite{Freyche}}
     \label{fig:ConditionneursScheme}
 \end{figure}
@@ -233,35 +149,63 @@ Le conditionnement du capteur de position suit les étapes suivantes :
 L'ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
 \subsection{Alimentation}
-L'alimentation est en réalité l'alimentation des différentes parties de la carte. Celle-ci sont observables sur l'image \ref{fig:AlimSchema} :
+Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la figure \ref{fig:AlimSchema} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,clip, trim=5mm 0 0 5mm]{Image/Chap.2/Scheme/Alimentation_Scheme.png}
+    \includegraphics[width=1\linewidth,page=2]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Bloc d'alimentation}
     \label{fig:AlimSchema}
 \end{figure}
 
-Elle contient alors :
+Le système se compose des éléments suivants :
 
 \begin{itemize}
-    \item Un régulateur de tension à 5V pour l'alimentation du DSP et de l'ESP32. Il prend en entrée 24V.
-    \item Un régulateur de 15V qui sert d'alimentation des capteurs de positions. Il prend en entrée 24V.
-    \item Un régulateur pour obtenir une tension de 0.5V employé dans le conditionnement des données des capteurs de courants.
-    \item Un régulateur de 24V est employé pour alimenter le reste des régulateurs. Celui-ci prend en entrée le 48V dans les deux positions du switch de précharges pour garantir que la carte est entièrement alimenté.
-    \item Un régulateur de 3.3V est employé pour alimenter l'ESP32. Il prend en entrée le 5V.
+    \item Un régulateur de tension à 5 V pour l'alimentation du DSP, de l'ESP32 et de certains AOP. Sa tension d'entrée est de 24 V.
+    \item Un régulateur de 15 V dédié à l'alimentation des capteurs de position. Sa tension d'entrée est de 24 V.
+    \item Un régulateur permettant d'obtenir une tension de 0,5 V, employée dans le conditionnement des signaux des capteurs de courant.
+    \item Un régulateur de 24 V utilisé pour alimenter l'ensemble des autres régulateurs. Ce dernier est alimenté par le bus 48 V. Ce bus est également relié au commutateur (switch) permettant l'alimentation des cartes de puissance.
+    \item Un régulateur de 3,3 V pour l'alimentation de l'ESP32 et de certains AOP. Sa tension d'entrée est de 5 V.
 \end{itemize}
 
-\subsection{Circuit de précharges}
+Ces composants assurent la distribution des tensions nécessaires au fonctionnement des différents éléments de la carte principale.
+
+\subsection{Circuit de précharge}
+Le circuit de précharge a pour objectif d'assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la figure \ref{fig:PrechSchem}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth, clip,trim=5mm 0 0 5mm]{Image/Chap.2/Scheme/Prech_Scheme.png}
-    \caption{Circuits de précharges}
+    \includegraphics[width=1\linewidth,page=3]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \caption{Circuits de précharge \cite{Freyche}}
+    \label{fig:PrechSchem}
 \end{figure}
 
-\subsection{Carte de puissances}
+Le fonctionnement repose sur les étapes suivantes :
 
+\begin{enumerate}
+    \item À l'enclenchement, le MOSFET est à l'état bloqué et le courant circule à travers deux résistances de puissance. Celles-ci limitent le courant de charge du condensateur.
+    \item Un comparateur confronte la tension aux bornes du condensateur à une tension de référence de 5 V.
+    \item Une fois le seuil de tension atteint, le comparateur délivre un signal rendant le MOSFET passant. Ce dernier agit alors comme un court-circuit, permettant l'alimentation directe des cartes de puissance.
+\end{enumerate}
+
+\subsection{Cartes de puissance}
+Les cartes de puissance sont représentées par le schéma \ref{fig:PowerSchem} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/AnnexeShemaElectrique/power2_V2.pdf}
+    \caption{Circuits des cartes de puissance \cite{Laucella}}
+    \label{fig:PowerSchem}
+\end{figure}
+
+Chaque carte intègre les éléments suivants :
+
+\begin{itemize}
+    \item Un pont en H permettant de faire circuler un courant bidirectionnel au sein de la bobine.
+    \item Deux drivers assurant l'amplification des signaux PWM appliqués sur les MOSFET.
+    \item Des capteurs de courant destinés à la mesure de l'intensité traversant les bobines.
+    \item Des condensateurs de découplage en parallèle des ponts en H afin de garantir la stabilité de la tension d'alimentation.
+\end{itemize}
 
 \subsection{ESP32}
 L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
@@ -299,7 +243,7 @@ Le raccordement de la carte est établi selon le schéma suivant :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/Scheme/ESP32_Scheme.png}
+    \includegraphics[width=1\linewidth]{Image/Chap.2/ESP32_Scheme.png}
     \caption{Schéma de connexion de l'ESP32 \cite{Freyche}}
     \label{fig:Res_conf_Opti}
 \end{figure}
