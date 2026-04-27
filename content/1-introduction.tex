@@ -59,27 +59,39 @@ Le démonstrateur utilise le principe de la sustentation magnétique par attract
 \section{Présentation de la maquette}
 
 \subsection{La maquette}
-La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteDown}.
+La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
-        \caption{La maquette vue de dessus}
-        \label{fig:MaquetteUp}
-    \end{minipage}
-    \hfill % Ajoute un espace flexible entre les deux images
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{Image/Chap.2/SchemFonct.png}
-        \caption{La maquette vue de dessous}
-        \label{fig:MaquetteDown}
-    \end{minipage}
-    \label{fig:MaquetteVues}
+    \includegraphics[width=0.5\linewidth]{Image/Chap.1/MaquetteDessus.png}
+    \caption{La maquette vue de dessus}
+    \label{fig:MaquetteUp}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Image/Chap.1/MaquetteCote.png}
+    \caption{La maquette vue de côté}
+    \label{fig:MaquetteSide}
+\end{figure}
+
+Avec :
+
+\begin{itemize}
+    \item 1 : La carte principale
+    \item 2 : Les cartes de puissances
+\end{itemize}
+
 Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
+
+\subsection{Les composants}
+
+\subsubsection{Inducteurs}
+
+\subsubsection{Capteur de position}
+Les capteurs de positions sont des capteurs de
+
+\subsubsection{Capteur de courant}
 
 \subsection{Schéma fonctionnel}
 Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
@@ -134,13 +146,6 @@ Avec :
     I = \sqrt{\frac{F}{k}} \cdot d
     \label{eq:CourantElectro}
 \end{equation}
-
-\subsection{Les composants}
-
-\subsubsection{Capteur de position}
-Les capteurs de positions sont des capteurs de
-
-\subsubsection{Capteur de courant}
 
 \section{Travaux à réaliser}
 \red{A completer}
