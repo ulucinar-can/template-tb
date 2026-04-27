@@ -1246,7 +1246,27 @@ Le code de l'ESP32 est principalement employé pour la communication entre lui e
 D'un point de vue de la taille des fichiers, on a pour le code de l'ESP32 mesure 9.9 ko et celui du site web 10.6 ko.
 
 \subsection{Code arduino}
+Le code arduino est un petit code contenant de nombreuse fonction pour la communication ainsi que l'affichage de l'interface web.\\
 
+Les librairies employé pour réaliser cela sont les suivantes :
+
+\begin{minted}{c++}
+#include <WiFi.h>
+#include <WebServer.h>
+#include <FastLED.h>
+#include <HardwareSerial.h>
+#include <stdlib.h>  // Pour atof()
+#include <string.h>  // Pour strtok()
+
+#include "WebPage.h"
+\end{minted}
+
+Elle contient donc :
+
+\begin{itemize}
+    \item WiFi.h : Une librairie de l'ESP32 permettant la gestion du WiFi
+    \item WebServer
+\end{itemize}
 
 \subsection{Code de l'interface web}
 L'interface se présente comme suit :
