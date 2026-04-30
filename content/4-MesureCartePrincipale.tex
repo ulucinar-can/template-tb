@@ -4,15 +4,117 @@
 
 \subsection{Convertisseur DC/DC 24V}
 
+\begin{table}[H]
+    \centering
+    \label{tab:reg_24v_48v}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 24V et entrée 48V (PS1)}}                                                                                                                            \\
+            \hline
+            \textbf{N$^{\circ}$} & \multicolumn{1}{c|}{\textbf{Mesure}} & \textbf{Point de mesure} & \textbf{Valeur théorique [V]} & \textbf{Valeur mesurée [V]} & \textbf{Erreur} & \textbf{Erreur [\%]} \\
+            \hline
+            1.a                  & Entrée des 48V                       & Bornie d'entrée          & 48                            & 48.05                       & 0.05            & 0.001042             \\
+            \hline
+            1.b                  & Tension après le switch de précharge & TP4                      & 48                            & 48.04                       & 0.04            & 0.000833             \\
+            \hline
+            2.a                  & Sortie du régulateur 24V             & TP6 et TP8               & 24                            & 23.85                       & 0.15            & 0.00625              \\
+            \hline
+        \end{tabular}%
+    }
+    \caption{Mesures pour les régulateurs 24V et entrée 48V (PS1)}
+\end{table}
+
 \subsection{Régulateur 15V}
+
+\begin{table}[H]
+    \centering
+    \label{tab:reg_15v}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 15V (PS2)}}                                                                                                                                          \\
+            \hline
+            \textbf{N$^{\circ}$} & \multicolumn{1}{c|}{\textbf{Mesure}} & \textbf{Point de mesure} & \textbf{Valeur théorique [V]} & \textbf{Valeur mesurée [V]} & \textbf{Erreur} & \textbf{Erreur [\%]} \\
+            \hline
+            1.a                  & Entrée des 24V                       & Côté C12 de la C13       & 24                            & 23.07                       & 0.93            & 0.03875              \\
+            \hline
+            2.a                  & Sortie du régulateur 15V             & TP1                      & 15                            & 14.95                       & 0.05            & 0.003333             \\
+            \hline
+        \end{tabular}%
+    }
+    \caption{Mesures pour les régulateurs 15V (PS2)}
+\end{table}
 
 \subsection{Régulateur 5V}
 
+\begin{table}[H]
+    \centering
+    \label{tab:reg_5v}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 5V (IC1)}}                                                                                                                                           \\
+            \hline
+            \textbf{N$^{\circ}$} & \multicolumn{1}{c|}{\textbf{Mesure}} & \textbf{Point de mesure} & \textbf{Valeur théorique [V]} & \textbf{Valeur mesurée [V]} & \textbf{Erreur} & \textbf{Erreur [\%]} \\
+            \hline
+            1.a                  & Entrée des 24V                       & Pin 1 IC1                & 24                            & 23.86                       & 0.14            & 0.005833             \\
+            \hline
+            2.a                  & Sortie du régulateur 5V              & L2 côté condo            & 5                             & 4.989                       & 0.011           & 0.0022               \\
+            \hline
+            2.b                  & Après l'inducteur L2                 & TP2                      & 5                             & 4.987                       & 0.013           & 0.0026               \\
+            \hline
+        \end{tabular}%
+    }
+    \caption{Mesures pour les régulateurs 5V (IC1)}
+\end{table}
+
 \subsection{Régulateur 3.3V}
+
+\begin{table}[H]
+    \centering
+    \label{tab:reg_3_3v}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 3.3V (U6)}}                                                                                                                                          \\
+            \hline
+            \textbf{N$^{\circ}$} & \multicolumn{1}{c|}{\textbf{Mesure}} & \textbf{Point de mesure} & \textbf{Valeur théorique [V]} & \textbf{Valeur mesurée [V]} & \textbf{Erreur} & \textbf{Erreur [\%]} \\
+            \hline
+            1.a                  & Entrée des 5V                        & J5 pin 2                 & 5                             & 4.982                       & 0.018           & 0.0036               \\
+            \hline
+            2.a                  & Sortie du régulateur 3.3V            & TP5                      & 3.3                           & 3.296                       & 0.004           & 0.001212             \\
+            \hline
+        \end{tabular}%
+    }
+    \caption{Mesures pour les régulateurs 3.3V (U6)}
+\end{table}
 
 \subsection{Régulateur 0.5V}
 
+\begin{table}[H]
+    \centering
+    \label{tab:reg_0_5v}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 0.5V (U5)}}                                                                                                                                          \\
+            \hline
+            \textbf{N$^{\circ}$} & \multicolumn{1}{c|}{\textbf{Mesure}} & \textbf{Point de mesure} & \textbf{Valeur théorique [V]} & \textbf{Valeur mesurée [V]} & \textbf{Erreur} & \textbf{Erreur [\%]} \\
+            \hline
+            1.a                  & Entrée des 24V                       & C18 côté U6              & 5                             & 4.981                       & 0.019           & 0.0038               \\
+            \hline
+            2.a                  & Sortie du régulateur 15V             & TP3                      & 0.5                           & 0.4982                      & 0.002           & 0.0036               \\
+            \hline
+        \end{tabular}%
+    }
+    \caption{Mesures pour les régulateurs 0.5V (U5)}
+\end{table}
+
 \subsection{Analyse des résultats}
+L'alimentation général est correctement garantit. Les valeurs se rapprochent effectivement des résultats voulues.\\
+
+Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorité de la carte ne pouvait pas correctement être alimenté. Après avoir résolu ça, la carte est une nouvelle fois correctement alimenté.
 
 \section{Mesure des capteurs de positions}
 
