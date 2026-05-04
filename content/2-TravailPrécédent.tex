@@ -1261,11 +1261,13 @@ Les librairies employé pour réaliser cela sont les suivantes :
 #include "WebPage.h"
 \end{minted}
 
-Elle contient donc :
+Elle contient les librairies principales suivantes :
 
 \begin{itemize}
     \item WiFi.h : Une librairie de l'ESP32 permettant la gestion du WiFi. Elle sera utilisé pour transformer l'ESP32 en point d'accès.
-    \item WebServer.
+    \item WebServer.h : Une librairie permettant d'heberger un site web et répondre à des requettes d'utilisateurs.
+    \item HardwareSerial.h : Une librairie pour la communication en UART utilisé pour pour la communication entre l'ESP32 et le DSP.
+    \item
 \end{itemize}
 
 \subsection{Code de l'interface web}
