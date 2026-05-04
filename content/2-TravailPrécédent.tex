@@ -1270,6 +1270,95 @@ Elle contient les librairies principales suivantes :
     \item
 \end{itemize}
 
+Les principales définitions sont les suivantes :
+
+\begin{minted}{c++}
+// Nom et mot de passe du wifi crée par l'esp32
+#define AP_SSID "ESP32-S2-WIFI"
+#define AP_PASS "TFE-TB2025-HEIG"
+// ... (LED setup) ...
+HardwareSerial MySerial(1);
+#define BAUDRATE 115200
+#define TX1 17
+#define RX1 18
+// ... (Variables globales) ...
+IPAddress Actual_IP;
+IPAddress PageIP(192, 168, 4, 1);
+// ...
+WebServer server(80);
+\end{minted}
+
+Trois de ces définitions permettent de se connecter à l'interface web :
+
+\begin{itemize}
+    \item Nom du wifi : ESP32-S2-WIFI
+    \item Mot de passe : TFE-TB2025-HEIG
+    \item Lien du site web : 192.168.4.1
+\end{itemize}
+
+La fonction setup permet d'inialiser correctement l'interface web avec les importantes initialisaions suivantes :
+
+\begin{minted}{c++}
+void setup() {
+  // ... (Initialisations Serial et LED) ...
+  MySerial.begin(BAUDRATE, SERIAL_8N1, RX1, TX1, false);
+  // ...
+  WiFi.softAP(AP_SSID, AP_PASS);
+  WiFi.softAPConfig(PageIP, gateway, subnet);
+  // ...
+  server.on("/", SendWebsite);
+  server.on("/xml", SendXML);
+  server.on("/BUTTON_START", ProcessButton_START);
+  server.on("/BUTTON_STOP", ProcessButton_STOP);
+  server.begin();
+}
+\end{minted}
+
+La boucle principale permettant d'afficher le site web et de communiquer avec le DSP est la suivante :
+
+\begin{minted}{c++}
+void loop() {
+  // ... (Réception de l'UART) ...
+  while (MySerial.available() > 0) {
+    uint8_t c = MySerial.read();
+    if (RxIndex < UART_BUFFER) { buffer[RxIndex++] = c; }
+    // ...
+  }
+
+  // Traitement des données
+  if (RxIndex > 0) {
+    buffer[RxIndex] = '\0';
+    if (buffer[0] == 0x02 && buffer[RxIndex - 1] == 0x03) {
+      char* token = strtok(&buffer[1], ",");
+      int i = 0;
+      while (token != NULL && i < 4) {
+        floatValues[i++] = atof(token);
+        token = strtok(NULL, ",");
+      }
+      updateValues();
+      RxIndex = 0;
+    }
+    // ...
+  }
+  server.handleClient(); // Absolutely necessary
+}
+\end{minted}
+
+Un bouton interfactif est actuellement mise en place comme suit :
+
+\begin{minted}{c++}
+void ProcessButton_START() {
+  btn_state = 1;
+  MySerial.print('\x02');
+  MySerial.print(btn_state);
+  MySerial.print('\x03');
+  leds[0] = CRGB::Red;
+  FastLED.show();
+  server.send(250, "text/plain", ""); //Send web page
+}
+// (ProcessButton_STOP est similaire)
+\end{minted}
+
 \subsection{Code de l'interface web}
 L'interface se présente comme suit :
 
