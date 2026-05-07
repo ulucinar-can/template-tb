@@ -314,3 +314,14 @@ Réflection :
     \item Recherche du fichier matlab
     \item Changement des coeficients de la régulation d'état
 \end{itemize}
+
+\subsection*{07 mai 2026}
+Travaille réalisé
+\begin{itemize}
+    \item Création d'un fichier de régulation de courant.
+\end{itemize}
+
+Trouvaille importante :
+\begin{itemize}
+    \item Lors de la création du régualteur de courant, j'ai voulue comparé le résultat précédent au mien avec un poids de 3,4 kg. J'ai pu constaté cependant que les valeurs n'était pas similaire. En essayant de comparer l'ancien code au mien, j'ai pu voir que le système n'a pas été correctement modélisé sous matlab. La fonction de transfert $G_{ui}$ est fausse car ils ont oublié de multiplié $K_{ui}$.
+\end{itemize}
