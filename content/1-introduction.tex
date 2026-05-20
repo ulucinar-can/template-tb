@@ -179,6 +179,22 @@ Pour Code Composer Studio, différentes installations et modifications sont néc
 Celles-ci sont traitées dans la sous-section \ref{sec:MiseEnPlace}.
 
 \section{Hypothèse}
+\label{sec:Hypothese}
+
+Les hypothèses suivantes ont été pensée qui causerait potentiellement le problème :
+
+\begin{itemize}
+    \item Les interruptions liées à la communication sans fil empêchent le bon déroulement de l'interruption de la régulation.
+    \item Les temps ne sont plus bons, il faudrait vérifier que tout ce qui est dans réaliser dans l'interruption est correctement
+    \item Un intégrateur a été ajouté, il se peut que celui la cause problème.
+    \item La calibration est mal faite, il faut entièrement la refaire
+    \item Avec l'électronique en embarqué, la masse a changé rendant donc la régulation fausse.
+    \item La masse a changé.
+    \item Une erreur s'est glissé lors de la synthèse des régulateurs.
+    \item La vérification du 99\% fausse la machine d'état.
+    \item La carte principale a un problème.
+    \item Le DSP n'est pas correctement routé au reste de la carte.
+\end{itemize}
 
 \section{Usage de l'IA}
 L'intelligence artificielle a été employée à des fins d'assistance pour les aspects suivants :
