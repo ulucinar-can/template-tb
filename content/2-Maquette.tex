@@ -1,89 +1,110 @@
 \chapter{La maquette}
 
 \section{Présentation de la maquette}
-La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
-
-\red{Refaire l'image pour juste mettre des mots}
+La maquette est constituée de cinq PCB, soit une carte principale et quatre cartes de puissance, ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{Image/Chap.1/MaquetteDessus.png}
+    \includegraphics[width=0.6\linewidth]{assets/Chap2/MaquetteDessus.png}
     \caption{La maquette vue de dessus}
     \label{fig:MaquetteUp}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.1/MaquetteCote.png}
+    \includegraphics[width=0.75\linewidth]{assets/Chap2/MaquetteCote.png}
     \caption{La maquette vue de côté}
     \label{fig:MaquetteSide}
 \end{figure}
 
-Avec :
-
+Comme présenté sur les images \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}, la maquette comprend :
 \begin{itemize}
-    \item 1 : La carte principale
-    \item 2 : Les cartes de puissances
+    \item une carte principale.
+    \item quatre cartes de puissance.
+    \item quatre inducteurs.
+    \item quatre capteurs de courant.
+    \item quatre capteurs de position.
 \end{itemize}
 
-Les inducteurs sont des inducteurs d'une résistance de $0.8 \Omega$ et ont 125 spires chacune.
+Une symétrie est réalisée afin de permettre aux inducteurs d’avoir une répartition de masse équilibrée.
 
-Les capteur de positions sont des capteurs de chez Baumer \cite{CaptPosition}. Ce sont des capteurs. La datasheet en annexe explique leur fonctionnement. \red{Insérer la datasheet dans les annexes}.
+Les différentes dimensions, exprimées en $mm$, de la maquette sont représentées sur l’image \ref{fig:TailleMaquette} :
 
-Les catpeurs de courants sont des capteurs de chez LEM \cite{CaptCour}. Ce sont des capteurs à effet hall. La datasheet en annexe explique leur fonctionnement. Celle-ci sont disposé sur les cartes de puissances.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{assets/Chap2/MaquetteTaille.png}
+    \caption{Dimension de la maquette}
+    \label{fig:TailleMaquette}
+\end{figure}
 
-Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.\\
+Les éléments numérotés ci-dessous sont les suivants :
+\begin{enumerate}
+    \item Le capteur de position.
+    \item L’inducteur, au nombre de 4.
+    \item Le rail.
+    \item La planche en bois.
+    \item La pièce assurant le maintien sur le pied et sur la partie supérieure.
+    \item La partie supérieure contenant l’électronique.
+\end{enumerate}
 
-Les différentes distances sont représentées dans l'image suivante :
+La partie supérieure et la partie inférieure assemblées constituent l’ensemble lévitant. À la suite d’une mesure de masse, la partie lévitante ne pèse pas 13,6 kg, comme indiqué dans les travaux précédents, mais 18,052 kg.
 
-\red{Insérer l'image des positions de freyches}
+Les inducteurs présentent une résistance de $0,8\text{ }\Omega$ et comportent chacun 125 spires.
 
-La partie supérieur est celle qui lévite. Suite à une mesure du poids, la partie lévitant n'est pas de 13,6 kg comme indiqué dans les travaux précédents mais est de 18.052 kg.
+Les capteurs de courant sont des capteurs LEM \cite{CaptCour}. Il s’agit de capteurs à effet Hall. Ces capteurs sont disposés sur les cartes de puissance. Leur plage de mesure s’étend de $-30\text{ }A$ à $30\text{ }A$. Leur bande passante est de $50\text{ }kHz$. Ils permettent de mesurer le courant traversant les bobines.
+
+Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}. Il s’agit de capteurs optiques par triangulation laser. Leur distance de base se situe entre $30\text{ }mm$ et $70\text{ }mm$. Grâce à une fonction d’apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l’entrefer. Afin de réaliser une calibration du capteur, il est possible de suivre les instructions de la \autoref{sec:CalibrationCaptPos}.
+
+De plus amples détails sur l’électronique sont présentés dans la section \ref{sec:SchemEle}.
+
+\clearpage
 
 \section{Schéma fonctionnel}
 Le schéma fonctionnel, repris du travail de Thomas Freyche \cite{Freyche}, est présenté ci-dessous :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{Image/Chap.2/SchemFonct.png}
+    \includegraphics[width=0.7\linewidth]{assets/Chap2/SchemFonct.png}
     \caption{Schéma fonctionnel \cite{Freyche}}
     \label{fig:SchemFonct}
 \end{figure}
 
-Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
+Sur le principe, la carte principale doit assurer l’ensemble de la régulation. Elle permet donc de commander les inducteurs pour la lévitation.
 
-Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
+La maquette peut être commandée à l’aide d’une interface web accessible depuis un téléphone ou tout autre appareil pouvant se connecter au réseau Wi-Fi de l’ESP32.
 
-\section{Fonctionnement de la maquette}
+Actuellement, une alimentation externe est utilisée. À terme, l’intégration d’un convertisseur, puis d’un transformateur, permettra au système de disposer de sa propre source d’alimentation autonome.
+
+\clearpage
 
 \section{Présentation de l'électronique}
-La section suivante traite l'électronique réalisée dans la version initiale du projet. Le schéma électrique complet est la suivante :
+\label{sec:SchemEle}
+La section suivante présente l’électronique réalisée dans la version initiale du projet. Le schéma électrique complet est le suivant :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=1]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[width=1\linewidth,page=1]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Schéma électrique \cite{Freyche}}
     \label{fig:SchemaComplet}
 \end{figure}
 
-C'est ici que se stiue le cerveau de la maquette. On y retrouve :
-
+C’est dans cette partie que se situe le cœur de la maquette. On y retrouve :
 \begin{itemize}
-    \item Le DSP qui tourne le code de sustentation
-    \item Les circuits de conditionnement pour les capteurs de positions et de courants
-    \item L'ESP32 pour l'interface web
-    \item L'alimentation des différents élements de la carte
-    \item Les connecteurs pour les cartes de puissances et des capteurs de positions
+    \item le DSP exécutant le code de sustentation.
+    \item les circuits de conditionnement pour les capteurs de position et de courant.
+    \item l’ESP32 pour l’interface web.
+    \item l’alimentation des différents éléments de la carte.
+    \item les connecteurs pour les cartes de puissance et les capteurs de position.
 \end{itemize}
 
-Les sous-sections suivantes viennent traiter les parties décrites au-dessus.
+Les sous-sections suivantes présentent les parties décrites ci-dessus.
 
 \subsection{DSP}
 Le DSP héberge le programme principal assurant la lévitation. Le schéma présente un connecteur standard permettant de relier les broches du DSP aux différentes sections de la carte :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[page=8, width=1\linewidth]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[page=8, width=1\linewidth]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Connecteur pour la carte du DSP \cite{Freyche}}
     \label{fig:DspScheme}
 \end{figure}
@@ -96,68 +117,64 @@ Les conditionneurs permettent de convertir les valeurs brutes des capteurs en si
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=4]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
-    \caption{Schématique des conditionneurs de courant et de position \cite{Freyche}}
+    \includegraphics[width=1\linewidth,page=4]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \caption{Schéma des conditionneurs de courant et de position \cite{Freyche}}
     \label{fig:ConditionneursScheme}
 \end{figure}
 
-Ces circuits permettent d'adapter les tensions mesurées à une plage comprise entre 0 et 3 V.
+Ces circuits permettent d’adapter les tensions mesurées à une plage comprise entre 0 V et 3 V.
 
-Le conditionnement du capteur de courant s'effectue selon les étapes suivantes :
-
+Le conditionnement du capteur de courant s’effectue selon les étapes suivantes :
 \begin{enumerate}
-    \item Le capteur fournit une tension comprise entre 0,625 V et 4,375 V avec un point milieu à 1,5 V.
-    \item Un diviseur de tension par un facteur 0,8 est réalisé à l'aide de résistances pour ramener la plage de 0,5 V à 3,5 V.
-    \item Un montage à amplificateur opérationnel (AOP) en mode soustracteur est utilisé pour retirer 0,5 V au signal, afin d'obtenir une plage finale de 0 V à 3 V.
+    \item Le capteur fournit une tension comprise entre 0,625 V et 4,375 V, avec un point milieu à 1,5 V.
+    \item Un diviseur de tension d’un facteur 0,8 est réalisé à l’aide de résistances afin de ramener la plage de 0,5 V à 3,5 V.
+    \item Un montage à amplificateur opérationnel (AOP) en mode soustracteur est utilisé pour retrancher 0,5 V au signal, afin d’obtenir une plage finale de 0 V à 3 V.
 \end{enumerate}
 
 Le conditionnement du capteur de position suit les étapes suivantes :
-
 \begin{enumerate}
-    \item Le capteur fournit une tension comprise entre 0 et 10 V.
-    \item Un pont diviseur de tension est appliqué avec un facteur 0,3 pour atteindre une plage de 0 à 3 V.
+    \item Le capteur fournit une tension comprise entre 0 V et 10 V.
+    \item Un pont diviseur de tension est appliqué avec un facteur 0,3 pour atteindre une plage de 0 V à 3 V.
 \end{enumerate}
 
-L'ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
+L’ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
 \subsection{Alimentation}
 Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la figure \ref{fig:AlimSchema} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=2]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
-    \caption{Bloc d'alimentation}
+    \includegraphics[width=1\linewidth,page=2]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \caption{Bloc d’alimentation}
     \label{fig:AlimSchema}
 \end{figure}
 
 Le système se compose des éléments suivants :
-
 \begin{itemize}
-    \item Un régulateur de tension à 5 V pour l'alimentation du DSP, de l'ESP32 et de certains AOP. Sa tension d'entrée est de 24 V.
-    \item Un régulateur de 15 V dédié à l'alimentation des capteurs de position. Sa tension d'entrée est de 24 V.
-    \item Un régulateur permettant d'obtenir une tension de 0,5 V, employée dans le conditionnement des signaux des capteurs de courant.
-    \item Un régulateur de 24 V utilisé pour alimenter l'ensemble des autres régulateurs. Ce dernier est alimenté par le bus 48 V. Ce bus est également relié au commutateur (switch) permettant l'alimentation des cartes de puissance.
-    \item Un régulateur de 3,3 V pour l'alimentation de l'ESP32 et de certains AOP. Sa tension d'entrée est de 5 V.
+    \item un régulateur de tension de 5 V \cite{Reg5V} pour l’alimentation du DSP, de l’ESP32 et de certains AOP. Sa tension d’entrée est de 24 V.
+    \item un régulateur de 15 V \cite{Reg15V} dédié à l’alimentation des capteurs de position. Sa tension d’entrée est de 24 V.
+    \item un régulateur permettant d’obtenir une tension de 0,5 V \cite{Reg05V}, utilisée dans le conditionnement des signaux des capteurs de courant.
+    \item un régulateur de 24 V \cite{Reg24V} utilisé pour alimenter l’ensemble des autres régulateurs. Ce dernier est alimenté par le bus de 48 V. Ce bus est également relié au commutateur permettant l’alimentation des cartes de puissance.
+    \item un régulateur de 3,3 V \cite{Reg33V} pour l’alimentation de l’ESP32 et de certains AOP. Sa tension d’entrée est de 5 V.
 \end{itemize}
 
 Ces composants assurent la distribution des tensions nécessaires au fonctionnement des différents éléments de la carte principale.
 
 \subsection{Circuit de précharge}
-Le circuit de précharge a pour objectif d'assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la figure \ref{fig:PrechSchem}.
+Le circuit de précharge a pour objectif d’assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la figure \ref{fig:PrechSchem}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=3]{Image/AnnexeShemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
-    \caption{Circuits de précharge \cite{Freyche}}
+    \includegraphics[width=1\linewidth,page=3]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \caption{Circuit de précharge \cite{Freyche}}
     \label{fig:PrechSchem}
 \end{figure}
 
 Le fonctionnement repose sur les étapes suivantes :
-
 \begin{enumerate}
-    \item À l'enclenchement, le MOSFET est à l'état bloqué et le courant circule à travers deux résistances de puissance. Celles-ci limitent le courant de charge du condensateur.
+    \item À l’enclenchement, le MOSFET est à l’état bloqué et le courant circule à travers deux résistances de puissance. Celles-ci limitent le courant de charge du condensateur.
     \item Un comparateur confronte la tension aux bornes du condensateur à une tension de référence de 5 V.
-    \item Une fois le seuil de tension atteint, le comparateur délivre un signal rendant le MOSFET passant. Ce dernier agit alors comme un court-circuit, permettant l'alimentation directe des cartes de puissance.
+    \item Une fois le seuil de tension atteint, le comparateur délivre un signal rendant le MOSFET passant. Ce dernier agit alors comme un court-circuit, permettant l’alimentation directe des cartes de puissance.
 \end{enumerate}
 
 \subsection{Cartes de puissance}
@@ -165,32 +182,30 @@ Les cartes de puissance sont représentées par le schéma \ref{fig:PowerSchem} 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/AnnexeShemaElectrique/power2_V2.pdf}
-    \caption{Circuits des cartes de puissance \cite{Laucella}}
+    \includegraphics[width=1\linewidth]{assets/SchemaElectrique/power2_V2.pdf}
+    \caption{Circuit des cartes de puissance \cite{Laucella}}
     \label{fig:PowerSchem}
 \end{figure}
 
 Chaque carte intègre les éléments suivants :
-
 \begin{itemize}
-    \item Un pont en H permettant de faire circuler un courant bidirectionnel au sein de la bobine.
-    \item Deux drivers assurant l'amplification des signaux PWM appliqués sur les MOSFET.
-    \item Des capteurs de courant destinés à la mesure de l'intensité traversant les bobines.
-    \item Des condensateurs de découplage en parallèle des ponts en H afin de garantir la stabilité de la tension d'alimentation.
+    \item un pont en H permettant de faire circuler un courant bidirectionnel au sein de la bobine.
+    \item deux drivers assurant l’amplification des signaux PWM appliqués sur les MOSFET.
+    \item des capteurs de courant destinés à la mesure de l’intensité traversant les bobines.
+    \item des condensateurs de découplage en parallèle des ponts en H afin de garantir la stabilité de la tension d’alimentation.
 \end{itemize}
 
 \subsection{ESP32}
-L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d'accéder à diverses informations. Le DSP et l'ESP32 communiquent via une liaison UART afin d'afficher les données sur l'interface web. La carte employée est le modèle Carbon S2 réalisé par GroundStudio \cite{ESP32}.
+L’ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une interface web permettant aux utilisateurs d’accéder à diverses informations. Le DSP et l’ESP32 communiquent via une liaison UART afin d’afficher les données sur l’interface web. La carte employée est le modèle Carbon S2, réalisé par GroundStudio \cite{ESP32}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{Image/Chap.2/ESP32_Board.png}
+    \includegraphics[width=0.5\linewidth]{assets/Chap2/ESP32_Board.png}
     \caption{Carte Carbon S2 \cite{ESP32}}
     \label{fig:Esp32Board}
 \end{figure}
 
-D'après la documentation technique \cite{ESP32}, les caractéristiques principales sont les suivantes :
-
+D’après la documentation technique \cite{ESP32}, les caractéristiques principales sont les suivantes :
 \begin{itemize}
     \item Microcontrôleur : ESP32-S2FN4R2
           \begin{itemize}
@@ -198,8 +213,8 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
               \item[$\ast$] 320 KB de SRAM pour les données et instructions
               \item[$\ast$] 16 KB de SRAM RTC
           \end{itemize}
-    \item Convertisseur USB-Série : intégré nativement dans l'ESP32-S2
-    \item Régulateur de tension 3,3 V : ME6211C33U4AG-N
+    \item Convertisseur USB-série intégré nativement dans l’ESP32-S2
+    \item Régulateur de tension de 3,3 V : ME6211C33U4AG-N
     \item Broches GPIO : 18
     \item Connecteur : USB 2.0 type C
     \item Interfaces : ADC, DAC, contrôleur SD/SDIO/MMC, SPI, EMAC, PWM moteur, PWM LED, UART, I2C, I2S
@@ -207,41 +222,42 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
     \item Dimensions approximatives du PCB : 37 mm x 18 mm
 \end{itemize}
 
-Bien que l'ESP32 dispose d'une mémoire limitée, celle-ci s'avère suffisante pour l'application visée (voir \ref{sec:CodeESP32}).
+Bien que l’ESP32 dispose d’une mémoire limitée, celle-ci s’avère suffisante pour l’application visée (voir \ref{sec:CodeESP32}).
 
-Dans l'éventualité où les ressources de la carte deviendraient insuffisantes, une modification de la carte principale du système serait nécessaire afin d'accueillir un autre modèle. La version 3 \cite{CarbonV3} de la carte présente notamment un brochage (pinout) entièrement différent (voir \autoref{annexe:PinoutCarbon}).
+Dans l’éventualité où les ressources de la carte deviendraient insuffisantes, une modification de la carte principale du système serait nécessaire afin d’accueillir un autre modèle. La version 3 \cite{CarbonV3} de la carte présente notamment un brochage entièrement différent (voir \autoref{annexe:PinoutCarbon}).
 
-Le raccordement de la carte est établi selon le schéma suivant :
+Le raccordement de la carte est établi selon le schéma \ref{fig:PinoutESP32} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/ESP32_Scheme.png}
-    \caption{Schéma de connexion de l'ESP32 \cite{Freyche}}
-    \label{fig:Res_conf_Opti}
+    \includegraphics[width=1\linewidth]{assets/Chap2/ESP32_Scheme.png}
+    \caption{Schéma de connexion de l’ESP32 \cite{Freyche}}
+    \label{fig:PinoutESP32}
 \end{figure}
 
 Le schéma définit le brochage suivant :
-
 \begin{itemize}
-    \item Les broches 24 et 23 (TX/RX) pour la communication UART.
-    \item L'alimentation sur la broche 4 (3,3 V) et les broches 2/22 (GND).
-    \item Le reset sur la broche 23.
-    \item Les signaux MISO, MOSI et SCK sur les broches 13, 14 et 15.
+    \item les broches 24 et 23 (TX/RX) pour la communication UART.
+    \item l’alimentation sur la broche 4 (3,3 V) et les broches 2 et 22 (GND).
+    \item le reset sur la broche 23.
+    \item les signaux MISO, MOSI et SCK sur les broches 13, 14 et 15.
 \end{itemize}
 
-Cette configuration devra impérativement être respectée dans l'éventualité d'un changement de matériel.
+Cette configuration devra impérativement être respectée dans l’éventualité d’un changement de matériel.
 
 \section{Protocole de mise en service}
 \label{sec:Protocole}
-La mise en service de la maquette s'effectue selon la procédure suivante :
-
+La mise en service de la maquette s’effectue selon la procédure suivante :
 \begin{enumerate}
-    \item Allumer l'alimentation 48 V en réglant la limitation de courant à 3.5A. Pour ajuster cette limite, presser le bouton de réglage correspondant sur l'alimentation.
+    \item Allumer l’alimentation 48 V en réglant la limitation de courant à 3,5 A. Pour ajuster cette limite, presser le bouton de réglage correspondant sur l’alimentation.
 
     \item Compiler et charger la dernière version du code depuis Code Composer Studio vers le DSP.
 
-    \item Configurer l'oscilloscope sur la résistance de charge des cartes de puissance (calibres : 50 ms/div et 10 V/div pour les deux sondes). Placer le trigger du canal mesurant le côté électrique de la résistance (vers les cartes de puissance) à 20 V. Régler l'oscilloscope en mode "Single" afin d'observer la charge des condensateurs lors de l'enclenchement de l'interrupteur S1.
+    \item Configurer l’oscilloscope sur la résistance de charge des cartes de puissance (calibres : 50 ms/div et 10 V/div pour les deux sondes). Placer le trigger du canal mesurant le côté électrique de la résistance, vers les cartes de puissance, à 20 V. Régler l’oscilloscope en mode « Single » afin d’observer la charge des condensateurs lors de l’enclenchement de l’interrupteur S1.
 
-    \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l'onglet "Mise en marche" de l'interface logicielle pour lancer la sustentation.
+    \item Une fois la tension de 48 V établie et le transistor commuté, presser le bouton physique S2 ou cliquer sur le bouton \textit{Start} dans l’onglet « Mise en marche » de l’interface logicielle pour lancer la sustentation.
 \end{enumerate}
 
+\section{Calibration des capteurs de position}
+\label{sec:CalibrationCaptPos}
+Les capteurs de position
