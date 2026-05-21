@@ -3,6 +3,8 @@
 \section{Présentation de la maquette}
 La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
 
+\red{Refaire l'image pour juste mettre des mots}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{Image/Chap.1/MaquetteDessus.png}
@@ -24,27 +26,19 @@ Avec :
     \item 2 : Les cartes de puissances
 \end{itemize}
 
-Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
+Les inducteurs sont des inducteurs d'une résistance de $0.8 \Omega$ et ont 125 spires chacune.
 
-\section{Les composants}
-La maquette possède les composants suivant essentiel à la réalisation de ce projet :
+Les capteur de positions sont des capteurs de chez Baumer \cite{CaptPosition}. Ce sont des capteurs. La datasheet en annexe explique leur fonctionnement. \red{Insérer la datasheet dans les annexes}.
 
-\begin{itemize}
-    \item Quatre inducteurs d'une valeur de $4.9 mH$
-    \item Quatre cartes de puissances
-    \item Quatre capteurs de courants de chez Baumer \cite{CaptCour}
-    \item Quatre capteurs de positions \cite{CaptPosition}
-    \item Un DSP pour le contrôle \cite{Dsp}
-\end{itemize}
+Les catpeurs de courants sont des capteurs de chez LEM \cite{CaptCour}. Ce sont des capteurs à effet hall. La datasheet en annexe explique leur fonctionnement. Celle-ci sont disposé sur les cartes de puissances.
 
-La carte principale possède plusieurs régulateurs dont le 
+Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.\\
 
-\subsection{Capteur de position Baumer}
-Les capteurs de positions sont des capteurs Baumer \cite{CaptPosition}.
+Les différentes distances sont représentées dans l'image suivante :
 
-\subsection{Capteur de courant}
+\red{Insérer l'image des positions de freyches}
 
-\subsection{}
+La partie supérieur est celle qui lévite. Suite à une mesure du poids, la partie lévitant n'est pas de 13,6 kg comme indiqué dans les travaux précédents mais est de 18.052 kg.
 
 \section{Schéma fonctionnel}
 Le schéma fonctionnel, repris du travail de Thomas Freyche \cite{Freyche}, est présenté ci-dessous :
@@ -59,8 +53,6 @@ Le schéma fonctionnel, repris du travail de Thomas Freyche \cite{Freyche}, est 
 Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
 
 Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
-
-Les différents composants sont détaillés dans les sous-sections suivantes.
 
 \section{Fonctionnement de la maquette}
 
