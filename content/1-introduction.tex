@@ -56,66 +56,6 @@ Le démonstrateur utilise le principe de la sustentation magnétique par attract
     \caption{Principe de l'EMS \cite{Swissmetro}}
 \end{figure}
 
-\section{Présentation de la maquette}
-
-\subsection{La maquette}
-La maquette est constituée de cinq PCB (une carte principale et quatre cartes de puissance) ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{Image/Chap.1/MaquetteDessus.png}
-    \caption{La maquette vue de dessus}
-    \label{fig:MaquetteUp}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.1/MaquetteCote.png}
-    \caption{La maquette vue de côté}
-    \label{fig:MaquetteSide}
-\end{figure}
-
-Avec :
-
-\begin{itemize}
-    \item 1 : La carte principale
-    \item 2 : Les cartes de puissances
-\end{itemize}
-
-Actuellement, une alimentation externe est employée. À terme, l'intégration d'un convertisseur puis d'un transformateur permettra au système de disposer de sa propre source d'alimentation autonome.
-
-\subsection{Les composants}
-La maquette possède les composants suivant essentiel à la réalisation de ce projet :
-
-\begin{itemize}
-    \item Quatre inducteurs d'une valeur de $4.9 mH$
-    \item Quatre cartes de puissances
-    \item Quatre capteurs de courants \cite{CaptCour}
-    \item Quatre capteurs de positions \cite{CaptPosition}
-    \item Un DSP pour le contrôle \cite{Dsp}
-\end{itemize}
-
-\subsubsection{Capteur de position}
-Les capteurs de positions sont des capteurs de
-
-\subsubsection{Capteur de courant}
-
-\subsection{Schéma fonctionnel}
-Le schéma fonctionnel, repris du travail de Thomas Freyche, est présenté ci-dessous :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{Image/Chap.2/SchemFonct.png}
-    \caption{Schéma fonctionnel \cite{Freyche}}
-    \label{fig:SchemFonct}
-\end{figure}
-
-Sur le principe, la carte principale doit pouvoir réaliser l'entiereté de la régulation. Celle-ci permet donc de commander les inducteurs pour la lévitation.
-
-Il est possible de commander la maquette par l'aide d'une interface web qui peut être affiché sur le téléphone ou n'importe quelle autre appareil pouvant se connecter au réseau wifi de l'ESP32.
-
-Les différents composants sont détaillés dans les sous-sections suivantes.
-
 \subsection{La régulation}
 La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
 
@@ -169,7 +109,7 @@ Les travaux à réaliser sont les suivants :
 \begin{itemize}
     \item Code Composer Studio pour la programmation du DSP.
     \item Visual Studio Code pour le rapport rédigé en \LaTeX.
-    \item Excel pour le Gantt.
+    \item Excel pour le Gantt, les mesures et les graphiques.
     \item Draw.io pour la réalisation des schémas.
     \item Arduino IDE pour le code de l'ESP32
 \end{itemize}
