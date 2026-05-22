@@ -77,6 +77,8 @@ Actuellement, une alimentation externe est utilisée. À terme, l’intégration
 
 \clearpage
 
+
+
 \section{Présentation de l'électronique}
 \label{sec:SchemEle}
 La section suivante présente l’électronique réalisée dans la version initiale du projet. Le schéma électrique complet est le suivant :
@@ -260,26 +262,26 @@ La mise en service de la maquette s’effectue selon la procédure suivante :
 
 \section{Calibration des capteurs de position}
 \label{sec:CalibrationCaptPos}
-Les capteurs de position ont une calibration dénommé "Teach-in". Plus de détails sur cette méthode sont détaillé dans l'annexe \cite{CaptPosition}.
+Les capteurs de position disposent d’une calibration appelée « Teach-in ». De plus amples détails sur cette méthode sont présentés dans l’annexe \cite{CaptPosition}.
 
-Les étapes ppur réaliser une calibration "Teach-in" sont les suivantes :
+Les étapes pour réaliser une calibration selon la méthode « Teach-in » sont les suivantes :
 
 \begin{enumerate}
-    \item Presser sur la touche; la LED rouge s'allume lorsque l'apprentissage du détecteur est encore possible.
+    \item Presser la touche. La LED rouge s’allume lorsque l’apprentissage du détecteur est encore possible.
 
-    \item Presser sur la touche pendant 5 secondes jusqu'à ce que la LED rouge commence à clignoter.
+    \item Presser la touche pendant 5 secondes jusqu’à ce que la LED rouge commence à clignoter.
 
     \item Relâcher la touche.
 
-    \item Placer maintenant l'objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0V respectivement 4 mA.
+    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0 V, respectivement de 4 mA.
 
-    \item Presser brièvement sur la touche; la LED rouge s'allume pendant 3 secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
+    \item Presser brièvement la touche. La LED rouge s’allume pendant 3 secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
 
-    \item Maintenant, placer l'objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10V respectivement 20 mA. Presser brièvement sur la touche; la LED rouge s'allume pendant 3 secondes comme confirmation. Ensuite, elle s'éteint pour clignoter encore une fois brièvement. Le détecteur est maintenant à nouveau opérationnel.
+    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10 V, respectivement de 20 mA. Presser brièvement la touche. La LED rouge s’allume pendant 3 secondes comme confirmation. Ensuite, elle s’éteint pour clignoter encore une fois brièvement. Le détecteur est alors de nouveau opérationnel.
 \end{enumerate}
 
-Il est cependant important de noter que la seconde mesure indiquant la distance minimum doit être réaliser suffisament rapidement pour permettre au capteur d'enregistrer cette mesure.
+La seconde mesure, correspondant à la distance minimale, doit toutefois être réalisée suffisamment rapidement pour permettre au capteur d’enregistrer cette valeur.
 
-Pour permettre de réaliser la mesure le plus facilement possible, un code réalisant uniquement une régulation de courant avec un courant constant est employé. Ce code est disponible sous \texttt{Test\_pour\_carte\_principale\_4\_inducteurs\textbackslash Fichier\_de\_test\textbackslash Test\_regulation\_courant.c}. L'emploie de ce code permet donc de coller les éléctroaimant (inducteurs) au rail permettant d'avoir un entrefer de 0mm. Pour enclencher les électroaimants, il suffit d'appuyer sur le bouton, a ce moment la une LED s'enclenchera indiquant le début de la régulation. Une fois cela réalisé, il suffit de monter à la main les inducteur en les tenant depuis les pieds jusqu'à ce qu'elle vienne se coller au rail. Il est impératif que les 4 inducteurs soit coller afin de ne pas créer un angle qui viendrait fausser la mesure. Lorsque les électroaimants sont collé, il est possible de suivre les étapes mentionnés dessus pour réaliser le teach-in. Lors que la plage minimal à été enregistré, il suffit d'appuyer une nouvelle fois sur le bouton pour faire abaisser les électroaimants. Il est possible acet instant d'enregistrer la plage maximale du capteur.
+Afin de faciliter la mesure, un programme réalisant uniquement une régulation de courant constant est utilisé. Ce programme est disponible dans Test\_pour\_carte\_principale\_4\_inducteurs\textbackslash Fichier\_de\_test\textbackslash Test\_regulation\_courant.c. L’emploi de ce code permet d’appliquer les électroaimants aux rails afin d’obtenir un entrefer de 0 mm. Pour enclencher les électroaimants, il suffit d’appuyer sur le bouton. À ce moment-là, une LED s’allume et indique le début de la régulation. Une fois cette étape réalisée, il suffit de soulever les inducteurs à la main en les tenant par les pieds jusqu’à leur contact avec le rail. Les quatre inducteurs doivent impérativement être collés afin d’éviter la création d’un angle susceptible de fausser la mesure. Lorsque les électroaimants sont collés, les étapes précédentes peuvent être suivies pour réaliser le teach-in. Lorsque la plage minimale a été enregistrée, il suffit d’appuyer une nouvelle fois sur le bouton pour faire abaisser les électroaimants. La plage maximale du capteur peut alors être enregistrée.
 
-Une fois cela réalisé, le capteur à été calibrer.
+Une fois cette procédure terminée, le capteur est calibré.
