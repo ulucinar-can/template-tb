@@ -260,4 +260,24 @@ La mise en service de la maquette s’effectue selon la procédure suivante :
 
 \section{Calibration des capteurs de position}
 \label{sec:CalibrationCaptPos}
-Les capteurs de position
+Les capteurs de position ont une calibration dénommé "Teach-in". Plus de détails sur cette méthode sont détaillé dans l'annexe \cite{CaptPosition}.
+
+Les étapes ppur réaliser une calibration "Teach-in" sont les suivantes :
+
+\begin{enumerate}
+    \item Presser sur la touche; la LED rouge s'allume lorsque l'apprentissage du détecteur est encore possible.
+
+    \item Presser sur la touche pendant 5 secondes jusqu'à ce que la LED rouge commence à clignoter.
+
+    \item Relâcher la touche.
+
+    \item Placer maintenant l'objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0V respectivement 4 mA.
+
+    \item Presser brièvement sur la touche; la LED rouge s'allume pendant 3 secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
+
+    \item Maintenant, placer l'objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10V respectivement 20 mA. Presser brièvement sur la touche; la LED rouge s'allume pendant 3 secondes comme confirmation. Ensuite, elle s'éteint pour clignoter encore une fois brièvement. Le détecteur est maintenant à nouveau opérationnel.
+\end{enumerate}
+
+Il est cependant important de noter que la seconde mesure indiquant la distance minimum doit être réaliser suffisament rapidement pour permettre au capteur d'enregistrer cette mesure.
+
+Pour permettre de réaliser la mesure le plus facilement possible, un code réalisant uniquement une régulation de courant avec un courant constant est employé. Ce code est disponible sous \texttt{Test\_pour\_carte\_principale\_4\_inducteurs\textbackslash Fichier\_de\_test\textbackslash Test\_regulation\_courant.c}. L'emploie de ce code permet donc de coller les éléctroaimant (inducteurs) au rail permettant d'avoir un entrefer de 0mm. Pour enclencher les électroaimants
