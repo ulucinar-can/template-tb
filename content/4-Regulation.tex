@@ -1,5 +1,43 @@
 \chapter{La régulation}
 
+\section{Introduction}
+La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemaBlocRegulation.jpg}
+    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
+    \label{fig:SchemaBlocRégulation}
+\end{figure}
+
+Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
+
+Les blocs "Reg i1" à "Reg i4" représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
+
+Les blocs "Reg $\delta$1" à "Reg $\delta$4" représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
+
+Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
+
+\begin{equation}
+    F = k \cdot \left(\frac{I}{d}\right)^2
+    \label{eq:ForceElectro}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $F$ : La force magnétique [N].
+    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
+    \item $d$ : La distance de l'entrefer [m].
+    \item $I$ : Le courant traversant la bobine [A].
+\end{itemize}
+
+À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
+
+\begin{equation}
+    I = \sqrt{\frac{F}{k}} \cdot d
+    \label{eq:CourantElectro}
+\end{equation}
+
 \section{Principe mathématique}
 
 \subsection{Equation de la tension induite dans une bobine}

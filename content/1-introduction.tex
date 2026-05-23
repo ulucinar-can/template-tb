@@ -1,31 +1,31 @@
 \chapter{Introduction}
 
 \section{Contexte}
-L'Institut d'Automatisation Industrielle dispose d'un démonstrateur de sustentation magnétique par attraction à quatre inducteurs. La régulation de position du véhicule a été étudiée et testée dans le cadre d'un précédent travail de bachelor. Bien que le résultat final n'ait pas donné entière satisfaction, plusieurs pistes ont été mises en avant pour améliorer la stabilité du système global.
+L'Institut d'Automatisation Industrielle (iAi) dispose d'un démonstrateur de sustentation magnétique par attraction à quatre inducteurs. La régulation de position du véhicule a été étudiée et testée dans le cadre d'un précédent travail de bachelor. Bien que le résultat final n'ait pas donné entière satisfaction, plusieurs pistes ont été mises en avant pour améliorer la stabilité du système global.
 
-La conception et le montage d'une nouvelle carte de commande avec un DSP, ainsi que les circuits d'interfaçage des différents capteurs, ont été réalisés lors d'un précédent travail de bachelor.
+La conception et le montage d'une nouvelle carte de commande équipée d'un DSP, ainsi que les circuits d'interfaçage des différents capteurs, ont été réalisés lors d'un précédent travail de bachelor.
 
-Le but de ce travail consiste à finaliser le démonstrateur avec la mise en œuvre et la programmation de la carte de commande pour la régulation des quatre inducteurs. Une interface utilisateur doit également être implémentée sur un site web embarqué accessible par Wi-Fi.
+Le but de ce projet consiste à finaliser le démonstrateur par la mise en œuvre et la programmation de la carte de commande pour la régulation des quatre inducteurs. Une interface utilisateur doit également être implémentée sur un site web embarqué, accessible via une liaison Wi-Fi.
 
 \section{Historique du projet}
 
-La maquette de démonstration a d'abord été conçue en 1996 par Michel Zayadine \cite{Zayadine}, durant sa thèse de doctorat à l'EPFL en lien avec le projet Swissmetro. Son travail a consisté en la réalisation de la structure mécanique (chariot, quatre inducteurs et deux rails) ainsi qu'en sa régulation. Le projet est néanmoins resté à l'abandon pendant plusieurs années, avant que la maquette soit récupérée par l'institut iAi.
+La maquette de démonstration a initialement été conçue en 1996 par Michel Zayadine \cite{Zayadine}, durant sa thèse de doctorat à l'EPFL en lien avec le projet Swissmetro. Son travail a consisté en la réalisation de la structure mécanique (chariot, quatre inducteurs et deux rails) ainsi qu'en l'élaboration de sa régulation. Le projet est néanmoins resté inutilisé pendant plusieurs années, avant que la maquette ne soit récupérée par l'institut iAi.
 
-En 2018, Aymeric Dutruel \cite{Aymeric} relance le projet pour son travail de bachelor. Ce travail comprend la réalisation des cartes de puissance pour chaque inducteur, d'une carte d'interfaçage, l'ajout de capteurs laser de position et une première version des régulations de courant et de position pour un seul inducteur. Cependant, des problèmes de câblage ont rendu les cartes peu fiables, et le système nécessitait une aide manuelle pour se stabiliser.
+En 2018, Aymeric Dutruel \cite{Aymeric} a relancé le projet pour son travail de bachelor. Cette étude comprenait la réalisation des cartes de puissance pour chaque inducteur, le développement d'une carte d'interfaçage, l'intégration de capteurs laser de position ainsi qu'une première version des régulations de courant et de position pour un unique inducteur. Cependant, des problèmes de câblage ont limité la fiabilité des cartes, et le système nécessitait une assistance manuelle pour se stabiliser.
 
-En 2019, Mattia Laucella \cite{Laucella} a rendu les cartes de puissance plus fiables et a réussi à réaliser une régulation sur deux, puis quatre inducteurs. L'électronique a également pu être regroupée et placée sur une planche en bois afin que l'ensemble puisse être monté sur le chariot. Ce travail a permis d'obtenir une sustentation complète, bien qu'encore non optimale.
+En 2019, Mattia Laucella \cite{Laucella} a fiabilisé les cartes de puissance et est parvenu à réaliser une régulation sur deux, puis quatre inducteurs. L'électronique a également été regroupée et fixée sur un support en bois afin que l'ensemble puisse être embarqué sur le chariot. Ce travail a permis d'obtenir une sustentation complète, bien qu'encore non optimale.
 
-En 2022, Franck Yersin \cite{Yersin} a grandement amélioré le projet en réalisant une séquence de décollage. C'est également à partir de ce travail qu'une interface utilisateur a été mise en place au moyen d'un Raspberry Pi couplé à un écran tactile. L'interface communiquait avec le DSP par un câble et permettait d'observer un tracé de la position, ainsi que de modifier les paramètres de régulation.
+En 2022, Franck Yersin \cite{Yersin} a grandement fait évoluer le projet en développant une séquence de décollage. C'est également à partir de ces travaux qu'une interface utilisateur a été mise en place au moyen d'un Raspberry Pi couplé à un écran tactile. L'interface communiquait avec le DSP par liaison filaire et permettait d'observer le tracé de la position, tout en offrant la possibilité de modifier les paramètres de régulation.
 
-En 2024, Christophe Isoz \cite{Isoz} a repris le travail afin de centraliser l'électronique sur une seule carte de contrôle. Le DSP a notamment été remplacé par une version plus moderne, un circuit de précharge pour les alimentations a été ajouté, ainsi qu'un module de communication sans fil pour le Raspberry Pi (RaspBeeII). Malheureusement, ce travail n'a pas permis de remettre la maquette en lévitation en raison de nombreux bugs matériels et de temps de calcul trop longs.
+En 2024, Christophe Isoz \cite{Isoz} a repris le projet afin de centraliser l'électronique sur une seule carte de contrôle. Le DSP a notamment été remplacé par une version plus moderne, un circuit de précharge pour les alimentations a été intégré, ainsi qu'un module de communication sans fil pour le Raspberry Pi (RaspBeeII). Malheureusement, ces travaux n'ont pas permis de remettre la maquette en lévitation en raison de défauts matériels et de temps de calcul trop longs.
 
-En 2025, Thomas Freyche \cite{Freyche} a dû résoudre les problèmes introduits précédemment dans la maquette. Le travail a donc consisté à corriger les erreurs de conception et à optimiser le code. Cette étape a permis, dans un premier temps, de réaliser une sustentation sur quatre inducteurs, mais à la suite d'une mauvaise calibration, la maquette n'a plus été apte à décoller.
+En 2025, Thomas Freyche \cite{Freyche} a résolu les anomalies introduites précédemment dans la maquette. Son travail a consisté à corriger les erreurs de conception et à optimiser le code. Cette étape a permis, dans un premier temps, de réaliser une sustentation sur quatre inducteurs, mais à la suite d'une mauvaise calibration, la maquette n'a plus été apte à décoller.
 
 \section{Les trains à sustentation magnétique}
 
 \subsection{Histoire}
 
-Les trains à sustentation magnétique (également appelés Maglev) utilisent les forces magnétiques pour se déplacer. Aucun contact n'existe avec les rails. Grâce à ce procédé, les résistances de roulement sont supprimées, ce qui permet d'atteindre de très grandes vitesses (par exemple, le train japonais L0 a atteint 603 km/h)\cite{Maglev}.\\
+Les trains à sustentation magnétique (également appelés Maglev) utilisent les forces magnétiques pour se déplacer sans aucun contact avec les rails. Grâce à ce procédé, les résistances de roulement sont supprimées, ce qui permet d'atteindre des vitesses très élevées (le train japonais L0 a notamment atteint la vitesse de 603 km/h) \cite{Maglev}.
 
 \begin{figure}[H]
     \centering
@@ -33,7 +33,7 @@ Les trains à sustentation magnétique (également appelés Maglev) utilisent le
     \caption{Le train japonais L0 \cite{Maglev}}
 \end{figure}
 
-En Suisse, un projet de Maglev nommé Swissmetro a vu le jour. Le but était de créer un train souterrain à sustentation magnétique. Malheureusement, le projet a été abandonné en 2009. Les droits ont ensuite été transférés à l'EPFL\cite{Swissmetro}.
+En Suisse, un projet de Maglev nommé Swissmetro a été développé dans le but de créer un train souterrain à l'intérieur de tunnels sous vide partiel. Le projet a été suspendu en 2009, et les droits associés ont ensuite été transférés à l'EPFL \cite{Swissmetro}.
 
 \begin{figure}[H]
     \centering
@@ -42,12 +42,12 @@ En Suisse, un projet de Maglev nommé Swissmetro a vu le jour. Le but était de 
 \end{figure}
 
 \subsection{Principe}
-Le démonstrateur utilise le principe de la sustentation magnétique par attraction (en anglais EMS, pour Electromagnetic Suspension). La lévitation repose sur trois éléments :
+Le démonstrateur utilise le principe de la sustentation magnétique par attraction (EMS, pour Electromagnetic Suspension). La lévitation repose sur trois aspects fondamentaux :
 
 \begin{enumerate}
-    \item Disposition mécanique : le chariot possède des électroaimants (inducteurs) placés sous des rails ferromagnétiques fixes.
-    \item Compensation de la gravité : lorsque le courant circule dans les bobines, un champ magnétique se crée et génère une force d'attraction vers le haut (direction du rail), ce qui compense le poids du chariot.
-    \item Régulation active : grâce aux capteurs (courant et position), la régulation évite que les inducteurs et les rails ne viennent se coller violemment les uns aux autres.
+    \item La disposition mécanique : le chariot intègre des électroaimants (inducteurs) placés sous des rails ferromagnétiques fixes.
+    \item La compensation de la gravité : le passage du courant dans les bobines génère un champ magnétique qui induit une force d'attraction vers le haut (en direction du rail), compensant ainsi le poids du chariot.
+    \item La régulation active : l'exploitation des mesures des capteurs (courant et position) permet à la régulation d'empêcher un contact direct et violent entre les inducteurs et les rails.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -56,85 +56,42 @@ Le démonstrateur utilise le principe de la sustentation magnétique par attract
     \caption{Principe de l'EMS \cite{Swissmetro}}
 \end{figure}
 
-\subsection{La régulation}
-La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/SchemaBlocRegulation.jpg}
-    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
-    \label{fig:SchemaBlocRégulation}
-\end{figure}
-
-Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
-
-Les blocs "Reg i1" à "Reg i4" représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
-
-Les blocs "Reg $\delta$1" à "Reg $\delta$4" représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
-
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
-
-\begin{equation}
-    F = k \cdot \left(\frac{I}{d}\right)^2
-    \label{eq:ForceElectro}
-\end{equation}
-
-Avec :
-\begin{itemize}
-    \item $F$ : La force magnétique [N].
-    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
-    \item $d$ : La distance de l'entrefer [m].
-    \item $I$ : Le courant traversant la bobine [A].
-\end{itemize}
-
-À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
-
-\begin{equation}
-    I = \sqrt{\frac{F}{k}} \cdot d
-    \label{eq:CourantElectro}
-\end{equation}
-
 \section{Travaux à réaliser}
 \red{A completer}
-Les travaux à réaliser sont les suivants :
+Les tâches à accomplir dans le cadre de ce projet sont les suivantes :
 
 \begin{itemize}
-    \item Trouver le problème du code principal.
-    \item Terminer l'interface utilisateur.
-    \item Réaliser une synthèse d'un régulateur PID.
+    \item Identifier et corriger le dysfonctionnement présent dans le code principal.
+    \item Finaliser l'interface utilisateur embarquée.
+    \item Réaliser la synthèse d'un régulateur PID.
 \end{itemize}
 
-
-\section{Logiciel employé}
+\section{Logiciels employés}
 \begin{itemize}
     \item Code Composer Studio pour la programmation du DSP.
-    \item Visual Studio Code pour le rapport rédigé en \LaTeX.
-    \item Excel pour le Gantt, les mesures et les graphiques.
-    \item Draw.io pour la réalisation des schémas.
-    \item Arduino IDE pour le code de l'ESP32
+    \item Visual Studio Code pour la rédaction du rapport en \LaTeX.
+    \item Excel pour la planification de Gantt, le traitement des mesures et la génération des graphiques.
+    \item Draw.io pour la modélisation des schémas.
+    \item Arduino IDE pour le développement du code de l'ESP32.
 \end{itemize}
 
-Pour Code Composer Studio, différentes installations et modifications sont nécessaires.
+L'utilisation de Code Composer Studio requiert différentes installations et configurations préalables. Celles-ci sont détaillées dans la sous-section \ref{sec:MiseEnPlace}.
 
-\red{revérif les label de la mise en place de ccs}
-Celles-ci sont traitées dans la sous-section \ref{sec:MiseEnPlace}.
-
-\section{Hypothèse}
+\section{Hypothèses de recherche}
 \label{sec:Hypothese}
 
-Les hypothèses suivantes ont été pensée qui causerait potentiellement le problème :
+Plusieurs hypothèses ont été formulées concernant l'origine potentielle du problème de lévitation :
 
 \begin{itemize}
-    \item Les interruptions liées à la communication sans fil empêchent le bon déroulement de l'interruption de la régulation.
-    \item Les temps ne sont plus bons, il faudrait vérifier que tout ce qui est dans réaliser dans l'interruption est correctement
-    \item Un intégrateur a été ajouté, il se peut que celui la cause problème.
-    \item La calibration est mal faite, il faut entièrement la refaire
-    \item Avec l'électronique en embarqué, la masse a changé rendant donc la régulation fausse.
-    \item La masse a changé.
-    \item Une erreur s'est glissé lors de la synthèse des régulateurs.
-    \item La vérification du 99\% fausse la machine d'état.
-    \item La carte principale a un problème.
-    \item Le DSP n'est pas correctement routé au reste de la carte.
+    \item Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation.
+    \item Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption.
+    \item L'ajout récent d'une action intégrale engendre une instabilité du système.
+    \item Une mauvaise calibration globale du système empêche le décollage.
+    \item L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.
+    \item Une erreur s'est glissée lors de la phase de synthèse des régulateurs.
+    \item La condition de vérification à 99 \% perturbe le comportement de la machine d'état.
+    \item La carte principale présente un défaut matériel.
+    \item Les broches du DSP ne sont pas correctement reliées au reste de la carte principale.
 \end{itemize}
 
 \section{Usage de l'IA}
@@ -142,7 +99,7 @@ L'intelligence artificielle a été employée à des fins d'assistance pour les 
 \begin{itemize}
     \item La rédaction (correction de la grammaire, de l'orthographe et amélioration de la structure du texte).
     \item La compréhension du code relatif au DSP et à l'ESP32.
-    \item Une aide pour mieux structurer le code et améliorer sa lisibilité.
+    \item La structuration du code source et l'optimisation de sa lisibilité.
     \item Le soutien à l'analyse de la documentation des travaux précédents.
     \item Des interrogations générales concernant les principes théoriques appliqués.
 \end{itemize}
