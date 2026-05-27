@@ -40,22 +40,80 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
 
 \subsection{Convertisseur DC/DC 24V}
 
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 24V et entrée 48V (PS1)}}                                                                                                                                                              \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure}          & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 48V                       & Bornie d'entrée & 48                                                                 & 48.05                                                            & 0.05   & 0.10            \\ \hline
+            1.b & Tension après le switch de précharge & TP4             & 48                                                                 & 48.04                                                            & 0.04   & 0.08            \\ \hline
+            2.a & Sortie du régulateur 24V             & TP6 et TP8      & 24                                                                 & 23.85                                                            & 0.15   & 0.62            \\ \hline
+        \end{tabular}%
+    }
+\end{table}
 
 \subsection{Régulateur 15V}
 
-
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 15V (PS2)}}                                                                                                                                                                      \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure    & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & Côté C12 de la C13 & 24                                                                 & 23.07                                                            & 0.93   & 3.88            \\ \hline
+            2.a & Sortie du régulateur 15V    & TP1                & 15                                                                 & 14.95                                                            & 0.05   & 0.333           \\ \hline
+        \end{tabular}%
+    }
+\end{table}
 
 \subsection{Régulateur 5V}
 
-
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 5V (IC1)}}                                                                                                                                                                    \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & Pin 1 IC1       & 24                                                                 & 23.86                                                            & 0.14   & 0.583           \\ \hline
+            2.a & Sortie du régulateur 5V     & L2 côté condo   & 5                                                                  & 4.989                                                            & 0.011  & 0.220           \\ \hline
+            2.b & Après l'inducteur L2        & TP2             & 5                                                                  & 4.987                                                            & 0.013  & 0.260           \\ \hline
+        \end{tabular}%
+    }
+\end{table}
 
 \subsection{Régulateur 3.3V}
 
-
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 3.3V (U6)}}                                                                                                                                                                   \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 5V               & J5 pin 2        & 5                                                                  & 4.982                                                            & 0.018  & 0.360           \\ \hline
+            2.a & Sortie du régulateur 3.3V   & TP5             & 3.3                                                                & 3.296                                                            & 0.004  & 0.121           \\ \hline
+        \end{tabular}%
+    }
+\end{table}
 
 \subsection{Régulateur 0.5V}
 
-
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 0.5V (U5)}}                                                                                                                                                                   \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & C18 côté U6     & 5                                                                  & 4.981                                                            & 0.019  & 0.380           \\ \hline
+            2.a & Sortie du régulateur 15V    & TP3             & 0.5                                                                & 0.4982                                                           & 0.002  & 0.360           \\ \hline
+        \end{tabular}%
+    }
+\end{table}
 
 \subsection{Analyse des résultats}
 L'alimentation général est correctement garantit. Les valeurs se rapprochent effectivement des résultats voulues.\\
