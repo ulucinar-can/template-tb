@@ -13,8 +13,6 @@ Les objéctif de la mesure sont :
     \item Déterminer le besoin d'une nouvelle calibration des capteurs de positons.
 \end{itemize}
 
-\red{Refaire les tableau car les calculs des erreurs était fausse}
-
 \section{Vérification de la charge du condensateur}
 Le condensateur a été vérifié afin de comparer le résultat obtenu à celui de Thomas Freyche, illustré dans la figure \ref{fig:ResFreycheCapa} :
 
@@ -131,9 +129,17 @@ Le régulateur de 0,5 V présente les résultats consignés dans le tableau \ref
 Les différents régulateurs présentés ci-dessus fonctionnent de manière nominale. Les tensions fournies sont conformes aux spécifications des constructeurs, ce qui garantit une alimentation stable pour l'ensemble de la carte.
 
 Une anomalie a néanmoins été détectée sur le convertisseur 24 V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
-\section{Mesure des capteurs de courants}
 
-\subsection{Mesures générales des circuits de conditionnement de courant}
+\section{Mesure des capteurs de courants}
+Cette section traite des différentes mesures réalisées afin de vérifier le comportement des capteurs de courant.
+
+Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
+
+Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.
+
+\red{Il faudrait changer la masse dan les tableaux de courants}
+
+
 
 \begin{table}[H]
     \centering
