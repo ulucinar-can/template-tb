@@ -145,6 +145,56 @@ Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorit
     }
 \end{table}
 
+\subsection{Mesure sans ajout de poids}
+
+% --- Sans Poids - Partie 1 (Sonde) ---
+\begin{table}[H]
+\centering
+\makebox[\textwidth]{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
+Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique\\ {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{6.8} & 67 & 7.4 & 6.1 & 1.3 & 18 \\ \cline{1-1} \cline{6-10}
+2 & & & & & 67 & 7.4 & 6.2 & 1.2 & 17 \\ \cline{1-1} \cline{6-10}
+3 & & & & & 67 & 7.4 & 6.4 & 1.0 & 13 \\ \cline{1-1} \cline{6-10}
+4 & & & & & 67 & 7.4 & 5.8 & 1.5 & 21 \\ \hline
+\end{tabular}
+}
+\end{table}
+
+% --- Sans Poids - Partie 2 (ADC) ---
+\begin{table}[H]
+\centering
+\makebox[\textwidth]{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
+Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{6.8} & 66.7 & 7.38 & 6.79 & 0.594 & 8.05 \\ \cline{1-1} \cline{6-10}
+2 & & & & & 66.7 & 7.38 & 6.45 & 0.933 & 12.6 \\ \cline{1-1} \cline{6-10}
+3 & & & & & 66.7 & 7.38 & 6.54 & 0.841 & 11.4 \\ \cline{1-1} \cline{6-10}
+4 & & & & & 66.7 & 7.38 & 6.02 & 1.36 & 18.5 \\ \hline
+\end{tabular}
+}
+\end{table}
+
+% --- Sans Poids - Partie 3 (Comparatif) ---
+\begin{table}[H]
+\centering
+\makebox[\textwidth]{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{5}{|c|}{\textbf{Sans poids}} \\ \hline
+Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur & Erreur relatif {[}\%{]} \\ \hline
+1 & 6.79 & 6.08 & 0.71 & 10.4 \\ \hline
+2 & 6.45 & 6.16 & 0.29 & 4.44 \\ \hline
+3 & 6.54 & 6.40 & 0.14 & 2.11 \\ \hline
+4 & 6.02 & 5.84 & 0.18 & 2.94 \\ \hline
+\end{tabular}
+}
+\end{table}
+
 \subsection{Mesure avec des poids de 1.25 kg}
 
 
