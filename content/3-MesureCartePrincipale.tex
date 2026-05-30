@@ -129,7 +129,7 @@ Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorit
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Vérification général des conditionneurs de courant (Partie 1)}}                                                                                                                                                                                                                                                  \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification général des conditionneurs de courant}}                                                                                                                                                                                                                                                             \\ \hline
             N°  & Mesure                                                                & \begin{tabular}[c]{@{}c@{}}Point de\\ mesure\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur mesurée\\ {[}V{]}\end{tabular} & Erreur                                  & Erreur {[}\%{]} \\ \hline
             1.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_4\end{tabular} & U1\_4 pin 8                                                 & 5                                                                  & 4.989                                                            & 0.0110                                  & 0.2200          \\ \hline
             1.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_4\end{tabular} & U2\_4 pin 8                                                 & 3.3                                                                & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
@@ -145,51 +145,73 @@ Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorit
     }
 \end{table}
 
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification général des conditionneurs de courant}}                                                                                                                                                                                                                                                             \\ \hline
+            N°  & Mesure                                                                & \begin{tabular}[c]{@{}c@{}}Point de\\ mesure\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur mesurée\\ {[}V{]}\end{tabular} & Erreur                                  & Erreur {[}\%{]} \\ \hline
+            3.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_3\end{tabular} & U1\_3 pin 8                                                 & 5                                                                  & 4.985                                                            & 0.0150                                  & 0.3000          \\ \hline
+            3.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_3\end{tabular} & U2\_3 pin 8                                                 & 3.3                                                                & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            3.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 3\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R9\_3 côté\\ droite\end{tabular} & 0.625..4.375                                                       & 2.485                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            3.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_3\end{tabular}       & U2\_3 pin 5                                                 & 0.5..3.5                                                           & 0.996                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            3.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_3\end{tabular}       & TP9\_3                                                      & 0..3                                                               & 1.532                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+            4.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_2\end{tabular} & U1\_2 pin 8                                                 & 5                                                                  & 4.984                                                            & 0.0160                                  & 0.3200          \\ \hline
+            4.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_2\end{tabular} & U2\_2 pin 8                                                 & 3.300                                                              & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            4.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 4\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R9\_2 côté\\ gauche\end{tabular} & 0.625..4.375                                                       & 2.498                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            4.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_2\end{tabular}       & U2\_2 pin 5                                                 & 0.5..3.5                                                           & 0.999                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            4.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_2\end{tabular}       & TP9\_2                                                      & 0..3                                                               & 1.545                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+        \end{tabular}%
+    }
+\end{table}
+
 \subsection{Mesure sans ajout de poids}
 
 % --- Sans Poids - Partie 1 (Sonde) ---
 \begin{table}[H]
-\centerline{
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
-\hline
-\multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
-Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique\\ {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
-1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{6.8} & 67 & 7.4 & 6.1 & 1.3 & 18 \\ \cline{1-1} \cline{6-10}
-2 & & & & & 67 & 7.4 & 6.2 & 1.2 & 17 \\ \cline{1-1} \cline{6-10}
-3 & & & & & 67 & 7.4 & 6.4 & 1.0 & 13 \\ \cline{1-1} \cline{6-10}
-4 & & & & & 67 & 7.4 & 5.8 & 1.5 & 21 \\ \hline
-\end{tabular}
-}
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique\\ {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 67                                                      & 7.4                                                                   & 6.1                                                              & 1.3    & 18                                                                \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 6.2                                                              & 1.2    & 17                                                                \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 6.4                                                              & 1.0    & 13                                                                \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 5.8                                                              & 1.5    & 21                                                                \\ \hline
+        \end{tabular}%
+    }
 \end{table}
 
 % --- Sans Poids - Partie 2 (ADC) ---
 \begin{table}[H]
-\centerline{
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
-\hline
-\multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
-Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
-1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{6.8} & 66.7 & 7.38 & 6.79 & 0.594 & 8.05 \\ \cline{1-1} \cline{6-10}
-2 & & & & & 66.7 & 7.38 & 6.45 & 0.933 & 12.6 \\ \cline{1-1} \cline{6-10}
-3 & & & & & 66.7 & 7.38 & 6.54 & 0.841 & 11.4 \\ \cline{1-1} \cline{6-10}
-4 & & & & & 66.7 & 7.38 & 6.02 & 1.36 & 18.5 \\ \hline
-\end{tabular}
-}
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 66.7                                                    & 7.38                                                                & 6.79                                                  & 0.594  & 8.05                                                              \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.45                                                  & 0.933  & 12.6                                                              \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.54                                                  & 0.841  & 11.4                                                              \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.02                                                  & 1.36   & 18.5                                                              \\ \hline
+        \end{tabular}%
+    }
 \end{table}
 
 % --- Sans Poids - Partie 3 (Comparatif) ---
 \begin{table}[H]
-\centerline{
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\multicolumn{5}{|c|}{\textbf{Sans poids}} \\ \hline
-Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur & Erreur relatif {[}\%{]} \\ \hline
-1 & 6.79 & 6.08 & 0.71 & 10.4 \\ \hline
-2 & 6.45 & 6.16 & 0.29 & 4.44 \\ \hline
-3 & 6.54 & 6.40 & 0.14 & 2.11 \\ \hline
-4 & 6.02 & 5.84 & 0.18 & 2.94 \\ \hline
-\end{tabular}
-}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Sans poids}}                                  \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur & Erreur relatif {[}\%{]} \\ \hline
+        1         & 6.79        & 6.08          & 0.71   & 10.4                    \\ \hline
+        2         & 6.45        & 6.16          & 0.29   & 4.44                    \\ \hline
+        3         & 6.54        & 6.40          & 0.14   & 2.11                    \\ \hline
+        4         & 6.02        & 5.84          & 0.18   & 2.94                    \\ \hline
+    \end{tabular}%
 \end{table}
 
 \subsection{Mesure avec des poids de 1.25 kg}
