@@ -38,7 +38,9 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
 
 \section{Mesure des régulateurs}
 
-\subsection{Convertisseur DC/DC 24V}
+Cette section traite des mesures réalisées sur les régulateurs de la carte principale. Ces composants assurent l'alimentation correcte de l'intégralité du système.\\
+
+Le convertisseur 24 V présente les résultats consignés dans le tableau \ref{tab:reg_24v_48v} :
 
 \begin{table}[H]
     \centering
@@ -52,9 +54,11 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
             2.a & Sortie du régulateur 24V             & TP6 et TP8      & 24                                                                 & 23.85                                                            & 0.15   & 0.62            \\ \hline
         \end{tabular}%
     }
+    \caption{Mesures sur les régulateurs 24V et l'entrée 48V (PS1)}
+    \label{tab:reg_24v_48v}
 \end{table}
 
-\subsection{Régulateur 15V}
+Le régulateur de 15 V présente les résultats consignés dans le tableau \ref{tab:reg_15v} :
 
 \begin{table}[H]
     \centering
@@ -67,9 +71,11 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
             2.a & Sortie du régulateur 15V    & TP1                & 15                                                                 & 14.95                                                            & 0.05   & 0.333           \\ \hline
         \end{tabular}%
     }
+    \caption{Mesures sur le régulateur 15V (PS2)}
+    \label{tab:reg_15v}
 \end{table}
 
-\subsection{Régulateur 5V}
+Le régulateur de 5 V présente les résultats consignés dans le tableau \ref{tab:reg_5v} :
 
 \begin{table}[H]
     \centering
@@ -83,9 +89,11 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
             2.b & Après l'inducteur L2        & TP2             & 5                                                                  & 4.987                                                            & 0.013  & 0.260           \\ \hline
         \end{tabular}%
     }
+    \caption{Mesures sur les régulateurs 5V (IC1)}
+    \label{tab:reg_5v}
 \end{table}
 
-\subsection{Régulateur 3.3V}
+Le régulateur de 3,3 V présente les résultats consignés dans le tableau \ref{tab:reg_3_3v} :
 
 \begin{table}[H]
     \centering
@@ -98,9 +106,11 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
             2.a & Sortie du régulateur 3.3V   & TP5             & 3.3                                                                & 3.296                                                            & 0.004  & 0.121           \\ \hline
         \end{tabular}%
     }
+    \caption{Mesures sur les régulateurs 3.3V (U6)}
+    \label{tab:reg_3_3v}
 \end{table}
 
-\subsection{Régulateur 0.5V}
+Le régulateur de 0,5 V présente les résultats consignés dans le tableau \ref{tab:reg_0_5v} :
 
 \begin{table}[H]
     \centering
@@ -113,13 +123,14 @@ Cela vient prouver le bon fonctionnement du circuit de précharge.
             2.a & Sortie du régulateur 15V    & TP3             & 0.5                                                                & 0.4982                                                           & 0.002  & 0.360           \\ \hline
         \end{tabular}%
     }
+    \caption{Mesures sur les régulateurs 0.5V (U5)}
+    \label{tab:reg_0_5v}
 \end{table}
 
 \subsection{Analyse des résultats}
-L'alimentation général est correctement garantit. Les valeurs se rapprochent effectivement des résultats voulues.\\
+Les différents régulateurs présentés ci-dessus fonctionnent de manière nominale. Les tensions fournies sont conformes aux spécifications des constructeurs, ce qui garantit une alimentation stable pour l'ensemble de la carte.
 
-Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorité de la carte ne pouvait pas correctement être alimenté. Après avoir résolu ça, la carte est une nouvelle fois correctement alimenté.
-
+Une anomalie a néanmoins été détectée sur le convertisseur 24 V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
 \section{Mesure des capteurs de courants}
 
 \subsection{Mesures générales des circuits de conditionnement de courant}
@@ -143,7 +154,7 @@ Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorit
             2.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_1\end{tabular}       & TP9\_1                                                      & 0..3                                                               & 1.736                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
         \end{tabular}%
     }
-    \caption{Vérification générale des conditionneurs de courant (Partie 1 : capteurs 1 et 2)}
+    \caption{Vérification générale des conditionneurs de courant (Capteurs 1 et 2)}
     \label{tab:cond_courant_1}
 \end{table}
 
@@ -166,7 +177,7 @@ Le convertisseur 24V avait une pin mal brasé. A cause de cela la grande majorit
             4.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_2\end{tabular}       & TP9\_2                                                      & 0..3                                                               & 1.545                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
         \end{tabular}%
     }
-    \caption{Vérification générale des conditionneurs de courant (Partie 2 : capteurs 3 et 4)}
+    \caption{Vérification générale des conditionneurs de courant (Capteurs 3 et 4)}
     \label{tab:cond_courant_2}
 \end{table}
 
