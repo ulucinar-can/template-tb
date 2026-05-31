@@ -135,10 +135,9 @@ Cette section traite des différentes mesures réalisées afin de vérifier le c
 
 Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
 
-Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.
+Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.\\
 
-\red{Il faudrait changer la masse dan les tableaux de courants}
-
+Les mesures globales des circuits de conditionnement sont présentées dans les tableaux \ref{tab:cond_courant_1} et \ref{tab:cond_courant_2} :
 
 
 \begin{table}[H]
@@ -187,7 +186,7 @@ Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière
     \label{tab:cond_courant_2}
 \end{table}
 
-\subsection{Mesure sans ajout de poids}
+Une première série de mesures a été réalisée sans ajout de masse afin d'établir des comparaisons entre les valeurs théoriques, les mesures par sonde de courant et les données acquises par l'ADC. Ces résultats sont consignés dans les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc} et \ref{tab:sans_poids_comp} :
 
 % --- Sans Poids - Partie 1 (Sonde) ---
 \begin{table}[H]
@@ -195,15 +194,15 @@ Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique\\ {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 67                                                      & 7.4                                                                   & 6.1                                                              & 1.3    & 18                                                                \\ \cline{1-1} \cline{6-10}
-            2         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 6.2                                                              & 1.2    & 17                                                                \\ \cline{1-1} \cline{6-10}
-            3         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 6.4                                                              & 1.0    & 13                                                                \\ \cline{1-1} \cline{6-10}
-            4         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                   & 5.8                                                              & 1.5    & 21                                                                \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{9.03}                                    & 89                                                      & 8.5                                                                 & 6.1                                                              & 2.4    & 28                                                                \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 6.2                                                              & 2.3    & 28                                                                \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 6.4                                                              & 2.1    & 25                                                                \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 5.8                                                              & 2.7    & 31                                                                \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par sonde (sans ajout de poids)}
+    \caption{Mesures de courant par sonde (Sans poids)}
     \label{tab:sans_poids_sonde}
 \end{table}
 
@@ -215,42 +214,145 @@ Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière
             \hline
             \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
             Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 66.7                                                    & 7.38                                                                & 6.79                                                  & 0.594  & 8.05                                                              \\ \cline{1-1} \cline{6-10}
-            2         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.45                                                  & 0.933  & 12.6                                                              \\ \cline{1-1} \cline{6-10}
-            3         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.54                                                  & 0.841  & 11.4                                                              \\ \cline{1-1} \cline{6-10}
-            4         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.02                                                  & 1.36   & 18.5                                                              \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{9.026}                                   & 88.5                                                    & 8.50                                                                & 6.79                                                  & 1.717  & 20.19                                                             \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.45                                                  & 2.056  & 24.2                                                              \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.54                                                  & 1.964  & 23.1                                                              \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.02                                                  & 2.48   & 29.2                                                              \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par ADC (sans ajout de poids)}
+    \caption{Mesures de courant par ADC (Sans poids)}
     \label{tab:sans_poids_adc}
 \end{table}
 
-% --- Sans Poids - Partie 3 (Comparatif) ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Sans poids}}        \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
+        1         & 6.79        & 6.08          & 0.71   \\ \hline
+        2         & 6.45        & 6.16          & 0.29   \\ \hline
+        3         & 6.54        & 6.40          & 0.14   \\ \hline
+        4         & 6.02        & 5.84          & 0.18   \\ \hline
+    \end{tabular}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Sans poids)}
+    \label{tab:sans_poids_comp}
+\end{table}
+
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25~kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc} et \ref{tab:poids_1_25_comp} :
+
+% --- Poids 1.25 kg - Partie 1 (Sonde) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 10.3                                                     & 101                                                     & 9.06                                                                & 7.6                                                              & 1.5    & 16.1                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 10.2                                                     & 100                                                     & 9.05                                                                & 7.2                                                              & 1.8    & 20                                                                \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 10.3                                                     & 101                                                     & 9.06                                                                & 7.4                                                              & 1.7    & 18.3                                                              \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 10.2                                                     & 100                                                     & 9.05                                                                & 7.2                                                              & 1.8    & 20                                                                \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par sonde (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_sonde}
+\end{table}
+
+% --- Poids 1.25 kg - Partie 2 (ADC) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                             \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 10.3                                                     & 100.6                                                   & 9.06                                                                & 7.98                                                  & 1.083  & 11.954                                                            \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 10.2                                                     & 100.3                                                   & 9.05                                                                & 7.26                                                  & 1.788  & 19.76                                                             \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 10.3                                                     & 100.6                                                   & 9.06                                                                & 7.47                                                  & 1.596  & 17.62                                                             \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 10.2                                                     & 100.3                                                   & 9.05                                                                & 7.10                                                  & 1.951  & 21.6                                                              \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par ADC (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_adc}
+\end{table}
+
+% --- Poids 1.25 kg - Partie 3 (Comparatif) ---
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Sans poids}}                                  \\ \hline
-        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur & Erreur relatif {[}\%{]} \\ \hline
-        1         & 6.79        & 6.08          & 0.71   & 10.4                    \\ \hline
-        2         & 6.45        & 6.16          & 0.29   & 4.44                    \\ \hline
-        3         & 6.54        & 6.40          & 0.14   & 2.11                    \\ \hline
-        4         & 6.02        & 5.84          & 0.18   & 2.94                    \\ \hline
-    \end{tabular}%
-    \caption{Comparatif des erreurs entre l'ADC et la sonde (sans ajout de poids)}
-    \label{tab:sans_poids_comp}
+        \multicolumn{5}{|c|}{\textbf{Poids de 1.25 kg}}                                   \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur {[}A{]} & Écart relatif {[}\%{]} \\ \hline
+        1         & 8.0         & 7.6           & 0.38           & 4.7                    \\ \hline
+        2         & 7.3         & 7.2           & 0.060          & 0.83                   \\ \hline
+        3         & 7.5         & 7.4           & 0.065          & 0.87                   \\ \hline
+        4         & 7.1         & 7.2           & 0.10           & 1.5                    \\ \hline
+    \end{tabular}
+    \caption{Comparatif et écart relatif entre l'ADC et la sonde (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_comp}
 \end{table}
-\subsection{Mesure avec des poids de 1.25 kg}
 
+Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans les tableaux \ref{tab:poids_2_5_sonde}, \ref{tab:poids_2_5_adc} et \ref{tab:poids_2_5_comp} :
 
+% --- Poids 2.5 kg - Partie 1 (Sonde) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 11.5                                                     & 112                                                     & 9.6                                                                 & 8.2                                                              & 1.38   & 14.4                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 11.5                                                     & 113                                                     & 9.6                                                                 & 8.2                                                              & 1.39   & 14.5                                                              \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 11.5                                                     & 112                                                     & 9.6                                                                 & 8.2                                                              & 1.38   & 14.4                                                              \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 11.5                                                     & 113                                                     & 9.6                                                                 & 8.8                                                              & 0.79   & 8.3                                                               \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par sonde (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_sonde}
+\end{table}
 
-\subsection{Mesure avec des poids de 2.5 kg}
+% --- Poids 2.5 kg - Partie 2 (ADC) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 11.5                                                     & 112.4                                                   & 9.58                                                                & 8.93                                                  & 0.655  & 6.84                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 11.5                                                     & 112.8                                                   & 9.59                                                                & 8.29                                                  & 1.302  & 13.57                                                             \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 11.5                                                     & 112.4                                                   & 9.58                                                                & 8.05                                                  & 1.528  & 15.95                                                             \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 11.5                                                     & 112.8                                                   & 9.59                                                                & 8.78                                                  & 0.817  & 8.51                                                              \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par ADC (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_adc}
+\end{table}
 
-
+% --- Poids 2.5 kg - Partie 3 (Comparatif) ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Poids de 2.5 kg}}   \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
+        1         & 8.9         & 8.2           & 0.73   \\ \hline
+        2         & 8.3         & 8.2           & 0.093  \\ \hline
+        3         & 8.1         & 8.2           & 0.15   \\ \hline
+        4         & 8.8         & 8.8           & 0.022  \\ \hline
+    \end{tabular}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_comp}
+\end{table}
 
 \subsection{Analyse des résultats}
+Comme le montrent les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc}, \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc}, \ref{tab:poids_2_5_sonde} et \ref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Cet écart engendre des erreurs relatives non négligeables. Ce phénomène s'explique par le fait que seule une extrémité du chariot (l'avant ou l'arrière) était soulevée lors des essais ; le point d'appui resté en contact avec le sol agit indirectement comme un support mécanique, modifiant ainsi la charge réelle supportée individuellement par chaque inducteur.
 
-\section{Conclusion des mesures}
+En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_poids_comp}, \ref{tab:poids_1_25_comp} et \ref{tab:poids_2_5_comp}, une forte similarité entre les résultats est observée. Cela démontre que l'acquisition de données est correcte et qu'il y a une bonne correspondance entre le courant circulant réellement dans l'inducteur et la valeur mesurée par le capteur.
+
+Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
 
 \section{Mesure des capteurs de positions}
 
@@ -263,3 +365,5 @@ Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière
 \subsection{Mesure pour réaliser un étalonnage des capteurs}
 
 \subsection{Analyse des résultats}
+
+\section{Conclusion des mesures}
