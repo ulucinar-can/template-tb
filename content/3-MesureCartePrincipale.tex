@@ -355,16 +355,24 @@ En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_
 Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
 
 \section{Mesure des capteurs de positions}
-Cette section vient traiter les mesures réaliser sur les capteurs de positions. De nombreuses mesures ont été réalisées pour essayer différents étalonnages. Pour cette raison, seule les plus intéressantes ont été gardées afin de ne pas surchager cette section.\\
+Cette section vient traiter les mesures réaliser sur les capteurs de positions. De nombreuses mesures ont été réalisées pour essayer différents étalonnages. Pour cette raison, seule les plus intéressantes ont été gardées afin de ne pas surchager cette section.
 
 Les mesures ont été réalisé avec des calles de différentes épaisseurs (1mm, 1.5mm, 2mm et 3mm). Ces cales avait pour but d'élever la partie flottante permettant ainsi de refermer l'entrefer des bobines. Dans les mesures lorsqu'il est marqué un entrefer de 3mm ceci corresponds au chariot posé. Lorsque une cale de 2.5mm est mentionné, c'est l'ajout d'une cale de 1mm et de 1.5mm ensemble afin de réaliser une cale de 2.5mm.
 
+\subsection{Mesure des circuits de conditionnement}
 Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{} :
 
+
+
+\subsection{Première mesure des capteurs de position}
 La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans le tableau \ref{} :
 
+
+\subsection{Mesure après la calibration du capteur 3}
 Suite à observation de ces résultats, une première calibration par la méthode Teach-In a été réalisé sur le capteur de l'inducteur 3 donnant le résultat du tableau \ref{} :
 
+
+\subsection{Première étalonnage de chaque capteur}
 Le résultat n'étant pas concluant, il a été décidé à ce momment là d'essayer de réaliser un étalonnage dans le code. L'étalonnage réalisé dans le code n'était pas particulièrement bien réalisé. Une correction était bien appliqué en multipliant un gain mais aucun offset n'étais appliqué et en plus de cela les memes correction appliqué sur la position 1 et 2 était également appliqué sur les positions 3 et 4 comme le montre le code suivant :
 
 
@@ -375,11 +383,11 @@ Ceci a donc donné à l'essaie suivant pour essayer une première tentative d'é
 
 A partir de cette mesure le tracé suivant a pu être réalisé :
 
-
+\subsection{Mesure après la calibration de tous les capteurs}
 Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer l'angle qui se créaient par la calibration précédente. La calibration précédente avait réalisé la méthode teach-in en souleant soit l'avant soit l'arrière de la partie lévitante. Meme si très petite, cela crée un angle que l'on peut observer dans la figure suivante :
 
 
-Afin de palière a cela, les 4 inducteurs ont été souelvé pui abaissé en suivant la démarche expliqué dans la section \ref{sec:CalibrationCaptPos}.
+Afin de palier a cela, les 4 inducteurs ont été soulevé puis abaissé en suivant la démarche expliqué dans la section \ref{sec:CalibrationCaptPos}.
 
 Suite a cette calibration, une nouvelle mesure sans les corrections a été mesuré présent dans le tableau \ref{} :
 
@@ -388,7 +396,7 @@ Suite a cette calibration, une nouvelle mesure sans les corrections a été mesu
 Cette mesure donna de nouveau lieux à une tentavie de tracé de courbe afin d'obtenir une correction à appliquer dans le code. Ce tracé est observable dans la figure \ref{} :
 
 
-
+\subsection{Mesure d'étalonnage des valeurs d'ADC}
 Le résultat n'étant toujours pas concluant, il a été décidé d'appliquer une correction immédiatement sur la valeur de l'ADC. Dans le travail de bachelor précédent, la valeur de l'ADC était convertit suivant une règée de 3 comme présente dans l'équation \ref{eq:conv_ADC_mm} :
 
 \begin{equation}
@@ -400,15 +408,34 @@ Ceci est juste pour un système linéaire, cependant les capteurs ayant plus un 
 
 
 
-Par la suite une moyenne de chacune des valeurs a été réalisé pour obtenir le tableau suivant qui permettra de faire un tracé d'un poôlynome d'ordre 5. La raison du choix du polynôme d'ordre 5 est de garantir le passage par certaines valeurs cibles
+Par la suite une moyenne de chacune des valeurs a été réalisé pour obtenir le tableau \ref{}:
 
-\subsection{Première mesure des}
 
-\subsection{Mesure avant la calibration}
+Une première tentative fut de réaliser un polynôme d'ordre 5 :
 
-\subsection{Mesure après la calibration du capteur 3}
 
-\subsection{Mesure pour réaliser un étalonnage des capteurs}
+L'équation retenue est alors :
+\begin{equation}
+
+\end{equation}
+
+
+Le résultat n'étant pas concluant et ne semble pas laisser a la maquette d'avoir de la liberté, cet ordre fut baissé à un ordre 3 donnant donc le tracé suivant :
+
+
+Ceci donne l'équation :
+\begin{equation}
+
+\end{equation}
+
+
+Le résultat n'étant toujours pas satisfaisant donna alors lieux à un tracé d'ordre 1 ce qui donne :
+
+
+Donnat alors l'équation :
+\begin{equation}
+
+\end{equation}
 
 \subsection{Analyse des résultats}
 
