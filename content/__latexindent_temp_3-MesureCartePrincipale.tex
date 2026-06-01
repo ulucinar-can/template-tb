@@ -1,0 +1,389 @@
+\chapter{Mesure de la carte principale}
+
+\section{Introduction}
+La mesure de la carte principale permet de déterminer plusieurs points des hypothèses émise tel que
+
+\subsection{Objéctif de la mesure}
+Les objéctif de la mesure sont :
+
+\begin{itemize}
+    \item Déterminer si la carte est correctement alimenté.
+    \item Vérifier que les capteurs de courants fonctionne correctement.
+    \item Vérifier que les capteurs de positions fonctionne correctement
+    \item Déterminer le besoin d'une nouvelle calibration des capteurs de positons.
+\end{itemize}
+
+\section{Vérification de la charge du condensateur}
+Le condensateur a été vérifié afin de comparer le résultat obtenu à celui de Thomas Freyche, illustré dans la figure \ref{fig:ResFreycheCapa} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Image/Chap.3/Result_Freyche_Capa.png}
+    \caption{Résultat de la mesure du condensateur du rapport de Thomas Freyche \cite{Freyche}}
+    \label{fig:ResFreycheCapa}
+\end{figure}
+
+Lors de la mesure effectuée pour ce travail, un résultat identique a été obtenu, comme le montre la figure \ref{fig:ResCanCapa} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Image/Chap.3/MesureCondoCan.JPG}
+    \caption{Résultat de la mesure du condensateur personnel}
+    \label{fig:ResCanCapa}
+\end{figure}
+
+Cela vient prouver le bon fonctionnement du circuit de précharge.
+
+\section{Mesure des régulateurs}
+
+Cette section traite des mesures réalisées sur les régulateurs de la carte principale. Ces composants assurent l'alimentation correcte de l'intégralité du système.\\
+
+Le convertisseur 24 V présente les résultats consignés dans le tableau \ref{tab:reg_24v_48v} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 24V et entrée 48V (PS1)}}                                                                                                                                                              \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure}          & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 48V                       & Bornie d'entrée & 48                                                                 & 48.05                                                            & 0.05   & 0.10            \\ \hline
+            1.b & Tension après le switch de précharge & TP4             & 48                                                                 & 48.04                                                            & 0.04   & 0.08            \\ \hline
+            2.a & Sortie du régulateur 24V             & TP6 et TP8      & 24                                                                 & 23.85                                                            & 0.15   & 0.62            \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures sur les régulateurs 24V et l'entrée 48V (PS1)}
+    \label{tab:reg_24v_48v}
+\end{table}
+
+Le régulateur de 15 V présente les résultats consignés dans le tableau \ref{tab:reg_15v} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 15V (PS2)}}                                                                                                                                                                      \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure    & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & Côté C12 de la C13 & 24                                                                 & 23.07                                                            & 0.93   & 3.88            \\ \hline
+            2.a & Sortie du régulateur 15V    & TP1                & 15                                                                 & 14.95                                                            & 0.05   & 0.333           \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures sur le régulateur 15V (PS2)}
+    \label{tab:reg_15v}
+\end{table}
+
+Le régulateur de 5 V présente les résultats consignés dans le tableau \ref{tab:reg_5v} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 5V (IC1)}}                                                                                                                                                                    \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & Pin 1 IC1       & 24                                                                 & 23.86                                                            & 0.14   & 0.583           \\ \hline
+            2.a & Sortie du régulateur 5V     & L2 côté condo   & 5                                                                  & 4.989                                                            & 0.011  & 0.220           \\ \hline
+            2.b & Après l'inducteur L2        & TP2             & 5                                                                  & 4.987                                                            & 0.013  & 0.260           \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures sur les régulateurs 5V (IC1)}
+    \label{tab:reg_5v}
+\end{table}
+
+Le régulateur de 3,3 V présente les résultats consignés dans le tableau \ref{tab:reg_3_3v} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 3.3V (U6)}}                                                                                                                                                                   \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 5V               & J5 pin 2        & 5                                                                  & 4.982                                                            & 0.018  & 0.360           \\ \hline
+            2.a & Sortie du régulateur 3.3V   & TP5             & 3.3                                                                & 3.296                                                            & 0.004  & 0.121           \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures sur les régulateurs 3.3V (U6)}
+    \label{tab:reg_3_3v}
+\end{table}
+
+Le régulateur de 0,5 V présente les résultats consignés dans le tableau \ref{tab:reg_0_5v} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Régulateurs 0.5V (U5)}}                                                                                                                                                                   \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée des 24V              & C18 côté U6     & 5                                                                  & 4.981                                                            & 0.019  & 0.380           \\ \hline
+            2.a & Sortie du régulateur 15V    & TP3             & 0.5                                                                & 0.4982                                                           & 0.002  & 0.360           \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures sur les régulateurs 0.5V (U5)}
+    \label{tab:reg_0_5v}
+\end{table}
+
+\subsection{Analyse des résultats}
+Les différents régulateurs présentés ci-dessus fonctionnent de manière nominale. Les tensions fournies sont conformes aux spécifications des constructeurs, ce qui garantit une alimentation stable pour l'ensemble de la carte.
+
+Une anomalie a néanmoins été détectée sur le convertisseur 24 V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
+
+\section{Mesure des capteurs de courants}
+Cette section traite des différentes mesures réalisées afin de vérifier le comportement des capteurs de courant.
+
+Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
+
+Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.\\
+
+Les mesures globales des circuits de conditionnement sont présentées dans les tableaux \ref{tab:cond_courant_1} et \ref{tab:cond_courant_2} :
+
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification général des conditionneurs de courant}}                                                                                                                                                                                                                                                             \\ \hline
+            N°  & Mesure                                                                & \begin{tabular}[c]{@{}c@{}}Point de\\ mesure\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur mesurée\\ {[}V{]}\end{tabular} & Erreur                                  & Erreur {[}\%{]} \\ \hline
+            1.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_4\end{tabular} & U1\_4 pin 8                                                 & 5                                                                  & 4.989                                                            & 0.0110                                  & 0.2200          \\ \hline
+            1.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_4\end{tabular} & U2\_4 pin 8                                                 & 3.3                                                                & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            1.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 1\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R3\_4 côté\\ droite\end{tabular} & 0.625..4.375                                                       & 2.933                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            1.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_4\end{tabular}       & U2\_4 pin 5                                                 & 0.5..3.5                                                           & 1.173                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            1.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_4\end{tabular}       & TP9\_4                                                      & 0..3                                                               & 1.888                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+            2.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_1\end{tabular} & U1\_1 pin 8                                                 & 5                                                                  & 4.984                                                            & 0.0160                                  & 0.3200          \\ \hline
+            2.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_1\end{tabular} & U2\_1 pin 8                                                 & 3.3                                                                & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            2.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 2\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R9\_1 côté\\ gauche\end{tabular} & 0.625..4.375                                                       & 2.872                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            2.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_1\end{tabular}       & U2\_1 pin 5                                                 & 0.5..3.5                                                           & 1.139                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            2.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_1\end{tabular}       & TP9\_1                                                      & 0..3                                                               & 1.736                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification générale des conditionneurs de courant (Capteurs 1 et 2)}
+    \label{tab:cond_courant_1}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification général des conditionneurs de courant}}                                                                                                                                                                                                                                                             \\ \hline
+            N°  & Mesure                                                                & \begin{tabular}[c]{@{}c@{}}Point de\\ mesure\end{tabular}   & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur mesurée\\ {[}V{]}\end{tabular} & Erreur                                  & Erreur {[}\%{]} \\ \hline
+            3.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_3\end{tabular} & U1\_3 pin 8                                                 & 5                                                                  & 4.985                                                            & 0.0150                                  & 0.3000          \\ \hline
+            3.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_3\end{tabular} & U2\_3 pin 8                                                 & 3.3                                                                & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            3.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 3\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R9\_3 côté\\ droite\end{tabular} & 0.625..4.375                                                       & 2.485                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            3.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_3\end{tabular}       & U2\_3 pin 5                                                 & 0.5..3.5                                                           & 0.996                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            3.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_3\end{tabular}       & TP9\_3                                                      & 0..3                                                               & 1.532                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+            4.a & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U1\_2\end{tabular} & U1\_2 pin 8                                                 & 5                                                                  & 4.984                                                            & 0.0160                                  & 0.3200          \\ \hline
+            4.b & \begin{tabular}[c]{@{}c@{}}Alimentation de\\ l'AOP U2\_2\end{tabular} & U2\_2 pin 8                                                 & 3.300                                                              & 3.296                                                            & 0.0040                                  & 0.1212          \\ \hline
+            4.c & \begin{tabular}[c]{@{}c@{}}Sortie du capteur\\ 4\end{tabular}         & \begin{tabular}[c]{@{}c@{}}R9\_2 côté\\ gauche\end{tabular} & 0.625..4.375                                                       & 2.498                                                            & \multicolumn{2}{c|}{\multirow{3}{*}{-}}                   \\ \cline{1-5}
+            4.d & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U1\_2\end{tabular}       & U2\_2 pin 5                                                 & 0.5..3.5                                                           & 0.999                                                            & \multicolumn{2}{c|}{}                                     \\ \cline{1-5}
+            4.e & \begin{tabular}[c]{@{}c@{}}Sortie de l'AOP\\ U2\_2\end{tabular}       & TP9\_2                                                      & 0..3                                                               & 1.545                                                            & \multicolumn{2}{c|}{}                                     \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification générale des conditionneurs de courant (Capteurs 3 et 4)}
+    \label{tab:cond_courant_2}
+\end{table}
+
+Une première série de mesures a été réalisée sans ajout de masse afin d'établir des comparaisons entre les valeurs théoriques, les mesures par sonde de courant et les données acquises par l'ADC. Ces résultats sont consignés dans les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc} et \ref{tab:sans_poids_comp} :
+
+% --- Sans Poids - Partie 1 (Sonde) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{9.03}                                    & 89                                                      & 8.5                                                                 & 6.1                                                              & 2.4    & 28                                                                \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 6.2                                                              & 2.3    & 28                                                                \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 6.4                                                              & 2.1    & 25                                                                \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 89                                                      & 8.5                                                                 & 5.8                                                              & 2.7    & 31                                                                \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par sonde (Sans poids)}
+    \label{tab:sans_poids_sonde}
+\end{table}
+
+% --- Sans Poids - Partie 2 (ADC) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{9.026}                                   & 88.5                                                    & 8.50                                                                & 6.79                                                  & 1.717  & 20.19                                                             \\ \cline{1-1} \cline{6-10}
+            2         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.45                                                  & 2.056  & 24.2                                                              \\ \cline{1-1} \cline{6-10}
+            3         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.54                                                  & 1.964  & 23.1                                                              \\ \cline{1-1} \cline{6-10}
+            4         &                                                            &                           &                                                         &                                                          & 88.5                                                    & 8.50                                                                & 6.02                                                  & 2.48   & 29.2                                                              \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par ADC (Sans poids)}
+    \label{tab:sans_poids_adc}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Sans poids}}        \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
+        1         & 6.79        & 6.08          & 0.71   \\ \hline
+        2         & 6.45        & 6.16          & 0.29   \\ \hline
+        3         & 6.54        & 6.40          & 0.14   \\ \hline
+        4         & 6.02        & 5.84          & 0.18   \\ \hline
+    \end{tabular}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Sans poids)}
+    \label{tab:sans_poids_comp}
+\end{table}
+
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25~kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc} et \ref{tab:poids_1_25_comp} :
+
+% --- Poids 1.25 kg - Partie 1 (Sonde) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 10.3                                                     & 101                                                     & 9.06                                                                & 7.6                                                              & 1.5    & 16.1                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 10.2                                                     & 100                                                     & 9.05                                                                & 7.2                                                              & 1.8    & 20                                                                \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 10.3                                                     & 101                                                     & 9.06                                                                & 7.4                                                              & 1.7    & 18.3                                                              \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 10.2                                                     & 100                                                     & 9.05                                                                & 7.2                                                              & 1.8    & 20                                                                \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par sonde (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_sonde}
+\end{table}
+
+% --- Poids 1.25 kg - Partie 2 (ADC) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                             \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 10.3                                                     & 100.6                                                   & 9.06                                                                & 7.98                                                  & 1.083  & 11.954                                                            \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 10.2                                                     & 100.3                                                   & 9.05                                                                & 7.26                                                  & 1.788  & 19.76                                                             \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 10.3                                                     & 100.6                                                   & 9.06                                                                & 7.47                                                  & 1.596  & 17.62                                                             \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 10.2                                                     & 100.3                                                   & 9.05                                                                & 7.10                                                  & 1.951  & 21.6                                                              \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par ADC (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_adc}
+\end{table}
+
+% --- Poids 1.25 kg - Partie 3 (Comparatif) ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Poids de 1.25 kg}}                                   \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur {[}A{]} & Écart relatif {[}\%{]} \\ \hline
+        1         & 8.0         & 7.6           & 0.38           & 4.7                    \\ \hline
+        2         & 7.3         & 7.2           & 0.060          & 0.83                   \\ \hline
+        3         & 7.5         & 7.4           & 0.065          & 0.87                   \\ \hline
+        4         & 7.1         & 7.2           & 0.10           & 1.5                    \\ \hline
+    \end{tabular}
+    \caption{Comparatif et écart relatif entre l'ADC et la sonde (Poids de 1.25 kg)}
+    \label{tab:poids_1_25_comp}
+\end{table}
+
+Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans les tableaux \ref{tab:poids_2_5_sonde}, \ref{tab:poids_2_5_adc} et \ref{tab:poids_2_5_comp} :
+
+% --- Poids 2.5 kg - Partie 1 (Sonde) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 11.5                                                     & 112                                                     & 9.6                                                                 & 8.2                                                              & 1.38   & 14.4                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 11.5                                                     & 113                                                     & 9.6                                                                 & 8.2                                                              & 1.39   & 14.5                                                              \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 11.5                                                     & 112                                                     & 9.6                                                                 & 8.2                                                              & 1.38   & 14.4                                                              \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 11.5                                                     & 113                                                     & 9.6                                                                 & 8.8                                                              & 0.79   & 8.3                                                               \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par sonde (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_sonde}
+\end{table}
+
+% --- Poids 2.5 kg - Partie 2 (ADC) ---
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relatif {[}\%{]}\end{tabular} \\ \hline
+            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 11.5                                                     & 112.4                                                   & 9.58                                                                & 8.93                                                  & 0.655  & 6.84                                                              \\ \cline{1-1} \cline{5-10}
+            2         &                                                            &                           &                                                         & 11.5                                                     & 112.8                                                   & 9.59                                                                & 8.29                                                  & 1.302  & 13.57                                                             \\ \cline{1-1} \cline{5-10}
+            3         &                                                            &                           &                                                         & 11.5                                                     & 112.4                                                   & 9.58                                                                & 8.05                                                  & 1.528  & 15.95                                                             \\ \cline{1-1} \cline{5-10}
+            4         &                                                            &                           &                                                         & 11.5                                                     & 112.8                                                   & 9.59                                                                & 8.78                                                  & 0.817  & 8.51                                                              \\ \hline
+        \end{tabular}%
+    }
+    \caption{Mesures de courant par ADC (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_adc}
+\end{table}
+
+% --- Poids 2.5 kg - Partie 3 (Comparatif) ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Poids de 2.5 kg}}   \\ \hline
+        Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
+        1         & 8.9         & 8.2           & 0.73   \\ \hline
+        2         & 8.3         & 8.2           & 0.093  \\ \hline
+        3         & 8.1         & 8.2           & 0.15   \\ \hline
+        4         & 8.8         & 8.8           & 0.022  \\ \hline
+    \end{tabular}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 2.5 kg)}
+    \label{tab:poids_2_5_comp}
+\end{table}
+
+\subsection{Analyse des résultats}
+Comme le montrent les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc}, \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc}, \ref{tab:poids_2_5_sonde} et \ref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Cet écart engendre des erreurs relatives non négligeables. Ce phénomène s'explique par le fait que seule une extrémité du chariot (l'avant ou l'arrière) était soulevée lors des essais ; le point d'appui resté en contact avec le sol agit indirectement comme un support mécanique, modifiant ainsi la charge réelle supportée individuellement par chaque inducteur.
+
+En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_poids_comp}, \ref{tab:poids_1_25_comp} et \ref{tab:poids_2_5_comp}, une forte similarité entre les résultats est observée. Cela démontre que l'acquisition de données est correcte et qu'il y a une bonne correspondance entre le courant circulant réellement dans l'inducteur et la valeur mesurée par le capteur.
+
+Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
+
+\section{Mesure des capteurs de positions}
+Cette section vient traiter les mesures réaliser sur les capteurs de positions. De nombreuses mesures ont été réalisées pour essayer différents étalonnages. Pour cette raison, seule les plus intéressantes ont été gardées afin de ne pas surchager cette section.
+
+Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{} :
+
+La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans le tableau \ref{} :
+
+Suite à observation de ces résultats, une première calibration par la méthode Teach-In a été réalisé sur le capteur de l'inducteur 3 donnant le résultat du tableau \ref{} :
+
+Le résultat n'étant pas concluant, il a été décidé à ce momment là d'essayer de réaliser un étalonnage dans le code. L'étalonnage réalisé dans le code n'était pas particulièrement bien réalisé. Une correction était bien appliqué en multipliant un gain mais aucun offset n'étais appliqué et en plus de cela les memes correction appliqué sur la position 1 et 2 était également appliqué sur les positions 3 et 4 comme le montre le code suivant :
+
+
+
+Ceci a donc donné à l'essaie suivant pour essayer une première tentative d'étalonnage dans le code :
+
+
+
+A partir de cette mesure le tracé suivant a pu être réalisé :
+
+
+Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer
+
+\subsection{Première mesure des}
+
+\subsection{Mesure avant la calibration}
+
+\subsection{Mesure après la calibration du capteur 3}
+
+\subsection{Mesure pour réaliser un étalonnage des capteurs}
+
+\subsection{Analyse des résultats}
+
+\section{Conclusion des mesures}
