@@ -137,6 +137,8 @@ Dans un premier temps, une évaluation globale du bon fonctionnement des composa
 
 Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.\\
 
+\subsection{Mesure des circuits de conditionnement des capteurs de courants}
+
 Les mesures globales des circuits de conditionnement sont présentées dans les tableaux \ref{tab:cond_courant_1} et \ref{tab:cond_courant_2} :
 
 
@@ -186,6 +188,7 @@ Les mesures globales des circuits de conditionnement sont présentées dans les 
     \label{tab:cond_courant_2}
 \end{table}
 
+\subsection{Mesure du courant sans ajout de poids}
 Une première série de mesures a été réalisée sans ajout de masse afin d'établir des comparaisons entre les valeurs théoriques, les mesures par sonde de courant et les données acquises par l'ADC. Ces résultats sont consignés dans les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc} et \ref{tab:sans_poids_comp} :
 
 % --- Sans Poids - Partie 1 (Sonde) ---
@@ -239,7 +242,8 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
     \label{tab:sans_poids_comp}
 \end{table}
 
-Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25~kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc} et \ref{tab:poids_1_25_comp} :
+\subsection{Mesure du courant avec une masse de 1.25kg}
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25 kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc} et \ref{tab:poids_1_25_comp} :
 
 % --- Poids 1.25 kg - Partie 1 (Sonde) ---
 \begin{table}[H]
@@ -293,6 +297,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
     \label{tab:poids_1_25_comp}
 \end{table}
 
+\subsection{Mesure du courant avec une masse de 2.5kg}
 Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans les tableaux \ref{tab:poids_2_5_sonde}, \ref{tab:poids_2_5_adc} et \ref{tab:poids_2_5_comp} :
 
 % --- Poids 2.5 kg - Partie 1 (Sonde) ---
@@ -437,6 +442,12 @@ Donnat alors l'équation :
     x = x
 \end{equation}
 
+Lors de la mesure pour controler le bon fonctionnement de la correction appliqué, les capteurs furent une nouvelle fois mesuré afin de controller la corection pour chaque polynome. Ceci donne alors les tableaux \ref{}, \ref{} et \ref{} :
+
 \subsection{Analyse des résultats}
+La réalisation du capteurs de positions ne fut pas concluant. Théoriquement le procédé semble correcte cependant elle n'a pas donné lieux à une bonne correction lors de l'usage de celui-ci. Inidquant alors que le problème ne vient pas de la calibration du capteurs de positions mais d'autre part.\\
+
+La théorique la plus probable est du à un mauvais placement des pôles. C'est donc pour cela que la régulation fut une nouvelle fois analysé.
 
 \section{Conclusion des mesures}
+Dans la grande majorité des cas les mesures offrent des résultats proche de ce qui est attendue. Confirmant le bon fonctionnement de la carte principale fournissant alors les résultats attendues.
