@@ -355,8 +355,28 @@ En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_
 Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
 
 \section{Mesure des capteurs de positions}
+Cette section vient traiter les mesures réaliser sur les capteurs de positions. De nombreuses mesures ont été réalisées pour essayer différents étalonnages. Pour cette raison, seule les plus intéressantes ont été gardées afin de ne pas surchager cette section.
 
-\subsection{Mesures générales des circuits de conditionnement de positions}
+Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{} :
+
+La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans le tableau \ref{} :
+
+Suite à observation de ces résultats, une première calibration par la méthode Teach-In a été réalisé sur le capteur de l'inducteur 3 donnant le résultat du tableau \ref{} :
+
+Le résultat n'étant pas concluant, il a été décidé à ce momment là d'essayer de réaliser un étalonnage dans le code. L'étalonnage réalisé dans le code n'était pas particulièrement bien réalisé. Une correction était bien appliqué en multipliant un gain mais aucun offset n'étais appliqué et en plus de cela les memes correction appliqué sur la position 1 et 2 était également appliqué sur les positions 3 et 4 comme le montre le code suivant :
+
+
+
+Ceci a donc donné à l'essaie suivant pour essayer une première tentative d'étalonnage dans le code :
+
+
+
+A partir de cette mesure le tracé suivant a pu être réalisé :
+
+
+Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer
+
+\subsection{Première mesure des}
 
 \subsection{Mesure avant la calibration}
 

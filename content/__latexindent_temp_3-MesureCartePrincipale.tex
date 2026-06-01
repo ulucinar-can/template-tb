@@ -374,7 +374,27 @@ Ceci a donc donné à l'essaie suivant pour essayer une première tentative d'é
 A partir de cette mesure le tracé suivant a pu être réalisé :
 
 
-Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer
+Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer l'angle qui se créaient par la calibration précédente. La calibration précédente avait réalisé la méthode teach-in en souleant soit l'avant soit l'arrière de la partie lévitante. Meme si très petite, cela crée un angle que l'on peut observer dans la figure suivante :
+
+
+Afin de palière a cela, les 4 inducteurs ont été souelvé pui abaissé en suivant la démarche expliqué dans la section \ref{sec:CalibrationCaptPos}.
+
+Suite a cette calibration, une nouvelle mesure sans les corrections a été mesuré présent dans le tableau \ref{} :
+
+
+
+Cette mesure donna de nouveau lieux à une tentavie de tracé de courbe afin d'obtenir une correction à appliquer dans le code. Ce tracé est observable dans la figure \ref{} :
+
+
+
+Le résultat n'étant toujours pas concluant, il a été décidé d'appliquer une correction immédiatement sur la valeur de l'ADC. Dans le travail de bachelor précédent, la valeur de l'ADC était convertit suivant une règée de 3 comme présente dans l'équation \ref{eq:conv_ADC_mm} :
+
+\begin{equation}
+    y = x
+    \label{eq:conv_ADC_mm}
+\end{equation}
+
+
 
 \subsection{Première mesure des}
 
