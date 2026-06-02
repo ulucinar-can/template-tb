@@ -18,7 +18,7 @@ Le condensateur a été vérifié afin de comparer le résultat obtenu à celui 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.3/Result_Freyche_Capa.png}
+    \includegraphics[width=0.75\linewidth]{assets/Chap3/Result_Freyche_Capa.png}
     \caption{Résultat de la mesure du condensateur du rapport de Thomas Freyche \cite{Freyche}}
     \label{fig:ResFreycheCapa}
 \end{figure}
@@ -27,7 +27,7 @@ Lors de la mesure effectuée pour ce travail, un résultat identique a été obt
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{Image/Chap.3/MesureCondoCan.JPG}
+    \includegraphics[width=0.75\linewidth]{assets/Chap3/MesureCondoCan.JPG}
     \caption{Résultat de la mesure du condensateur personnel}
     \label{fig:ResCanCapa}
 \end{figure}
@@ -542,30 +542,30 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-Ceci a donc donné à l'essaie aux mesures présentes dans les tableaux \ref{tab:premier_etalonnage_code_capteurs}, \ref{tab:premier_etalonnage_code_cond} et \ref{tab:premier_etalonnage_code_adc} afin d'essayer une première tentative d'étalonnage dans le code :
+Une première tentative d'étalonnage fut réaliser. Pour cela des mesures ont été réalisé sans application de la correction. Seul la conversion fut réaliser et afficher sur l'interface web. La mesure donna lieux aux tableaux \ref{tab:premier_etalonnage_code_capteurs}, \ref{tab:premier_etalonnage_code_cond} et \ref{tab:premier_etalonnage_code_adc} :
 
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions après la sortie des capteurs}}              \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions après la sortie des capteurs}}             \\ \hline
         Inducteur          & Théorique {[}V{]} & Mesurée {[}V{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
-        \multirow{4}{*}{1} & 0.000             & 0.345            & 0.345  & -                        \\ \cline{2-5}
-                           & 3.333             & 3.574            & 0.241  & 7.22                     \\ \cline{2-5}
-                           & 6.667             & 6.350            & 0.317  & 4.75                     \\ \cline{2-5}
-                           & 10.000            & 9.940            & 0.060  & 0.60                     \\ \hline
-        \multirow{4}{*}{2} & 0.000             & 0.347            & 0.347  & -                        \\ \cline{2-5}
-                           & 3.333             & 3.368            & 0.035  & 1.04                     \\ \cline{2-5}
-                           & 6.667             & 6.050            & 0.617  & 9.25                     \\ \cline{2-5}
-                           & 10.000            & 9.800            & 0.200  & 2.00                     \\ \hline
-        \multirow{4}{*}{3} & 0.000             & 0.208            & 0.208  & -                        \\ \cline{2-5}
-                           & 3.333             & 2.485            & 0.848  & 25.45                    \\ \cline{2-5}
-                           & 6.667             & 5.790            & 0.877  & 13.15                    \\ \cline{2-5}
-                           & 10.000            & 9.930            & 0.070  & 0.70                     \\ \hline
-        \multirow{4}{*}{4} & 0.000             & 0.167            & 0.167  & -                        \\ \cline{2-5}
-                           & 3.333             & 3.176            & 0.157  & 4.72                     \\ \cline{2-5}
-                           & 6.667             & 6.240            & 0.427  & 6.40                     \\ \cline{2-5}
-                           & 10.000            & 9.960            & 0.040  & 0.40                     \\ \hline
+        \multirow{4}{*}{1} & 0.000             & 0.345           & 0.345  & -                        \\ \cline{2-5}
+                           & 3.333             & 3.574           & 0.241  & 7.22                     \\ \cline{2-5}
+                           & 6.667             & 6.350           & 0.317  & 4.75                     \\ \cline{2-5}
+                           & 10.000            & 9.940           & 0.060  & 0.60                     \\ \hline
+        \multirow{4}{*}{2} & 0.000             & 0.347           & 0.347  & -                        \\ \cline{2-5}
+                           & 3.333             & 3.368           & 0.035  & 1.04                     \\ \cline{2-5}
+                           & 6.667             & 6.050           & 0.617  & 9.25                     \\ \cline{2-5}
+                           & 10.000            & 9.800           & 0.200  & 2.00                     \\ \hline
+        \multirow{4}{*}{3} & 0.000             & 0.208           & 0.208  & -                        \\ \cline{2-5}
+                           & 3.333             & 2.485           & 0.848  & 25.45                    \\ \cline{2-5}
+                           & 6.667             & 5.790           & 0.877  & 13.15                    \\ \cline{2-5}
+                           & 10.000            & 9.930           & 0.070  & 0.70                     \\ \hline
+        \multirow{4}{*}{4} & 0.000             & 0.167           & 0.167  & -                        \\ \cline{2-5}
+                           & 3.333             & 3.176           & 0.157  & 4.72                     \\ \cline{2-5}
+                           & 6.667             & 6.240           & 0.427  & 6.40                     \\ \cline{2-5}
+                           & 10.000            & 9.960           & 0.040  & 0.40                     \\ \hline
     \end{tabular}
     \caption{Erreurs de mesure des tensions en sortie des capteurs (étalonnage par code)}
     \label{tab:premier_etalonnage_code_capteurs}
@@ -575,24 +575,24 @@ Ceci a donc donné à l'essaie aux mesures présentes dans les tableaux \ref{tab
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions après le conditionneur}}                    \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions après le conditionneur}}                   \\ \hline
         Inducteur          & Théorique {[}V{]} & Mesurée {[}V{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
-        \multirow{4}{*}{1} & 0.000             & 0.237            & 0.237  & -                        \\ \cline{2-5}
-                           & 1.000             & 1.081            & 0.081  & 8.10                     \\ \cline{2-5}
-                           & 2.000             & 1.920            & 0.077  & 3.85                     \\ \cline{2-5}
-                           & 3.000             & 2.960            & 0.043  & 1.43                     \\ \hline
-        \multirow{4}{*}{2} & 0.000             & 0.082            & 0.082  & -                        \\ \cline{2-5}
-                           & 1.000             & 1.006            & 0.006  & 0.60                     \\ \cline{2-5}
-                           & 2.000             & 1.830            & 0.173  & 8.65                     \\ \cline{2-5}
-                           & 3.000             & 2.920            & 0.083  & 2.77                     \\ \hline
-        \multirow{4}{*}{3} & 0.000             & 0.038            & 0.038  & -                        \\ \cline{2-5}
-                           & 1.000             & 0.738            & 0.262  & 26.20                    \\ \cline{2-5}
-                           & 2.000             & 1.760            & 0.238  & 11.90                    \\ \cline{2-5}
-                           & 3.000             & 2.960            & 0.045  & 1.50                     \\ \hline
-        \multirow{4}{*}{4} & 0.000             & 0.152            & 0.152  & -                        \\ \cline{2-5}
-                           & 1.000             & 0.951            & 0.049  & 4.90                     \\ \cline{2-5}
-                           & 2.000             & 1.900            & 0.102  & 5.10                     \\ \cline{2-5}
-                           & 3.000             & 2.970            & 0.032  & 1.07                     \\ \hline
+        \multirow{4}{*}{1} & 0.000             & 0.237           & 0.237  & -                        \\ \cline{2-5}
+                           & 1.000             & 1.081           & 0.081  & 8.10                     \\ \cline{2-5}
+                           & 2.000             & 1.920           & 0.077  & 3.85                     \\ \cline{2-5}
+                           & 3.000             & 2.960           & 0.043  & 1.43                     \\ \hline
+        \multirow{4}{*}{2} & 0.000             & 0.082           & 0.082  & -                        \\ \cline{2-5}
+                           & 1.000             & 1.006           & 0.006  & 0.60                     \\ \cline{2-5}
+                           & 2.000             & 1.830           & 0.173  & 8.65                     \\ \cline{2-5}
+                           & 3.000             & 2.920           & 0.083  & 2.77                     \\ \hline
+        \multirow{4}{*}{3} & 0.000             & 0.038           & 0.038  & -                        \\ \cline{2-5}
+                           & 1.000             & 0.738           & 0.262  & 26.20                    \\ \cline{2-5}
+                           & 2.000             & 1.760           & 0.238  & 11.90                    \\ \cline{2-5}
+                           & 3.000             & 2.960           & 0.045  & 1.50                     \\ \hline
+        \multirow{4}{*}{4} & 0.000             & 0.152           & 0.152  & -                        \\ \cline{2-5}
+                           & 1.000             & 0.951           & 0.049  & 4.90                     \\ \cline{2-5}
+                           & 2.000             & 1.900           & 0.102  & 5.10                     \\ \cline{2-5}
+                           & 3.000             & 2.970           & 0.032  & 1.07                     \\ \hline
     \end{tabular}
     \caption{Erreurs de mesure des tensions en sortie du conditionneur (étalonnage par code)}
     \label{tab:premier_etalonnage_code_cond}
@@ -602,33 +602,63 @@ Ceci a donc donné à l'essaie aux mesures présentes dans les tableaux \ref{tab
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                       \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                      \\ \hline
         Inducteur          & Théorique {[}mm{]} & Mesurée {[}mm{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
-        \multirow{4}{*}{1} & 0.000              & 0.231             & 0.231  & -                        \\ \cline{2-5}
-                           & 1.000              & 1.023             & 0.023  & 2.30                     \\ \cline{2-5}
-                           & 2.000              & 1.818             & 0.182  & 9.10                     \\ \cline{2-5}
-                           & 3.000              & 2.801             & 0.199  & 6.63                     \\ \hline
-        \multirow{4}{*}{2} & 0.000              & 0.099             & 0.099  & -                        \\ \cline{2-5}
-                           & 1.000              & 0.970             & 0.030  & 3.00                     \\ \cline{2-5}
-                           & 2.000              & 1.746             & 0.254  & 12.70                    \\ \cline{2-5}
-                           & 3.000              & 2.784             & 0.216  & 7.20                     \\ \hline
-        \multirow{4}{*}{3} & 0.000              & 0.054             & 0.054  & -                        \\ \cline{2-5}
-                           & 1.000              & 0.726             & 0.274  & 27.40                    \\ \cline{2-5}
-                           & 2.000              & 1.673             & 0.327  & 16.35                    \\ \cline{2-5}
-                           & 3.000              & 2.790             & 0.210  & 7.00                     \\ \hline
-        \multirow{4}{*}{4} & 0.000              & 0.150             & 0.150  & -                        \\ \cline{2-5}
-                           & 1.000              & 0.897             & 0.103  & 10.30                    \\ \cline{2-5}
-                           & 2.000              & 1.801             & 0.199  & 9.95                     \\ \cline{2-5}
-                           & 3.000              & 2.821             & 0.179  & 5.97                     \\ \hline
+        \multirow{4}{*}{1} & 0.000              & 0.231            & 0.231  & -                        \\ \cline{2-5}
+                           & 1.000              & 1.023            & 0.023  & 2.30                     \\ \cline{2-5}
+                           & 2.000              & 1.818            & 0.182  & 9.10                     \\ \cline{2-5}
+                           & 3.000              & 2.801            & 0.199  & 6.63                     \\ \hline
+        \multirow{4}{*}{2} & 0.000              & 0.099            & 0.099  & -                        \\ \cline{2-5}
+                           & 1.000              & 0.970            & 0.030  & 3.00                     \\ \cline{2-5}
+                           & 2.000              & 1.746            & 0.254  & 12.70                    \\ \cline{2-5}
+                           & 3.000              & 2.784            & 0.216  & 7.20                     \\ \hline
+        \multirow{4}{*}{3} & 0.000              & 0.054            & 0.054  & -                        \\ \cline{2-5}
+                           & 1.000              & 0.726            & 0.274  & 27.40                    \\ \cline{2-5}
+                           & 2.000              & 1.673            & 0.327  & 16.35                    \\ \cline{2-5}
+                           & 3.000              & 2.790            & 0.210  & 7.00                     \\ \hline
+        \multirow{4}{*}{4} & 0.000              & 0.150            & 0.150  & -                        \\ \cline{2-5}
+                           & 1.000              & 0.897            & 0.103  & 10.30                    \\ \cline{2-5}
+                           & 2.000              & 1.801            & 0.199  & 9.95                     \\ \cline{2-5}
+                           & 3.000              & 2.821            & 0.179  & 5.97                     \\ \hline
     \end{tabular}
     \caption{Erreurs de mesure des positions en sortie de l'ADC (étalonnage par code)}
     \label{tab:premier_etalonnage_code_adc}
 \end{table}
 
-A partir de cette mesure les tracés des figures  suivant a pu être réalisé :
+Ces mesures ont permis de réaliser les tracés présent dans les figures \ref{fig:Prem_tracé_ind1}, \ref{fig:Prem_tracé_ind2}, \ref{fig:Prem_tracé_ind3} et \ref{fig:Prem_tracé_ind4} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd1.png}
+    \caption{Graphique de l'étalonnage de l'inducteur 1}
+    \label{fig:Prem_tracé_ind1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd2.png}
+    \caption{Graphique de l'étalonnage de l'inducteur 2}
+    \label{fig:Prem_tracé_ind2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd3.png}
+    \caption{Graphique de l'étalonnage de l'inducteur 3}
+    \label{fig:Prem_tracé_ind3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd4.png}
+    \caption{Graphique de l'étalonnage de l'inducteur 4}
+    \label{fig:Prem_tracé_ind4}
+\end{figure}
+
+Ces tracé permettent de ressortir des équations permettant d'appliquer une meilleur correction au système avec un gain et un offset, la valeur en x étant la valeur de l'adc convertit en mm.
 
 \subsection{Mesure après la calibration de tous les capteurs}
-Lorsque cette correction fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer l'angle qui se créaient par la calibration précédente. La calibration précédente avait réalisé la méthode teach-in en souleant soit l'avant soit l'arrière de la partie lévitante. Meme si très petite, cela crée un angle que l'on peut observer dans la figure suivante :
+Lorsque la correction ptécédente fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer l'angle qui se créaient par la calibration précédente. La calibration précédente avait réalisé la méthode teach-in en souleant soit l'avant soit l'arrière de la partie lévitante. Meme si très petite, cela crée un angle que l'on peut observer dans la figure suivante :
 
 
 
