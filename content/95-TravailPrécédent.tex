@@ -1,1135 +1,979 @@
-\chapter{Situation de départ}
+% \chapter{Situation de départ}
+
+% \section{Contexte}
+% Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche. De nombreuses images sont reprises de son rapport \cite{Freyche}.
+
+% En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
+
+% \section{Programme dans le DSP}
+% Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
+
+% Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
+
+% \begin{itemize}
+%     \item Gestion des interruptions.
+%     \item Lecture de 8 canaux ADC (mesures de position et de courant par inducteur).
+%     \item Conversion des valeurs brutes de l'ADC en grandeurs physiques.
+%     \item Procédure de lancement de la sustentation.
+%     \item Régulation de position par retour d'état.
+%     \item La régulation de courant avec des régulateurs PI.
+%     \item Calcul des cycles de travail (PWM) en fonction de la régulation.
+%     \item Affectation des signaux PWM aux broches de commande du pont en H.
+%     \item Communication UART avec l'ESP32.
+% \end{itemize}
+
+% Les paragraphes suivants détaillent les différentes composantes logicielles, des bibliothèques utilisées jusqu'aux structures d'interruption.
+
+% \subsection{Algorithme du code principal}
+% Actuellement, l'algorithme du code principal suit la structure suivante :
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{Image/Chap.2/Algorithme.png}
+%     \caption{Structure de l'algorithme du code principal}
+%     \label{fig:AlgorithmeCodePrincipal}
+% \end{figure}
+
+% La majeure partie du code est exécutée au sein d'une routine d'interruption. Celle-ci englobe la lecture et la conversion des ADC, les algorithmes de régulation, la mise à jour des PWM ainsi que la gestion de l'interface utilisateur (bouton).
+
+% \subsection{Librairies}
+% Le projet s'appuie sur les bibliothèques suivantes :
+
+% \begin{minted}{c}
+% #include "driverlib.h"
+% #include "device.h"
+% #include "board.h"
+% #include "sfo_v8.h"
+% #include "math.h"
+% #include "stdio.h"
+% #include "FunctionHeader.h"
+% \end{minted}
+
+% \begin{itemize}
+%     \item \texttt{driverlib.h} : Bibliothèque fondamentale pour le DSP TI C2000. Elle fournit des fonctions de haut niveau permettant la configuration du matériel (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, etc.) sans manipulation directe des registres.
+%     \item \texttt{device.h} : Fichier spécifique au microcontrôleur utilisé. Il définit les fonctions d'initialisation système nécessaires au fonctionnement de l'horloge et du matériel.
+%     \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir \ref{subsubsec:SysConfig}). Il contient les définitions des entrées/sorties configurées via l'interface graphique.
+%     \item \texttt{sfo\_v8.h} : Bibliothèque indispensable pour l'utilisation du HRPWM (High-Resolution PWM). Elle assure une calibration en temps réel des signaux afin de compenser les dérives thermiques ou les variations de tension.
+%     \item \texttt{math.h} et \texttt{stdio.h} : Bibliothèques standards C pour les opérations mathématiques et les flux d'entrées/sorties.
+%     \item \texttt{FunctionHeader.h} : En-tête local regroupant les définitions spécifiques à la maquette (voir \ref{subsubsec:FunctionHeader}).
+% \end{itemize}
+
+% \subsubsection{SysConfig}
+% \label{subsubsec:SysConfig}
+% L'outil SysConfig, accessible via le fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}, offre une interface graphique pour la configuration du DSP. Il est utilisé pour initialiser les modules suivants :
+
+% \begin{itemize}
+%     \item Les ADC.
+%     \item Les modules PWM.
+%     \item Le module de communication SCI (UART).
+% \end{itemize}
+
+% L'interface propose une vue schématique du microcontrôleur, facilitant la gestion du mappage des broches. Une fois la configuration validée, l'outil génère automatiquement les fichiers \texttt{board.h} et \texttt{board.c}.
+
+% \subsubsection{\texttt{FunctionHeader.h}}
+% \label{subsubsec:FunctionHeader}
+% Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes de fonctions. Les éléments principaux sont :
+
+% \begin{itemize}
+%     \item Paramètres physiques : Caractéristiques de la maquette (entrefer, masse, inductance et géométrie des bobines).
+%     \item Configurations électriques : Tension du bus DC (48V) et paramètres de quantification de l'ADC (12 bits).
+%     \item Paramètres PWM : Fréquence de découpage (25 kHz), temps morts des MOSFET et corrections associées.
+%     \item Paramètres de la régulation de courant (PI) : Consigne de décollage (3A), gains $K_p$, $\tau_i$ et $G_i$.
+%     \item Paramètres de la régulation (Espace d'état) : Gains $K_\omega$, $K_d$ et $K_r$.
+%     \item Filtres numériques : Coefficients et taille de fenêtre pour les filtres IIR, FIR et Savitzky.
+% \end{itemize}
+
+% \subsection{Fonctions importantes}
+
+% \subsubsection{PI\_current\_regulator}
+% La fonction \texttt{PI\_current\_regulator} est la suivante :
+
+% \begin{minted}{c}
+% void PI_current_regulator(float ic, float current, float *integral,
+% float *ue, float *uc){
+%     float ie = (ic - current) * KP_I;
+%     *integral += (ie - *ue) * GI_I * H;
+%     float uc_prim = ie + *integral;
+
+%     *uc = uc_prim;
+%     if (uc_prim > UMAX) {
+%         *uc = UMAX;
+%     }
+%     if (uc_prim < 0) {
+%         *uc = 0;
+%     }
 
-\section{Contexte}
-Ce chapitre a pour but de présenter l'intégralité des travaux effectués lors du précédent projet de Bachelor, réalisé par Thomas Freyche. De nombreuses images sont reprises de son rapport \cite{Freyche}.
+%     *ue = (uc_prim - *uc) * ANTIWINDUP_EN;
+% }
+% \end{minted}
 
-En cas d'évolution, celle-ci sera mentionnée explicitement en fin de sous-section afin d'avertir le lecteur des modifications par rapport à la situation initiale. Dans le cas contraire, cela signifie qu'aucune modification n'a été apportée à cette partie de la maquette.
+% Cette fonction réalise la régulation de courant par une structure PI. Elle prend en entrée les paramètres suivants :
 
+% \begin{itemize}
+%     \item Le courant de consigne $ic$.
+%     \item Le courant réel actuel $current$.
+%     \item L'adresse de l'intégrale $integral$.
+%     \item L'adresse de l'erreur de tension $ue$.
+%     \item L'adresse de la consigne de tension $uc$.
+% \end{itemize}
 
+% Les étapes de la régulation sont les suivantes :
 
-
-
+% \begin{enumerate}
+%     \item Calcul de l'erreur $i_e$ entre le courant de consigne et le courant réel, puis multiplication de cette différence par le gain proportionnel du régulateur.
 
+%     \item Calcul de l'intégrale en ajoutant à la valeur précédente la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, multipliée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
 
-\section{Programme dans le DSP}
-Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
+%     \item Calcul de la tension de consigne intermédiaire ($u_{c\_prim}$) par la somme de l'intégrale et de l'erreur de courant.
 
-Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
+%     \item Vérification des limites de tension afin de ne pas dépasser les plages de fonctionnement de la maquette (entre 0 V et $U_{MAX}$ = 48 V). En cas de dépassement, la consigne est fixée à la borne correspondante.
 
-\begin{itemize}
-    \item Gestion des interruptions.
-    \item Lecture de 8 canaux ADC (mesures de position et de courant par inducteur).
-    \item Conversion des valeurs brutes de l'ADC en grandeurs physiques.
-    \item Procédure de lancement de la sustentation.
-    \item Régulation de position par retour d'état.
-    \item La régulation de courant avec des régulateurs PI.
-    \item Calcul des cycles de travail (PWM) en fonction de la régulation.
-    \item Affectation des signaux PWM aux broches de commande du pont en H.
-    \item Communication UART avec l'ESP32.
-\end{itemize}
-
-Les paragraphes suivants détaillent les différentes composantes logicielles, des bibliothèques utilisées jusqu'aux structures d'interruption.
+%     \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
+% \end{enumerate}
 
-\subsection{Algorithme du code principal}
-Actuellement, l'algorithme du code principal suit la structure suivante :
+% Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{Image/Chap.2/Algorithme.png}
-    \caption{Structure de l'algorithme du code principal}
-    \label{fig:AlgorithmeCodePrincipal}
-\end{figure}
+% \subsubsection{Filtre de Savitzky}
+% \label{subsubsec:Savitzky}
+% L'implémentation du filtre de Savitzky est la suivante :
 
-La majeure partie du code est exécutée au sein d'une routine d'interruption. Celle-ci englobe la lecture et la conversion des ADC, les algorithmes de régulation, la mise à jour des PWM ainsi que la gestion de l'interface utilisateur (bouton).
+% \begin{minted}{c}
+% float savitzky_Filter(float *Buffer)
+% {
+%     float v = 0.0f;
+%     uint16_t m = 0;
 
-\subsection{Librairies}
-Le projet s'appuie sur les bibliothèques suivantes :
+%     for(m = 0; m < FILTWINDOW; m++)
+%         v += F_PWM*Buffer[m]*SAVITZKY[m];
 
-\begin{minted}{c}
-#include "driverlib.h"
-#include "device.h"
-#include "board.h"
-#include "sfo_v8.h"
-#include "math.h"
-#include "stdio.h"
-#include "FunctionHeader.h"
-\end{minted}
+%     for(m = 0; m < FILTWINDOW-1; m++)
+%         Buffer[m] = Buffer[(m+1)];
 
-\begin{itemize}
-    \item \texttt{driverlib.h} : Bibliothèque fondamentale pour le DSP TI C2000. Elle fournit des fonctions de haut niveau permettant la configuration du matériel (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, etc.) sans manipulation directe des registres.
-    \item \texttt{device.h} : Fichier spécifique au microcontrôleur utilisé. Il définit les fonctions d'initialisation système nécessaires au fonctionnement de l'horloge et du matériel.
-    \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir \ref{subsubsec:SysConfig}). Il contient les définitions des entrées/sorties configurées via l'interface graphique.
-    \item \texttt{sfo\_v8.h} : Bibliothèque indispensable pour l'utilisation du HRPWM (High-Resolution PWM). Elle assure une calibration en temps réel des signaux afin de compenser les dérives thermiques ou les variations de tension.
-    \item \texttt{math.h} et \texttt{stdio.h} : Bibliothèques standards C pour les opérations mathématiques et les flux d'entrées/sorties.
-    \item \texttt{FunctionHeader.h} : En-tête local regroupant les définitions spécifiques à la maquette (voir \ref{subsubsec:FunctionHeader}).
-\end{itemize}
+%     return v;
+% }
+% \end{minted}
 
-\subsubsection{SysConfig}
-\label{subsubsec:SysConfig}
-L'outil SysConfig, accessible via le fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}, offre une interface graphique pour la configuration du DSP. Il est utilisé pour initialiser les modules suivants :
+% Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal.
 
-\begin{itemize}
-    \item Les ADC.
-    \item Les modules PWM.
-    \item Le module de communication SCI (UART).
-\end{itemize}
+% Le fonctionnement du filtre est illustré ci-dessous :
 
-L'interface propose une vue schématique du microcontrôleur, facilitant la gestion du mappage des broches. Une fois la configuration validée, l'outil génère automatiquement les fichiers \texttt{board.h} et \texttt{board.c}.
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
+%     \caption{Principe du filtre de Savitzky}
+%     \label{fig:PrincipeSavitzky}
+% \end{figure}
 
-\subsubsection{\texttt{FunctionHeader.h}}
-\label{subsubsec:FunctionHeader}
-Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes de fonctions. Les éléments principaux sont :
+% Le filtre de Savitzky s'apparente à un filtre FIR à fenêtre glissante. Dans la configuration actuelle, les 9 dernières positions de l'inducteur sont conservées en mémoire. Une moyenne pondérée est ensuite calculée en multipliant chaque position par les coefficients de Savitzky correspondants :
 
-\begin{itemize}
-    \item Paramètres physiques : Caractéristiques de la maquette (entrefer, masse, inductance et géométrie des bobines).
-    \item Configurations électriques : Tension du bus DC (48V) et paramètres de quantification de l'ADC (12 bits).
-    \item Paramètres PWM : Fréquence de découpage (25 kHz), temps morts des MOSFET et corrections associées.
-    \item Paramètres de la régulation de courant (PI) : Consigne de décollage (3A), gains $K_p$, $\tau_i$ et $G_i$.
-    \item Paramètres de la régulation (Espace d'état) : Gains $K_\omega$, $K_d$ et $K_r$.
-    \item Filtres numériques : Coefficients et taille de fenêtre pour les filtres IIR, FIR et Savitzky.
-\end{itemize}
+% \begin{minted}{c}
+% //savitzky filter coefficients, order = 2, window = 9
+% const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
+%                                      0.0, 0.0167, 0.0333, 0.05, 0.0667};
+% \end{minted}
 
-\subsection{Fonctions importantes}
+% L'augmentation de la taille de la fenêtre permet d'obtenir un signal plus lisse, mais entraîne en contrepartie une augmentation du temps de calcul.
 
-\subsubsection{PI\_current\_regulator}
-La fonction \texttt{PI\_current\_regulator} est la suivante :
+% Ce filtre est actuellement utilisé dans le code pour traiter le bruit des mesures provenant des ADC de position (voir \ref{subsubsec:ADC}).
 
-\begin{minted}{c}
-void PI_current_regulator(float ic, float current, float *integral,
-float *ue, float *uc){
-    float ie = (ic - current) * KP_I;
-    *integral += (ie - *ue) * GI_I * H;
-    float uc_prim = ie + *integral;
+% \subsubsection{Filtre IIR}
+% L'implémentation du filtre IIR est la suivante :
 
-    *uc = uc_prim;
-    if (uc_prim > UMAX) {
-        *uc = UMAX;
-    }
-    if (uc_prim < 0) {
-        *uc = 0;
-    }
+% \begin{minted}{c}
+% float IIR_Filter(float *entree, float *sortie)
+% {
+%     float somme = 0.0;
+%     float somme2 = 0.0;
 
-    *ue = (uc_prim - *uc) * ANTIWINDUP_EN;
-}
-\end{minted}
+%     uint16_t k = 0;
 
-Cette fonction réalise la régulation de courant par une structure PI. Elle prend en entrée les paramètres suivants :
+%     //difference equation
+%     for(k = 0; k < Nb; k++) //Num.
+%         somme += b[k]*entree[k];
+%     for(k = 0; k < Na; k++) //Den.
+%         somme2 += a[k]*sortie[k];
 
-\begin{itemize}
-    \item Le courant de consigne $ic$.
-    \item Le courant réel actuel $current$.
-    \item L'adresse de l'intégrale $integral$.
-    \item L'adresse de l'erreur de tension $ue$.
-    \item L'adresse de la consigne de tension $uc$.
-\end{itemize}
+%     //update buffers
+%     for(k = (Na-1); k > 0; k--)
+%         sortie[k] = sortie[(k-1)];
 
-Les étapes de la régulation sont les suivantes :
+%     sortie[0] = (somme-somme2);
 
-\begin{enumerate}
-    \item Calcul de l'erreur $i_e$ entre le courant de consigne et le courant réel, puis multiplication de cette différence par le gain proportionnel du régulateur.
+%     for(k = (Nb-1); k > 0; k--)
+%         entree[k] = entree[(k-1)];
 
-    \item Calcul de l'intégrale en ajoutant à la valeur précédente la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, multipliée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
+%     return (somme-somme2);
+% }
+% \end{minted}
 
-    \item Calcul de la tension de consigne intermédiaire ($u_{c\_prim}$) par la somme de l'intégrale et de l'erreur de courant.
+% Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
 
-    \item Vérification des limites de tension afin de ne pas dépasser les plages de fonctionnement de la maquette (entre 0 V et $U_{MAX}$ = 48 V). En cas de dépassement, la consigne est fixée à la borne correspondante.
+% \subsection{Main}
+% Le main est principalement employé pour réaliser les initialisations des différents parties du DSP ainsi qu'atteindre la boucle infinie qui reste bloqué à un endroit qui sera exploité par les interruptions.\\
 
-    \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
-\end{enumerate}
+% L'initialisation du microcontrôleur est effectuée par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} issues de la bibliothèque \texttt{device.h} :
+
+% \begin{minted}{c}
+% //
+% // Initialize device clock and peripherals
+% //
+% Device_init();
+
+% //
+% // Disable pin locks and enable internal pull ups.
+% //
+% Device_initGPIO();
+% \end{minted}
+
+% L'initialisation des interruptions est réalisée au moyen des fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt\_initVectorTable} (définies dans \texttt{device.h}) :
+
+% \begin{minted}{c}
+% //
+% // Initialize PIE and clear PIE registers. Disables CPU interrupts.
+% //
+% Interrupt_initModule();
+
+% //
+% // Initialize the PIE vector table with pointers to the shell Interrupt
+% // Service Routines (ISR).
+% //
+% Interrupt_initVectorTable();
+% \end{minted}
+
+% La boucle \texttt{while} assure la calibration du module SFO (Scale Factor Optimizer). Ce processus garantit une précision optimale des impulsions PWM :
 
-Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines.
+% \begin{minted}{c}
+% //
+% // Calling SFO() updates the HRMSTEP register with calibrated MEP_ScaleFactor.
+% // HRMSTEP must be populated with a scale factor value prior to enabling
+% // high resolution period control.
+% //
+% while(status == SFO_INCOMPLETE)
+% {
+%     status = SFO();
+%     if(status == SFO_ERROR)
+%     {
+%         error();   // SFO function returns 2 if an error occurs & # of MEP
+%     }              // steps/coarse step exceeds maximum of 255.
+% }
+% \end{minted}
+
+% La fonction \texttt{SysCtl\_disablePeripheral} désactive la synchronisation et gèle l'horloge des modules PWM :
+
+% \begin{minted}{c}
+% //
+% // Disable sync(Freeze clock to PWM as well)
+% //
+% SysCtl_disablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+% \end{minted}
+
+% La fonction \texttt{Board\_init} configure les périphériques (ADC, PWM, UART, etc.) selon les réglages établis dans SysConfig :
+
+% \begin{minted}{c}
+% //
+% // Initialize the EPWM GPIO Pins, the SCI and change the XBAR inputs from using GPIO0
+% //
+% Board_init();
+
+% \end{minted}
+
+% Les interruptions de communication sont activées par la fonction \texttt{SCI\_enableInterrupt} :
+
+% \begin{minted}{c}
+% SCI_enableInterrupt(mySCI0_BASE, SCI_INT_RXFF); // Autorise l'interruption Rx
+% \end{minted}
+
+% Une fois ces étapes validées, l'horloge et la synchronisation des modules PWM sont rétablies :
+
+% \begin{minted}{c}
+% //
+% // Enable sync and clock to PWM
+% //
+% SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
+% \end{minted}
+
+% Les interruptions globales sont autorisées :
+
+% \begin{minted}{c}
+% //
+% // Enable Global Interrupt (INTM) and realtime interrupt (DBGM)
+% //
+% EINT;
+% ERTM;
+% \end{minted}
+
+% Les signaux PWM sont affectés aux quatre inducteurs via une boucle d'initialisation.
+
+% \begin{minted}{c}
+% // Affection des PWMs sur les x inducteurs (en fonction de
+% // NUM_OF_PWM_CHANNEL, 4 par default)
+% for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
+% {
+%     dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
+%     count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+%     compCount = (count);
+%     HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+%     HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+% }
+% \end{minted}
+
+% Enfin, le programme entre dans une boucle infinie, le traitement étant intégralement géré par les routines d'interruption.
+
+% \begin{minted}{c}
+% // Extinctions LEDs
+% GPIO_writePin(myLED_D1,1);
+% GPIO_writePin(myLED_D2,1);
+% GPIO_writePin(LED_D5_carte_principale,0);
+% GPIO_writePin(LED_D6_carte_principale,0);
+
+% // Infinite loop
+% for(;;)
+% {
+
+% }
+% \end{minted}
+
+% \subsection{Interruption principale}
+% En raison de sa complexité et de sa taille importante, l'interruption principale est subdivisée en plusieurs sections logiques. Le temps d'exécution cible pour l'ensemble de cette routine est de 40~$\mu$s.
+
+% \subsubsection{Convertisseurs Analogique-Numérique (ADC)}
+% \label{subsubsec:ADC}
+
+% Les convertisseurs ADC jouent un rôle déterminant dans la boucle de régulation. Ils permettent l'acquisition des données relatives aux mesures de courant et de position.
+
+% Dans un premier temps, une lecture des valeurs brutes est effectuée via les fonctions dédiées :
+
+% \begin{minted}{c}
+% // Lecture de la position
+% ADC_pos_1 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
+% ADC_pos_2 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
+% ADC_pos_3 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
+% ADC_pos_4 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
+
+% // Lecture du courant
+% ADC_cur_1 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
+% ADC_cur_2 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
+% ADC_cur_3 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER2);
+% ADC_cur_4 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
+% \end{minted}
+
+% Ces données représentent le résultat numérique brut (codé sur 12 bits) après le traitement du signal par l'étage de conditionnement (voir \ref{subsec:Conditionneur}).
+
+% Concernant la mesure du courant, une procédure de suppression de l'offset résiduel est indispensable avant l'activation de la sustentation. L'algorithme suivant assure cette fonction :
+
+% \begin{minted}{c}
+% // Calcul de l'offset du conditionnement (phase initiale)
+% if(Offset_count <= 999 && Offset_stop == 0)
+% {
+%     Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
+%     Offset_ADC2 += ((float)ADC_cur_2) - ADC_ZERO_CURRENT;
+%     Offset_ADC3 += ((float)ADC_cur_3) - ADC_ZERO_CURRENT;
+%     Offset_ADC4 += ((float)ADC_cur_4) - ADC_ZERO_CURRENT;
+%     Offset_count++;
 
-\subsubsection{Filtre de Savitzky}
-\label{subsubsec:Savitzky}
-L'implémentation du filtre de Savitzky est la suivante :
+%     // Calcul de la moyenne après 1000 échantillons
+%     if(Offset_count > 999){
+%         Offset_ADC1 = Offset_ADC1 * OFFSET_COUNT_INV;
+%         Offset_ADC2 = Offset_ADC2 * OFFSET_COUNT_INV;
+%         Offset_ADC3 = Offset_ADC3 * OFFSET_COUNT_INV;
+%         Offset_ADC4 = Offset_ADC4 * OFFSET_COUNT_INV;
 
-\begin{minted}{c}
-float savitzky_Filter(float *Buffer)
-{
-    float v = 0.0f;
-    uint16_t m = 0;
+%         Offset_stop = 1; // Fin de la phase de calibration
 
-    for(m = 0; m < FILTWINDOW; m++)
-        v += F_PWM*Buffer[m]*SAVITZKY[m];
+%         // Enregistrement des positions de référence au repos
+%         Position_c1_dec = Position1 * POS_DETECT;
+%         Position_c3_dec = Position3 * POS_DETECT;
 
-    for(m = 0; m < FILTWINDOW-1; m++)
-        Buffer[m] = Buffer[(m+1)];
+%         // Test pour 1 inducteur
+%         Position_c2_dec = Position2 * POS_DETECT;
+%     }
+% }
+% \end{minted}
 
-    return v;
-}
-\end{minted}
+% Cette section du code permet d'éliminer le décalage de tension statique présent sur les voies de courant. Cet offset, théoriquement centré à 1,5~V (soit environ 1861 en valeur numérique), permet à l'ADC de quantifier des courants bidirectionnels.
 
-Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal.
+% L'intégration sur 1000 échantillons, correspondant à une durée d'environ 40~ms, permet d'obtenir une moyenne temporelle stable, garantissant ainsi une robustesse accrue face au bruit de mesure aléatoire.
 
-Le fonctionnement du filtre est illustré ci-dessous :
+% Le calcul des positions de référence est également effectué durant cette phase. Ces valeurs de référence permettent de détecter tout mouvement lors de la phase de décollage, assurant ainsi le bon déroulement de la sustentation.\\
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
-    \caption{Principe du filtre de Savitzky}
-    \label{fig:PrincipeSavitzky}
-\end{figure}
+% À la suite de l'acquisition des données brutes, une conversion est opérée pour transformer les valeurs numériques codées sur 12 bits en grandeurs physiques exploitables par les algorithmes de contrôle. Pour la mesure de position, le calcul intègre un facteur de conversion ainsi qu'un coefficient de correction spécifique à chaque capteur afin de compenser les écarts de linéarité :
 
-Le filtre de Savitzky s'apparente à un filtre FIR à fenêtre glissante. Dans la configuration actuelle, les 9 dernières positions de l'inducteur sont conservées en mémoire. Une moyenne pondérée est ensuite calculée en multipliant chaque position par les coefficients de Savitzky correspondants :
-
-\begin{minted}{c}
-//savitzky filter coefficients, order = 2, window = 9
-const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
-                                     0.0, 0.0167, 0.0333, 0.05, 0.0667};
-\end{minted}
+% \begin{minted}{c}
+% // 3722.7 / 3500 = 1.06, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
+% Position1 = (float)(ADC_pos_1) * CONV_POS2 * POS_CORRECTION_1;
+% // 3722.7 / 3480 = 1.07, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
+% Position2 = (float)(ADC_pos_2) * CONV_POS2 * POS_CORRECTION_2;
+% Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
+% Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
+% \end{minted}
 
-L'augmentation de la taille de la fenêtre permet d'obtenir un signal plus lisse, mais entraîne en contrepartie une augmentation du temps de calcul.
-
-Ce filtre est actuellement utilisé dans le code pour traiter le bruit des mesures provenant des ADC de position (voir \ref{subsubsec:ADC}).
+% De manière analogue, une transformation est appliquée aux résultats bruts des mesures de courant pour obtenir une valeur en Ampères. Ce calcul normalise le signal en soustrayant le point de repos théorique (\texttt{ADC\_ZERO\_CURRENT}) et l'offset statique mesuré précédemment :
 
-\subsubsection{Filtre IIR}
-L'implémentation du filtre IIR est la suivante :
-
-\begin{minted}{c}
-float IIR_Filter(float *entree, float *sortie)
-{
-    float somme = 0.0;
-    float somme2 = 0.0;
-
-    uint16_t k = 0;
-
-    //difference equation
-    for(k = 0; k < Nb; k++) //Num.
-        somme += b[k]*entree[k];
-    for(k = 0; k < Na; k++) //Den.
-        somme2 += a[k]*sortie[k];
-
-    //update buffers
-    for(k = (Na-1); k > 0; k--)
-        sortie[k] = sortie[(k-1)];
-
-    sortie[0] = (somme-somme2);
-
-    for(k = (Nb-1); k > 0; k--)
-        entree[k] = entree[(k-1)];
-
-    return (somme-somme2);
-}
-\end{minted}
-
-Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
-
-\subsection{Main}
-Le main est principalement employé pour réaliser les initialisations des différents parties du DSP ainsi qu'atteindre la boucle infinie qui reste bloqué à un endroit qui sera exploité par les interruptions.\\
-
-L'initialisation du microcontrôleur est effectuée par les fonctions \texttt{Device\_init} et \texttt{Device\_initGPIO} issues de la bibliothèque \texttt{device.h} :
-
-\begin{minted}{c}
-//
-// Initialize device clock and peripherals
-//
-Device_init();
-
-//
-// Disable pin locks and enable internal pull ups.
-//
-Device_initGPIO();
-\end{minted}
-
-L'initialisation des interruptions est réalisée au moyen des fonctions \texttt{Interrupt\_initModule} et \texttt{Interrupt\_initVectorTable} (définies dans \texttt{device.h}) :
-
-\begin{minted}{c}
-//
-// Initialize PIE and clear PIE registers. Disables CPU interrupts.
-//
-Interrupt_initModule();
-
-//
-// Initialize the PIE vector table with pointers to the shell Interrupt
-// Service Routines (ISR).
-//
-Interrupt_initVectorTable();
-\end{minted}
-
-La boucle \texttt{while} assure la calibration du module SFO (Scale Factor Optimizer). Ce processus garantit une précision optimale des impulsions PWM :
-
-\begin{minted}{c}
-//
-// Calling SFO() updates the HRMSTEP register with calibrated MEP_ScaleFactor.
-// HRMSTEP must be populated with a scale factor value prior to enabling
-// high resolution period control.
-//
-while(status == SFO_INCOMPLETE)
-{
-    status = SFO();
-    if(status == SFO_ERROR)
-    {
-        error();   // SFO function returns 2 if an error occurs & # of MEP
-    }              // steps/coarse step exceeds maximum of 255.
-}
-\end{minted}
-
-La fonction \texttt{SysCtl\_disablePeripheral} désactive la synchronisation et gèle l'horloge des modules PWM :
-
-\begin{minted}{c}
-//
-// Disable sync(Freeze clock to PWM as well)
-//
-SysCtl_disablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
-\end{minted}
-
-La fonction \texttt{Board\_init} configure les périphériques (ADC, PWM, UART, etc.) selon les réglages établis dans SysConfig :
-
-\begin{minted}{c}
-//
-// Initialize the EPWM GPIO Pins, the SCI and change the XBAR inputs from using GPIO0
-//
-Board_init();
-
-\end{minted}
-
-Les interruptions de communication sont activées par la fonction \texttt{SCI\_enableInterrupt} :
-
-\begin{minted}{c}
-SCI_enableInterrupt(mySCI0_BASE, SCI_INT_RXFF); // Autorise l'interruption Rx
-\end{minted}
-
-Une fois ces étapes validées, l'horloge et la synchronisation des modules PWM sont rétablies :
-
-\begin{minted}{c}
-//
-// Enable sync and clock to PWM
-//
-SysCtl_enablePeripheral(SYSCTL_PERIPH_CLK_TBCLKSYNC);
-\end{minted}
-
-Les interruptions globales sont autorisées :
-
-\begin{minted}{c}
-//
-// Enable Global Interrupt (INTM) and realtime interrupt (DBGM)
-//
-EINT;
-ERTM;
-\end{minted}
-
-Les signaux PWM sont affectés aux quatre inducteurs via une boucle d'initialisation.
-
-\begin{minted}{c}
-// Affection des PWMs sur les x inducteurs (en fonction de
-// NUM_OF_PWM_CHANNEL, 4 par default)
-for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
-{
-    dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
-    count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-    compCount = (count);
-    HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-    HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-}
-\end{minted}
-
-Enfin, le programme entre dans une boucle infinie, le traitement étant intégralement géré par les routines d'interruption.
-
-\begin{minted}{c}
-// Extinctions LEDs
-GPIO_writePin(myLED_D1,1);
-GPIO_writePin(myLED_D2,1);
-GPIO_writePin(LED_D5_carte_principale,0);
-GPIO_writePin(LED_D6_carte_principale,0);
-
-// Infinite loop
-for(;;)
-{
-
-}
-\end{minted}
-
-\subsection{Interruption principale}
-En raison de sa complexité et de sa taille importante, l'interruption principale est subdivisée en plusieurs sections logiques. Le temps d'exécution cible pour l'ensemble de cette routine est de 40~$\mu$s.
-
-\subsubsection{Convertisseurs Analogique-Numérique (ADC)}
-\label{subsubsec:ADC}
-
-Les convertisseurs ADC jouent un rôle déterminant dans la boucle de régulation. Ils permettent l'acquisition des données relatives aux mesures de courant et de position.
-
-Dans un premier temps, une lecture des valeurs brutes est effectuée via les fonctions dédiées :
-
-\begin{minted}{c}
-// Lecture de la position
-ADC_pos_1 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
-ADC_pos_2 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
-ADC_pos_3 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
-ADC_pos_4 = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
-
-// Lecture du courant
-ADC_cur_1 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
-ADC_cur_2 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
-ADC_cur_3 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER2);
-ADC_cur_4 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
-\end{minted}
-
-Ces données représentent le résultat numérique brut (codé sur 12 bits) après le traitement du signal par l'étage de conditionnement (voir \ref{subsec:Conditionneur}).
-
-Concernant la mesure du courant, une procédure de suppression de l'offset résiduel est indispensable avant l'activation de la sustentation. L'algorithme suivant assure cette fonction :
-
-\begin{minted}{c}
-// Calcul de l'offset du conditionnement (phase initiale)
-if(Offset_count <= 999 && Offset_stop == 0)
-{
-    Offset_ADC1 += ((float)ADC_cur_1) - ADC_ZERO_CURRENT;
-    Offset_ADC2 += ((float)ADC_cur_2) - ADC_ZERO_CURRENT;
-    Offset_ADC3 += ((float)ADC_cur_3) - ADC_ZERO_CURRENT;
-    Offset_ADC4 += ((float)ADC_cur_4) - ADC_ZERO_CURRENT;
-    Offset_count++;
-
-    // Calcul de la moyenne après 1000 échantillons
-    if(Offset_count > 999){
-        Offset_ADC1 = Offset_ADC1 * OFFSET_COUNT_INV;
-        Offset_ADC2 = Offset_ADC2 * OFFSET_COUNT_INV;
-        Offset_ADC3 = Offset_ADC3 * OFFSET_COUNT_INV;
-        Offset_ADC4 = Offset_ADC4 * OFFSET_COUNT_INV;
-
-        Offset_stop = 1; // Fin de la phase de calibration
-
-        // Enregistrement des positions de référence au repos
-        Position_c1_dec = Position1 * POS_DETECT;
-        Position_c3_dec = Position3 * POS_DETECT;
-
-        // Test pour 1 inducteur
-        Position_c2_dec = Position2 * POS_DETECT;
-    }
-}
-\end{minted}
-
-Cette section du code permet d'éliminer le décalage de tension statique présent sur les voies de courant. Cet offset, théoriquement centré à 1,5~V (soit environ 1861 en valeur numérique), permet à l'ADC de quantifier des courants bidirectionnels.
-
-L'intégration sur 1000 échantillons, correspondant à une durée d'environ 40~ms, permet d'obtenir une moyenne temporelle stable, garantissant ainsi une robustesse accrue face au bruit de mesure aléatoire.
-
-Le calcul des positions de référence est également effectué durant cette phase. Ces valeurs de référence permettent de détecter tout mouvement lors de la phase de décollage, assurant ainsi le bon déroulement de la sustentation.\\
-
-À la suite de l'acquisition des données brutes, une conversion est opérée pour transformer les valeurs numériques codées sur 12 bits en grandeurs physiques exploitables par les algorithmes de contrôle. Pour la mesure de position, le calcul intègre un facteur de conversion ainsi qu'un coefficient de correction spécifique à chaque capteur afin de compenser les écarts de linéarité :
-
-\begin{minted}{c}
-// 3722.7 / 3500 = 1.06, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
-Position1 = (float)(ADC_pos_1) * CONV_POS2 * POS_CORRECTION_1;
-// 3722.7 / 3480 = 1.07, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
-Position2 = (float)(ADC_pos_2) * CONV_POS2 * POS_CORRECTION_2;
-Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
-Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
-\end{minted}
-
-De manière analogue, une transformation est appliquée aux résultats bruts des mesures de courant pour obtenir une valeur en Ampères. Ce calcul normalise le signal en soustrayant le point de repos théorique (\texttt{ADC\_ZERO\_CURRENT}) et l'offset statique mesuré précédemment :
-
-\begin{minted}{c}
-// Calcul du courant (Version optimisée TFE 2025)
-Current1 = (((float)(ADC_cur_1) - ADC_ZERO_CURRENT - Offset_ADC1) /
-           (ADC_ZERO_CURRENT + Offset_ADC1)) * I_MAX;
-Current2 = (((float)(ADC_cur_2) - ADC_ZERO_CURRENT - Offset_ADC2) /
-           (ADC_ZERO_CURRENT + Offset_ADC2)) * I_MAX;
-Current3 = (((float)(ADC_cur_3) - ADC_ZERO_CURRENT - Offset_ADC3) /
-           (ADC_ZERO_CURRENT + Offset_ADC3)) * I_MAX;
-Current4 = (((float)(ADC_cur_4) - ADC_ZERO_CURRENT - Offset_ADC4) /
-           (ADC_ZERO_CURRENT + Offset_ADC4)) * I_MAX;
-\end{minted}
-
-Une fois ces traitements effectués, les grandeurs physiques sont exploitables par les régulateurs de position et de courant. Les informations sur la position sont également transmises à l'ESP32 pour permettre un affichage de celle-ci :
-
-\begin{minted}{c}
-// Envoi des données UART toutes les 40us * 25000 = 1 s
-UartCounter++;
-
-if (UartCounter >= 25000) {
-    UartCounter = 0; // Réinitialisation du compteur
-    SendFloatAsText(Position1*1000.0f, Position2*1000.0f,
-                    Position3*1000.0f, Position4*1000.0f);
-}
-\end{minted}
-
-Le délai de transmission est fixé à une seconde afin de ne pas surcharger les ressources de communication. Une multiplication par 1000 est appliquée aux variables de position lors de l'envoi afin d'exprimer les grandeurs en millimètres plutôt qu'en mètres, facilitant ainsi leur exploitation par l'interface utilisateur.
-
-\subsubsection{Régulation de courants et de positions}
-\label{subsubsec:RegCourantPos}
-La régulation constitue la partie principale de l'interruption. Pour la réaliser, une machine d'états doit d'abord passer par les étapes suivantes :
-
-\begin{itemize}
-    \item État 1 : Le courant des 4 inducteurs est monté à 3 A (pour ne pas partir de zéro).
-
-    \item État 2 : Le courant des inducteurs 1 et 2 est augmenté progressivement via une rampe (régulation de courant seule).
-
-    \item État 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, les deux passent en régulation de position (lévitation de l'avant du véhicule).
-
-    \item État 4 : Le courant des inducteurs 3 et 4 est augmenté progressivement via une rampe (régulation de courant seule).
-
-    \item État 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, les deux passent en régulation de position (lévitation de l'arrière du véhicule, l'avant lévitant déjà).
-\end{itemize}
-
-Pour la démarrer, il est nécessaire de presser le bouton S2 ou de l'enclencher depuis l'interface utilisateur :
-
-\begin{minted}{c}
-if(start_ISOZ == 1 || state_PIN == 1)
-{
-    ...
-}
-\end{minted}
-
-Dans le cas où l'une des deux conditions est atteinte, la régulation débute. Une LED s'enclenche lorsque celles-ci sont respectées.\\
-
-Au départ, le filtre de Savitzky est employé pour filtrer les données issues de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
-
-\begin{minted}{c}
-pos1Buff[FILTWINDOW-1] = Position1;
-v1 = savitzky_Filter(pos1Buff);
-
-pos2Buff[FILTWINDOW-1] = Position2;
-v2 = savitzky_Filter(pos2Buff);
-
-pos3Buff[FILTWINDOW-1] = Position3;
-v3 = savitzky_Filter(pos3Buff);
-
-pos4Buff[FILTWINDOW-1] = Position4;
-v4 = savitzky_Filter(pos4Buff);
-\end{minted}
-
-Par la suite, deux stratégies de décollage sont mises en place (Take off). Une première concerne les inducteurs 1 et 2 (inducteurs avant) et une seconde concerne les inducteurs 3 et 4 (inducteurs arrière). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. La régulation de courant est, quant à elle, toujours active et se situe chronologiquement après la machine d'états dans le code.\\
-
-Pour commencer, la stratégie de "Take off 1" est détaillée. Celle-ci contient les phases 1 et 2.
-La première phase permet d'augmenter la consigne de courant dans les inducteurs jusqu'à atteindre 3 A.\\
-
-Initialement, la valeur du courant dans l'inducteur est mesurée et sommée jusqu'à ce que la variable \texttt{dt\_mean} atteigne 200 cycles (durée d'environ 8 ms) :
-
-\begin{minted}{c}
-if(takeOff == 1)
-{
-    //////////////////////////PHASE 1 : INDUCTOR 1 & 2 //////////////////////////////////////////
-
-    // Premiere phase de decollage : rampe de courant sur chaque inducteur jusqu'a 3A.
-    if(phase1 == 1) // mean calculation
-    {
-        mean1 += Current1;
-        mean2 += Current2;
-        mean3 += Current3;
-        mean4 += Current4;
-        dt_mean++;
-
-        ...
-    }
-    ...
-}
-\end{minted}
-
-Lorsque les 200 cycles sont atteints, une moyenne est calculée en divisant la somme par ces 200 cycles pour obtenir la valeur réelle du courant sur cette petite fenêtre de temps :
-
-\begin{minted}{c}
-// if current has reached final value of initial current input(I_SP)
-// phase 1 end and phase2 begins
-if(dt_mean == 200)//dt = 8ms
-{
-    mean1 = mean1 / dt_mean;
-    mean2 = mean2 / dt_mean;
-    mean3 = mean3 / dt_mean;
-    mean4 = mean4 / dt_mean;
-
-    ...
-}
-\end{minted}
-
-Juste après cela, une vérification est effectuée sur les moyennes afin de s'assurer que le courant mesuré se situe dans une plage de fonctionnement correcte (entre 2.85 A et 3.15 A). Dans le cas où les quatre inducteurs ont bien atteint une valeur proche de la consigne, la transition vers la seconde phase s'opère. Dans le cas contraire, les moyennes et le temps sont remis à 0, et il est à nouveau nécessaire de réaliser 200 cycles :
-
-\begin{minted}{c}
-// Rampe generale de courant pour les 4 inducteurs
-if(mean1 <= I_SP105 && mean1 >= I_SP095 && mean2 <= I_SP105 && mean2 >= I_SP095\
-       && mean3 <= I_SP105 && mean3 >= I_SP095 && mean4 <= I_SP105 && mean4 >= I_SP095){
-
-    phase1 = 0;
-}
-else
-{
-    mean1 = 0;
-    mean2 = 0;
-    mean3 = 0;
-    mean4 = 0;
-    dt_mean = 0;
-}
-\end{minted}
-
-En parallèle, une rampe est progressivement créée, allant de 0 A à 3 A avec un pas de 0.04 A. Une fois cette valeur atteinte :
-
-\begin{minted}{c}
-// Set point generator(Current)
-if(ic1 < I_SP)
-{
-    ic1 += TAKEOFF_CURRENT_STEP1; // 0.04 ramp from 0A to 3A (4e-7 [s])
-}
-else
-{
-    ic1 = I_SP;
-    ic2 = ic1;
-    ic3 = ic1;
-    ic4 = ic1;
-}
-\end{minted}
-
-Une constatation s'impose ici : seul le courant de consigne de la bobine 1 est incrémenté. Les autres variables étant initialisées à 0, elles conservent cette valeur et changent brusquement lorsque la première consigne dépasse 3 A. Cela signifie qu'au départ, la condition de vérification des moyennes n'est jamais respectée pour les autres bobines. En théorie, cela ne devrait pas perturber le fonctionnement final de la première étape, mais le code mériterait d'être modifié pour appliquer une rampe synchronisée sur les quatre inducteurs simultanément.\\
-
-La phase 2 concerne la montée des deux inducteurs placés à l'avant. L'objectif est de réaliser le décollage de ces éléments. Pour y parvenir, il est nécessaire d'augmenter le courant de ces deux inducteurs via une nouvelle rampe. La raison sous-jacente est de permettre aux inducteurs d'atteindre une force magnétique suffisamment grande pour que la maquette s'envole :
-
-\begin{minted}{c}
-else // phase2 for inductor 1,2
-{
-    if(Position1 < Position_c1_dec) // if inductor starts to move
-    {
-        takeOff = 0;
-        Position_c1 = Position1;
-    }
-    // Current limiting at value necessary to take off inductor at Delta_0 (3mm)
-    else if(ic1 < 7.82f){
-        ic1 += TAKEOFF_CURRENT_STEP1; //"infinite" ramp until inductor starts to move
-    }
-    else
-    {
-//                   if(ic1 < 9.0f)
-//                       ic1 += 0.004f; // rampe plus douce, pour assurer la levitation du sustentateur
-//                   else
-//                       ic1 = 9.0f;
-        ic1 = 7.82;
-    }
-    ic2 = ic1;
-}
-\end{minted}
-
-Dans ce bloc, la distance entre l'inducteur et le rail est surveillée. Le capteur de position mesure en réalité cet écart, qui est de 3 mm au repos. Lors du décollage, le rail et l'inducteur se rapprochent, diminuant ainsi cette distance. La variable \texttt{Position\_c1\_dec} correspond à 99\% de ces 3 mm (2.97 mm). Lorsque le mouvement débute et que la position mesurée devient inférieure à cette distance de détection, il est possible de passer de l'état 2 à l'état 3. Dans le cas contraire, le courant est encore augmenté par une rampe. Cependant, une limite de sécurité est fixée à 7.82 A ; au-delà de cette valeur, la maquette risquerait de subir des dommages.
-
-Pour simplifier le processus, la consigne de courant de l'inducteur 1 est copiée sur l'inducteur 2 afin de garantir une montée symétrique.\\
-
-C'est à présent que l'état 3 entre en œuvre. Pour les étapes suivantes, le code complet ne sera pas présenté, car les actions pour les inducteurs 1 et 2 sont identiques. Les explications se concentreront donc uniquement sur la régulation de position de l'inducteur 1.
-Pour permettre à la régulation de position de s'adapter en douceur et d'atteindre sa hauteur de croisière, les étapes suivantes sont appliquées :
-
-\begin{minted}{c}
-// Start takeoff 1 & 2//
-else
-{
-    //SET POINT GENERATOR FOR INDUCTOR 1 & 2
-    // Ce bloc permet de baisser petit  petit la consigne de position pour que la regulation puisse suivre et s'adapter
-    if(Position_c1 > Pos1_to_regul)
-    {
-        Position_c1 -= 2.5 * 4e-7; // ramp from 3mm to 2mm (4e-7 [s]) par 0.25 mm
-    }
-    else
-    {
-        Position_c1 = Pos1_to_regul;
-    }
-\end{minted}
-
-Lorsque la consigne de position se trouve à une valeur supérieure à 2 mm, une rampe est appliquée pour la diminuer progressivement. Dès que cette consigne devient plus petite que 2 mm, elle est alors fixée à cette valeur cible.\\
-
-Par la suite, un filtre coupe-bande est employé pour éliminer les fréquences de résonance parasites :
-
-\begin{minted}{c}
-//Fc1 bandstop filter
-        IN1[0] = fc1;
-        fc1f = IIR_Filter(IN1,OUT1);
-        //fc1f = fc1;
-        //introducing limit because IIR filter may cause overtaking
-        if (fc1f <= 0)
-            fc1f = 0;
-        if (fc1f >= FMAX)
-            fc1f = FMAX;
-\end{minted}
-
-La régulation par retour d'état intervient ensuite :
-
-\begin{minted}{c}
-// Position control inductor 1 - state regulation
-        ep1 = Position_c1 - Position1;
-
-        xr1 += (ep1 - fce1);
-        sum_vp1 = v1 * Kddot + Position1 * Kd;
-        fc1_prim = Kw * Position_c1 + Kr * xr1 * I - sum_vp1 + FP;
-//             fc1_prim = fc1_prim - fperturb1;
-        fc1 = fc1_prim;
-
-        if (fc1_prim <= 0){
-            fc1 = 0;
-        }
-        if (fc1_prim >= FMAX){
-            fc1 = FMAX;
-        }
-        fce1 = (fc1_prim - fc1) * K_antiwindup * antiwindup_pos;
-\end{minted}
-
-Les étapes de cette régulation sont les suivantes :
-
-\begin{enumerate}
-    \item \texttt{ep1} : L'erreur entre la position de la consigne et celle mesurée est calculée.
-    \item \texttt{xr1} : L'action intégrale est calculée à partir de l'erreur de position, soustraite de l'erreur de saturation.
-    \item \texttt{sum\_vp1} : L'amortissement est évalué à partir de la vitesse et de la position mesurées.
-    \item \texttt{fc1\_prim} : La force totale demandée est calculée en additionnant l'effet du ressort, de l'intégrale, de la force du poids et en soustrayant l'amortissement.
-    \item Une vérification des plages admissibles est effectuée ; en cas de dépassement, la force est saturée aux limites physiques.
-    \item \texttt{fce1} : L'erreur de saturation (système d'Anti-Windup) est calculée à partir de la différence entre la force demandée et la force saturée. Cette variable reste à 0 en fonctionnement nominal et n'agit pour freiner l'intégrateur que lorsque les limites matérielles sont atteintes.
-\end{enumerate}
-
-Une observation importante est que l'écrêtage (saturation) n'est vérifié qu'après le calcul mathématique initial. Cela permet d'obtenir un moyen de contrer l'erreur de manière préventive si jamais les limites de puissance viennent à être dépassées.\\
-
-Pour terminer la stratégie de décollage, les calculs suivants sont réalisés pour convertir les forces en consignes de courant (Méthode inverse).
-
-\begin{minted}{c}
-ic1 = (sqrtf(K_FC * fc1f)) * Position1;
-ic2 = (sqrtf(K_FC * fc2f)) * Position2;
-\end{minted}
-
-Afin de réduire le temps d'exécution du code sur le processeur, la constante \texttt{K\_FC} correspond à l'inverse de la constante $k$. Une multiplication est ainsi effectuée à la place d'une division, opération beaucoup plus coûteuse en cycles d'horloge.
-
-C'est de cette manière que la consigne de courant pour l'état 3 est calculée.\\
-
-À partir de ce même état 3, un compteur s'incrémente afin de déclencher un adoucissement des pôles (baisse de la valeur des gains statiques). Le code utilise ce chronomètre pour déterminer le moment exact de la modification des gains de régulation, garantissant ainsi la stabilité lors de la transition :
-
-\begin{minted}{c}
-if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulation de 2  4 inducteurs (stabilit)
-{
-    Kr = Kr_change;
-    Kw = Kw_change;
-    Kd = Kd_change;
-    Kddot = Kddot_change;
-}
-\end{minted}
-
-La stratégie de décollage des inducteurs 3 et 4 est identique à celle des inducteurs 1 et 2 ; par conséquent, elle n'est pas détaillée ici. Une différence majeure réside toutefois dans la désactivation initiale de l'intégrateur pour l'inducteur 3. Cette asymétrie vise à octroyer de la souplesse mécanique. Le gain intégral de l'inducteur 3 est d'abord forcé à 0 pendant le décollage. Après une courte temporisation permettant au système de se stabiliser, une faible valeur lui est restituée pour corriger l'erreur d'inclinaison de manière douce :
-
-\begin{minted}{c}
-//        Modify Kr of the regulator "without integrator" for stay the position
-//        at 2 mm slowly after 40ms (not immediatly, cause to second take off "agressivity")
-if(i_store >= (i_store_2e_decollage + 1000))
-{
-    Kr_sans_int = -1.0; // valeur initiale -1.0
-}
-\end{minted}
-
-Pour démarrer le décollage des inducteurs 3 et 4, la condtion suivante est à atteindre :
-
-\begin{minted}{c}
-if((takeOff == 0) && (takeOff2 == 1) && (i_store >= i_store_2e_decollage))
-...
-}
-\end{minted}
-
-Cees états s'enlenche uniquement lorqu'un certain temps et passer.
-
-Une première conclusion concernant cette partie de l'interruption est la nécessité de restructurer la machine d'états. L'architecture actuelle, basée sur des variables booléennes implicites, manque de robustesse et de lisibilité.\\
-
-En toute fin d'interruption, et de manière inconditionnelle, la régulation matérielle du courant est exécutée à l'aide de la fonction \texttt{PI\_current\_regulator} :
-
-\begin{minted}{c}
-// Inductor 1
-PI_current_regulator(ic1, Current1, &integral_i1, &ue1, &uc1);
-
-// Inductor 2
-PI_current_regulator(ic2, Current2, &integral_i2, &ue2, &uc2);
-
-// Inductor 3
-PI_current_regulator(ic3, Current3, &integral_i3, &ue3, &uc3);
-
-// Inductor 4
-PI_current_regulator(ic4, Current4, &integral_i4, &ue4, &uc4);
-\end{minted}
-
-\subsubsection{PWM}
-Les signaux PWM (Pulse Width Modulation) sont employés pour contrôler les ponts en H placés sur les bobines. Ces signaux indiquent aux transistors MOSFET s'ils doivent être passants ou bloqués, modulant ainsi l'énergie envoyée aux électroaimants.
-
-Pour commencer, il est nécessaire de déterminer le rapport cyclique (duty cycle). Suite à l'exécution de la régulation de courant, qui fournit les tensions de consigne, le rapport cyclique est calculé de la manière suivante :
-
-\begin{minted}{c}
-// Calcul de l'angle theta
-// theta = ((Position1)-(Position2))*UN_SUR_d;
-// Convert Uc1,...,Uc3 into dutycycle and add DA (dutycycle correction) as ucx will always be >0 in our application, otherwise
-// DA would have been subtracted for ucx <0
-
-dutyCycle1 = 0.5f + (CONV_DUTY_CYCLE * uc1) + DA;
-dutyCycle2 = 0.5f + (CONV_DUTY_CYCLE * uc2) + DA;
-dutyCycle3 = 0.5f + (CONV_DUTY_CYCLE * uc3) + DA;
-dutyCycle4 = 0.5f + (CONV_DUTY_CYCLE * uc4) + DA;
-\end{minted}
-
-Une fois cette étape accomplie, les rapports cycliques sont convertis en pourcentages :
-
-\begin{minted}{c}
-duty1 = dutyCycle1 * 100;
-duty2 = dutyCycle2 * 100;
-duty3 = dutyCycle3 * 100;
-duty4 = dutyCycle4 * 100;
-\end{minted}
-
-Une vérification est ensuite effectuée afin de s'assurer que les plages de fonctionnement matérielles sont respectées, protégeant ainsi l'électronique de puissance :
-
-\begin{minted}{c}
-// Limite min et max des rapports cycliques
-if(duty1 >= LIMITE_MAX_DUTY_FINE)
-    duty1 = LIMITE_MAX_DUTY_FINE;
-else if(duty1 <= LIMITE_MIN_DUTY_FINE)
-    duty1 = LIMITE_MIN_DUTY_FINE;
-
-if(duty2 >= LIMITE_MAX_DUTY_FINE)
-    duty2 = LIMITE_MAX_DUTY_FINE;
-else if(duty2 <= LIMITE_MIN_DUTY_FINE)
-    duty2 = LIMITE_MIN_DUTY_FINE;
-
-if(duty3 >= LIMITE_MAX_DUTY_FINE)
-    duty3 = LIMITE_MAX_DUTY_FINE;
-else if(duty3 <= LIMITE_MIN_DUTY_FINE)
-    duty3 = LIMITE_MIN_DUTY_FINE;
-
-if(duty4 >= LIMITE_MAX_DUTY_FINE)
-    duty4 = LIMITE_MAX_DUTY_FINE;
-else if(duty4 <= LIMITE_MIN_DUTY_FINE)
-    duty4 = LIMITE_MIN_DUTY_FINE;
-\end{minted}
-
-Pour chaque inducteur, la consigne mathématique est convertie en impulsions d'horloge et appliquée aux registres matériels selon la méthode suivante :
-
-\begin{minted}{c}
-// Affection des compteurs PWM :
-// Plus propre de faire une boucle et un tableau de duty[4]
-
-dutyFine = ((float)(duty1*TIME_BASE_PERIOD) * INV_FACTOR);
-count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-compCount = (count);
-i = 1;
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-
-
-dutyFine = ((float)(duty2*TIME_BASE_PERIOD) * INV_FACTOR);
-count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-compCount = (count);
-i = 2;
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-
-
-dutyFine = ((float)(duty3*TIME_BASE_PERIOD) * INV_FACTOR);
-count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-compCount = (count);
-i = 3;
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-
-
-dutyFine = ((float)(duty4 * TIME_BASE_PERIOD) * INV_FACTOR);
-count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-compCount = (count);
-i = 4;
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-\end{minted}
-
-Comme souligné dans les commentaires du code, l'utilisation d'une boucle itérative (\texttt{for}) serait plus pertinente pour optimiser et factoriser cette section.
-
-Enfin, afin de garantir un fonctionnement optimal malgré les éventuelles fluctuations de la tension d'alimentation interne ou l'échauffement du microcontrôleur, la fonction d'étalonnage suivante est employée. Elle permet d'ajuster dynamiquement la haute résolution des signaux PWM (HRPWM) :
-
-\begin{minted}{c}
-// in background, MEP calibration module
-// continuously updates MEP_ScaleFactor
-status = SFO();
-
-if (status == SFO_ERROR)
-{
-    error();   // SFO function returns 2 if an error occurs & #
-                // of MEP steps/coarse step
-}              // exceeds maximum of 255.
-\end{minted}
-
-Dans l'éventualité où une erreur de calibration matérielle survient (dépassement des capacités de compensation du processeur), le système est mis en sécurité en appelant la fonction d'erreur, permettant ainsi l'investigation du dysfonctionnement thermique ou électrique.
-
-\subsection{Arrêt de la sustentation}
-Lorsqu'une nouvelle pression est exercée sur le bouton S2 (ou via l'interface de commande), la sustentation est interrompue de la manière suivante :
-
-\begin{minted}{c}
-// Arret de la sustentation
-else if(stop_ISOZ == 1 || state_PIN == 0)
-{
-    GPIO_writePin(myLED_D2,1); // Eteindre la LED2 apres sustentation
-
-    for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
-        {
-            dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
-            count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-            compCount = (count);
-
-            HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-            HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-        }
-
-    i_store = 0;
-
-    //
-    // Call the scale factor optimizer lib function SFO()
-    // periodically to track for any change due to temp/voltage.
-    // This function generates MEP_ScaleFactor by running the
-    // MEP calibration module in the HRPWM logic. This scale
-    // factor can be used for all HRPWM channels. The SFO()
-    // function also updates the HRMSTEP register with the
-    // scale factor value.
-    //
-    status = SFO(); // in background, MEP calibration module
-                    // continuously updates MEP_ScaleFactor
-    if (status == SFO_ERROR)
-    {
-        error();   // SFO function returns 2 if an error occurs & #
-                    // of MEP steps/coarse step
-    }              // exceeds maximum of 255.
-}
-\end{minted}
-
-Cette procédure désactive instantanément l'asservissement en forçant les signaux PWM à leur valeur de repos via les données du tableau \texttt{duty\_table}, provoquant ainsi la coupure immédiate de l'alimentation des électroaimants. Le chronomètre interne \texttt{i\_store} est également réinitialisé pour préparer le système à un éventuel redémarrage. En parallèle, la fonction d'étalonnage matériel \texttt{SFO()} est maintenue active afin de préserver la calibration haute résolution du microcontrôleur.
-
-\subsection{Le bouton-poussoir}
-Le bouton-poussoir matériel dispose de sa propre routine d'interruption externe. Le rôle exclusif de cette dernière est de lever un drapeau d'état (\textit{flag}) :
-
-\begin{minted}{c}
-__interrupt void INT_Push_Button_Start_XINT_ISR(void)
-{
-    Ext_Int_Flag = 1;
-    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
-}
-\end{minted}
-
-L'activation de ce drapeau permet au programme principal de détecter l'actionnement du bouton. Un mécanisme anti-rebond logiciel (\textit{debounce}) est appliqué via une boucle d'attente avant de procéder à la vérification finale de l'état logique de la broche. Selon cet état, le système bascule la consigne globale de la maquette (démarrage ou arrêt de la lévitation) :
-
-\begin{minted}{c}
-if(Ext_Int_Flag == 1) // Detection passage INTERRUPT car flanc montant
-{
-    count_ext_int = 0;
-    while(count_ext_int < COUNT_TO_REACH) // Anti-rebond logiciel
-        count_ext_int++;
-
-    if(GPIO_readPin(Push_Button_Start) == 0)
-    {
-        // APPUI CONFIRMÉ
-        if(start_ISOZ == 1)
-        {
-            start_ISOZ = 0;
-            stop_ISOZ = 1;
-        }
-        else if(start_ISOZ == 0)
-        {
-            start_ISOZ = 1;
-            stop_ISOZ = 0;
-        }
-    }
-    Ext_Int_Flag = 0; // Réarmement du drapeau
-}
-\end{minted}
-
-\subsection{Interruption de la communication UART}
-La communication UART s'appuie sur deux interruptions distinctes : l'une dédiée à la réception des messages (RX) et la seconde à l'envoi (TX). Les routines d'interruption sont les suivantes :
-
-\begin{minted}{c}
-__interrupt void INT_mySCI0_RX_ISR(void) // .xxx
-{
-    uint16_t c;
-
-    while (SCI_getRxFIFOStatus(SCIA_BASE) > 0) {
-        c = SCI_readCharBlockingFIFO(SCIA_BASE);
-        if (rxIndex < RX_BUF_LEN) {
-             rxBuffer[rxIndex++] = c;
-         }
-         if(c == '\x02'){
-            // Marque le dbut de trame
-            dataIndex = rxIndex; // Sauvegarde la position pour les donnes
-         }
-         if(c == '\x03'){
-            // Fin de trame - traite les donnes
-            if(dataIndex > 0 && dataIndex < rxIndex-1) {
-                state_PIN = (rxBuffer[dataIndex] == '1') ? 1 : 0;
-            }
-            // Reset du buffer
-            rxIndex = 0;
-            int b;
-            for(b = 0; b < RX_BUF_LEN; b++) {
-                rxBuffer[b] = 0;
-            }
-         }
-    }
-
-    SCI_clearOverflowStatus(SCIA_BASE);
-    SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
-    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
-}
-
-__interrupt void INT_mySCI0_TX_ISR(void)
-{
-    while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength) {
-        SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
-    }
-
-    if (txIndex >= txLength) {
-        SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin denvoi
-    }
-
-    // Acquitter l'interruption
-    SCI_clearOverflowStatus(SCIA_BASE);
-    SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
-    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9); // For the PIE acknowledge
-}
-\end{minted}
-
-La communication est actuellement employée pour assurer la réception de la commande d'enclenchement de la maquette ainsi que l'envoi des variables de position vers l'ESP32 :
-
-\begin{minted}{c}
-      // Envoi des donnes UART toute les 40*10e-6 * 25000 = 1 s
-      UartCounter++;
-
-      if (UartCounter >= 25000) {
-          UartCounter = 0; // Reset du compteur
-          SendFloatAsText(Position1*1000.0f,Position2*1000.0f,Position3*1000.0f,Position4*1000.0f);
-
-//          SendFloatAsText(1.234f,2.567f,3.891,4.234f); // Trame de test envoye : "\x02float1,float2,float3float4\x03" avec les float sous cette forme x.xxx
-//          sendString("\x02Hello World!\r\x03");
-      }
-\end{minted}
-
-\section{Programme dans l'ESP32}
-\label{sec:CodeESP32}
-Le code de l'ESP32 est principalement employé pour la communication entre lui et le DSP et aussi pour host l'interface web. Cette section vient donc détailler les différents éléments de son code.
-
-\subsection{Poids des codes}
-À partir du compiler d'Arduino, il est possible de réaliser une vérification de l'espace prise dans la mémoire de l'ESP32. De cela on obtient les informations suivantes :
-
-\begin{quote}
-    Le croquis utilise 979768 octets (74\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
-
-    Les variables globales utilisent 45324 octets (13\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
-\end{quote}
-
-D'un point de vue de la taille des fichiers, on a pour le code de l'ESP32 mesure 9.9 ko et celui du site web 10.6 ko.
-
-\subsection{Code arduino}
-Le code arduino est un petit code contenant de nombreuse fonction pour la communication ainsi que l'affichage de l'interface web.\\
-
-Les librairies employé pour réaliser cela sont les suivantes :
-
-\begin{minted}{c++}
-#include <WiFi.h>
-#include <WebServer.h>
-#include <FastLED.h>
-#include <HardwareSerial.h>
-#include <stdlib.h>  // Pour atof()
-#include <string.h>  // Pour strtok()
-
-#include "WebPage.h"
-\end{minted}
-
-Elle contient les librairies principales suivantes :
-
-\begin{itemize}
-    \item WiFi.h : Une librairie de l'ESP32 permettant la gestion du WiFi. Elle sera utilisé pour transformer l'ESP32 en point d'accès.
-    \item WebServer.h : Une librairie permettant d'heberger un site web et répondre à des requettes d'utilisateurs.
-    \item HardwareSerial.h : Une librairie pour la communication en UART utilisé pour pour la communication entre l'ESP32 et le DSP.
-    \item
-\end{itemize}
-
-Les principales définitions sont les suivantes :
-
-\begin{minted}{c++}
-// Nom et mot de passe du wifi crée par l'esp32
-#define AP_SSID "ESP32-S2-WIFI"
-#define AP_PASS "TFE-TB2025-HEIG"
-// ... (LED setup) ...
-HardwareSerial MySerial(1);
-#define BAUDRATE 115200
-#define TX1 17
-#define RX1 18
-// ... (Variables globales) ...
-IPAddress Actual_IP;
-IPAddress PageIP(192, 168, 4, 1);
-// ...
-WebServer server(80);
-\end{minted}
-
-Trois de ces définitions permettent de se connecter à l'interface web :
-
-\begin{itemize}
-    \item Nom du wifi : ESP32-S2-WIFI
-    \item Mot de passe : TFE-TB2025-HEIG
-    \item Lien du site web : 192.168.4.1
-\end{itemize}
-
-La fonction setup permet d'inialiser correctement l'interface web avec les importantes initialisaions suivantes :
-
-\begin{minted}{c++}
-void setup() {
-  // ... (Initialisations Serial et LED) ...
-  MySerial.begin(BAUDRATE, SERIAL_8N1, RX1, TX1, false);
-  // ...
-  WiFi.softAP(AP_SSID, AP_PASS);
-  WiFi.softAPConfig(PageIP, gateway, subnet);
-  // ...
-  server.on("/", SendWebsite);
-  server.on("/xml", SendXML);
-  server.on("/BUTTON_START", ProcessButton_START);
-  server.on("/BUTTON_STOP", ProcessButton_STOP);
-  server.begin();
-}
-\end{minted}
-
-La boucle principale permettant d'afficher le site web et de communiquer avec le DSP est la suivante :
-
-\begin{minted}{c++}
-void loop() {
-  // ... (Réception de l'UART) ...
-  while (MySerial.available() > 0) {
-    uint8_t c = MySerial.read();
-    if (RxIndex < UART_BUFFER) { buffer[RxIndex++] = c; }
-    // ...
-  }
-
-  // Traitement des données
-  if (RxIndex > 0) {
-    buffer[RxIndex] = '\0';
-    if (buffer[0] == 0x02 && buffer[RxIndex - 1] == 0x03) {
-      char* token = strtok(&buffer[1], ",");
-      int i = 0;
-      while (token != NULL && i < 4) {
-        floatValues[i++] = atof(token);
-        token = strtok(NULL, ",");
-      }
-      updateValues();
-      RxIndex = 0;
-    }
-    // ...
-  }
-  server.handleClient(); // Absolutely necessary
-}
-\end{minted}
-
-Un bouton interfactif est actuellement mise en place comme suit :
-
-\begin{minted}{c++}
-void ProcessButton_START() {
-  btn_state = 1;
-  MySerial.print('\x02');
-  MySerial.print(btn_state);
-  MySerial.print('\x03');
-  leds[0] = CRGB::Red;
-  FastLED.show();
-  server.send(250, "text/plain", ""); //Send web page
-}
-// (ProcessButton_STOP est similaire)
-\end{minted}
-
-L'envoie de donnée se réa
-
-\subsection{Code de l'interface web}
-L'interface se présente comme suit :
-
-
-
-Le code de l'interface se compose en 3 parties :
-
-\begin{itemize}
-    \item Un code HTML pour
-    \item Un code CSS pour
-    \item Un code JavaScript pour
-\end{itemize}
-
-Ces 3 parties seront détaillé dans les sous-sections qui suivent.
-
-\subsubsection{HTML}
-
-\subsubsection{CSS}
-
-\subsubsection{JavaScript}
+% \begin{minted}{c}
+% // Calcul du courant (Version optimisée TFE 2025)
+% Current1 = (((float)(ADC_cur_1) - ADC_ZERO_CURRENT - Offset_ADC1) /
+%            (ADC_ZERO_CURRENT + Offset_ADC1)) * I_MAX;
+% Current2 = (((float)(ADC_cur_2) - ADC_ZERO_CURRENT - Offset_ADC2) /
+%            (ADC_ZERO_CURRENT + Offset_ADC2)) * I_MAX;
+% Current3 = (((float)(ADC_cur_3) - ADC_ZERO_CURRENT - Offset_ADC3) /
+%            (ADC_ZERO_CURRENT + Offset_ADC3)) * I_MAX;
+% Current4 = (((float)(ADC_cur_4) - ADC_ZERO_CURRENT - Offset_ADC4) /
+%            (ADC_ZERO_CURRENT + Offset_ADC4)) * I_MAX;
+% \end{minted}
+
+% Une fois ces traitements effectués, les grandeurs physiques sont exploitables par les régulateurs de position et de courant. Les informations sur la position sont également transmises à l'ESP32 pour permettre un affichage de celle-ci :
+
+% \begin{minted}{c}
+% // Envoi des données UART toutes les 40us * 25000 = 1 s
+% UartCounter++;
+
+% if (UartCounter >= 25000) {
+%     UartCounter = 0; // Réinitialisation du compteur
+%     SendFloatAsText(Position1*1000.0f, Position2*1000.0f,
+%                     Position3*1000.0f, Position4*1000.0f);
+% }
+% \end{minted}
+
+% Le délai de transmission est fixé à une seconde afin de ne pas surcharger les ressources de communication. Une multiplication par 1000 est appliquée aux variables de position lors de l'envoi afin d'exprimer les grandeurs en millimètres plutôt qu'en mètres, facilitant ainsi leur exploitation par l'interface utilisateur.
+
+% \subsubsection{Régulation de courants et de positions}
+% \label{subsubsec:RegCourantPos}
+% La régulation constitue la partie principale de l'interruption. Pour la réaliser, une machine d'états doit d'abord passer par les étapes suivantes :
+
+% \begin{itemize}
+%     \item État 1 : Le courant des 4 inducteurs est monté à 3 A (pour ne pas partir de zéro).
+
+%     \item État 2 : Le courant des inducteurs 1 et 2 est augmenté progressivement via une rampe (régulation de courant seule).
+
+%     \item État 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, les deux passent en régulation de position (lévitation de l'avant du véhicule).
+
+%     \item État 4 : Le courant des inducteurs 3 et 4 est augmenté progressivement via une rampe (régulation de courant seule).
+
+%     \item État 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, les deux passent en régulation de position (lévitation de l'arrière du véhicule, l'avant lévitant déjà).
+% \end{itemize}
+
+% Pour la démarrer, il est nécessaire de presser le bouton S2 ou de l'enclencher depuis l'interface utilisateur :
+
+% \begin{minted}{c}
+% if(start_ISOZ == 1 || state_PIN == 1)
+% {
+%     ...
+% }
+% \end{minted}
+
+% Dans le cas où l'une des deux conditions est atteinte, la régulation débute. Une LED s'enclenche lorsque celles-ci sont respectées.\\
+
+% Au départ, le filtre de Savitzky est employé pour filtrer les données issues de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
+
+% \begin{minted}{c}
+% pos1Buff[FILTWINDOW-1] = Position1;
+% v1 = savitzky_Filter(pos1Buff);
+
+% pos2Buff[FILTWINDOW-1] = Position2;
+% v2 = savitzky_Filter(pos2Buff);
+
+% pos3Buff[FILTWINDOW-1] = Position3;
+% v3 = savitzky_Filter(pos3Buff);
+
+% pos4Buff[FILTWINDOW-1] = Position4;
+% v4 = savitzky_Filter(pos4Buff);
+% \end{minted}
+
+% Par la suite, deux stratégies de décollage sont mises en place (Take off). Une première concerne les inducteurs 1 et 2 (inducteurs avant) et une seconde concerne les inducteurs 3 et 4 (inducteurs arrière). Plusieurs phases sont réalisées pour le bon déroulement de la sustentation. La régulation de courant est, quant à elle, toujours active et se situe chronologiquement après la machine d'états dans le code.\\
+
+% Pour commencer, la stratégie de "Take off 1" est détaillée. Celle-ci contient les phases 1 et 2.
+% La première phase permet d'augmenter la consigne de courant dans les inducteurs jusqu'à atteindre 3 A.\\
+
+% Initialement, la valeur du courant dans l'inducteur est mesurée et sommée jusqu'à ce que la variable \texttt{dt\_mean} atteigne 200 cycles (durée d'environ 8 ms) :
+
+% \begin{minted}{c}
+% if(takeOff == 1)
+% {
+%     //////////////////////////PHASE 1 : INDUCTOR 1 & 2 //////////////////////////////////////////
+
+%     // Premiere phase de decollage : rampe de courant sur chaque inducteur jusqu'a 3A.
+%     if(phase1 == 1) // mean calculation
+%     {
+%         mean1 += Current1;
+%         mean2 += Current2;
+%         mean3 += Current3;
+%         mean4 += Current4;
+%         dt_mean++;
+
+%         ...
+%     }
+%     ...
+% }
+% \end{minted}
+
+% Lorsque les 200 cycles sont atteints, une moyenne est calculée en divisant la somme par ces 200 cycles pour obtenir la valeur réelle du courant sur cette petite fenêtre de temps :
+
+% \begin{minted}{c}
+% // if current has reached final value of initial current input(I_SP)
+% // phase 1 end and phase2 begins
+% if(dt_mean == 200)//dt = 8ms
+% {
+%     mean1 = mean1 / dt_mean;
+%     mean2 = mean2 / dt_mean;
+%     mean3 = mean3 / dt_mean;
+%     mean4 = mean4 / dt_mean;
+
+%     ...
+% }
+% \end{minted}
+
+% Juste après cela, une vérification est effectuée sur les moyennes afin de s'assurer que le courant mesuré se situe dans une plage de fonctionnement correcte (entre 2.85 A et 3.15 A). Dans le cas où les quatre inducteurs ont bien atteint une valeur proche de la consigne, la transition vers la seconde phase s'opère. Dans le cas contraire, les moyennes et le temps sont remis à 0, et il est à nouveau nécessaire de réaliser 200 cycles :
+
+% \begin{minted}{c}
+% // Rampe generale de courant pour les 4 inducteurs
+% if(mean1 <= I_SP105 && mean1 >= I_SP095 && mean2 <= I_SP105 && mean2 >= I_SP095\
+%        && mean3 <= I_SP105 && mean3 >= I_SP095 && mean4 <= I_SP105 && mean4 >= I_SP095){
+
+%     phase1 = 0;
+% }
+% else
+% {
+%     mean1 = 0;
+%     mean2 = 0;
+%     mean3 = 0;
+%     mean4 = 0;
+%     dt_mean = 0;
+% }
+% \end{minted}
+
+% En parallèle, une rampe est progressivement créée, allant de 0 A à 3 A avec un pas de 0.04 A. Une fois cette valeur atteinte :
+
+% \begin{minted}{c}
+% // Set point generator(Current)
+% if(ic1 < I_SP)
+% {
+%     ic1 += TAKEOFF_CURRENT_STEP1; // 0.04 ramp from 0A to 3A (4e-7 [s])
+% }
+% else
+% {
+%     ic1 = I_SP;
+%     ic2 = ic1;
+%     ic3 = ic1;
+%     ic4 = ic1;
+% }
+% \end{minted}
+
+% Une constatation s'impose ici : seul le courant de consigne de la bobine 1 est incrémenté. Les autres variables étant initialisées à 0, elles conservent cette valeur et changent brusquement lorsque la première consigne dépasse 3 A. Cela signifie qu'au départ, la condition de vérification des moyennes n'est jamais respectée pour les autres bobines. En théorie, cela ne devrait pas perturber le fonctionnement final de la première étape, mais le code mériterait d'être modifié pour appliquer une rampe synchronisée sur les quatre inducteurs simultanément.\\
+
+% La phase 2 concerne la montée des deux inducteurs placés à l'avant. L'objectif est de réaliser le décollage de ces éléments. Pour y parvenir, il est nécessaire d'augmenter le courant de ces deux inducteurs via une nouvelle rampe. La raison sous-jacente est de permettre aux inducteurs d'atteindre une force magnétique suffisamment grande pour que la maquette s'envole :
+
+% \begin{minted}{c}
+% else // phase2 for inductor 1,2
+% {
+%     if(Position1 < Position_c1_dec) // if inductor starts to move
+%     {
+%         takeOff = 0;
+%         Position_c1 = Position1;
+%     }
+%     // Current limiting at value necessary to take off inductor at Delta_0 (3mm)
+%     else if(ic1 < 7.82f){
+%         ic1 += TAKEOFF_CURRENT_STEP1; //"infinite" ramp until inductor starts to move
+%     }
+%     else
+%     {
+% //                   if(ic1 < 9.0f)
+% //                       ic1 += 0.004f; // rampe plus douce, pour assurer la levitation du sustentateur
+% //                   else
+% //                       ic1 = 9.0f;
+%         ic1 = 7.82;
+%     }
+%     ic2 = ic1;
+% }
+% \end{minted}
+
+% Dans ce bloc, la distance entre l'inducteur et le rail est surveillée. Le capteur de position mesure en réalité cet écart, qui est de 3 mm au repos. Lors du décollage, le rail et l'inducteur se rapprochent, diminuant ainsi cette distance. La variable \texttt{Position\_c1\_dec} correspond à 99\% de ces 3 mm (2.97 mm). Lorsque le mouvement débute et que la position mesurée devient inférieure à cette distance de détection, il est possible de passer de l'état 2 à l'état 3. Dans le cas contraire, le courant est encore augmenté par une rampe. Cependant, une limite de sécurité est fixée à 7.82 A ; au-delà de cette valeur, la maquette risquerait de subir des dommages.
+
+% Pour simplifier le processus, la consigne de courant de l'inducteur 1 est copiée sur l'inducteur 2 afin de garantir une montée symétrique.\\
+
+% C'est à présent que l'état 3 entre en œuvre. Pour les étapes suivantes, le code complet ne sera pas présenté, car les actions pour les inducteurs 1 et 2 sont identiques. Les explications se concentreront donc uniquement sur la régulation de position de l'inducteur 1.
+% Pour permettre à la régulation de position de s'adapter en douceur et d'atteindre sa hauteur de croisière, les étapes suivantes sont appliquées :
+
+% \begin{minted}{c}
+% // Start takeoff 1 & 2//
+% else
+% {
+%     //SET POINT GENERATOR FOR INDUCTOR 1 & 2
+%     // Ce bloc permet de baisser petit  petit la consigne de position pour que la regulation puisse suivre et s'adapter
+%     if(Position_c1 > Pos1_to_regul)
+%     {
+%         Position_c1 -= 2.5 * 4e-7; // ramp from 3mm to 2mm (4e-7 [s]) par 0.25 mm
+%     }
+%     else
+%     {
+%         Position_c1 = Pos1_to_regul;
+%     }
+% \end{minted}
+
+% Lorsque la consigne de position se trouve à une valeur supérieure à 2 mm, une rampe est appliquée pour la diminuer progressivement. Dès que cette consigne devient plus petite que 2 mm, elle est alors fixée à cette valeur cible.\\
+
+% Par la suite, un filtre coupe-bande est employé pour éliminer les fréquences de résonance parasites :
+
+% \begin{minted}{c}
+% //Fc1 bandstop filter
+%         IN1[0] = fc1;
+%         fc1f = IIR_Filter(IN1,OUT1);
+%         //fc1f = fc1;
+%         //introducing limit because IIR filter may cause overtaking
+%         if (fc1f <= 0)
+%             fc1f = 0;
+%         if (fc1f >= FMAX)
+%             fc1f = FMAX;
+% \end{minted}
+
+% La régulation par retour d'état intervient ensuite :
+
+% \begin{minted}{c}
+% // Position control inductor 1 - state regulation
+%         ep1 = Position_c1 - Position1;
+
+%         xr1 += (ep1 - fce1);
+%         sum_vp1 = v1 * Kddot + Position1 * Kd;
+%         fc1_prim = Kw * Position_c1 + Kr * xr1 * I - sum_vp1 + FP;
+% //             fc1_prim = fc1_prim - fperturb1;
+%         fc1 = fc1_prim;
+
+%         if (fc1_prim <= 0){
+%             fc1 = 0;
+%         }
+%         if (fc1_prim >= FMAX){
+%             fc1 = FMAX;
+%         }
+%         fce1 = (fc1_prim - fc1) * K_antiwindup * antiwindup_pos;
+% \end{minted}
+
+% Les étapes de cette régulation sont les suivantes :
+
+% \begin{enumerate}
+%     \item \texttt{ep1} : L'erreur entre la position de la consigne et celle mesurée est calculée.
+%     \item \texttt{xr1} : L'action intégrale est calculée à partir de l'erreur de position, soustraite de l'erreur de saturation.
+%     \item \texttt{sum\_vp1} : L'amortissement est évalué à partir de la vitesse et de la position mesurées.
+%     \item \texttt{fc1\_prim} : La force totale demandée est calculée en additionnant l'effet du ressort, de l'intégrale, de la force du poids et en soustrayant l'amortissement.
+%     \item Une vérification des plages admissibles est effectuée ; en cas de dépassement, la force est saturée aux limites physiques.
+%     \item \texttt{fce1} : L'erreur de saturation (système d'Anti-Windup) est calculée à partir de la différence entre la force demandée et la force saturée. Cette variable reste à 0 en fonctionnement nominal et n'agit pour freiner l'intégrateur que lorsque les limites matérielles sont atteintes.
+% \end{enumerate}
+
+% Une observation importante est que l'écrêtage (saturation) n'est vérifié qu'après le calcul mathématique initial. Cela permet d'obtenir un moyen de contrer l'erreur de manière préventive si jamais les limites de puissance viennent à être dépassées.\\
+
+% Pour terminer la stratégie de décollage, les calculs suivants sont réalisés pour convertir les forces en consignes de courant (Méthode inverse).
+
+% \begin{minted}{c}
+% ic1 = (sqrtf(K_FC * fc1f)) * Position1;
+% ic2 = (sqrtf(K_FC * fc2f)) * Position2;
+% \end{minted}
+
+% Afin de réduire le temps d'exécution du code sur le processeur, la constante \texttt{K\_FC} correspond à l'inverse de la constante $k$. Une multiplication est ainsi effectuée à la place d'une division, opération beaucoup plus coûteuse en cycles d'horloge.
+
+% C'est de cette manière que la consigne de courant pour l'état 3 est calculée.\\
+
+% À partir de ce même état 3, un compteur s'incrémente afin de déclencher un adoucissement des pôles (baisse de la valeur des gains statiques). Le code utilise ce chronomètre pour déterminer le moment exact de la modification des gains de régulation, garantissant ainsi la stabilité lors de la transition :
+
+% \begin{minted}{c}
+% if(i_store >= i_store_change_poles_placement) // sert pour le passage de regulation de 2  4 inducteurs (stabilit)
+% {
+%     Kr = Kr_change;
+%     Kw = Kw_change;
+%     Kd = Kd_change;
+%     Kddot = Kddot_change;
+% }
+% \end{minted}
+
+% La stratégie de décollage des inducteurs 3 et 4 est identique à celle des inducteurs 1 et 2 ; par conséquent, elle n'est pas détaillée ici. Une différence majeure réside toutefois dans la désactivation initiale de l'intégrateur pour l'inducteur 3. Cette asymétrie vise à octroyer de la souplesse mécanique. Le gain intégral de l'inducteur 3 est d'abord forcé à 0 pendant le décollage. Après une courte temporisation permettant au système de se stabiliser, une faible valeur lui est restituée pour corriger l'erreur d'inclinaison de manière douce :
+
+% \begin{minted}{c}
+% //        Modify Kr of the regulator "without integrator" for stay the position
+% //        at 2 mm slowly after 40ms (not immediatly, cause to second take off "agressivity")
+% if(i_store >= (i_store_2e_decollage + 1000))
+% {
+%     Kr_sans_int = -1.0; // valeur initiale -1.0
+% }
+% \end{minted}
+
+% Pour démarrer le décollage des inducteurs 3 et 4, la condtion suivante est à atteindre :
+
+% \begin{minted}{c}
+% if((takeOff == 0) && (takeOff2 == 1) && (i_store >= i_store_2e_decollage))
+% ...
+% }
+% \end{minted}
+
+% Cees états s'enlenche uniquement lorqu'un certain temps et passer.
+
+% Une première conclusion concernant cette partie de l'interruption est la nécessité de restructurer la machine d'états. L'architecture actuelle, basée sur des variables booléennes implicites, manque de robustesse et de lisibilité.\\
+
+% En toute fin d'interruption, et de manière inconditionnelle, la régulation matérielle du courant est exécutée à l'aide de la fonction \texttt{PI\_current\_regulator} :
+
+% \begin{minted}{c}
+% // Inductor 1
+% PI_current_regulator(ic1, Current1, &integral_i1, &ue1, &uc1);
+
+% // Inductor 2
+% PI_current_regulator(ic2, Current2, &integral_i2, &ue2, &uc2);
+
+% // Inductor 3
+% PI_current_regulator(ic3, Current3, &integral_i3, &ue3, &uc3);
+
+% // Inductor 4
+% PI_current_regulator(ic4, Current4, &integral_i4, &ue4, &uc4);
+% \end{minted}
+
+% \subsubsection{PWM}
+% Les signaux PWM (Pulse Width Modulation) sont employés pour contrôler les ponts en H placés sur les bobines. Ces signaux indiquent aux transistors MOSFET s'ils doivent être passants ou bloqués, modulant ainsi l'énergie envoyée aux électroaimants.
+
+% Pour commencer, il est nécessaire de déterminer le rapport cyclique (duty cycle). Suite à l'exécution de la régulation de courant, qui fournit les tensions de consigne, le rapport cyclique est calculé de la manière suivante :
+
+% \begin{minted}{c}
+% // Calcul de l'angle theta
+% // theta = ((Position1)-(Position2))*UN_SUR_d;
+% // Convert Uc1,...,Uc3 into dutycycle and add DA (dutycycle correction) as ucx will always be >0 in our application, otherwise
+% // DA would have been subtracted for ucx <0
+
+% dutyCycle1 = 0.5f + (CONV_DUTY_CYCLE * uc1) + DA;
+% dutyCycle2 = 0.5f + (CONV_DUTY_CYCLE * uc2) + DA;
+% dutyCycle3 = 0.5f + (CONV_DUTY_CYCLE * uc3) + DA;
+% dutyCycle4 = 0.5f + (CONV_DUTY_CYCLE * uc4) + DA;
+% \end{minted}
+
+% Une fois cette étape accomplie, les rapports cycliques sont convertis en pourcentages :
+
+% \begin{minted}{c}
+% duty1 = dutyCycle1 * 100;
+% duty2 = dutyCycle2 * 100;
+% duty3 = dutyCycle3 * 100;
+% duty4 = dutyCycle4 * 100;
+% \end{minted}
+
+% Une vérification est ensuite effectuée afin de s'assurer que les plages de fonctionnement matérielles sont respectées, protégeant ainsi l'électronique de puissance :
+
+% \begin{minted}{c}
+% // Limite min et max des rapports cycliques
+% if(duty1 >= LIMITE_MAX_DUTY_FINE)
+%     duty1 = LIMITE_MAX_DUTY_FINE;
+% else if(duty1 <= LIMITE_MIN_DUTY_FINE)
+%     duty1 = LIMITE_MIN_DUTY_FINE;
+
+% if(duty2 >= LIMITE_MAX_DUTY_FINE)
+%     duty2 = LIMITE_MAX_DUTY_FINE;
+% else if(duty2 <= LIMITE_MIN_DUTY_FINE)
+%     duty2 = LIMITE_MIN_DUTY_FINE;
+
+% if(duty3 >= LIMITE_MAX_DUTY_FINE)
+%     duty3 = LIMITE_MAX_DUTY_FINE;
+% else if(duty3 <= LIMITE_MIN_DUTY_FINE)
+%     duty3 = LIMITE_MIN_DUTY_FINE;
+
+% if(duty4 >= LIMITE_MAX_DUTY_FINE)
+%     duty4 = LIMITE_MAX_DUTY_FINE;
+% else if(duty4 <= LIMITE_MIN_DUTY_FINE)
+%     duty4 = LIMITE_MIN_DUTY_FINE;
+% \end{minted}
+
+% Pour chaque inducteur, la consigne mathématique est convertie en impulsions d'horloge et appliquée aux registres matériels selon la méthode suivante :
+
+% \begin{minted}{c}
+% // Affection des compteurs PWM :
+% // Plus propre de faire une boucle et un tableau de duty[4]
+
+% dutyFine = ((float)(duty1*TIME_BASE_PERIOD) * INV_FACTOR);
+% count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+% compCount = (count);
+% i = 1;
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+% dutyFine = ((float)(duty2*TIME_BASE_PERIOD) * INV_FACTOR);
+% count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+% compCount = (count);
+% i = 2;
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+% dutyFine = ((float)(duty3*TIME_BASE_PERIOD) * INV_FACTOR);
+% count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+% compCount = (count);
+% i = 3;
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+
+
+% dutyFine = ((float)(duty4 * TIME_BASE_PERIOD) * INV_FACTOR);
+% count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+% compCount = (count);
+% i = 4;
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+% HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+% \end{minted}
+
+% Comme souligné dans les commentaires du code, l'utilisation d'une boucle itérative (\texttt{for}) serait plus pertinente pour optimiser et factoriser cette section.
+
+% Enfin, afin de garantir un fonctionnement optimal malgré les éventuelles fluctuations de la tension d'alimentation interne ou l'échauffement du microcontrôleur, la fonction d'étalonnage suivante est employée. Elle permet d'ajuster dynamiquement la haute résolution des signaux PWM (HRPWM) :
+
+% \begin{minted}{c}
+% // in background, MEP calibration module
+% // continuously updates MEP_ScaleFactor
+% status = SFO();
+
+% if (status == SFO_ERROR)
+% {
+%     error();   // SFO function returns 2 if an error occurs & #
+%                 // of MEP steps/coarse step
+% }              // exceeds maximum of 255.
+% \end{minted}
+
+% Dans l'éventualité où une erreur de calibration matérielle survient (dépassement des capacités de compensation du processeur), le système est mis en sécurité en appelant la fonction d'erreur, permettant ainsi l'investigation du dysfonctionnement thermique ou électrique.
+
+% \subsection{Arrêt de la sustentation}
+% Lorsqu'une nouvelle pression est exercée sur le bouton S2 (ou via l'interface de commande), la sustentation est interrompue de la manière suivante :
+
+% \begin{minted}{c}
+% // Arret de la sustentation
+% else if(stop_ISOZ == 1 || state_PIN == 0)
+% {
+%     GPIO_writePin(myLED_D2,1); // Eteindre la LED2 apres sustentation
+
+%     for(i = 1;i<1+NUM_OF_PWM_CHANNEL;i++)
+%         {
+%             dutyFine = ((float)(duty_table[i]*TIME_BASE_PERIOD) * INV_FACTOR);
+%             count = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
+%             compCount = (count);
+
+%             HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
+%             HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
+%         }
+
+%     i_store = 0;
+
+%     //
+%     // Call the scale factor optimizer lib function SFO()
+%     // periodically to track for any change due to temp/voltage.
+%     // This function generates MEP_ScaleFactor by running the
+%     // MEP calibration module in the HRPWM logic. This scale
+%     // factor can be used for all HRPWM channels. The SFO()
+%     // function also updates the HRMSTEP register with the
+%     // scale factor value.
+%     //
+%     status = SFO(); // in background, MEP calibration module
+%                     // continuously updates MEP_ScaleFactor
+%     if (status == SFO_ERROR)
+%     {
+%         error();   // SFO function returns 2 if an error occurs & #
+%                     // of MEP steps/coarse step
+%     }              // exceeds maximum of 255.
+% }
+% \end{minted}
+
+% Cette procédure désactive instantanément l'asservissement en forçant les signaux PWM à leur valeur de repos via les données du tableau \texttt{duty\_table}, provoquant ainsi la coupure immédiate de l'alimentation des électroaimants. Le chronomètre interne \texttt{i\_store} est également réinitialisé pour préparer le système à un éventuel redémarrage. En parallèle, la fonction d'étalonnage matériel \texttt{SFO()} est maintenue active afin de préserver la calibration haute résolution du microcontrôleur.
+
+% \subsection{Le bouton-poussoir}
+% Le bouton-poussoir matériel dispose de sa propre routine d'interruption externe. Le rôle exclusif de cette dernière est de lever un drapeau d'état (\textit{flag}) :
+
+% \begin{minted}{c}
+% __interrupt void INT_Push_Button_Start_XINT_ISR(void)
+% {
+%     Ext_Int_Flag = 1;
+%     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
+% }
+% \end{minted}
+
+% L'activation de ce drapeau permet au programme principal de détecter l'actionnement du bouton. Un mécanisme anti-rebond logiciel (\textit{debounce}) est appliqué via une boucle d'attente avant de procéder à la vérification finale de l'état logique de la broche. Selon cet état, le système bascule la consigne globale de la maquette (démarrage ou arrêt de la lévitation) :
+
+% \begin{minted}{c}
+% if(Ext_Int_Flag == 1) // Detection passage INTERRUPT car flanc montant
+% {
+%     count_ext_int = 0;
+%     while(count_ext_int < COUNT_TO_REACH) // Anti-rebond logiciel
+%         count_ext_int++;
+
+%     if(GPIO_readPin(Push_Button_Start) == 0)
+%     {
+%         // APPUI CONFIRMÉ
+%         if(start_ISOZ == 1)
+%         {
+%             start_ISOZ = 0;
+%             stop_ISOZ = 1;
+%         }
+%         else if(start_ISOZ == 0)
+%         {
+%             start_ISOZ = 1;
+%             stop_ISOZ = 0;
+%         }
+%     }
+%     Ext_Int_Flag = 0; // Réarmement du drapeau
+% }
+% \end{minted}
+
+% \subsection{Interruption de la communication UART}
+% La communication UART s'appuie sur deux interruptions distinctes : l'une dédiée à la réception des messages (RX) et la seconde à l'envoi (TX). Les routines d'interruption sont les suivantes :
+
+% \begin{minted}{c}
+% __interrupt void INT_mySCI0_RX_ISR(void) // .xxx
+% {
+%     uint16_t c;
+
+%     while (SCI_getRxFIFOStatus(SCIA_BASE) > 0) {
+%         c = SCI_readCharBlockingFIFO(SCIA_BASE);
+%         if (rxIndex < RX_BUF_LEN) {
+%              rxBuffer[rxIndex++] = c;
+%          }
+%          if(c == '\x02'){
+%             // Marque le dbut de trame
+%             dataIndex = rxIndex; // Sauvegarde la position pour les donnes
+%          }
+%          if(c == '\x03'){
+%             // Fin de trame - traite les donnes
+%             if(dataIndex > 0 && dataIndex < rxIndex-1) {
+%                 state_PIN = (rxBuffer[dataIndex] == '1') ? 1 : 0;
+%             }
+%             // Reset du buffer
+%             rxIndex = 0;
+%             int b;
+%             for(b = 0; b < RX_BUF_LEN; b++) {
+%                 rxBuffer[b] = 0;
+%             }
+%          }
+%     }
+
+%     SCI_clearOverflowStatus(SCIA_BASE);
+%     SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
+%     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
+% }
+
+% __interrupt void INT_mySCI0_TX_ISR(void)
+% {
+%     while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength) {
+%         SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
+%     }
+
+%     if (txIndex >= txLength) {
+%         SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin denvoi
+%     }
+
+%     // Acquitter l'interruption
+%     SCI_clearOverflowStatus(SCIA_BASE);
+%     SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
+%     Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9); // For the PIE acknowledge
+% }
+% \end{minted}
+
+% La communication est actuellement employée pour assurer la réception de la commande d'enclenchement de la maquette ainsi que l'envoi des variables de position vers l'ESP32 :
+
+% \begin{minted}{c}
+%       // Envoi des donnes UART toute les 40*10e-6 * 25000 = 1 s
+%       UartCounter++;
+
+%       if (UartCounter >= 25000) {
+%           UartCounter = 0; // Reset du compteur
+%           SendFloatAsText(Position1*1000.0f,Position2*1000.0f,Position3*1000.0f,Position4*1000.0f);
+
+% //          SendFloatAsText(1.234f,2.567f,3.891,4.234f); // Trame de test envoye : "\x02float1,float2,float3float4\x03" avec les float sous cette forme x.xxx
+% //          sendString("\x02Hello World!\r\x03");
+%       }
+% \end{minted}
+
+% \section{Programme dans l'ESP32}
