@@ -365,13 +365,83 @@ Cette section vient traiter les mesures réaliser sur les capteurs de positions.
 Les mesures ont été réalisé avec des calles de différentes épaisseurs (1mm, 1.5mm, 2mm et 3mm). Ces cales avait pour but d'élever la partie flottante permettant ainsi de refermer l'entrefer des bobines. Dans les mesures lorsqu'il est marqué un entrefer de 3mm ceci corresponds au chariot posé. Lorsque une cale de 2.5mm est mentionné, c'est l'ajout d'une cale de 1mm et de 1.5mm ensemble afin de réaliser une cale de 2.5mm.
 
 \subsection{Mesure des circuits de conditionnement}
-Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{} :
+Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{tab:cond_position} :
 
-
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification générale des conditionneurs de position}}                                                                                   \\ \hline
+            N°  & Mesure                      & Point de mesure   & Valeur théorique {[}V{]} & Valeur mesurée {[}V{]} & Erreur                                  & Erreur {[}\%{]} \\ \hline
+            1.a & Alimentation de l'AOP U3\_4 & U3\_4 pin 8       & 3.3                      & 3.30                   & 4E-03                                   & 0.12            \\ \hline
+            1.c & Sortie du capteur 1         & Connector 1 pin 2 & 0..10                    & 9.56                   & \multicolumn{2}{c|}{\multirow{2}{*}{-}}                   \\ \cline{1-5}
+            1.d & Sortie de l'AOP U1\_4       & TP12\_4           & 0..3                     & 2.85                   & \multicolumn{2}{c|}{}                                     \\ \hline
+            2.a & Alimentation de l'AOP U3\_1 & U3\_1 pin 8       & 3.3                      & 3.30                   & 4E-03                                   & 0.12            \\ \hline
+            2.c & Sortie du capteur 2         & Connector 2 pin 2 & 0..10                    & 9.74                   & \multicolumn{2}{c|}{\multirow{2}{*}{-}}                   \\ \cline{1-5}
+            2.d & Sortie de l'AOP U3\_1       & TP12\_1           & 0..3                     & 2.91                   & \multicolumn{2}{c|}{}                                     \\ \hline
+            3.a & Alimentation de l'AOP U3\_3 & U3\_3 pin 8       & 3.3                      & 3.30                   & 4E-03                                   & 0.12            \\ \hline
+            3.c & Sortie du capteur 3         & Connector 3 pin 2 & 0..10                    & 9.92                   & \multicolumn{2}{c|}{\multirow{2}{*}{-}}                   \\ \cline{1-5}
+            3.d & Sortie de l'AOP U1\_3       & U3\_3 pin 5       & 0..3                     & 2.96                   & \multicolumn{2}{c|}{}                                     \\ \hline
+            4.a & Alimentation de l'AOP U3\_2 & U3\_2 pin 8       & 3.3                      & 3.30                   & 4E-03                                   & 0.12            \\ \hline
+            4.c & Sortie du capteur 4         & Connector 4 pin 2 & 0..10                    & 10.0                   & \multicolumn{2}{c|}{\multirow{2}{*}{-}}                   \\ \cline{1-5}
+            4.d & Sortie de l'AOP U3\_2       & TP12\_2           & 0..3                     & 2.99                   & \multicolumn{2}{c|}{}                                     \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification générale des conditionneurs de position}
+    \label{tab:cond_position}
+\end{table}
 
 \subsection{Première mesure des capteurs de position}
-La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans le tableau \ref{} :
+La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans les tableaux \ref{tab:premier_mesure_pos_cond} et \ref{tab:premier_mesure_pos_adc} :
 
+% --- Tableau 2 : Après le conditionnement ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions après le conditionnement}}                  \\ \hline
+        Inducteur          & Théorique {[}V{]} & Pratique {[}V{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
+        \multirow{3}{*}{1} & 1.000             & 1.043            & 0.043  & 4.300                    \\ \cline{2-5}
+                           & 2.000             & 1.982            & 0.018  & 0.900                    \\ \cline{2-5}
+                           & 3.000             & 2.986            & 0.014  & 0.467                    \\ \hline
+        \multirow{3}{*}{2} & 1.000             & 0.994            & 0.006  & 0.600                    \\ \cline{2-5}
+                           & 2.000             & 1.939            & 0.061  & 3.050                    \\ \cline{2-5}
+                           & 3.000             & 2.962            & 0.038  & 1.267                    \\ \hline
+        \multirow{3}{*}{3} & 1.000             & 0.763            & 0.237  & 23.700                   \\ \cline{2-5}
+                           & 2.000             & 1.769            & 0.231  & 11.550                   \\ \cline{2-5}
+                           & 3.000             & 2.891            & 0.109  & 3.633                    \\ \hline
+        \multirow{3}{*}{4} & 1.000             & 0.942            & 0.058  & 5.800                    \\ \cline{2-5}
+                           & 2.000             & 1.913            & 0.087  & 4.350                    \\ \cline{2-5}
+                           & 3.000             & 2.970            & 0.030  & 1.000                    \\ \hline
+    \end{tabular}
+    \caption{Erreurs de mesure des tensions en sortie de la carte de conditionnement}
+    \label{tab:premier_mesure_pos_cond}
+\end{table}
+
+% --- Tableau 1 : Après l'ADC ---
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions après l'ADC}}                                 \\ \hline
+        Inducteur          & Théorique {[}mm{]} & Pratique {[}mm{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
+        \multirow{3}{*}{1} & 1.000              & 1.050             & 0.050  & 5.000                    \\ \cline{2-5}
+                           & 2.000              & 1.989             & 0.011  & 0.550                    \\ \cline{2-5}
+                           & 3.000              & 3.006             & 0.006  & 0.200                    \\ \hline
+        \multirow{3}{*}{2} & 1.000              & 1.005             & 0.005  & 0.500                    \\ \cline{2-5}
+                           & 2.000              & 1.945             & 0.055  & 2.750                    \\ \cline{2-5}
+                           & 3.000              & 2.970             & 0.030  & 1.000                    \\ \hline
+        \multirow{3}{*}{3} & 1.000              & 0.790             & 0.210  & 21.000                   \\ \cline{2-5}
+                           & 2.000              & 1.786             & 0.214  & 10.700                   \\ \cline{2-5}
+                           & 3.000              & 2.897             & 0.103  & 3.433                    \\ \hline
+        \multirow{3}{*}{4} & 1.000              & 0.939             & 0.061  & 6.100                    \\ \cline{2-5}
+                           & 2.000              & 1.907             & 0.093  & 4.650                    \\ \cline{2-5}
+                           & 3.000              & 2.968             & 0.032  & 1.067                    \\ \hline
+    \end{tabular}
+    \caption{Erreurs de mesure des positions en sortie de l'ADC}
+    \label{tab:premier_mesure_pos_adc}
+\end{table}
 
 \subsection{Mesure après la calibration du capteur 3}
 Suite à observation de ces résultats, une première calibration par la méthode Teach-In a été réalisé sur le capteur de l'inducteur 3 donnant le résultat du tableau \ref{} :
