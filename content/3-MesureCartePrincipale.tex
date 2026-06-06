@@ -658,7 +658,35 @@ Ces mesures ont permis de réaliser les tracés présent dans les figures \ref{f
     \label{fig:Prem_tracé_ind4}
 \end{figure}
 
-Ces tracé permettent de ressortir des équations permettant d'appliquer une meilleur correction au système avec un gain et un offset, la valeur en x étant la valeur de l'adc convertit en mm.
+Ces tracé permettent de ressortir des équations permettant d'appliquer une meilleur correction au système avec un gain et un offset, la valeur en x étant la valeur de l'adc convertit en mm.\\
+Une vérification de la mesure fut réaliser comme suit dans le tableaux \ref{tab:correction1_adc} :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}} \\ \hline
+        Inducteur & Théorique {[}m{]} & Mesure {[}m{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
+        \multirow{4}{*}{1} & 0.00E+00 & 1.81E-04 & 1.81E-04 & - \\ \cline{2-5}
+         & 1.00E-03 & 9.80E-04 & 2.00E-05 & 2.00 \\ \cline{2-5}
+         & 2.00E-03 & 1.91E-03 & 9.10E-05 & 4.55 \\ \cline{2-5}
+         & 3.00E-03 & 3.04E-03 & 3.90E-05 & 1.30 \\ \hline
+        \multirow{4}{*}{2} & 0.00E+00 & 1.70E-05 & 1.70E-05 & - \\ \cline{2-5}
+         & 1.00E-03 & 9.19E-04 & 8.10E-05 & 8.10 \\ \cline{2-5}
+         & 2.00E-03 & 1.89E-03 & 1.07E-04 & 5.35 \\ \cline{2-5}
+         & 3.00E-03 & 3.06E-03 & 5.80E-05 & 1.93 \\ \hline
+        \multirow{4}{*}{3} & 0.00E+00 & 1.08E-04 & 1.08E-04 & - \\ \cline{2-5}
+         & 1.00E-03 & 9.26E-04 & 7.40E-05 & 7.4 \\ \cline{2-5}
+         & 2.00E-03 & 1.96E-03 & 3.70E-05 & 1.85 \\ \cline{2-5}
+         & 3.00E-03 & 3.11E-03 & 1.09E-04 & 3.63 \\ \hline
+        \multirow{4}{*}{4} & 0.00E+00 & -1.00E-05 & 1.00E-05 & - \\ \cline{2-5}
+         & 1.00E-03 & 8.45E-04 & 1.55E-04 & 15.5 \\ \cline{2-5}
+         & 2.00E-03 & 2.00E-03 & 5.00E-06 & 0.25 \\ \cline{2-5}
+         & 3.00E-03 & 3.06E-03 & 6.10E-05 & 2.03 \\ \hline
+    \end{tabular}
+    \caption{Erreurs de mesure des positions en sortie de l'ADC (1ère correction : application des courbes)}
+    \label{tab:correction1_adc}
+\end{table}
 
 \subsection{Mesure après la calibration de tous les capteurs}
 Lorsque la correction ptécédente fut appliqué dans le code, le résultat n'était toujours pas convainquant. C'est pour cela qu'une calibration des 4 capteurs fut raélisé. Cela avait pour but d'essayer d'éliminer l'angle qui se créaient par la calibration précédente. La calibration précédente avait réalisé la méthode teach-in en souleant soit l'avant soit l'arrière de la partie lévitante. Meme si très petite, cela crée un angle que l'on peut observer dans la figure suivante :
