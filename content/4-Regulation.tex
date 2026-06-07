@@ -45,7 +45,68 @@ Le système garde la même définition que les travaux précédents qui représe
 
 Pour rappel, voici les différentes grandeurs présentes dans la maquette :
 
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|c|l|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Paramètres Mécaniques}}                                                  \\ \hline
+        \textbf{Symbole} & \textbf{Description de la grandeur}             & \textbf{Valeur} & \textbf{Unité} \\ \hline
+        $m_{tot}$        & Masse totale du chariot (actuelle)              & 18.052          & kg             \\ \hline
+        $m$              & Masse supportée par 1 inducteur ($m_{tot} / 4$) & 4.513           & kg             \\ \hline
+        $g$              & Accélération gravitationnelle                   & 9.81            & m/s$^2$        \\ \hline
+        $d$              & Distance entre 2 inducteurs (même essieu)       & 0.26            & m              \\ \hline
+        $l$              & Distance entre 2 inducteurs (même rail)         & 0.28            & m              \\ \hline
+    \end{tabular}
+    \caption{Paramètres mécaniques de la maquette de sustentation.}
+    \label{tab:param_mecaniques}
+\end{table}
 
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|c|l|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Paramètres de l'Inducteur et de l'Entrefer}}                                                           \\ \hline
+        \textbf{Symbole}             & \textbf{Description de la grandeur}                          & \textbf{Valeur}      & \textbf{Unité} \\ \hline
+        $N$                          & Nombre de spires de la bobine                                & 125                  & -              \\ \hline
+        $R$                          & Résistance de la bobine                                      & 0.8                  & $\Omega$       \\ \hline
+        $A$                          & Surface de l'entrefer ($20 \text{ mm} \times 50 \text{ mm}$) & $1 \cdot 10^{-3}$    & m$^2$          \\ \hline
+        $\mu_0$                      & Perméabilité du vide                                         & $4\pi \cdot 10^{-7}$ & H/m            \\ \hline
+        $\delta_n$                   & Entrefer nominal (consigne)                                  & 2                    & mm             \\ \hline
+        $\delta_{max}$ ou $\delta_0$ & Entrefer maximum (chariot posé)                              & 3                    & mm             \\ \hline
+        $\delta_{min}$               & Entrefer minimum (structure collée)                          & 0.1                  & mm             \\ \hline
+        $U_{dc}$                     & Tension d'alimentation du bus DC (PWM)                       & 48                   & V              \\ \hline
+    \end{tabular}
+    \caption{Paramètres électriques de l'inducteur et caractéristiques de l'entrefer.}
+    \label{tab:param_inducteur_entrefer}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|c|l|c|c|}
+        \hline
+        \multicolumn{4}{|c|}{\textbf{Paramètres Numériques et Fréquences}}                                      \\ \hline
+        \textbf{Symbole} & \textbf{Description de la grandeur}               & \textbf{Valeur} & \textbf{Unité} \\ \hline
+        $f_e$            & Fréquence d'échantillonnage et de la PWM          & 25              & kHz            \\ \hline
+        $T_e$ ou $h$     & Période d'échantillonnage ($1 / f_e$)             & 40              & $\mu$s         \\ \hline
+        $f_{md}$         & Bande passante du capteur de position (Baumer)    & 1.1             & kHz            \\ \hline
+        $f_{mi}$         & Fréquence de coupure retenue pour capteur courant & 25              & kHz            \\ \hline
+    \end{tabular}
+    \caption{Paramètres d'échantillonnage, traitement numérique et fréquences de coupure.}
+    \label{tab:param_numeriques_frequences}
+\end{table}
+
+Afin d'alléger les calculs, les hypothèses suivantes ont été émise :
+
+\begin{itemize}
+    \item Perméance du fer infinie
+    \item Pas de saturation du fer
+    \item Effets de franges négligés
+    \item Effet d’hystérésis négligé
+    \item Flux de fuites négligés.
+\end{itemize}
 
 \subsection{Equation de la tension induite dans une bobine}
 
