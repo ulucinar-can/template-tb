@@ -206,7 +206,7 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
         \end{tabular}%
     }
     \caption{Mesures de courant par sonde (Sans poids, 6.8 kg)}
-    \label{tab:sans_poids_sonde_new}
+    \label{tab:sans_poids_sonde}
 \end{table}
 
 % --- Sans Poids - Partie 2 (ADC) ---
@@ -224,7 +224,7 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
         \end{tabular}%
     }
     \caption{Mesures de courant par ADC (Sans poids, 6.8 kg)}
-    \label{tab:sans_poids_adc_new}
+    \label{tab:sans_poids_adc}
 \end{table}
 
 % --- Sans Poids - Partie 3 (Comparatif) ---
@@ -240,7 +240,7 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
         4         & 6.02        & 5.84          & 0.18   \\ \hline
     \end{tabular}
     \caption{Comparatif des erreurs entre l'ADC et la sonde (Sans poids, 6.8 kg)}
-    \label{tab:sans_poids_comp_new}
+    \label{tab:sans_poids_comp}
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 1.25kg}
@@ -261,7 +261,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
         \end{tabular}%
     }
     \caption{Mesures de courant par sonde (Poids de 1.25 kg, 8.0 kg)}
-    \label{tab:poids_1_25_sonde_new}
+    \label{tab:poids_1_25_sonde}
 \end{table}
 
 % --- Poids 1.25 kg - Partie 2 (ADC) ---
@@ -279,7 +279,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
         \end{tabular}%
     }
     \caption{Mesures de courant par ADC (Poids de 1.25 kg, 8.0 kg)}
-    \label{tab:poids_1_25_adc_new}
+    \label{tab:poids_1_25_adc}
 \end{table}
 
 % --- Poids 1.25 kg - Partie 3 (Comparatif) ---
@@ -295,7 +295,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
         4         & 7.1         & 7.2           & 0.10   \\ \hline
     \end{tabular}
     \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 1.25 kg, 8.0 kg)}
-    \label{tab:poids_1_25_comp_new}
+    \label{tab:poids_1_25_comp}
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 2.5kg}
@@ -316,7 +316,7 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
         \end{tabular}%
     }
     \caption{Mesures de courant par sonde (Poids de 2.5 kg, 9.2 kg)}
-    \label{tab:poids_2_5_sonde_new}
+    \label{tab:poids_2_5_sonde}
 \end{table}
 
 % --- Poids 2.5 kg - Partie 2 (ADC) ---
@@ -334,7 +334,7 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
         \end{tabular}%
     }
     \caption{Mesures de courant par ADC (Poids de 2.5 kg, 9.2 kg)}
-    \label{tab:poids_2_5_adc_new}
+    \label{tab:poids_2_5_adc}
 \end{table}
 
 % --- Poids 2.5 kg - Partie 3 (Comparatif) ---
@@ -350,7 +350,7 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
         4         & 8.8         & 8.8           & 0.022  \\ \hline
     \end{tabular}
     \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 2.5 kg, 9.2 kg)}
-    \label{tab:poids_2_5_comp_new}
+    \label{tab:poids_2_5_comp}
 \end{table}
 
 \subsection{Analyse des résultats}
@@ -1006,20 +1006,80 @@ Une première tentative fut réaliser avec un polynôme d'ordre 5 représente pa
     \label{fig:Ind4Pol5}
 \end{figure}
 
-Le résultat n'étant pas concluant et ne semble pas laisser a la maquette d'avoir de la liberté, cet ordre fut baissé à un ordre 3 donnant donc les tracés des graphiques \ref{}, \ref{}, \ref{} et \ref{} :
+Le résultat n'étant pas concluant et ne semble pas laisser a la maquette d'avoir de la liberté, cet ordre fut baissé à un ordre 3 donnant donc les tracés des graphiques \ref{fig:Ind1Pol3}, \ref{fig:Ind2Pol3}, \ref{fig:Ind3Pol3} et \ref{fig:Ind4Pol3} :
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-1.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (polynome d'ordre 3)}
+    \label{fig:Ind1Pol3}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-2.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (polynome d'ordre 3)}
+    \label{fig:Ind2Pol3}
+\end{figure}
 
-Le résultat n'étant toujours pas satisfaisant donna alors l'essaie d'une simple équation linéaire donnat les tracés des graphiques \ref{}, \ref{}, \ref{} et \ref{} :
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-3.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (polynome d'ordre 3)}
+    \label{fig:Ind3Pol3}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-4.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (polynome d'ordre 3)}
+    \label{fig:Ind4Pol3}
+\end{figure}
 
+Le résultat n'étant toujours pas satisfaisant donna alors un dernier essaie d'une simple équation linéaire donnat les tracés des graphiques \ref{fig:Ind1Lin}, \ref{fig:Ind2Lin}, \ref{fig:Ind3Lin} et \ref{fig:Ind4Lin} :
 
-Lors de la mesure pour controler le bon fonctionnement de la correction appliqué, les capteurs furent une nouvelle fois mesuré afin de controller la corection pour chaque polynome. Ceci donne alors les tableaux \ref{}, \ref{} et \ref{} :
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-1.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (courbe linéaire)}
+    \label{fig:Ind1Lin}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-2.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (courbe linéaire)}
+    \label{fig:Ind2Lin}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-3.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (courbe linéaire)}
+    \label{fig:Ind3Lin}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-4.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (courbe linéaire)}
+    \label{fig:Ind4Lin}
+\end{figure}
 
 \subsection{Analyse des résultats}
-La réalisation du capteurs de positions ne fut pas concluant. Théoriquement le procédé semble correcte cependant elle n'a pas donné lieux à une bonne correction lors de l'usage de celui-ci. Inidquant alors que le problème ne vient pas de la calibration du capteurs de positions mais d'autre part.\\
+La réalisation du capteurs de positions ne fut pas concluant. Les corrections appliqué donnait régulièrement de faible erreur relative. Théoriquement le procédé semble correcte mais ne donne jamais un résultat satisfaisant.
 
-La théorique la plus probable est du à un mauvais placement des pôles. C'est donc pour cela que la régulation fut une nouvelle fois analysé.
+La dernière correction classique réalisé ne donna également jamais un bon résultat.
+
+Un phénomène récurant lors de la correction fut que les inducteurs venait simplement se coller et se satisfaisait de cette état. Pointant alors plus vers un problème lié a la régulation qu'à la correction des capteurs de positons.
+
+Cependant point intéressant à noter fut qu'après la calibration de tous les capteurs à un meme niveau semble avoir améliorer la stabilité de maintien de la maquette.
 
 \section{Conclusion des mesures}
-Dans la grande majorité des cas les mesures offrent des résultats proche de ce qui est attendue. Confirmant le bon fonctionnement de la carte principale fournissant alors les résultats attendues.
+Les premières mesures réalisé sur l'ensemble des régualteurs donne d'excellent résulats démontrant leur bon fonctionnemnt.\\
+
+Les mesures réalisé sur le fonctionnement des capteurs de courants ainsi que les circuits de conditionnement donne des résultat éloignée de la valeurs théorique mesuré. Les calculs furent réaliser avec la méthode inverser, comme implémenter dans le code, mais les résultats ne semble pas exactement similaire. Cependant la valeur réelle traversant l'inducteur et celle mesuré par le capteurs sont très proche. Il est donc convenable d'assumer que le capteurs de courant fonctionne correctement.\\
+
+La mesure de position donnère régulièrement des mesures prometteuse cependant aucune correction n'aida réellement à la régulation. La seule correction semblant aider à la lévitation de la maquette fut le calibrage par la méthode Teach-In du capteurs en plaçant les inducteurs à un meme niveau.\\
+
+L'électronique est donc confirmé comme fonctionnant correctement.
