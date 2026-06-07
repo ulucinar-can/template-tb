@@ -135,7 +135,9 @@ Cette section traite des différentes mesures réalisées afin de vérifier le c
 
 Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
 
-Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.\\
+Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.
+
+Cette série de mesures a été effectuée avant la découverte de la modification de la masse globale du système. Pour cette raison, le calcul du courant théorique s'appuie sur une masse de 3,4~kg par inducteur. Cette démarche permet de maintenir la cohérence avec le code source qui, au moment des essais, exploitait les coefficients ainsi que la commande a priori dimensionnés pour une masse totale de 13,6~kg.
 
 \subsection{Mesure des circuits de conditionnement des capteurs de courants}
 
@@ -360,15 +362,13 @@ En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_
 
 Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
 
-\section{Mesure des capteurs de positions}
-Cette section vient traiter les mesures réaliser sur les capteurs de positions. De nombreuses mesures ont été réalisées pour essayer différents étalonnages. Pour cette raison, seule les plus intéressantes ont été gardées afin de ne pas surchager cette section.
+\section{Mesure des capteurs de position}
+Cette section traite des mesures réalisées sur les capteurs de position. De nombreuses séries d'essais ont été effectuées afin de tester différents étalonnages. Par conséquent, seules les approches les plus pertinentes ont été conservées afin d'alléger le contenu de ce document.
 
-Les mesures ont été réalisé avec des calles de différentes épaisseurs (1mm, 1.5mm, 2mm et 3mm). Ces cales avait pour but d'élever la partie flottante permettant ainsi de refermer l'entrefer des bobines. Dans les mesures lorsqu'il est marqué un entrefer de 3mm ceci corresponds au chariot posé. Lorsque une cale de 2.5mm est mentionné, c'est l'ajout d'une cale de 1mm et de 1.5mm ensemble afin de réaliser une cale de 2.5mm.
-
-Cette série de mesures a été réalisée avant la découverte de la modification de la masse globale du système. Pour cette raison, le calcul du courant théorique s'appuie sur une masse de 3,4~kg par inducteur. Cette démarche permet de maintenir la cohérence avec le code source qui, au moment des essais, exploitait les coefficients ainsi que la commande a priori dimensionnés pour une masse totale de 13,6~kg.
+Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1,5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2,5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1,5~mm.
 
 \subsection{Mesure des circuits de conditionnement}
-Pour commencer une mesure générale des circuits de conditionnement ont été réaliser comme pour les capteurs de courants. Cette mesure est observable dans le tableau \ref{tab:cond_position} :
+Dans un premier temps, une vérification globale des circuits de conditionnement a été effectuée, de manière analogue à la procédure suivie pour les capteurs de courant. Les résultats sont présentés dans le tableau \ref{tab:cond_position} :
 
 \begin{table}[H]
     \centering
@@ -396,7 +396,7 @@ Pour commencer une mesure générale des circuits de conditionnement ont été r
 \end{table}
 
 \subsection{Première mesure des capteurs de position}
-La première mesure correspond à l'état laissé de la maquette lors du précédent travail de bachelor. Cette mesure donne le résulats présent dans les tableaux \ref{tab:premier_mesure_pos_cond} et \ref{tab:premier_mesure_pos_adc} :
+La première série d'essais correspond à la configuration matérielle issue du précédent travail de bachelor. Les résultats obtenus sont détaillés dans les tableaux \ref{tab:premier_mesure_pos_cond} et \ref{tab:premier_mesure_pos_adc} :
 
 % --- Tableau 1 : Après le conditionnement ---
 \begin{table}[H]
@@ -447,7 +447,7 @@ La première mesure correspond à l'état laissé de la maquette lors du précé
 \end{table}
 
 \subsection{Mesure après la calibration du capteur 3}
-Suite à observation de ces résultats, une première calibration par la méthode Teach-In a été réalisé sur le capteur de l'inducteur 3. Une mesure du capteur jusqu'à l'ADC fut réalisé afin d'observer le comportement de la tension donnant le résultat des tableaux \ref{tab:teachin_3_capteurs}, \ref{tab:teachin_3_cond} et \ref{tab:teachin_3_adc} :
+À la suite de ces résultats, une première calibration par la méthode d'apprentissage "Teach-In" a été effectuée sur le capteur de l'inducteur 3. Une série de mesures, de la sortie du capteur jusqu'à l'ADC, a été réalisée afin d'analyser l'évolution de la tension. Les relevés sont présentés dans les tableaux \ref{tab:teachin_3_capteurs}, \ref{tab:teachin_3_cond} et \ref{tab:teachin_3_adc} :
 
 % --- Tableau 1 : Après la sortie des capteurs (Droite sur l'image) ---
 \begin{table}[H]
@@ -533,8 +533,8 @@ Suite à observation de ces résultats, une première calibration par la méthod
     \label{tab:teachin_3_adc}
 \end{table}
 
-\subsection{Première étalonnage de chaque capteur}
-Le résultat n'étant pas concluant, il a été décidé à ce momment là d'essayer de réaliser un étalonnage dans le code. L'étalonnage réalisé dans le code n'était pas particulièrement bien réalisé. Une correction était bien appliqué en multipliant un gain mais aucun offset n'étais appliqué et en plus de cela les memes correction appliqué sur la position 1 et 2 était également appliqué sur les positions 3 et 4 comme le montre le code suivant :
+\subsection{Premier étalonnage de chaque capteur}
+Les résultats n'étant pas concluants, un étalonnage logiciel a été envisagé. L'implémentation initiale de cet étalonnage présentait plusieurs défauts : une correction par gain était bien appliquée, mais aucun décalage (offset) n'était pris en compte. De plus, les coefficients de correction destinés aux positions 1 et 2 étaient dupliqués pour les positions 3 et 4, comme l'illustre l'extrait de code suivant :
 
 \begin{minted}{c}
 // 3722.7 / 3500 = 1.06, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
@@ -545,7 +545,7 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-Une première tentative d'étalonnage fut réaliser. Pour cela des mesures ont été réalisé sans application de la correction. Seul la conversion fut réaliser et afficher sur l'interface web. La mesure donna lieux aux tableaux \ref{tab:premier_etalonnage_code_adc} :
+Une nouvelle procédure d'étalonnage a été mise en œuvre. Des mesures ont été effectuées sans application de la correction initiale. Seule la conversion numérique a été conservée et affichée sur l'interface web. Les valeurs mesurées sont consignées dans le tableau \ref{tab:premier_etalonnage_code_adc} :
 
 \begin{table}[H]
     \centering
@@ -574,7 +574,7 @@ Une première tentative d'étalonnage fut réaliser. Pour cela des mesures ont �
     \label{tab:premier_etalonnage_code_adc}
 \end{table}
 
-Ces mesures ont permis de réaliser les tracés présent dans les figures \ref{fig:Prem_tracé_ind1}, \ref{fig:Prem_tracé_ind2}, \ref{fig:Prem_tracé_ind3} et \ref{fig:Prem_tracé_ind4} :
+Ces données ont permis d'établir les courbes présentées dans les figures \ref{fig:Prem_tracé_ind1}, \ref{fig:Prem_tracé_ind2}, \ref{fig:Prem_tracé_ind3} et \ref{fig:Prem_tracé_ind4} :
 
 \begin{figure}[H]
     \centering
@@ -604,8 +604,8 @@ Ces mesures ont permis de réaliser les tracés présent dans les figures \ref{f
     \label{fig:Prem_tracé_ind4}
 \end{figure}
 
-Ces tracé permettent de ressortir des équations permettant d'appliquer une meilleur correction au système avec un gain et un offset, la valeur en x étant la valeur de l'adc convertit en mm.\\
-Une vérification de la mesure fut réaliser comme suit dans le tableaux \ref{tab:correction1_adc} :
+L'analyse de ces tracés a permis de déduire des équations de correction intégrant un gain et un décalage (offset), où la variable $x$ représente la valeur issue de l'ADC convertie en millimètres.\\
+Une vérification expérimentale a ensuite été menée, dont les résultats figurent dans le tableau \ref{tab:correction1_adc} :
 
 \begin{table}[H]
     \centering
@@ -634,10 +634,10 @@ Une vérification de la mesure fut réaliser comme suit dans le tableaux \ref{ta
     \label{tab:correction1_adc}
 \end{table}
 
-Bien que les erreurs soit faible, le fonctionnement avec l'implémentation de l'équation n'améliorais pas la situation de la lévitation.
+Malgré la faiblesse des erreurs relatives observées, l'implémentation de ces équations n'a pas apporté d'amélioration significative concernant la lévitation du système.
 
 \subsection{Mesure après la calibration de tous les capteurs}
-Suite à l'étalonnage précédent, une calibration des 4 capteurs fut réalisé. Le but derrière cette démarche fut d'avoir une origine similaire pour chaque inducteur.  :
+À la suite de l'étalonnage précédent, une calibration simultanée des quatre capteurs a été effectuée. L'objectif de cette démarche consistait à définir une origine de référence commune pour chaque inducteur :
 
 \begin{figure}[H]
     \centering
@@ -646,11 +646,11 @@ Suite à l'étalonnage précédent, une calibration des 4 capteurs fut réalisé
     \label{fig:DessinMaquetteCote}
 \end{figure}
 
-Avec les bloc 7 la plaque en bois, le bloc 8 la carte principale et les blocs 9 les cartes de puissances.
+Le schéma illustre le montage expérimental : le repère 7 désigne le support en bois, le repère 8 correspond à la carte principale et les repères 9 identifient les cartes de puissance.
 
-Afin de palier a cela, les 4 inducteurs ont été soulevé puis abaissé en suivant la démarche expliqué dans la section \ref{sec:CalibrationCaptPos}.
+Pour garantir une bonne homogénéité, les quatre inducteurs ont été soulevés puis abaissés selon la procédure détaillée dans la section \ref{sec:CalibrationCaptPos}.
 
-Suite a cette calibration, une nouvelle mesure sans les corrections a été mesuré présent dans le tableau \ref{tab:recalib_sans_correction_adc} :
+À l'issue de cette calibration, une nouvelle série de mesures (sans correction) a été réalisée. Les données sont regroupées dans le tableau \ref{tab:recalib_sans_correction_adc} :
 
 \begin{table}[H]
     \centering
@@ -679,7 +679,7 @@ Suite a cette calibration, une nouvelle mesure sans les corrections a été mesu
     \label{tab:recalib_sans_correction_adc}
 \end{table}
 
-Cette mesure donna de nouveau lieux à une tentavie de tracés de courbe afin d'obtenir une correction à appliquer dans le code. Les tracés sont observable dans les figures \ref{fig:Sec_tracé_ind1}, \ref{fig:Sec_tracé_ind2}, \ref{fig:Sec_tracé_ind3} et \ref{fig:Sec_tracé_ind4} :
+Ces nouvelles données ont fait l'objet d'une modélisation graphique afin d'en déduire une fonction de correction à implémenter au sein du microcontrôleur. Les courbes obtenues sont visibles sur les figures \ref{fig:Sec_tracé_ind1}, \ref{fig:Sec_tracé_ind2}, \ref{fig:Sec_tracé_ind3} et \ref{fig:Sec_tracé_ind4} :
 
 \begin{figure}[H]
     \centering
@@ -709,7 +709,7 @@ Cette mesure donna de nouveau lieux à une tentavie de tracés de courbe afin d'
     \label{fig:Sec_tracé_ind4}
 \end{figure}
 
-Une fois ces équations insérer dans le code, une mesure de vérification est réalisé repésenté par le tableau \ref{tab:verif_etalonnage_teachin_adc} :
+Après intégration de ces nouvelles équations dans le code source, une mesure de vérification a été effectuée. Les résultats sont présentés dans le tableau \ref{tab:verif_etalonnage_teachin_adc} :
 
 \begin{table}[H]
     \centering
@@ -738,10 +738,10 @@ Une fois ces équations insérer dans le code, une mesure de vérification est r
     \label{tab:verif_etalonnage_teachin_adc}
 \end{table}
 
-Cependant comme précédement, le résultat en marche de la lévitation ne donnait pas suite à une amélioration.
+Cependant, comme observé précédemment, ce nouvel étalonnage n'a pas permis d'améliorer la stabilité de la lévitation en conditions de fonctionnement.
 
 \subsection{Mesure d'étalonnage des valeurs d'ADC}
-Le résultat n'étant toujours pas concluant, il a été décidé d'appliquer une correction immédiatement sur la valeur de l'ADC. Dans le travail de bachelor précédent, la valeur de l'ADC était convertit suivant une règée de 3 comme présente dans l'équation \ref{eq:conv_ADC_mm} :
+Face à l'absence de résultats concluants, l'application d'une correction directe sur la valeur numérique de l'ADC a été testée. Lors des travaux antérieurs, la valeur brute de l'ADC était convertie par une simple règle de trois, formulée selon l'équation \ref{eq:conv_ADC_mm} :
 
 \begin{equation}
     Conversion = \frac{Position\text{ }max - Position\text{ }min}{Valeur\text{ }max\text{ }de\text{ }l'adc}
@@ -749,16 +749,15 @@ Le résultat n'étant toujours pas concluant, il a été décidé d'appliquer un
 \end{equation}
 
 Avec :
-
 \begin{itemize}
-    \item Position max : 3 mm
-    \item Position min : 0 mm
-    \item Valeur max de l'adc : 3722.7
+    \item Position maximale : 3~mm
+    \item Position minimale : 0~mm
+    \item Valeur maximale de l'ADC : 3722,7
 \end{itemize}
 
-Afin d'avoir une correction plus exacte et propre à chaque inducteur, l'équation viendra donc s'appliquer immédiatement sur la valeur de l'adc qui sera convertit en une valeur en mm.\\
+Dans le but d'obtenir une correction plus précise et spécifique à chaque inducteur, une nouvelle fonction de transfert a été développée pour convertir directement le signal de l'ADC en une grandeur physique exprimée en millimètres.\\
 
-Lors de plusieurs mesure, il a été observé que le comportement des capteurs de positions possèdait plus un comportement non linéaire que linéaire. C'est pourquoi au lieux d'essayer d'opter par une courbe de tendance linéaire, une approche d'équation d'un polynôme supérieur fut envisaggé. Ceci donne donc les tableaux \ref{tab:adc_brut_inducteur1}, \ref{tab:adc_brut_inducteur2}, \ref{tab:adc_brut_inducteur3} et \ref{tab:adc_brut_inducteur4} :
+Au cours des différentes campagnes d'essais, il a été constaté que les capteurs de position présentaient un comportement fortement non linéaire. L'utilisation d'une approximation linéaire classique a donc été écartée au profit d'une modélisation par régression polynomiale d'ordre supérieur. Les données brutes recueillies sont présentées dans les tableaux \ref{tab:adc_brut_inducteur1}, \ref{tab:adc_brut_inducteur2}, \ref{tab:adc_brut_inducteur3} et \ref{tab:adc_brut_inducteur4} :
 
 \begin{table}[H]
     \centering
@@ -932,7 +931,7 @@ Lors de plusieurs mesure, il a été observé que le comportement des capteurs d
     \label{tab:adc_brut_inducteur4}
 \end{table}
 
-Par la suite une moyenne de chacune des valeurs a été réalisé pour obtenir le tableau \ref{tab:adc_brut_moyenne}:
+Une moyenne de ces valeurs a ensuite été calculée pour chaque point de mesure, aboutissant aux résultats du tableau \ref{tab:adc_brut_moyenne} :
 
 \begin{table}[H]
     \centering
@@ -969,14 +968,16 @@ Par la suite une moyenne de chacune des valeurs a été réalisé pour obtenir l
     \label{tab:adc_brut_moyenne}
 \end{table}
 
-Afin d'implémenter des équations d'ordre supérieur et sans perdre trop de temps pour le réaliser, la méthode d'Horner \cite{Horner} a été employé démontré dans l'quation \ref{eq:Horner} :
+Afin d'implémenter des équations d'ordre supérieur de manière optimale, la méthode de Horner \cite{Horner} a été employée, comme défini dans l'équation \ref{eq:Horner} :
 
 \begin{equation}
     y = ((a_5 \cdot x + a_4) \cdot x + a_3) \cdot x + a_2) \cdot x + a_1) \cdot x + a_0
     \label{eq:Horner}
 \end{equation}
 
-Une première tentative fut réaliser avec un polynôme d'ordre 5 représente par les graphiques \ref{fig:Ind1Pol5}, \ref{fig:Ind2Pol5}, \ref{fig:Ind3Pol5} et \ref{fig:Ind4Pol5} :
+Pour un polynôme d'ordre inférieur, tel qu'un ordre 3, les coefficients $a_5$ et $a_4$ sont nuls.
+
+Une première tentative a été réalisée à l'aide d'un polynôme d'ordre 5. Les courbes correspondantes sont représentées sur les figures \ref{fig:Ind1Pol5}, \ref{fig:Ind2Pol5}, \ref{fig:Ind3Pol5} et \ref{fig:Ind4Pol5} :
 
 \begin{figure}[H]
     \centering
@@ -1006,7 +1007,7 @@ Une première tentative fut réaliser avec un polynôme d'ordre 5 représente pa
     \label{fig:Ind4Pol5}
 \end{figure}
 
-Le résultat n'étant pas concluant et ne semble pas laisser a la maquette d'avoir de la liberté, cet ordre fut baissé à un ordre 3 donnant donc les tracés des graphiques \ref{fig:Ind1Pol3}, \ref{fig:Ind2Pol3}, \ref{fig:Ind3Pol3} et \ref{fig:Ind4Pol3} :
+Ces modélisations n'étant pas concluantes et semblant restreindre la dynamique du système, le degré du polynôme a été réduit à 3. Cette approche a généré les tracés des figures \ref{fig:Ind1Pol3}, \ref{fig:Ind2Pol3}, \ref{fig:Ind3Pol3} et \ref{fig:Ind4Pol3} :
 
 \begin{figure}[H]
     \centering
@@ -1036,7 +1037,7 @@ Le résultat n'étant pas concluant et ne semble pas laisser a la maquette d'avo
     \label{fig:Ind4Pol3}
 \end{figure}
 
-Le résultat n'étant toujours pas satisfaisant donna alors un dernier essaie d'une simple équation linéaire donnat les tracés des graphiques \ref{fig:Ind1Lin}, \ref{fig:Ind2Lin}, \ref{fig:Ind3Lin} et \ref{fig:Ind4Lin} :
+Les performances n'étant toujours pas satisfaisantes, un dernier essai reposant sur une simple équation linéaire a été mené, donnant les tracés des figures \ref{fig:Ind1Lin}, \ref{fig:Ind2Lin}, \ref{fig:Ind3Lin} et \ref{fig:Ind4Lin} :
 
 \begin{figure}[H]
     \centering
@@ -1067,19 +1068,19 @@ Le résultat n'étant toujours pas satisfaisant donna alors un dernier essaie d'
 \end{figure}
 
 \subsection{Analyse des résultats}
-La réalisation du capteurs de positions ne fut pas concluant. Les corrections appliqué donnait régulièrement de faible erreur relative. Théoriquement le procédé semble correcte mais ne donne jamais un résultat satisfaisant.
+Le traitement des signaux issus des capteurs de position n'a pas été concluant. Les diverses corrections appliquées présentaient régulièrement de faibles erreurs relatives d'un point de vue théorique, mais ne permettaient jamais d'atteindre un résultat satisfaisant en pratique.
 
-La dernière correction classique réalisé ne donna également jamais un bon résultat.
+La dernière correction linéaire testée n'a également apporté aucune amélioration.
 
-Un phénomène récurant lors de la correction fut que les inducteurs venait simplement se coller et se satisfaisait de cette état. Pointant alors plus vers un problème lié a la régulation qu'à la correction des capteurs de positons.
+Un phénomène récurrent lors de l'application de ces corrections était le contact brusque des inducteurs contre le rail, le système se stabilisant dans cet état de butée. Ce comportement pointe davantage vers une instabilité liée à la boucle de régulation plutôt qu'à un défaut exclusif de calibration des capteurs de position.
 
-Cependant point intéressant à noter fut qu'après la calibration de tous les capteurs à un meme niveau semble avoir améliorer la stabilité de maintien de la maquette.
+Il est toutefois intéressant de noter que la calibration « Teach-In » de l'ensemble des capteurs à un niveau de référence commun a semblé améliorer légèrement la stabilité de maintien de la maquette.
 
 \section{Conclusion des mesures}
-Les premières mesures réalisé sur l'ensemble des régualteurs donne d'excellent résulats démontrant leur bon fonctionnemnt.\\
+Les premières mesures effectuées sur l'ensemble des régulateurs ont donné d'excellents résultats, validant ainsi leur bon fonctionnement global.\\
 
-Les mesures réalisé sur le fonctionnement des capteurs de courants ainsi que les circuits de conditionnement donne des résultat éloignée de la valeurs théorique mesuré. Les calculs furent réaliser avec la méthode inverser, comme implémenter dans le code, mais les résultats ne semble pas exactement similaire. Cependant la valeur réelle traversant l'inducteur et celle mesuré par le capteurs sont très proche. Il est donc convenable d'assumer que le capteurs de courant fonctionne correctement.\\
+Les relevés liés aux capteurs de courant et à leurs circuits de conditionnement ont montré des écarts par rapport aux valeurs théoriques calculées. Bien que les valeurs obtenues par la méthode inverse, telle qu'implémentée dans le code, diffèrent légèrement des prédictions, la mesure réelle du courant traversant l'inducteur et celle perçue par le capteur restent très proches. Il est donc possible de conclure que le capteur de courant fonctionne correctement.\\
 
-La mesure de position donnère régulièrement des mesures prometteuse cependant aucune correction n'aida réellement à la régulation. La seule correction semblant aider à la lévitation de la maquette fut le calibrage par la méthode Teach-In du capteurs en plaçant les inducteurs à un meme niveau.\\
+Concernant les mesures de position, bien qu'elles aient régulièrement fourni des données cohérentes, aucune méthode de correction n'a permis d'optimiser efficacement la régulation. La seule intervention ayant montré un effet bénéfique sur la lévitation a été la calibration par la méthode d'apprentissage (« Teach-In ») des capteurs en fixant mécaniquement les inducteurs à un niveau identique.\\
 
-L'électronique est donc confirmé comme fonctionnant correctement.
+En conclusion, l'électronique de la maquette est validée et certifiée fonctionnelle.
