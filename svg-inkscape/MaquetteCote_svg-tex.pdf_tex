@@ -1,0 +1,89 @@
+%% Creator: Inkscape 1.2.2 (b0a8486541, 2022-12-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'MaquetteCote_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{765.41362541bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.5989185)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.04850965,0.35444285){\color[rgb]{0.53333333,0.53333333,0.53333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{$$\alpha$$}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.55705821,0.57589174){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de côté\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.55509849,0.34758381){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.55509849,0.31524835){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.15800239,0.21825789){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.94287187,0.19080576){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.26872689,0.22413999){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.83228415,0.20745811){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.36578405,0.25352536){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.73714725,0.24372172){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.55691985,0.43088239){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}7\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.16206337,0.45731903){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.95180479,0.42892608){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.55498927,0.47203046){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}8\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.32567687,0.47887145){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{MaquetteCote_svg-tex.pdf}}%
+    \put(0.79503853,0.4602577){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
+  \end{picture}%
+\endgroup%

@@ -1,0 +1,89 @@
+%% Creator: Inkscape 1.2.2 (b0a8486541, 2022-12-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'MaquetteTaille_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{630.75bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.68965517)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.49940547,0.578478){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.06539834,0.28953627){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.9334126,0.28953627){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.20214031,0.30142687){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.79667063,0.30499405){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.49940547,0.49524376){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.20808561,0.45719382){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.79072533,0.45719382){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.19262782,0.41200951){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.26753864,0.13495838){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}60 mm\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.50535077,0.13495838){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}140 mm\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.49940547,0.06361474){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}260 mm\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.49940547,0.01010702){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Poids total à soulever : 18.052 kg\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.32104637,0.35017836){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.67776457,0.35017836){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{MaquetteTaille_svg-tex.pdf}}%
+    \put(0.49940547,0.66171225){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de face\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
