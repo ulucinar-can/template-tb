@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{765.41362541bp}%
+    \setlength{\unitlength}{772.9086791bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,40 +50,40 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.5989185)%
+  \begin{picture}(1,0.59311067)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.04850965,0.35444285){\color[rgb]{0.53333333,0.53333333,0.53333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{$$\alpha$$}\end{tabular}}}}%
+    \put(0.03832924,0.3471243){\color[rgb]{0.53333333,0.53333333,0.53333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{ß}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.55705821,0.57589174){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de côté\end{tabular}}}}%
+    \put(0.56135351,0.5703072){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de côté\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.55509849,0.34758381){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
+    \put(0.55941279,0.34421322){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.55509849,0.31524835){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0.55941279,0.31219132){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.15800239,0.21825789){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
+    \put(0.16616742,0.2161414){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.94287187,0.19080576){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
+    \put(0.94342585,0.18895548){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=7]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.26872689,0.22413999){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
+    \put(0.2758182,0.22196646){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=8]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.83228415,0.20745811){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
+    \put(0.83391053,0.20544634){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=9]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.36578405,0.25352536){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
+    \put(0.37193417,0.25106687){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=10]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.73714725,0.24372172){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
+    \put(0.73969619,0.2413583){\color[rgb]{1,1,1}\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=11]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.55691985,0.43088239){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}7\end{tabular}}}}}%
+    \put(0.56121649,0.42670404){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}7\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=12]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.16206337,0.45731903){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
+    \put(0.17018902,0.45288431){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=13]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.95180479,0.42892608){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
+    \put(0.95227214,0.4247667){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=14]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.55498927,0.47203046){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}8\end{tabular}}}}}%
+    \put(0.55930463,0.46745308){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}8\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=15]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.32567687,0.47887145){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
+    \put(0.33221592,0.47422774){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=16]{MaquetteCote_svg-tex.pdf}}%
-    \put(0.79503853,0.4602577){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
+    \put(0.79702609,0.45579449){\rotatebox{-2}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}9\end{tabular}}}}}%
   \end{picture}%
 \endgroup%
