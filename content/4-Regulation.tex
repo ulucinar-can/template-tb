@@ -104,19 +104,18 @@ Pour rappel, les différentes grandeurs présentes sur la maquette sont synthét
 \end{table}
 
 \subsection{Modélisation d'une inductance}
-Puisque nous travaillons avec des bobines, il faut définir la valeur de l'inductance. Pour cela, les valeurs du tableau \ref{tab:param_inducteur_entrefer} sont employé pour calculer la valeur de l'inductance.\\
+Le contrôle du système reposant sur des bobines, il est nécessaire de définir la valeur de leur inductance. Pour ce faire, les paramètres du tableau \ref{tab:param_inducteur_entrefer} sont employés afin d'effectuer ce calcul.\\
 
-Afin d'alléger les calculs, les hypothèses suivantes ont été formulées :
-
+Afin d'alléger les développements, les hypothèses simplificatrices suivantes ont été formulées :
 \begin{itemize}
     \item Perméance du fer infinie.
     \item Absence de saturation du fer.
-    \item Effets de franges négligés.
+    \item Effets de bord (franges) négligés.
     \item Effet d’hystérésis négligé.
     \item Flux de fuite négligés.
 \end{itemize}
 
-Pour commencer, un schéma magnétique fut désinner pour une bonne représentation de la perméance du système. Ce tracé respecte les hypothèses émises dessus :
+Pour commencer, un schéma magnétique a été établi afin d'obtenir une représentation rigoureuse de la perméance du système. Ce tracé respecte les hypothèses énoncées ci-dessus :
 
 \begin{figure}[H]
     \centering
@@ -125,42 +124,42 @@ Pour commencer, un schéma magnétique fut désinner pour une bonne représentat
     \label{fig:SchemaMagnetique}
 \end{figure}
 
-De la figure \ref{fig:SchemaMagnetique}, il est alors possible de réecrire la perméance total vue par l'inductance comme dans l'equation \ref{eq:PermTot} :
+À partir de la figure \ref{fig:SchemaMagnetique}, la perméance totale vue par l'enroulement peut être formulée selon l'équation \ref{eq:PermTot} :
 
 \begin{equation}
-    \Lambda_{tot} =\frac{1}{2}\cdot \Lambda_{\delta} = \frac{1}{2}\cdot\frac{\mu_r \cdot A}{\delta} = \frac{\mu_0 \cdot A}{2\cdot\delta}
+    \Lambda_{tot} =\frac{1}{2}\cdot \Lambda_{\delta} = \frac{1}{2}\cdot\frac{\mu_0 \cdot A}{\delta} = \frac{\mu_0 \cdot A}{2\cdot\delta}
     \label{eq:PermTot}
 \end{equation}
 
-L'inductance se calcule alors en injectant \ref{eq:PermTot} dans l'équation \ref{eq:IndAnal} :
+L'inductance se calcule ensuite en injectant l'équation \ref{eq:PermTot} dans la relation \ref{eq:IndAnal} :
 
 \begin{equation}
     L(\delta) = N^2 \cdot \Lambda_{tot} = \frac{1}{2} \cdot N^2 \cdot \Lambda_{\delta} = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta}
     \label{eq:IndAnal}
 \end{equation}
 
-Le système est définie au tour d'un point de fonctionnement nomianl. Celui-ci sera lorsque le système sera stable pour une hauteur de lévitation de 1mm. Dans cette condition-là, l'entrefer équaivaut à l'entrefer nominal, donc $\delta ? \delta_n = 2mm$. En repartant de l'équation précédente  \ref{eq:IndAnal}, l'inductance nominal s'écrit alors :
+Le système est défini autour d'un point de fonctionnement nominal, correspondant à l'état stable pour une hauteur de lévitation de 1~mm. Dans cette condition, l'entrefer équivaut à l'entrefer nominal, soit $\delta = \delta_n = 2\text{ mm}$. En repartant de l'équation précédente \ref{eq:IndAnal}, l'inductance nominale s'écrit alors :
 
 \begin{equation}
     L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} = \frac{125^2 \cdot 4\pi \cdot 10^{-7} \cdot 10^{-3}}{2 \cdot 2 \cdot 10^{-3}} = 4,9 \text{ mH}
     \label{eq:IndNom}
 \end{equation}
 
-De cette equation \ref{eq:IndNom}, il est possible d'isoler la partie constante ce qui peut être employer par la suite pour simplifier l'équation \ref{eq:IndAnal} :
+De cette équation \ref{eq:IndNom}, il est possible d'isoler la partie constante, qui pourra être employée par la suite pour simplifier l'équation \ref{eq:IndAnal} :
 
 \begin{equation}
     L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} \rightarrow L_n \cdot\delta_n = \frac{N^2 \cdot \mu_0 \cdot A}{2}
     \label{eq:Cst}
 \end{equation}
 
-Cette éqaution\ref{eq:Cst} peut-être réintroduite dans l'équation \ref{eq:IndAnal} ce qui donne alors :
+Cette relation \ref{eq:Cst} peut être réintroduite dans l'équation \ref{eq:IndAnal}, ce qui donne :
 
 \begin{equation}
     L(\delta) = \frac{N^2\cdot \mu_0\cdot A}{2}\cdot \frac{1}{\delta} = L_n \cdot \frac{\delta_n}{\delta}
     \label{eq:IndSimple}
 \end{equation}
 
-Cette équation sera utilise pour la suite des développement mathématiques.
+Cette expression simplifiée sera exploitée pour la suite des développements mathématiques.
 
 \subsection{Equation de la tension induite dans une bobine}
 Puisque le projet repose principalement sur des bobines, l'equation de la tension induite au travers d'une bobine est donc essentielle. Le schéma électrique d'une bobine peut s'exprimer par la mise en série d'un inducteur et d'une résistance suivie d'une inductance. La somme des tensions de ces composants équivaut à la tension traversant la bobine. Elle se définit comme suit dans l'équation \ref{eq:TensionBobineEtape1} :
