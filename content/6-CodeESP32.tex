@@ -6,9 +6,9 @@ Le code de l'ESP32 est principalement employé pour la communication entre lui e
 À partir du compiler d'Arduino, il est possible de réaliser une vérification de l'espace prise dans la mémoire de l'ESP32. De cela on obtient les informations suivantes :
 
 \begin{quote}
-    Le croquis utilise 979768 octets (74\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
+  Le croquis utilise 979768 octets (74\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
 
-    Les variables globales utilisent 45324 octets (13\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
+  Les variables globales utilisent 45324 octets (13\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
 \end{quote}
 
 D'un point de vue de la taille des fichiers, on a pour le code de l'ESP32 mesure 9.9 ko et celui du site web 10.6 ko.
@@ -32,10 +32,10 @@ Les librairies employé pour réaliser cela sont les suivantes :
 Elle contient les librairies principales suivantes :
 
 \begin{itemize}
-    \item WiFi.h : Une librairie de l'ESP32 permettant la gestion du WiFi. Elle sera utilisé pour transformer l'ESP32 en point d'accès.
-    \item WebServer.h : Une librairie permettant d'heberger un site web et répondre à des requettes d'utilisateurs.
-    \item HardwareSerial.h : Une librairie pour la communication en UART utilisé pour pour la communication entre l'ESP32 et le DSP.
-    \item
+  \item WiFi.h : Une librairie de l'ESP32 permettant la gestion du WiFi. Elle sera utilisé pour transformer l'ESP32 en point d'accès.
+  \item WebServer.h : Une librairie permettant d'heberger un site web et répondre à des requettes d'utilisateurs.
+  \item HardwareSerial.h : Une librairie pour la communication en UART utilisé pour pour la communication entre l'ESP32 et le DSP.
+  \item
 \end{itemize}
 
 Les principales définitions sont les suivantes :
@@ -59,9 +59,9 @@ WebServer server(80);
 Trois de ces définitions permettent de se connecter à l'interface web :
 
 \begin{itemize}
-    \item Nom du wifi : ESP32-S2-WIFI
-    \item Mot de passe : TFE-TB2025-HEIG
-    \item Lien du site web : 192.168.4.1
+  \item Nom du wifi : ESP32-S2-WIFI
+  \item Mot de passe : TFE-TB2025-HEIG
+  \item Lien du site web : 192.168.4.1
 \end{itemize}
 
 La fonction setup permet d'inialiser correctement l'interface web avec les importantes initialisaions suivantes :
@@ -137,9 +137,9 @@ L'interface se présente comme suit :
 Le code de l'interface se compose en 3 parties :
 
 \begin{itemize}
-    \item Un code HTML pour
-    \item Un code CSS pour
-    \item Un code JavaScript pour
+  \item Un code HTML pour
+  \item Un code CSS pour
+  \item Un code JavaScript pour
 \end{itemize}
 
 Ces 3 parties seront détaillé dans les sous-sections qui suivent.
@@ -149,3 +149,10 @@ Ces 3 parties seront détaillé dans les sous-sections qui suivent.
 \subsubsection{CSS}
 
 \subsubsection{JavaScript}
+
+\section{A faire}
+\begin{itemize}
+  \item Ajouter la mesure de courant
+  \item Régler le chargement infinie de la page
+  \item Créer un QR code pour se connecter à la page
+\end{itemize}
