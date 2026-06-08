@@ -12,9 +12,9 @@ La réalisation du système nécessite une régulation de courant imbriquée dan
 
 Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
 
-Les blocs "Reg i1" à "Reg i4" représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
+Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
 
-Les blocs "Reg $\delta$1" à "Reg $\delta$4" représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
+Les blocs « Reg $\delta$1 » à « Reg $\delta$4 » représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
 
 Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
 
@@ -41,7 +41,7 @@ Avec :
 \section{Définition du système}
 
 \subsection{Le système}
-Le système garde la même définition que les travaux précédents qui représenté par la figure \ref{fig:BobineRep} :
+Le système conserve la même définition que lors des travaux précédents, comme illustré par la figure \ref{fig:BobineRep} :
 
 \begin{figure}[H]
     \centering
@@ -50,7 +50,7 @@ Le système garde la même définition que les travaux précédents qui représe
     \label{fig:BobineRep}
 \end{figure}
 
-Pour rappel, voici les différentes grandeurs présentes dans la maquette :
+Pour rappel, les différentes grandeurs présentes sur la maquette sont synthétisées dans les tableaux suivants :
 
 \begin{table}[H]
     \centering
@@ -103,27 +103,32 @@ Pour rappel, voici les différentes grandeurs présentes dans la maquette :
     \label{tab:param_numeriques_frequences}
 \end{table}
 
-Afin d'alléger les calculs, les hypothèses suivantes ont été émise :
+Afin d'alléger les calculs, les hypothèses suivantes ont été formulées :
 
 \begin{itemize}
-    \item Perméance du fer infini
-    \item Pas de saturation du fer
-    \item Effets de franges négligés
-    \item Effet d’hystérésis négligé
-    \item Flux de fuites négligés.
+    \item Perméance du fer infinie.
+    \item Absence de saturation du fer.
+    \item Effets de franges négligés.
+    \item Effet d’hystérésis négligé.
+    \item Flux de fuite négligés.
 \end{itemize}
+
+\subsection{Modélisation d'une inductance}
+Puisque nous travaillons avec des bobines, il faut définir la valeur de
 
 \subsection{Equation de la tension induite dans une bobine}
-Puisque le projet repose principalement sur des bobines, l'equation de la tension induite au travers d'une bobine est donc essentielle. Le schéma électrique d'une bobine peut s'exprimer par la mise en série d'un inducteur et d'une résistance suivie d'une inductance. La somme des tensions de ces composants équivaut à la tension traversant la bobine. Elle se définit comme suit dans l'équation \ref{} :
+Puisque le projet repose principalement sur des bobines, l'equation de la tension induite au travers d'une bobine est donc essentielle. Le schéma électrique d'une bobine peut s'exprimer par la mise en série d'un inducteur et d'une résistance suivie d'une inductance. La somme des tensions de ces composants équivaut à la tension traversant la bobine. Elle se définit comme suit dans l'équation \ref{eq:TensionBobineEtape1} :
 
-$$U_d = U_R + U_L$$
+\begin{equation}
+    U_d(t) = U_R(t) + U_L(t) = R\cdot i(t) + \frac{d\Psi}{dt} = R\cdot i(t) + \frac{d}{dt}[L(\delta)\cdot i(t)]
+    \label{eq:TensionBobineEtape1}
+\end{equation}
 
-Avec :
-\begin{itemize}
-    \item $$ U_R = R \cdot i $$
-    \item $$ U_L = \frac{d\Psi}{dt} = \frac{d}{dt}(L\cdot i)$$
-\end{itemize}
+L'inductance dépend de la position. Lors de la dérivation, il est alors possible de faire une subsitution pour ainsi introduire la vitesse dans la nouvelle équation \ref{} :
 
+\begin{equation}
+    U_d = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{dt} \cdot i = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{d\delta}\cdot \frac{d\delta}{dt} \cdot i
+\end{equation}
 
 \subsection{Equation de Newton}
 
