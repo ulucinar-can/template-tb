@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{366.609bp}%
+    \setlength{\unitlength}{396.609bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,24 +50,22 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.82035629)%
+  \begin{picture}(1,0.75830352)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{Bobine_svg-tex.pdf}}%
-    \put(0.16673077,0.76716611){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Rail\end{tabular}}}}%
+    \put(0.22976029,0.70913671){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Rail\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{Bobine_svg-tex.pdf}}%
-    \put(0.16673077,0.2332185){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Noyau...\end{tabular}}}}%
+    \put(0.22976029,0.21557756){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Noyau...\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{Bobine_svg-tex.pdf}}%
-    \put(0.46950566,0.01841199){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Bobinage\end{tabular}}}}%
+    \put(0.50963291,0.01701928){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Bobinage\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{Bobine_svg-tex.pdf}}%
-    \put(0.98504128,0.44188768){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}z\end{tabular}}}}%
+    \put(0.98617278,0.40846274){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}z\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{Bobine_svg-tex.pdf}}%
-    \put(0.05421307,0.68738083){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}δ\end{tabular}}}}%
+    \put(0.52287013,0.37631521){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Fel\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{Bobine_svg-tex.pdf}}%
-    \put(0.48382609,0.40710948){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Fel\end{tabular}}}}%
+    \put(0.52287013,0.21368653){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FP\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=7]{Bobine_svg-tex.pdf}}%
-    \put(0.48382609,0.23117272){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FP\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=8]{Bobine_svg-tex.pdf}}%
-    \put(0.06444195,0.68942661){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}δ\end{tabular}}}}%
+    \put(0.08415089,0.63727752){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$\delta$$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

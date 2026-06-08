@@ -45,8 +45,8 @@ Le système garde la même définition que les travaux précédents qui représe
 
 \begin{figure}[H]
     \centering
-    \includesvg[width=0.8\linewidth]{assets/Chap4/Bobine.svg}
-    \caption{Représentation de la bobine }
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/Bobine.png}
+    \caption{Représentation de la bobine}
     \label{fig:BobineRep}
 \end{figure}
 
@@ -114,6 +114,16 @@ Afin d'alléger les calculs, les hypothèses suivantes ont été émise :
 \end{itemize}
 
 \subsection{Equation de la tension induite dans une bobine}
+Puisque le projet repose principalement sur des bobines, l'equation de la tension induite au travers d'une bobine est donc essentielle. Le schéma électrique d'une bobine peut s'exprimer par la mise en série d'un inducteur et d'une résistance suivie d'une inductance. La somme des tensions de ces composants équivaut à la tension traversant la bobine. Elle se définit comme suit dans l'équation \ref{} :
+
+$$U_d = U_R + U_L$$
+
+Avec :
+\begin{itemize}
+    \item $$ U_R = R \cdot i $$
+    \item $$ U_L = \frac{d\Psi}{dt} = \frac{d}{dt}(L\cdot i)$$
+\end{itemize}
+
 
 \subsection{Equation de Newton}
 
@@ -121,8 +131,19 @@ Afin d'alléger les calculs, les hypothèses suivantes ont été émise :
 
 \section{La régulation de courant}
 
-Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaines valeurs max.
+Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
 Concernant votre idée d'augmenter la vitesse par tâtonnement, c'est un grand OUI ! C'est d'ailleurs une démarche d'ingénierie extrêmement pertinente pour optimiser un système limité par son matériel.
 
 \section{La régulation de position}
+
+\subsection{Placement de pôles}
+
+\subsection{Synthèse d'une régulation par PID}
+\begin{itemize}
+    \item vérifier la Synthèse
+    \item Appliquer sur un inducteur pour trouver les bons Paramètres
+    \item Appliquer sur les 4
+    \item Obtenir les poles
+    \item Appliquer les poles sur la régul d'état
+\end{itemize}
