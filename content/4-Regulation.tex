@@ -170,7 +170,7 @@ Le comportement dynamique du système reposant sur des bobines, l'équation de l
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/SchemaBobine.png}
+    \includegraphics[width=0.5\linewidth]{assets/Chap4/SchemaBobine.png}
     \caption{Schéma électrique simplifié d'une bobine}
 \end{figure}
 
@@ -245,7 +245,22 @@ Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation diffé
 \end{equation}
 
 \subsection{Linéarisation des equations}
-Le système est fortement non-linéaire comme observer avec les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est alors néscessaire de rendre ces équations linéaires pour pouvoir régler le système. Pour cela, une linéarisation est réaliser par la méthode du développementde taylor. Il faut cependant définir un point de fonctionnement. Ce point sera définit au point nominal donc pour $\delta_n$, $i_n$ et $U_n$.
+Le système est fortement non-linéaire comme observer avec les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est alors néscessaire de rendre ces équations linéaires pour pouvoir régler le système. Pour cela, une linéarisation est réaliser par la méthode du développement de taylor.\\
+
+Les équations à linéariser sont les suivantes :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+        \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+        \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
+    \end{aligned} \right.
+\end{equation*}
+
+Il est cependant crucial de définir un point de fonctionnement nominal. Ceux-ci sont définit par les points suivants :
+
+\begin{itemize}
+    \item 
+\end{itemize}
 
 \section{La régulation de courant}
 
