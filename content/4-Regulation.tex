@@ -175,6 +175,28 @@ L'inductance dépend de la position. Lors de la dérivation, il est alors possib
 
 \begin{equation}
     U_d = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{dt} \cdot i = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{d\delta}\cdot \frac{d\delta}{dt} \cdot i
+    \label{eq:TensionBobineEtape2}
+\end{equation}
+
+Afin de réaliser la dérivé de l'inductance, il est possible de repartir de l'équation simplifié \ref{eq:IndSimple} pour le calcul de l'inductance. Sa derivée donne alors l'équation \ref{eq:IndDerive} :
+
+\begin{equation}
+    \frac{dL(\delta)}{d\delta} = -L_n \cdot \frac{\delta_n}{\delta^2}
+    \label{eq:IndDerive}
+\end{equation}
+
+En injectant cette nouvelle équation \ref{eq:IndDerive} et l'équation \ref{eq:IndSimple} dans l'équation \ref{eq:TensionBobineEtape2}, l'équation \ref{eq:TensionBobineEtape3} est obtenue :
+
+\begin{equation}
+    U = R \cdot i + L_n \frac{\delta_n}{\delta} \cdot \frac{di}{dt} - i \cdot L_n \frac{\delta_n}{\delta^2} \cdot \dot{\delta}
+    \label{eq:TensionBobineEtape3}
+\end{equation}
+
+Il est alors finalement possible d'isoler la dérivée du courant pour obtenir l'équation \ref{eq:CourDerive} :
+
+\begin{equation}
+    \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
+    \label{eq:CourDerive}
 \end{equation}
 
 \subsection{Equation de Newton}
