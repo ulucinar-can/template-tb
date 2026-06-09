@@ -200,6 +200,39 @@ Il est alors finalement possible d'isoler la dérivée du courant pour obtenir l
 \end{equation}
 
 \subsection{Equation de Newton}
+Etant donné que le travail de bachelor essaie de faire léviter une pièce, il est important de faire intervenir les équations de Newton. Celle-ci est définie par l'équation \ref{eq:Newton1} :
+
+\begin{equation}
+    m \cdot \ddot{\delta} =\sum F = Fp - F_{el} = m \cdot g - F_{el}
+    \label{eq:Newton1}
+\end{equation}
+
+Avec :
+
+\begin{itemize}
+    \item $F_p$ : La force de pesanteur [N]
+    \item $F_{el}$ : La force électromagnétique [N]
+\end{itemize}
+
+La force électromagnétique se définit comme étant la dérivée de l'énergie co-magnétique :
+
+\begin{equation}
+    F_{el} =\frac{dW_{mag}}{d\delta}= -\frac{1}{2} \cdot i^2 \cdot \frac{dL(\delta)}{d\delta} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
+    \label{eq:Fele}
+\end{equation}
+
+Il est maintenant possible d'injecter cette équation \ref{eq:Fele} dans l'équation de Newton \ref{eq:Newton1} donnant alors la nouvelle équation \ref{eq:Newton2} :
+
+\begin{equation}
+    m \cdot \ddot{\delta} = m\cdot g - \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
+    \label{eq:Newton2}
+\end{equation}
+
+Pour terminer, il est maintenant possible d'isoler l'accéleration pour obtenir cette équation finale :
+
+\begin{equation}
+    \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
+\end{equation}
 
 \subsection{Linéarisation des equations}
 
