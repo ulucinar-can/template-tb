@@ -163,72 +163,79 @@ $$L(\delta) = \frac{N^2\cdot \mu_0\cdot A}{2}\cdot \frac{1}{\delta}$$
 
 Cette expression simplifiée sera exploitée pour la suite des développements mathématiques.
 
-\subsection{Equation de la tension induite dans une bobine}
-Puisque le projet repose principalement sur des bobines, l'equation de la tension induite au travers d'une bobine est donc essentielle. Le schéma électrique d'une bobine peut s'exprimer par la mise en série d'un inducteur et d'une résistance suivie d'une inductance. La somme des tensions de ces composants équivaut à la tension traversant la bobine. Elle se définit comme suit dans l'équation \ref{eq:TensionBobineEtape1} :
+\subsection{Équation de la tension induite dans une bobine}
+Le comportement dynamique du système reposant sur des bobines, l'équation de la tension induite à travers un enroulement est essentielle. Le schéma électrique équivalent d'une bobine s'exprime par la mise en série d'une résistance et d'une inductance :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/Bobine.png}
+    \caption{Schéma électrique simplifié d'une bobine}
+\end{figure}
+
+La tension totale correspond à la somme des tensions aux bornes de ces composants, définie par l'équation \ref{eq:TensionBobineEtape1} :
 
 \begin{equation}
     U_d(t) = U_R(t) + U_L(t) = R\cdot i(t) + \frac{d\Psi}{dt} = R\cdot i(t) + \frac{d}{dt}[L(\delta)\cdot i(t)]
     \label{eq:TensionBobineEtape1}
 \end{equation}
 
-L'inductance dépend de la position. Lors de la dérivation, il est alors possible de faire une subsitution pour ainsi introduire la vitesse dans la nouvelle équation \ref{} :
+L'inductance variant en fonction de la position, le développement du terme de dérivation permet d'introduire la vitesse mécanique par substitution dans l'équation \ref{eq:TensionBobineEtape2} :
 
 \begin{equation}
-    U_d = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{dt} \cdot i = R\cdot i + L\cdot \frac{di}{di} + \frac{dL}{d\delta}\cdot \frac{d\delta}{dt} \cdot i
+    U_d = R\cdot i + L\cdot \frac{di}{dt} + \frac{dL}{dt} \cdot i = R\cdot i + L\cdot \frac{di}{dt} + \frac{dL}{d\delta}\cdot \frac{d\delta}{dt} \cdot i
     \label{eq:TensionBobineEtape2}
 \end{equation}
 
-Afin de réaliser la dérivé de l'inductance, il est possible de repartir de l'équation simplifié \ref{eq:IndSimple} pour le calcul de l'inductance. Sa derivée donne alors l'équation \ref{eq:IndDerive} :
+Afin de déterminer la dérivée de l'inductance par rapport à la position, l'expression simplifiée \ref{eq:IndSimple} est utilisée. Sa dérivation conduit à l'équation \ref{eq:IndDerive} :
 
 \begin{equation}
     \frac{dL(\delta)}{d\delta} = -L_n \cdot \frac{\delta_n}{\delta^2}
     \label{eq:IndDerive}
 \end{equation}
 
-En injectant cette nouvelle équation \ref{eq:IndDerive} et l'équation \ref{eq:IndSimple} dans l'équation \ref{eq:TensionBobineEtape2}, l'équation \ref{eq:TensionBobineEtape3} est obtenue :
+En injectant les relations \ref{eq:IndDerive} et \ref{eq:IndSimple} dans l'équation \ref{eq:TensionBobineEtape2}, l'expression \ref{eq:TensionBobineEtape3} est obtenue :
 
 \begin{equation}
     U = R \cdot i + L_n \frac{\delta_n}{\delta} \cdot \frac{di}{dt} - i \cdot L_n \frac{\delta_n}{\delta^2} \cdot \dot{\delta}
     \label{eq:TensionBobineEtape3}
 \end{equation}
 
-Il est alors finalement possible d'isoler la dérivée du courant pour obtenir l'équation \ref{eq:CourDerive} :
+Il est alors possible d'isoler la dérivée temporelle du courant afin d'obtenir l'équation d'état \ref{eq:CourDerive} :
 
 \begin{equation}
     \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
     \label{eq:CourDerive}
 \end{equation}
 
-\subsection{Equation de Newton}
-Etant donné que le travail de bachelor essaie de faire léviter une pièce, il est important de faire intervenir les équations de Newton. Celle-ci est définie par l'équation \ref{eq:Newton1} :
+\subsection{Équation de Newton}
+L'objectif de ce projet étant d'assurer la lévitation d'une charge mécanique, l'application des lois de la dynamique de Newton est requise. En se basant sur les conventions de la figure \ref{fig:BobineRep}, le principe fondamental de la dynamique s'écrit :
 
 \begin{equation}
-    m \cdot \ddot{\delta} =\sum F = Fp - F_{el} = m \cdot g - F_{el}
+    m \cdot \ddot{\delta} =\sum F = F_p - F_{el} = m \cdot g - F_{el}
     \label{eq:Newton1}
 \end{equation}
 
 Avec :
-
 \begin{itemize}
-    \item $F_p$ : La force de pesanteur [N]
-    \item $F_{el}$ : La force électromagnétique [N]
+    \item $F_p$ : La force de pesanteur [N].
+    \item $F_{el}$ : La force électromagnétique [N].
 \end{itemize}
 
-La force électromagnétique se définit comme étant la dérivée de l'énergie co-magnétique :
+La force électromagnétique se définit comme la dérivée de l'énergie co-magnétique par rapport à la position :
 
 \begin{equation}
-    F_{el} =\frac{dW_{mag}}{d\delta}= -\frac{1}{2} \cdot i^2 \cdot \frac{dL(\delta)}{d\delta} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
+    F_{el} =\frac{dW_{mag}}{d\delta}= - \frac{1}{2} \cdot i^2 \cdot \frac{dL(\delta)}{d\delta} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
     \label{eq:Fele}
 \end{equation}
 
-Il est maintenant possible d'injecter cette équation \ref{eq:Fele} dans l'équation de Newton \ref{eq:Newton1} donnant alors la nouvelle équation \ref{eq:Newton2} :
+L'introduction de la relation \ref{eq:Fele} dans l'équation mécanique \ref{eq:Newton1} conduit à l'expression \ref{eq:Newton2} :
 
 \begin{equation}
     m \cdot \ddot{\delta} = m\cdot g - \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
     \label{eq:Newton2}
 \end{equation}
 
-Pour terminer, il est maintenant possible d'isoler l'accéleration pour obtenir cette équation finale :
+Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation différentielle finale :
 
 \begin{equation}
     \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
