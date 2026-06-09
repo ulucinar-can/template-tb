@@ -41,6 +41,8 @@ Avec :
 \section{Définition du système}
 
 \subsection{Le système}
+Afin de réaliser une synthèse rigoureuse de la régulation de position, l'élaboration d'un modèle mathématique de la maquette est nécessaire. Le système est ainsi modélisé à travers plusieurs étapes successives permettant d'aboutir aux équations de comportement. Cette démarche permet d'obtenir une formulation globale définissant l'ensemble du système, sur laquelle s'appuiera la synthèse de la régulation de position.\\
+
 Le système conserve la même définition que lors des travaux précédents, comme illustré par la figure \ref{fig:BobineRep} :
 
 \begin{figure}[H]
@@ -239,9 +241,11 @@ Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation diffé
 
 \begin{equation}
     \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
+    \label{eq:Accel}
 \end{equation}
 
 \subsection{Linéarisation des equations}
+Le système est fortement non-linéaire comme observer avec les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est alors néscessaire de rendre ces équations linéaires pour la régulation de position.
 
 \section{La régulation de courant}
 
