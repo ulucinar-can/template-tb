@@ -368,6 +368,7 @@ La fonction $f_2$ se linéarise comme suit :
     f_2(i, \delta) \approx f_2(i_n, \delta_n)
     + \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n}\cdot\Delta{i}
     + \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n}\cdot\Delta{\delta}
+    \label{eq:f2Lin1}
 \end{equation}
 
 Avec :
@@ -379,7 +380,7 @@ Avec :
 \end{equation}
 
 \begin{equation}
-    f_2(i_n, \delta_n) = g - \frac{L_n\cdot\delta_n}{2\cdot m}\cdot\left(\frac{i_n}{\delta_n} \right)^2
+    f_2(i_n, \delta_n) = \ddot{\delta}_n = 0
     \label{eq:DerivePart5}
 \end{equation}
 
@@ -393,7 +394,27 @@ Avec :
     \label{eq:DerivePart7}
 \end{equation}
 
-En injectant les équations
+En injectant les équations \ref{eq:DeltaDef2}, \ref{eq:DerivePart5}, \ref{eq:DerivePart6} et \ref{eq:DerivePart7} dans l'équation \ref{eq:f2Lin1}, on obtient l'équation :
+
+$$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
+    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot(i-i_n)
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot(\delta-\delta_n)$$
+
+$$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
+    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot i
+    +\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta}}
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot\delta
+    -\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta}}$$
+
+\begin{equation}
+    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
+    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot i
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot\delta
+    \label{eq:f2Lin2}
+\end{equation}
+
+\subsection{Mise en commun des équations}
+Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. 
 
 \section{La régulation de courant}
 
