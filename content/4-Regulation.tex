@@ -249,93 +249,94 @@ Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation diffé
     \label{eq:Accel}
 \end{equation}
 
-\subsection{Linéarisation des equations}
+\subsection{Linéarisation des équations}
 \label{subsec:lin}
-Le système est fortement non-linéaire comme observer avec les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est alors néscessaire de rendre ces équations linéaires pour pouvoir régler le système. Pour cela, une linéarisation est réaliser par la méthode du développement de taylor.\\
+Le système présente un comportement fortement non linéaire, comme l'illustrent les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est donc nécessaire de linéariser ces expressions afin de permettre le réglage du système. À cette fin, une linéarisation est réalisée par la méthode du développement en série de Taylor.\\
 
-Les équations à linéariser sont les suivantes :
+Les équations à linéariser sont définies par le système suivant :
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        f_1(i, \dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+        f_1(i, \delta,\dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
         f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
     \end{aligned} \right.
 \end{equation*}
 
-Il est cependant crucial de définir un point de fonctionnement nominal. Puisque la consigne se situe à 2mm, celle-ci sera employé comme point nominal. De ce fait les autres grandeurs au tour de ce point nominal seront :
+Il est crucial de définir préalablement un point de fonctionnement nominal. La consigne du système étant fixée à 2~mm, cette valeur est choisie comme référence nominale. Par conséquent, les différentes grandeurs associées à ce point de fonctionnement sont :
 
 \begin{itemize}
-    \item La positon nominal $\delta_n$ vaut 2mm.
-    \item La vitesse et l'accélération au point nominal sont nuls($\dot{\delta}_n$ = $\ddot{\delta}_n = 0$).
-    \item Un courant nominal traversent les bobines est $i_n$
-    \item La variation de courant est nule ($\frac{di}{dt} = 0$).
-    \item Une tension nominal branchée sur les bobines $U_{d,n}$.
-    \item L'approximation que $\delta\approx\delta_n$
+    \item La position nominale $\delta_n$ vaut 2~mm.
+    \item La vitesse et l'accélération au point nominal sont nulles ($\dot{\delta}_n = \ddot{\delta}_n = 0$).
+    \item Le courant nominal traversant les bobines est noté $i_n$.
+    \item La variation temporelle du courant est nulle ($\frac{di}{dt} = 0$).
+    \item La tension nominale appliquée aux bobines est notée $U_{d,n}$.
 \end{itemize}
 
-Il est possible de calculer le courant et la tension nominal.\\
+Ces considérations permettent de calculer le courant et la tension au point de fonctionnement nominal.\\
 
-Puisque l'accéleration est nul, la force électromagnétique doit pouvoir être équivalente à la force de pesanteur afin de garder la maquette en lévitation :
+L'accélération étant nulle au point fixe, la force électromagnétique doit compenser exactement la force de pesanteur afin de maintenir la maquette en lévitation :
 
 $$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
 
 \begin{equation}
-    Fel = Fp = m\cdot g = 4.513 \cdot 9.81 = 44,3 N
+    F_{el} = F_p = m\cdot g = 4,513 \cdot 9,81 = 44,3 \text{ N}
 \end{equation}
 
-En utilisant dès à présent l'équation \ref{eq:MethInv2} avec les valeurs nominaux, on obtient le courant suivant :
+En appliquant la relation \ref{eq:MethInv2} aux grandeurs nominales, le courant nominal est déterminé par :
 
 \begin{equation}
-    i_n = \sqrt{\frac{F_el}{k}}\cdot\delta_n = \sqrt{\frac{44.3}{4.9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6.01 \text{ A}
+    i_n = \sqrt{\frac{F_{el}}{k}}\cdot\delta_n = \sqrt{\frac{44,3}{4,9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6,01 \text{ A}
 \end{equation}
 
-La tension nominal se calcule à partir de l'équation \ref{eq:TensionBobineEtape2}. Mais puisque la variation de courant et la vitesse sont nuls, il ne reste plus que le comportement résistif de la bobine. Alors la tension nominal se calculent très facilement comme suit :
+La tension nominale se déduit de l'équation \ref{eq:TensionBobineEtape2}. La variation de courant et la vitesse mécanique étant nulles, seul le comportement résistif de l'enroulement subsiste. La tension nominale se calcule alors par la loi d'Ohm :
 
 \begin{equation}
-    U_{d,n} = R\cdot i_n = 0.8 \cdot 6.01 = 4.81 \text{ V}
+    U_{d,n} = R\cdot i_n = 0,8 \cdot 6,01 = 4,81 \text{ V}
 \end{equation}
 
-Il est maintenant possible d'entamer les étapes de la linéarisation.\\
+Le développement en série de Taylor peut dès lors être appliqué.\\
 
-La fonction $f_1$ se linéarise comme suit :
+La fonction $f_1$ se linéarise selon l'expression suivante :
 
 \begin{equation}
-    f_1(i, \delta, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
+    f_1(i, \delta, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
     + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{i}
     + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{\delta}
     + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{U_d}
     \label{eq:f1Lin1}
 \end{equation}
 
-Avec :
+Avec les définitions suivantes :
 
 \begin{equation}
-    \Delta i = i-i_n \qquad \Delta\dot{\delta} = \dot{\delta}-\overset{=0}{\cancel{\dot{\delta}_n}} = \delta \qquad \Delta U_d = U_d-U_{d,n}
+    \Delta i = i-i_n \qquad \Delta\dot{\delta} = \dot{\delta}-\overset{=0}{\cancel{\dot{\delta}_n}} = \dot{\delta} \qquad \Delta U_d = U_d-U_{d,n}
     \label{eq:DeltaDef}
 \end{equation}
 
+Les évaluations des dérivées partielles au point nominal donnent :
+
 \begin{equation}
-    f_1(i_n, \delta_n, U_{d,n})  = \frac{\overset{=0}{\cancel{U_{d,n} - R \cdot i_n}}}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \overset{=0}{\cancel{\dot{\delta}}} = 0
+    f_1(i_n, \delta_n, \dot{\delta}_n, U_{d,n})  = \frac{\overset{=0}{\cancel{U_{d,n} - R \cdot i_n}}}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \overset{=0}{\cancel{\dot{\delta}}} = 0
     \label{eq:DerivePart1}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \left(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
+    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \left. \left(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\right) \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
     \label{eq:DerivePart2}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
+    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \frac{i_n}{\delta_n}
     \label{eq:DerivePart3}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}} =
-    \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta}_n, U_{d,n}} =
+    \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{i_n, \dot{\delta}_n, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
     \label{eq:DerivePart4}
 \end{equation}
 
-En insérant les équations \ref{eq:DeltaDef}, \ref{eq:DerivePart1}, \ref{eq:DerivePart2}, \ref{eq:DerivePart3} et \ref{eq:DerivePart4} dans l'équation \ref{eq:f1Lin1} devient alors :
+En substituant les équations \ref{eq:DeltaDef}, \ref{eq:DerivePart1}, \ref{eq:DerivePart2}, \ref{eq:DerivePart3} et \ref{eq:DerivePart4} dans la relation \ref{eq:f1Lin1}, il vient :
 
 $$f_1(i, \dot{\delta}, U_d) \approx
     -\frac{R}{L_n} \cdot (i-i_n)
@@ -352,7 +353,7 @@ $$f_1(i, \dot{\delta}, U_d) \approx
     + \cancel{\frac{R}{L_n} \cdot i_n}
     + \frac{i_n}{\delta_n}\cdot\dot{\delta}
     + \frac{1}{L_n}\cdot U_d
-    - \cancel{\frac{R}{L_n}\cdot i_n)} $$
+    - \cancel{\frac{R}{L_n}\cdot i_n} $$
 
 \begin{equation}
     f_1(i, \dot{\delta}, U_d) = \frac{di}{dt} \approx
@@ -362,7 +363,9 @@ $$f_1(i, \dot{\delta}, U_d) \approx
     \label{eq:f1Lin2}
 \end{equation}
 
-La fonction $f_2$ se linéarise comme suit :
+
+
+La fonction $f_2$ se linéarise de la même manière :
 
 \begin{equation}
     f_2(i, \delta) \approx f_2(i_n, \delta_n)
@@ -385,36 +388,36 @@ Avec :
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta}
+    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta_n}
     \label{eq:DerivePart6}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta^3}= \frac{i_n^2\cdot L_n}{m \cdot\delta^2}
+    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta_n^3}= \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}
     \label{eq:DerivePart7}
 \end{equation}
 
-En injectant les équations \ref{eq:DeltaDef2}, \ref{eq:DerivePart5}, \ref{eq:DerivePart6} et \ref{eq:DerivePart7} dans l'équation \ref{eq:f2Lin1}, on obtient l'équation :
+En injectant les expressions \ref{eq:DeltaDef2}, \ref{eq:DerivePart5}, \ref{eq:DerivePart6} et \ref{eq:DerivePart7} dans la relation \ref{eq:f2Lin1}, on obtient :
 
 $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
-    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot(i-i_n)
-    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot(\delta-\delta_n)$$
+    -\frac{i_n\cdot L_n}{m \cdot\delta_n^2}\cdot(i-i_n)
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n}\cdot(\delta-\delta_n)$$
 
 $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
-    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot i
-    +\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta}}
-    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot\delta
-    -\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta}}$$
+    -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+    +\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta_n}}
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
+    -\cancel{\frac{i_n^2\cdot L_n}{m \cdot\delta_n}}$$
 
 \begin{equation}
     f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
-    -\frac{i_n\cdot L_n}{m \cdot\delta}\cdot i
-    + \frac{i_n^2\cdot L_n}{m \cdot\delta^2}\cdot\delta
+    -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
     \label{eq:f2Lin2}
 \end{equation}
 
 \subsection{Mise en commun des équations}
-Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. 
+Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation.
 
 \section{La régulation de courant}
 
