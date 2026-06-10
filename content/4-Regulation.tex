@@ -325,12 +325,12 @@ Avec :
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n}) = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
+    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
     \label{eq:DerivePart3}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n}) =
+    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}} =
     \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
     \label{eq:DerivePart4}
 \end{equation}
@@ -378,22 +378,22 @@ Avec :
     \label{eq:DeltaDef2}
 \end{equation}
 
-$$\left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n}$$
+\begin{equation}
+    f_2(i_n, \delta_n) = g - \frac{L_n\cdot\delta_n}{2\cdot m}\cdot\left(\frac{i_n}{\delta_n} \right)^2
+    \label{eq:DerivePart5}
+\end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta}
+    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta}
     \label{eq:DerivePart6}
 \end{equation}
 
-$$\left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n}
-    = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta^3}$$
-
 \begin{equation}
-    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n}{m \cdot\delta^2}
+    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta^3}= \frac{i_n^2\cdot L_n}{m \cdot\delta^2}
     \label{eq:DerivePart7}
 \end{equation}
 
-En injectant les équations 
+En injectant les équations
 
 \section{La régulation de courant}
 
