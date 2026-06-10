@@ -301,9 +301,9 @@ La fonction $f_1$ se linéarise comme suit :
 
 \begin{equation}
     f_1(i, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
-    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (i-i_n)
-    + \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n})
-    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n})
+    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{i}
+    + \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{\dot{\delta}}
+    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{U_d}
     \label{eq:f1Lin1}
 \end{equation}
 
@@ -329,7 +329,11 @@ Avec :
 L'équation \ref{eq:f1Lin1} devient alors :
 
 \begin{equation}
-    
+    f_1(i, \dot{\delta}, U_d) \approx
+    -\frac{R}{L_n} \cdot (i-i_n)
+    + \frac{i_n}{\delta_n}\cdot(\dot{\delta}-\dot{\delta_n})
+    + \frac{1}{L_n}\cdot (U_d-U_{d,n})
+    \label{eq:f1Lin1}
 \end{equation}
 
 \section{La régulation de courant}
