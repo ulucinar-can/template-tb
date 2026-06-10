@@ -362,7 +362,38 @@ $$f_1(i, \dot{\delta}, U_d) \approx
     \label{eq:f1Lin2}
 \end{equation}
 
-La vitess
+La fonction $f_2$ se linéarise comme suit :
+
+\begin{equation}
+    f_2(i, \delta) \approx f_2(i_n, \delta_n)
+    + \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n}\cdot\Delta{i}
+    + \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n}\cdot\Delta{\delta}
+\end{equation}
+
+Avec :
+
+\begin{equation}
+    \Delta i = i-i_n \qquad
+    \Delta\delta = \delta-\delta_n
+    \label{eq:DeltaDef2}
+\end{equation}
+
+$$\left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n}$$
+
+\begin{equation}
+    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta}
+    \label{eq:DerivePart6}
+\end{equation}
+
+$$\left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n}
+    = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta^3}$$
+
+\begin{equation}
+    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n}{m \cdot\delta^2}
+    \label{eq:DerivePart7}
+\end{equation}
+
+En injectant les équations 
 
 \section{La régulation de courant}
 
