@@ -266,8 +266,8 @@ Il est cependant crucial de définir un point de fonctionnement nominal. Puisque
 
 \begin{itemize}
     \item La positon nominal $\delta_n$ vaut 2mm.
-    \item La vitesse et l'accélération en ce point sont nuls($\dot{\delta}$ = $\ddot{\delta} = 0$).
-    \item Un courant nominal traversent les bobines $i_n$
+    \item La vitesse et l'accélération au point nominal sont nuls($\dot{\delta}_n$ = $\ddot{\delta}_n = 0$).
+    \item Un courant nominal traversent les bobines est $i_n$
     \item La variation de courant est nule ($\frac{di}{dt} = 0$).
     \item Une tension nominal branchée sur les bobines $U_{d,n}$.
     \item L'approximation que $\delta\approx\delta_n$
@@ -300,41 +300,69 @@ Il est maintenant possible d'entamer les étapes de la linéarisation.\\
 La fonction $f_1$ se linéarise comme suit :
 
 \begin{equation}
-    f_1(i, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
-    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{i}
-    + \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{\dot{\delta}}
-    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot\Delta{U_d}
+    f_1(i, \delta, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
+    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{i}
+    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{\delta}
+    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{U_d}
     \label{eq:f1Lin1}
 \end{equation}
 
 Avec :
 
 \begin{equation}
-    f_1(i_n, \delta_n, U_{d,n})  = \frac{U_{d,n} - R \cdot i_n}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} = 0
+    \Delta i = i-i_n \qquad \Delta\dot{\delta} = \dot{\delta}-\overset{=0}{\cancel{\dot{\delta}_n}} = \delta \qquad \Delta U_d = U_d-U_{d,n}
+    \label{eq:DeltaDef}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \Biggl(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
+    f_1(i_n, \delta_n, U_{d,n})  = \frac{\overset{=0}{\cancel{U_{d,n} - R \cdot i_n}}}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \overset{=0}{\cancel{\dot{\delta}}} = 0
+    \label{eq:DerivePart1}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n}) = \left. \Biggl( \frac{i}{\delta} \Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
+    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \left(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
+    \label{eq:DerivePart2}
+\end{equation}
+
+\begin{equation}
+    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n}) = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
+    \label{eq:DerivePart3}
 \end{equation}
 
 \begin{equation}
     \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n}) =
-    \left. \Biggl( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+    \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+    \label{eq:DerivePart4}
 \end{equation}
 
-L'équation \ref{eq:f1Lin1} devient alors :
+En insérant les équations \ref{eq:DeltaDef}, \ref{eq:DerivePart1}, \ref{eq:DerivePart2}, \ref{eq:DerivePart3} et \ref{eq:DerivePart4} dans l'équation \ref{eq:f1Lin1} devient alors :
+
+$$f_1(i, \dot{\delta}, U_d) \approx
+    -\frac{R}{L_n} \cdot (i-i_n)
+    + \frac{i_n}{\delta_n}\cdot\dot{\delta}
+    + \frac{1}{L_n}\cdot (U_d-U_{d,n}) $$
+
+$$f_1(i, \dot{\delta}, U_d) \approx
+    -\frac{R}{L_n} \cdot (i-i_n)
+    + \frac{i_n}{\delta_n}\cdot\dot{\delta}
+    + \frac{1}{L_n}\cdot (U_d-R\cdot i_n)$$
+
+$$f_1(i, \dot{\delta}, U_d) \approx
+    -\frac{R}{L_n} \cdot i
+    + \cancel{\frac{R}{L_n} \cdot i_n}
+    + \frac{i_n}{\delta_n}\cdot\dot{\delta}
+    + \frac{1}{L_n}\cdot U_d
+    - \cancel{\frac{R}{L_n}\cdot i_n)} $$
 
 \begin{equation}
-    f_1(i, \dot{\delta}, U_d) \approx
-    -\frac{R}{L_n} \cdot (i-i_n)
-    + \frac{i_n}{\delta_n}\cdot(\dot{\delta}-\dot{\delta_n})
-    + \frac{1}{L_n}\cdot (U_d-U_{d,n})
-    \label{eq:f1Lin1}
+    f_1(i, \dot{\delta}, U_d) = \frac{di}{dt} \approx
+    -\frac{R}{L_n} \cdot i
+    + \frac{i_n}{\delta_n}\cdot\dot{\delta}
+    + \frac{1}{L_n}\cdot U_d
+    \label{eq:f1Lin2}
 \end{equation}
+
+La vitess
 
 \section{La régulation de courant}
 
