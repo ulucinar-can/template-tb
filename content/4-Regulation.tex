@@ -269,7 +269,7 @@ Il est cependant crucial de définir un point de fonctionnement nominal. Puisque
     \item La vitesse et l'accélération en ce point sont nuls($\dot{\delta}$ = $\ddot{\delta} = 0$).
     \item Un courant nominal traversent les bobines $i_n$
     \item La variation de courant est nule ($\frac{di}{dt} = 0$).
-    \item Une tension nominal est brancher sur les bobines.
+    \item Une tension nominal branchée sur les bobines $U_{d,n}$.
 \end{itemize}
 
 Il est possible de calculer le courant et la tension nominal.\\
@@ -282,16 +282,24 @@ $$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
     Fel = Fp = m\cdot g = 4.513 \cdot 9.81 = 44,3 N
 \end{equation}
 
-Afin de calculer le courant, il faut repartir de l'équation \ref{eq:Fele}. En utilisant les valeurs nominal, l'équation devient :
+En utilisant dès à présent l'équation \ref{eq:MethInv2} avec les valeurs nominaux, on obtient le courant suivant :
 
 \begin{equation}
-    F_{el}(\delta_n) = i^2 \cdot \frac{L_n\cdot\delta_n}{2\cdot\delta_n^2} = i^2 \cdot \frac{L_n}{2\cdot\delta_n} = \frac{L}{1}
+    i_n = \sqrt{\frac{F_el}{k}}\cdot\delta_n = \sqrt{\frac{44.3}{4.9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6.01 \text{ A}
 \end{equation}
 
-En utilisant dès à présent l'équation \ref{eq:CourantElectro} avec les valeurs nominaux, on obtient le courant suivant :
+La tension nominal se calcule à partir de l'équation \ref{eq:TensionBobineEtape2}. Mais puisque la variation de courant et la vitesse sont nuls, il ne reste plus que le comportement résistif de la bobine. Alors la tension nominal se calculent très facilement comme suit :
 
 \begin{equation}
-    i_n = \sqrt{\frac{F}{k}}\cdot\delta
+    U_{d,n} = R\cdot i_n = 0.8 \cdot 6.01 = 4.81 \text{ V}
+\end{equation}
+
+Il est maintenant possible d'entamer les étapes de la linéarisation.\\
+
+La fonction $f_1$ se linéarise comme suit :
+
+\begin{equation}
+    f_1(i, \delta)
 \end{equation}
 
 \section{La régulation de courant}
