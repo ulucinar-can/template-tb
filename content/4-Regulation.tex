@@ -1,5 +1,7 @@
 \chapter{La régulation}
 
+Ce chapitre revient principalement se concentrer sur les travaux réalisés par Laucella \cite{Laucella} et Yersin \cite{Yersin}.
+
 \section{Introduction}
 La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
 
@@ -251,16 +253,36 @@ Les équations à linéariser sont les suivantes :
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
-        \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
+        f_1(i, \dot{\delta}, U) = \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+        f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
     \end{aligned} \right.
 \end{equation*}
 
-Il est cependant crucial de définir un point de fonctionnement nominal. Ceux-ci sont définit par les points suivants :
+Il est cependant crucial de définir un point de fonctionnement nominal. Puisque la consigne se situe à 2mm, celle-ci sera employé comme point nominal. De ce fait les autres grandeurs au tour de ce point nominal seront :
 
 \begin{itemize}
-    \item
+    \item La positon nominal $\delta_n$ vaut 2mm.
+    \item La vitesse et l'accélération en ce point sont nuls($\dot{\delta}$ = $\ddot{\delta} = 0$).
+    \item Un courant nominal traversent les bobines $i_n$
+    \item La variation de courant est nule ($\frac{di}{dt} = 0$).
+    \item Une tension nominal est brancher sur les bobines.
 \end{itemize}
+
+Il est possible de calculer le courant et la tension nominal.\\
+
+Puisque l'accéleration est nul, la force électromagnétique doit pouvoir être équivalente à la force de pesanteur afin de garder la maquette en lévitation :
+
+$$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
+
+\begin{equation}
+    Fel = Fp = m\cdot g = 4.513 \cdot 9.81 = 44,3 N
+\end{equation}
+
+En utilisant dès à présent l'équation \ref{eq:CourantElectro} avec les valeurs nominaux, on obtient le courant suivant :
+
+\begin{equation}
+    i_n = \sqrt{}
+\end{equation}
 
 \section{La régulation de courant}
 
