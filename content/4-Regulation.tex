@@ -422,7 +422,21 @@ $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
 \end{equation}
 
 \subsection{Mise en commun des équations}
-Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. Les équations
+Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. Les équations à mettre en commun sont l'équations \ref{eq:f1Lin2} et l'équation \ref{eq:f2Lin2} comme suivit:
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+        f_1(i, \delta, \dot{\delta}, U_d) = \frac{di}{dt} \approx
+        -\frac{R}{L_n} \cdot i
+        + \frac{i_n}{\delta_n}\cdot\dot{\delta}
+        + \frac{1}{L_n}\cdot U_d \\
+        f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
+        -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+        + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
+    \end{aligned} \right.
+\end{equation*}
+
+Comme décrit dans le rapport de Laucella \cite{Laucella}, il est possible de réaliser une analogie au moteur électrique. Dans celui-ci, l'accélération angulaire est définit par le courant ainsi qu'un couple de frottement, celle-ci pouvant être négligé ou non. Dans ce meme principe, il est possible d'assumer en comparant les deux équations que la position est la partie qui peut être néglié. C'est de ce fait que celle-ci sera négligé afin de faciliter la régulation de courant. 
 
 \section{La régulation de courant}
 
