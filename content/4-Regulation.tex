@@ -299,7 +299,20 @@ Il est maintenant possible d'entamer les étapes de la linéarisation.\\
 La fonction $f_1$ se linéarise comme suit :
 
 \begin{equation}
-    f_1(i, \delta)
+    f_1(i, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
+    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
+    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
+    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
+\end{equation}
+
+Avec :
+
+\begin{equation}
+    f_1(i_n, \delta_n, U_{d,n}) = 
+\end{equation}
+
+\begin{equation}
+    \frac{\partial f_1}{\partial i} = \frac{}{}
 \end{equation}
 
 \section{La régulation de courant}
