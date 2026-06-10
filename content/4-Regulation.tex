@@ -213,20 +213,20 @@ La force électromagnétique se définit comme la dérivée de l'énergie co-mag
     \label{eq:Fele}
 \end{equation}
 
-De cette equation \ref{eq:Fele}, il est possible d'écrire l'équation de la méthode inverse :
+À partir de la relation \ref{eq:Fele}, il est possible d'établir l'équation de la méthode inverse :
 
 \begin{equation}
     F_{el} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2} = i^2 \cdot k \cdot \frac{1}{\delta^2}
     \label{eq:MethInv}
 \end{equation}
 
-Avec la constante $k$ valant :
+Avec la constante $k$ définie par :
 
 \begin{equation}
-    k = \frac{L_n\cdot\delta_n}{2} = \frac{4.9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4.9\cdot 10^{-6} \text{ }N\cdot m^2/A^2
+    k = \frac{L_n\cdot\delta_n}{2} = \frac{4,9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4,9\cdot 10^{-6} \text{ } \text{N}\cdot\text{m}^2/\text{A}^2
 \end{equation}
 
-L'équation \ref{eq:MethInv} sera principalement employé dans le code ainsi que pour calculer différentes valeurs lors de la linéarisation \ref{subsec:lin}.
+L'équation \ref{eq:MethInv} sera principalement employée dans le code source ainsi que pour le calcul des différents paramètres lors de l'étape de linéarisation \ref{subsec:lin}.
 
 L'introduction de la relation \ref{eq:Fele} dans l'équation mécanique \ref{eq:Newton1} conduit à l'expression \ref{eq:Newton2} :
 
