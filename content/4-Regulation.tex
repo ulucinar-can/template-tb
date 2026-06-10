@@ -270,6 +270,7 @@ Il est cependant crucial de définir un point de fonctionnement nominal. Puisque
     \item Un courant nominal traversent les bobines $i_n$
     \item La variation de courant est nule ($\frac{di}{dt} = 0$).
     \item Une tension nominal branchée sur les bobines $U_{d,n}$.
+    \item L'approximation que $\delta\approx\delta_n$
 \end{itemize}
 
 Il est possible de calculer le courant et la tension nominal.\\
@@ -301,26 +302,34 @@ La fonction $f_1$ se linéarise comme suit :
 \begin{equation}
     f_1(i, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
     + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (i-i_n)
-    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n})
+    + \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n})
     + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n})
+    \label{eq:f1Lin1}
 \end{equation}
 
 Avec :
 
 \begin{equation}
-    f_1(i_n, \delta_n, U_{d,n})  = \frac{U_ - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
+    f_1(i_n, \delta_n, U_{d,n})  = \frac{U_{d,n} - R \cdot i_n}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} = 0
 \end{equation}
 
 \begin{equation}
-    \frac{\partial f_1}{\partial i} = \frac{}{}
+    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \left. \Biggl(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
 \end{equation}
 
 \begin{equation}
-    \frac{\partial f_1}{\partial \delta}
+    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n}) = \left. \Biggl( \frac{i}{\delta} \Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{i_n}{\delta_n}
 \end{equation}
 
 \begin{equation}
-    \frac{\partial f_1}{\partial U_d}
+    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n}) =
+    \left. \Biggl( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \Biggr) \right|_{i_n, \dot{\delta_n}, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+\end{equation}
+
+L'équation \ref{eq:f1Lin1} devient alors :
+
+\begin{equation}
+    
 \end{equation}
 
 \section{La régulation de courant}
