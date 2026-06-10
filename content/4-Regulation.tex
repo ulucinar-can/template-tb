@@ -257,7 +257,7 @@ Les équations à linéariser sont définies par le système suivant :
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        f_1(i, \delta,\dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+        f_1(i, \delta, \dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
         f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
     \end{aligned} \right.
 \end{equation*}
@@ -294,61 +294,68 @@ La tension nominale se déduit de l'équation \ref{eq:TensionBobineEtape2}. La v
     U_{d,n} = R\cdot i_n = 0,8 \cdot 6,01 = 4,81 \text{ V}
 \end{equation}
 
-Le développement en série de Taylor peut dès lors être appliqué.\\
+Le développement en série de Taylor peut dès lors être appliqué. Pour alléger les notations, l'indice $n$ au niveau des barres d'évaluation indique que l'expression est évaluée au point de fonctionnement nominal.\\
 
-La fonction $f_1$ se linéarise selon l'expression suivante :
+La fonction $f_1$ dépend de quatre variables et se linéarise selon l'expression suivante :
 
 \begin{equation}
-    f_1(i, \delta, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
-    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{i}
-    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{\delta}
-    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \delta_n, U_{d,n}}\cdot\Delta{U_d}
+    f_1(i, \delta, \dot{\delta}, U_d) \approx f_1(n)
+    + \left. \frac{\partial f_1}{\partial i} \right|_{n}\cdot\Delta{i}
+    + \left. \frac{\partial f_1}{\partial \delta} \right|_{n}\cdot\Delta{\delta}
+    + \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{n}\cdot\Delta{\dot{\delta}}
+    + \left. \frac{\partial f_1}{\partial U_d} \right|_{n}\cdot\Delta{U_d}
     \label{eq:f1Lin1}
 \end{equation}
 
 Avec les définitions suivantes :
 
 \begin{equation}
-    \Delta i = i-i_n \qquad \Delta\dot{\delta} = \dot{\delta}-\overset{=0}{\cancel{\dot{\delta}_n}} = \dot{\delta} \qquad \Delta U_d = U_d-U_{d,n}
+    \Delta i = i-i_n \qquad \Delta\delta = \delta-\delta_n \qquad \Delta\dot{\delta} = \dot{\delta}-\overset{=0}{\cancel{\dot{\delta}_n}} = \dot{\delta} \qquad \Delta U_d = U_d-U_{d,n}
     \label{eq:DeltaDef}
 \end{equation}
 
 Les évaluations des dérivées partielles au point nominal donnent :
 
 \begin{equation}
-    f_1(i_n, \delta_n, \dot{\delta}_n, U_{d,n})  = \frac{\overset{=0}{\cancel{U_{d,n} - R \cdot i_n}}}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i}{\delta} \cdot \overset{=0}{\cancel{\dot{\delta}}} = 0
+    f_1(n)  = \frac{\overset{=0}{\cancel{U_{d,n} - R \cdot i_n}}}{L_n} \cdot \frac{\delta_n}{\delta_n} + \frac{i_n}{\delta_n} \cdot \overset{=0}{\cancel{\dot{\delta}_n}} = 0
     \label{eq:DerivePart1}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \left. \left(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\right) \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
+    \left. \frac{\partial f_1}{\partial i} \right|_{n} = \left. \left(-\frac{R}{L_n}\cdot\frac{\delta}{\delta_n}+\frac{\dot{\delta}}{\delta}\right) \right|_{n} = -\frac{R}{L_n}\cdot\frac{\delta_n}{\delta_n}+0 = -\frac{R}{L_n}
     \label{eq:DerivePart2}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \left. \left( \frac{i}{\delta} \right) \right|_{i_n, \delta_n, \dot{\delta}_n, U_{d,n}} = \frac{i_n}{\delta_n}
+    \left. \frac{\partial f_1}{\partial \delta} \right|_{n} = \left. \left( \frac{U_d - R\cdot i}{L_n \cdot \delta_n} - \frac{i \cdot \dot{\delta}}{\delta^2} \right) \right|_{n} = \frac{\overset{=0}{\cancel{U_{d,n} - R\cdot i_n}}}{L_n \cdot \delta_n} - 0 = 0
     \label{eq:DerivePart3}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta}_n, U_{d,n}} =
-    \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{i_n, \dot{\delta}_n, U_{d,n}} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+    \left. \frac{\partial f_1}{\partial \dot{\delta}} \right|_{n} = \left. \left( \frac{i}{\delta} \right) \right|_{n} = \frac{i_n}{\delta_n}
     \label{eq:DerivePart4}
 \end{equation}
 
-En substituant les équations \ref{eq:DeltaDef}, \ref{eq:DerivePart1}, \ref{eq:DerivePart2}, \ref{eq:DerivePart3} et \ref{eq:DerivePart4} dans la relation \ref{eq:f1Lin1}, il vient :
+\begin{equation}
+    \left. \frac{\partial f_1}{\partial U_d} \right|_{n} =
+    \left. \left( \frac{1}{L_n}\cdot\frac{\delta}{\delta_n} \right) \right|_{n} = \frac{1}{L_n}\cdot\frac{\delta_n}{\delta_n} = \frac{1}{L_n}
+    \label{eq:DerivePart5}
+\end{equation}
 
-$$f_1(i, \dot{\delta}, U_d) \approx
+En substituant les équations \ref{eq:DeltaDef} à \ref{eq:DerivePart5} dans la relation \ref{eq:f1Lin1}, il vient :
+
+$$f_1(i, \delta, \dot{\delta}, U_d) \approx
     -\frac{R}{L_n} \cdot (i-i_n)
+    + 0 \cdot (\delta-\delta_n)
     + \frac{i_n}{\delta_n}\cdot\dot{\delta}
     + \frac{1}{L_n}\cdot (U_d-U_{d,n}) $$
 
-$$f_1(i, \dot{\delta}, U_d) \approx
+$$f_1(i, \delta, \dot{\delta}, U_d) \approx
     -\frac{R}{L_n} \cdot (i-i_n)
     + \frac{i_n}{\delta_n}\cdot\dot{\delta}
     + \frac{1}{L_n}\cdot (U_d-R\cdot i_n)$$
 
-$$f_1(i, \dot{\delta}, U_d) \approx
+$$f_1(i, \delta, \dot{\delta}, U_d) \approx
     -\frac{R}{L_n} \cdot i
     + \cancel{\frac{R}{L_n} \cdot i_n}
     + \frac{i_n}{\delta_n}\cdot\dot{\delta}
@@ -356,21 +363,19 @@ $$f_1(i, \dot{\delta}, U_d) \approx
     - \cancel{\frac{R}{L_n}\cdot i_n} $$
 
 \begin{equation}
-    f_1(i, \dot{\delta}, U_d) = \frac{di}{dt} \approx
+    f_1(i, \delta, \dot{\delta}, U_d) = \frac{di}{dt} \approx
     -\frac{R}{L_n} \cdot i
     + \frac{i_n}{\delta_n}\cdot\dot{\delta}
     + \frac{1}{L_n}\cdot U_d
     \label{eq:f1Lin2}
 \end{equation}
 
-
-
 La fonction $f_2$ se linéarise de la même manière :
 
 \begin{equation}
-    f_2(i, \delta) \approx f_2(i_n, \delta_n)
-    + \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n}\cdot\Delta{i}
-    + \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n}\cdot\Delta{\delta}
+    f_2(i, \delta) \approx f_2(n)
+    + \left. \frac{\partial f_2}{\partial i} \right|_{n}\cdot\Delta{i}
+    + \left. \frac{\partial f_2}{\partial \delta} \right|_{n}\cdot\Delta{\delta}
     \label{eq:f2Lin1}
 \end{equation}
 
@@ -383,25 +388,25 @@ Avec :
 \end{equation}
 
 \begin{equation}
-    f_2(i_n, \delta_n) = \ddot{\delta}_n = 0
-    \label{eq:DerivePart5}
-\end{equation}
-
-\begin{equation}
-    \left. \frac{\partial f_2}{\partial i} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{i_n, \delta_n} = -\frac{i_n\cdot L_n}{m \cdot\delta_n}
+    f_2(n) = \ddot{\delta}_n = 0
     \label{eq:DerivePart6}
 \end{equation}
 
 \begin{equation}
-    \left. \frac{\partial f_2}{\partial \delta} \right|_{i_n, \delta_n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{i_n, \delta_n} = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta_n^3}= \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}
+    \left. \frac{\partial f_2}{\partial i} \right|_{n} = \left. \left( 0 - \frac{1}{\cancel{2}\cdot m}\cdot \cancel{2}\cdot i\cdot L_n \cdot\delta_n\cdot\frac{1}{\delta^2}\right) \right|_{n} = -\frac{i_n\cdot L_n}{m \cdot\delta_n}
     \label{eq:DerivePart7}
 \end{equation}
 
-En injectant les expressions \ref{eq:DeltaDef2}, \ref{eq:DerivePart5}, \ref{eq:DerivePart6} et \ref{eq:DerivePart7} dans la relation \ref{eq:f2Lin1}, on obtient :
+\begin{equation}
+    \left. \frac{\partial f_2}{\partial \delta} \right|_{n} = \left. \left( 0 - \frac{1}{2\cdot m}\cdot i^2\cdot L_n \cdot\delta_n\cdot\frac{-2}{\delta^3}\right) \right|_{n} = \frac{i_n^2\cdot L_n \cdot \delta_n}{m \cdot\delta_n^3}= \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}
+    \label{eq:DerivePart8}
+\end{equation}
+
+En injectant les expressions \ref{eq:DeltaDef2} à \ref{eq:DerivePart8} dans la relation \ref{eq:f2Lin1}, on obtient :
 
 $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
-    -\frac{i_n\cdot L_n}{m \cdot\delta_n^2}\cdot(i-i_n)
-    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n}\cdot(\delta-\delta_n)$$
+    -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot(i-i_n)
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot(\delta-\delta_n)$$
 
 $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
     -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
@@ -417,7 +422,7 @@ $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
 \end{equation}
 
 \subsection{Mise en commun des équations}
-Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation.
+Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. Les équations
 
 \section{La régulation de courant}
 
