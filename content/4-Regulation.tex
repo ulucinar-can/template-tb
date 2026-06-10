@@ -180,14 +180,14 @@ Afin de déterminer la dérivée de l'inductance par rapport à la position, l'e
 En injectant les relations \ref{eq:IndDerive} et \ref{eq:IndSimple} dans l'équation \ref{eq:TensionBobineEtape2}, l'expression \ref{eq:TensionBobineEtape3} est obtenue :
 
 \begin{equation}
-    U = R \cdot i + L_n \frac{\delta_n}{\delta} \cdot \frac{di}{dt} - i \cdot L_n \frac{\delta_n}{\delta^2} \cdot \dot{\delta}
+    U_d = R \cdot i + L_n \frac{\delta_n}{\delta} \cdot \frac{di}{dt} - i \cdot L_n \frac{\delta_n}{\delta^2} \cdot \dot{\delta}
     \label{eq:TensionBobineEtape3}
 \end{equation}
 
 Il est alors possible d'isoler la dérivée temporelle du courant afin d'obtenir l'équation d'état \ref{eq:CourDerive} :
 
 \begin{equation}
-    \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
+    \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
     \label{eq:CourDerive}
 \end{equation}
 
@@ -257,7 +257,7 @@ Les équations à linéariser sont les suivantes :
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        f_1(i, \dot{\delta}, U) = \frac{di}{dt} = \frac{U - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+        f_1(i, \dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
         f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
     \end{aligned} \right.
 \end{equation*}
@@ -300,19 +300,27 @@ La fonction $f_1$ se linéarise comme suit :
 
 \begin{equation}
     f_1(i, \dot{\delta}, U_d) \approx f_1(i_n, \delta_n, U_{d,n})
-    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
-    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
-    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}
+    + \left. \frac{\partial f_1}{\partial i} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (i-i_n)
+    + \left. \frac{\partial f_1}{\partial \delta} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot(\dot{\delta}-\dot{\delta_n})
+    + \left. \frac{\partial f_1}{\partial U_d} \right|_{i_n, \dot{\delta_n}, U_{d,n}}\cdot (U_d-U_{d,n})
 \end{equation}
 
 Avec :
 
 \begin{equation}
-    f_1(i_n, \delta_n, U_{d,n}) = 
+    f_1(i_n, \delta_n, U_{d,n})  = \frac{U_ - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
 \end{equation}
 
 \begin{equation}
     \frac{\partial f_1}{\partial i} = \frac{}{}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial f_1}{\partial \delta}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial f_1}{\partial U_d}
 \end{equation}
 
 \section{La régulation de courant}
