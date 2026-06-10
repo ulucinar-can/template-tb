@@ -18,27 +18,7 @@ Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. 
 
 Les blocs « Reg $\delta$1 » à « Reg $\delta$4 » représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
 
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de l'équation de la force émise par un électroaimant \ref{eq:ForceElectro} :
-
-\begin{equation}
-    F = k \cdot \left(\frac{I}{d}\right)^2
-    \label{eq:ForceElectro}
-\end{equation}
-
-Avec :
-\begin{itemize}
-    \item $F$ : La force magnétique [N].
-    \item $k$ : La constante de l'électroaimant [$\text{N}\cdot\text{m}^2/\text{A}^2$].
-    \item $d$ : La distance de l'entrefer [m].
-    \item $I$ : Le courant traversant la bobine [A].
-\end{itemize}
-
-À partir de cette relation, il est possible d'extraire le courant à induire dans la bobine en l'isolant selon l'équation \ref{eq:CourantElectro} :
-
-\begin{equation}
-    I = \sqrt{\frac{F}{k}} \cdot d
-    \label{eq:CourantElectro}
-\end{equation}
+Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force émise par un électroaimant. L'équation mathématique est développée dans la sous-section \ref{subsec:Fele}.
 
 \section{Définition du système}
 
@@ -226,11 +206,27 @@ Avec :
 \end{itemize}
 
 La force électromagnétique se définit comme la dérivée de l'énergie co-magnétique par rapport à la position :
+\label{subsec:Fele}
 
 \begin{equation}
     F_{el} =\frac{dW_{mag}}{d\delta}= - \frac{1}{2} \cdot i^2 \cdot \frac{dL(\delta)}{d\delta} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
     \label{eq:Fele}
 \end{equation}
+
+De cette equation \ref{eq:Fele}, il est possible d'écrire l'équation de la méthode inverse :
+
+\begin{equation}
+    F_{el} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2} = i^2 \cdot k \cdot \frac{1}{\delta^2}
+    \label{eq:MethInv}
+\end{equation}
+
+Avec la constante $k$ valant :
+
+\begin{equation}
+    k = \frac{L_n\cdot\delta_n}{2} = \frac{4.9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4.9\cdot 10^{-6} \text{ }N\cdot m^2/A^2
+\end{equation}
+
+L'équation \ref{eq:MethInv} sera principalement employé dans le code ainsi que pour calculer différentes valeurs lors de la linéarisation \ref{subsec:lin}.
 
 L'introduction de la relation \ref{eq:Fele} dans l'équation mécanique \ref{eq:Newton1} conduit à l'expression \ref{eq:Newton2} :
 
@@ -247,6 +243,7 @@ Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation diffé
 \end{equation}
 
 \subsection{Linéarisation des equations}
+\label{subsec:lin}
 Le système est fortement non-linéaire comme observer avec les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est alors néscessaire de rendre ces équations linéaires pour pouvoir régler le système. Pour cela, une linéarisation est réaliser par la méthode du développement de taylor.\\
 
 Les équations à linéariser sont les suivantes :
@@ -278,10 +275,16 @@ $$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
     Fel = Fp = m\cdot g = 4.513 \cdot 9.81 = 44,3 N
 \end{equation}
 
+Afin de calculer le courant, il faut repartir de l'équation \ref{eq:Fele}. En utilisant les valeurs nominal, l'équation devient :
+
+\begin{equation}
+    F_{el}(\delta_n) = i^2 \cdot \frac{L_n\cdot\delta_n}{2\cdot\delta_n^2} = i^2 \cdot \frac{L_n}{2\cdot\delta_n} = \frac{L}{1}
+\end{equation}
+
 En utilisant dès à présent l'équation \ref{eq:CourantElectro} avec les valeurs nominaux, on obtient le courant suivant :
 
 \begin{equation}
-    i_n = \sqrt{}
+    i_n = \sqrt{\frac{F}{k}}\cdot\delta
 \end{equation}
 
 \section{La régulation de courant}
