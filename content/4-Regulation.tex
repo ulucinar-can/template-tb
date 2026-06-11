@@ -65,7 +65,7 @@ Pour rappel, les différentes grandeurs présentes sur la maquette sont synthét
         $\delta_n$                   & Entrefer nominal (consigne)                                  & 2                    & mm             \\ \hline
         $\delta_{max}$ ou $\delta_0$ & Entrefer maximum (chariot posé)                              & 3                    & mm             \\ \hline
         $\delta_{min}$               & Entrefer minimum (structure collée)                          & 0.1                  & mm             \\ \hline
-        $U_{dc}$                     & Tension d'alimentation du bus DC (PWM)                       & 48                   & V              \\ \hline
+        $U_{d}$                      & Tension d'alimentation du bus DC (PWM)                       & 48                   & V              \\ \hline
     \end{tabular}
     \caption{Paramètres électriques de l'inducteur et caractéristiques de l'entrefer.}
     \label{tab:param_inducteur_entrefer}
@@ -543,9 +543,11 @@ L'organne de mesure du courant $G_{mi}$ est également approximer par un filtre 
     G_{mi} = \frac{K_{mi}}{1+s \cdot\tau_{mi}} = \frac{1}{1+s \cdot\tau_{mi}}
 \end{equation}
 
-Afin de déterminer la constante de temps du capteur, il est néscessaire de fouiller dans la datasheet du fabriquant \cite{CaptCour}. Celle-ci nous donne une bande passante à 50 kHz. La constante de temps vallant alors la bande passante. Afin de respecter le théorème de Shanon, la fréquence fut choisit à 25 kHz correspondant à la fréquence d'échantiollange du DSP :
+Afin de déterminer la constante de temps du capteur, il est néscessaire de fouiller dans la datasheet du fabriquant \cite{CaptCour}. Celle-ci nous donne une bande passante à 50 kHz. La constante de temps vallant alors la bande passante. Afin de respecter le théorème de Shanon \cite{Shanon}, la fréquence fut choisit à 25 kHz correspondant à la fréquence d'échantiollange du DSP réalisant ainsi un filtre d'anti-repliement :
 
-
+\begin{equation}
+    \tau_{mi} = \frac{1}{f_{mi}} = \frac{1}{25\cdot 10} = 6.4 \text{ $\mu s$}
+\end{equation}
 
 % Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
