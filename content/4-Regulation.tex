@@ -583,44 +583,140 @@ Ceci à pour cause d'avoir un système à régler complétement différent. Comm
     \caption{Système à régler avec la constante multiplier}
 \end{figure}
 
-Pour la suite, les différents tracé se concentrerons sur le système correcte, c'est à dire le système ayant la constante ajouter.
+Pour la suite, les différents tracé se concentrerons sur le système correcte, c'est à dire le système ayant la constante multiplier.\\
 
+La fonction de transfert du régulateur est donné par l'équation \ref{eq:PI}
 
-% Valeur fausse
+\begin{equation}
+    G_{ci} = K_{pi}\cdot\frac{1+s\cdot\tau_{ii}}{s\cdot\tau_{ii}}
+    \label{eq:PI}
+\end{equation}
 
-% tau_ii =
+Le système en boucle ouverte $G_{BO}$ est alors définit comme suit :
 
-%      4.636619772367582e-04
+\begin{equation}
+    G_{BO} = G_{ci}\cdot G_{ai} = K_{pi}\cdot\frac{1+s\cdot\tau_{ii}}{s\cdot\tau_{ii}}\cdot K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
+\end{equation}
 
+Il faut dès à présent trouver les valeurs de la constante de temps du régulateur $\tau_{ii}$ ainsi que son gain $K_{pi}$.\\
 
-% Kpi_45_lin =
+Pour commencer, la constante de temps se définit comme étant la somme des petites constantes de temps multiplier par une constante $N$. Les petites constantes de temps correspondents à la somme de $\tau_{cm}$ et $\tau_{mi}$ :
 
-%    1.888986960757482
+\begin{equation}
+    \tau_{ii} = N \cdot\sum\tau_{pct} = N \cdot \left(\tau_{cm} + \tau_{mi}\right) = N \cdot \left(40 + 6.4\right)\cdot 10^{-6} = N \cdot 46.4\cdot 10^{-6}
+\end{equation}
 
-% tau_ibf =
+Pour définir un N qui convient, un tracé avec plusieur N différent allant de 5 à 15 fut tracé. Une fois-cela réaliser, la bande passante ainsi que l'erreur fut tracé pour trouvé un bon compromis pour ne pas avoir trop d'erreur et avoir un système suffisament rapide. Ceci est observable dans figure de \ref{fig:DiffN} à \ref{fig:Erreur} :
 
-%      7.832382599179204e-05
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/TraceN.png}
+    \caption{Tracé de plusieurs du système régler pour plusieurs N}
+    \label{fig:DiffN}
+\end{figure}
 
-% Valeur juste
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BP.png}
+    \caption{Tracé de la Bande-Passante pour différentes valeur de N}
+    \label{fig:BP}
+\end{figure}
 
-% tau_ii =
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/Erreur.png}
+    \caption{Tracé de la valeur de l'erreur pour différentes valeurs de N}
+    \label{fig:Erreur}
+\end{figure}
 
-% 4.636619772367582e-04
+La valeur choisit ayant un bon compromis est à N=10. Ceci donne alors la constante de temps suivante :
 
+\begin{equation}
+    \tau_{ii} = 10 \cdot 46.4 \cdot 10^{-6} = 464 \text{ $\mu s$}
+\end{equation}
 
-% Kpi_45_lin =
+Maintenant que la valeur de $N$ est choisie, il est possbile de trouver la valeur du gain $K_{pi}$ pour une marge de phase de 45° :
 
-% 90.963647422318928
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/Kpi45.png}
+    \caption{Tracé de $K_{pi}$ pour une marge de phase de 45°}
+\end{figure}
 
-% tau_ibf =
+La valeur de $K_{pi}$ retenue est alors d'environ 33 dB. La valeur linéariser est alors de 90.96.
 
-% 7.832382599179204e-05
+Il est possible de vérifier le comportement global en réalisant un saut linéaire. Pour réaliser cela, la boucle fermée est tout d'abord réaliser et ensuite le saut linéaire est appliqué :
 
-Ceci avait pour conséquence de mal synthétiser le système donnant alors une mauvaise valeur de $K_{pi}$ comme observées dans les figures \ref{fig:BodeKpiFaux} et \ref{fig:BodeKpiFaux}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BF1.png}
+    \caption{Tracé de la boucle fermé}
+\end{figure}
 
-% Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
+Pour cette boucle fermée, le résultat du saut indicielle donne :
 
-% Concernant votre idée d'augmenter la vitesse par tâtonnement, c'est un grand OUI ! C'est d'ailleurs une démarche d'ingénierie extrêmement pertinente pour optimiser un système limité par son matériel.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/Step.png}
+    \caption{Saut indicielle de la régulation de courant}
+\end{figure}
+
+Le système est alors confirmé.\\
+
+Pour terminer, une approximation de ce système par un filtre d'ordre 1 est réalisé. Cela à pour but de faire une approximation qui sera employé dans la régulation de position. Pour cela, la constante de temps de la boucle fermée est recherché à -45°. Ceci donne alors la figure \ref{fig:BFPI} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BF.png}
+    \caption{Recherche de la constante de temps de la boucle fermée}
+    \label{fig:BFPI}
+\end{figure}
+
+La constante de temps de la boucle fermée $\tau_{iBF}$ est alors de 78.32 $\mu s$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/ApproxPI.png}
+    \caption{Diagramme de l'approximation de la boucle fermée}
+\end{figure}
+
+Il faut cependant faire une comparaison entre les valeurs avec et sans la constante $K_{ui}$.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcc}
+        \hline
+        \textbf{Paramètre} & \textbf{Sans $K_{ui}$} & \textbf{Avec $K_{ui}$} \\ \hline
+        $\tau_{ii}$        & $4,63 \cdot 10^{-4}$   & $4,63 \cdot 10^{-4}$   \\
+        $K_{pi}$           & $1,89$                 & $90,96$                \\
+        $\tau_{iBF}$       & $7,83 \cdot 10^{-5}$   & $7,83 \cdot 10^{-5}$   \\ \hline
+    \end{tabular}
+    \caption{Comparaison des paramètres avec et sans la multiplication de $K_{ui}$}
+    \label{tab:comparatif_kui}
+\end{table}
+
+Ce que l'on peut constater, la seule valeur changeant est celle du gain $K_{pi}$. En effet l'ajout d'une constante ne vient pas influancer la phase puisque celle-ci est de 0°. On peut observer cela dans les figures \ref{fig:BodeKpiFaux} et \ref{fig:BodeKpiFaux} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiFaux.png}
+    \caption{Diagramme de la recherche de $K_{pi}$ sans la multiplication}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiVrai.png}
+    \caption{Diagramme de la recherche de $K_{pi}$ avec la multiplication}
+\end{figure}
+
+Mais lorsque la valeur de 90.96 est insérer dans le code, celui-ci vient se coller fortement au rail. Cela s'explique par le fais que les carte de puissances ont été réaliser pour le gain précédent. Si la valeur de 90 est présente laors une petite erreur viendrait donner une immense tension aux bornes de l'inducteur. Mais la tension d'entrer est limiter à 48V et 3.5 A. Il est alors pas possible de dépasser ces limites mais c'est belle est bien ce que le système demande pour un gain aussi grand. D'ou le fait d'un meilleur fonctionnement pour la valeur de 1.88 de $K_{pi}$.
+
+Il faut alors touiller cette valeur dans le code afin de trouver une valeur suffisament grande pour garantir un système rapide mais non plus trop grande afin d'éviter le problème du rail coller.
+
+Travail à faire par la suite :
+\begin{itemize}
+    \item Chercher une bonne valeur de Kpi
+\end{itemize}
 
 \section{La régulation de position}
 
