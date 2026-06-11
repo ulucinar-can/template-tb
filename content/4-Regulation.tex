@@ -23,7 +23,7 @@ Les blocs « méthode inverse » ont pour but de calculer le courant à partir d
 \section{Définition du système}
 
 \subsection{Le système}
-Afin de réaliser une synthèse rigoureuse de la régulation de position, l'élaboration d'un modèle mathématique de la maquette est nécessaire. Le système est ainsi modélisé à travers plusieurs étapes successives permettant d'aboutir aux équations de comportement. Cette démarche permet d'obtenir une formulation globale définissant l'ensemble du système, sur laquelle s'appuiera la synthèse de la régulation de position.\\
+Afin de réaliser une synthèse rigoureuse de la régulation, l'élaboration d'un modèle mathématique de la maquette est nécessaire. Le système est ainsi modélisé à travers plusieurs étapes successives permettant d'aboutir aux équations de comportement. Cette démarche permet d'obtenir une formulation globale définissant l'ensemble du système, sur laquelle s'appuiera la synthèse de la régulation.\\
 
 Le système conserve la même définition que lors des travaux précédents, comme illustré par la figure \ref{fig:BobineRep} :
 
@@ -257,8 +257,8 @@ Les équations à linéariser sont définies par le système suivant :
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        f_1(i, \delta, \dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
-        f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
+         & f_1(i, \delta, \dot{\delta}, U_{d}) = \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta} \\
+         & f_2(i, \delta) = \frac{d^2\delta}{dt^2} = g - \frac{L_n \cdot \delta_n}{2 \cdot m} \cdot \left(\frac{i}{\delta}\right)^2
     \end{aligned} \right.
 \end{equation*}
 
@@ -426,17 +426,64 @@ Une fois les équations linéariser, il est possible de les assembler afin d'avo
 
 \begin{equation*}
     \left\{ \begin{aligned}
-        f_1(i, \delta, \dot{\delta}, U_d) = \frac{di}{dt} \approx
+         & \frac{di}{dt} \approx
         -\frac{R}{L_n} \cdot i
         + \frac{i_n}{\delta_n}\cdot\dot{\delta}
-        + \frac{1}{L_n}\cdot U_d \\
-        f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
+        + \frac{1}{L_n}\cdot U_d          \\
+         & \frac{d^2\delta}{dt^2} \approx
         -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
         + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
     \end{aligned} \right.
 \end{equation*}
 
-Comme décrit dans le rapport de Laucella \cite{Laucella}, il est possible de réaliser une analogie au moteur électrique. Dans celui-ci, l'accélération angulaire est définit par le courant ainsi qu'un couple de frottement, celle-ci pouvant être négligé ou non. Dans ce meme principe, il est possible d'assumer en comparant les deux équations que la position est la partie qui peut être néglié. C'est de ce fait que celle-ci sera négligé afin de faciliter la régulation de courant. 
+Comme décrit dans le rapport de Laucella \cite{Laucella}, il est possible de réaliser une analogie avec le moteur à courant continu. L'équation mécanique régissant un tel moteur définit l'accélération angulaire $\frac{d\Omega}{dt}$ (où $\Omega$ est la vitesse angulaire) en fonction du courant $i$ et d'un couple de frottement résistant $C_r$ (ce dernier pouvant être négligé) :
+
+$$J \cdot \frac{d\Omega}{dt} = \sum T = T_{em} - T_{frott}$$
+
+$$\frac{d\Omega}{dt} = \frac{T_{em}}{J} - \frac{T_{frott}}{J}$$
+
+\begin{equation}
+    \frac{d\Omega}{dt} = \frac{K_T}{J}\cdot i - \frac{C_r}{J}
+\end{equation}
+
+On constate dans ce modèle que l'accélération ne dépend aucunement de la position angulaire du rotor. En appliquant ce même principe à notre système, il est possible de supposer, en comparant les deux dynamiques, que l'influence de la position peut être négligée. L'équation mécanique linéarisée complète de la sustentation s'écrit :
+
+\begin{equation*}
+    \frac{d^2\delta}{dt^2} \approx
+    -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+    + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
+\end{equation*}
+
+C'est de ce fait que la composante liée à la position ($\delta$) sera purement et simplement négligée afin de forcer le système à se comporter comme un moteur électrique et faciliter la régulation du courant, donnant ainsi l'équation simplifiée suivante :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & \frac{di}{dt} \approx -\frac{R}{L_n} \cdot i + \frac{i_n}{\delta_n}\cdot\dot{\delta} + \frac{1}{L_n}\cdot U_d \\
+         & \frac{d^2\delta}{dt^2} \approx -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+    \end{aligned} \right.
+\end{equation*}
+
+Pour insérer maintenant l'équation de l'accélération dans celle de la variation de courant, il suffit de dérivé encore une fois l'équation de la variation de courant par le temps ce qui donne :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} + \frac{i_n}{\delta_n}\cdot\frac{d^2\delta}{dt^2} + \frac{1}{L_n}\cdot \frac{dU_d}{dt} \\
+         & \frac{d^2\delta}{dt^2} = -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i
+    \end{aligned} \right.
+\end{equation*}
+
+En injectant l'accéleration dans la variation de courant, on obtient finalement :
+
+$$    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n}{\delta_n}\cdot\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i + \frac{1}{L_n}\cdot \frac{dU_d}{dt}$$
+
+\begin{equation}
+    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot i + \frac{1}{L_n}\cdot \frac{dU_d}{dt}
+    \label{eq:FinalEq1}
+\end{equation}
+
+En appliquant la transformé de Laplace sur l'équation \ref{eq:FinalEq1}, l'éqution suivante est obtenue :
+
+
 
 \section{La régulation de courant}
 
