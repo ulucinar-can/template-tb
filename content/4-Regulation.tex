@@ -481,11 +481,41 @@ $$    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n}{\delta
     \label{eq:FinalEq1}
 \end{equation}
 
-En appliquant la transformé de Laplace sur l'équation \ref{eq:FinalEq1}, l'éqution suivante est obtenue :
+En appliquant la transformé de Laplace sur l'équation \ref{eq:FinalEq1}, la fonction de transfert suivante est obtenue :
 
+$$ s^2\cdot I = -\frac{R}{L_n} \cdot s\cdot I - \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot I + \frac{1}{L_n}\cdot s\cdot U_d $$
 
+$$ I\left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right) = \frac{1}{L_n}\cdot s\cdot U_d $$
+
+$$ G_{ui} = \frac{I}{U_d} = \frac{s}{L_n\cdot \left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right)}$$
+
+$$ G_{ui} = \frac{I}{U_d} = \frac{s}{L_n\cdot\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\left(\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot s^2 + \frac{i_n^2\cdot \cancel{L_n}}{m \cdot\delta_n^2}\cdot\frac{R}{\cancel{L_n}} \cdot s + 1 \right)}$$
+
+$$ G_{ui} = \frac{I}{U_d} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}\cdot\frac{s}{\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot s^2 + \frac{i_n^2\cdot R}{m \cdot\delta_n^2} \cdot s + 1}$$
+
+\begin{equation}
+    G_{ui} = \frac{I}{U_d} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
+\end{equation}
+
+Avec
+
+\begin{equation}
+    K_{ui} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}
+\end{equation}
+
+\begin{equation}
+    a_1 = \frac{i_n^2\cdot R}{m \cdot\delta_n^2}
+\end{equation}
+
+\begin{equation}
+    a_2 = \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}
+\end{equation}
+
+Il est maintenant possible de synthétisées la régulation de courant.
 
 \section{La régulation de courant}
+
+La régulation de courant vient être 
 
 Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
