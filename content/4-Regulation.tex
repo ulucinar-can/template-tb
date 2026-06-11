@@ -723,9 +723,30 @@ Travail à réaliser par la suite :
 \end{itemize}
 
 \section{La régulation de position}
-La régulation de position est réaliser par une régulation d'état. Le schéma bloc de cette régulation est définie dans le travail de Zayadine comme présenter dans la figure :
+La régulation de position est réaliser par une régulation d'état. Le schéma bloc de cette régulation est définie dans le travail de Zayadine comme présenter dans la figure \ref{fig:RegPosBloc} :
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBloc.png}
+    \caption{Schéma bloc de la régulation de position par méthode d'état \cite{Zayadine}}
+    \label{fig:RegPosBloc}
+\end{figure}
 
+Comme observé dans la figure \ref{fig:RegPosBloc}, 4 paramètres sont à dimmensionner. Ceux-ci sont le gain de retour d'état \ref{k_s^T}, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
+
+Une simplification est réalisé en regroupant tous les retards en un seul bloc dénomé $G_{pct}$. Celui-ci est la somme des petites constantes de temps de la régulation de position. Cela inclut donc la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre Savitzky par $\tau_{vf2}$ et le filtre coupe bande $\tau_{F_C}$. Les filtres seront représenter que comme des retard synthétiser en filtre passe bas d'ordre 1. Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors :
+
+Avec $G_{pct}$ étant :
+
+\begin{equation}
+    G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{iBF} + \tau_{vf2} + \tau_{F_C} \right)}
+\end{equation}
+
+Du travail de Bachelor de Yersin \cite{Yersin}, il est possible de récupérer les constantes de temps suivantes :
+
+\begin{equation}
+    \tau_{m\delta} = 144.7 \text{ $\mu s$}\quad\tau_{vf2} = 65 \text{ $\mu s$}\quad\tau_{vf2} = 3.98 \text{ $ms$}
+\end{equation}
 
 \subsection{Placement de pôles}
 
