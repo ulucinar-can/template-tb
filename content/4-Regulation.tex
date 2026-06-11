@@ -423,7 +423,7 @@ $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
 
 \section{La régulation de courant}
 
-La régulation de courant est synthétisée au moyen d'un correcteur Proportionnel-Intégral (PI). Le schéma bloc de la figure \ref{fig:SchemaBlocRegCur} représente cette architecture :
+La régulation de courant est synthétisée au moyen d'un régulateur PI. Le schéma bloc de la figure \ref{fig:SchemaBlocRegCur} représente cette architecture :
 
 \begin{figure}[H]
     \centering
@@ -464,7 +464,7 @@ Dans ce modèle, l'accélération est indépendante de la position angulaire du 
     + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
 \end{equation*}
 
-Par conséquent, la composante liée à la position ($\delta$) est négligée afin de rapprocher le comportement du système de celui d'un moteur électrique et de simplifier la régulation de l'intensité. Le système d'équations se réduit à la forme suivante :
+Par conséquent, la composante liée à la position ($\delta$) est négligée afin de rapprocher le comportement du système de celui d'un moteur électrique et de simplifier la régulation de courant. Le système d'équations se réduit à la forme suivante :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -481,7 +481,7 @@ Une simulation a été réalisée par Laucella \cite{Laucella}, prouvant l'effic
     \caption{Vérification de la simplification de l'accélération \cite{Laucella}}
 \end{figure}
 
-Pour insérer l'équation de l'accélération dans celle de la variation de courant, la dynamique du courant est dérivée une fois supplémentaire par rapport au temps :
+Pour insérer l'équation de l'accélération dans celle de la variation de courant, la variation du courant est dérivée une fois supplémentaire par rapport au temps :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -546,7 +546,7 @@ L'organe de mesure du courant $G_{mi}$ est également approximé par un filtre p
 La constante de temps du capteur est déterminée à partir de la fiche technique du fabricant \cite{CaptCour}, qui indique une bande passante de 50~kHz. Afin de respecter le critère de Shannon \cite{Shanon}, la fréquence de coupure du filtre anti-repliement a été fixée à 25~kHz, ce qui correspond à la fréquence d'échantillonnage du DSP :
 
 \begin{equation}
-    \tau_{mi} = \frac{1}{f_{mi}} = \frac{1}{25\cdot 10^3} = 40 \text{ $\mu$s}
+    \tau_{mi} = \frac{1}{f_{mi}} = \frac{1}{25\cdot 10^3} = 6.4 \text{ $\mu$s}
 \end{equation}
 
 La fonction de transfert du système à régler s'écrit alors :
@@ -594,8 +594,10 @@ La fonction de transfert du régulateur est donnée par l'équation \ref{eq:PI} 
 
 Le système en boucle ouverte $G_{BO}$ est défini par la relation suivante :
 
+$$G_{BO} = G_{ci}\cdot G_{ai}$$
+
 \begin{equation}
-    G_{BO} = G_{ci}\cdot G_{ai} = K_{pi}\cdot\frac{1+s\cdot\tau_{ii}}{s\cdot\tau_{ii}}\cdot K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
+    G_{BO} = K_{pi}\cdot\frac{1+s\cdot\tau_{ii}}{s\cdot\tau_{ii}}\cdot K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
 \end{equation}
 
 Il convient de déterminer la constante de temps du régulateur $\tau_{ii}$ ainsi que son gain $K_{pi}$.\\
@@ -603,7 +605,7 @@ Il convient de déterminer la constante de temps du régulateur $\tau_{ii}$ ains
 La constante de temps se définit comme le produit de la somme des petites constantes de temps par un coefficient $N$. Les petites constantes de temps correspondent à $\tau_{cm}$ et $\tau_{mi}$ :
 
 \begin{equation}
-    \tau_{ii} = N \cdot\sum\tau_{pct} = N \cdot \left(\tau_{cm} + \tau_{mi}\right) = N \cdot \left(40 + 40\right)\cdot 10^{-6} = N \cdot 80\cdot 10^{-6}
+    \tau_{ii} = N \cdot\sum\tau_{pct} = N \cdot \left(\tau_{cm} + \tau_{mi}\right) = N \cdot \left(40 + 6.4\right)\cdot 10^{-6} = N \cdot 46.4\cdot 10^{-6}
 \end{equation}
 
 Afin de déterminer une valeur adéquate pour $N$, une analyse paramétrique a été effectuée pour des valeurs de $N$ comprises entre 5 et 15. La bande passante et l'erreur ont été évaluées pour établir un compromis optimal entre la précision statique et la rapidité du système. Les résultats sont observables de la figure \ref{fig:DiffN} à la figure \ref{fig:Erreur} :
@@ -632,7 +634,7 @@ Afin de déterminer une valeur adéquate pour $N$, une analyse paramétrique a �
 La valeur sélectionnée est $N=10$, ce qui conduit à la constante de temps suivante :
 
 \begin{equation}
-    \tau_{ii} = 10 \cdot 80 \cdot 10^{-6} = 800 \text{ $\mu$s}
+    \tau_{ii} = 10 \cdot 46.4 \cdot 10^{-6} = 464 \text{ $\mu$s}
 \end{equation}
 
 À partir de cette configuration, le gain $K_{pi}$ est déterminé pour assurer une marge de phase de 45° :
@@ -643,9 +645,9 @@ La valeur sélectionnée est $N=10$, ce qui conduit à la constante de temps sui
     \caption{Détermination du gain $K_{pi}$ pour une marge de phase de 45°}
 \end{figure}
 
-La valeur de $K_{pi}$ retenue est d'environ 33~dB, ce qui correspond à un gain linéaire de 90,96.
+La valeur de $K_{pi}$ retenue est d'environ 39~dB, ce qui correspond à un gain linéaire de 90.96.
 
-La validation du comportement global est effectuée par l'application unitaire d'un échelon en boucle fermée :
+La validation du comportement global est effectuée par l'application d'un saut unitaire en boucle fermée :
 
 \begin{figure}[H]
     \centering
@@ -701,12 +703,14 @@ L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifi
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiFaux.png}
     \caption{Identification du gain $K_{pi}$ sans la constante multiplicative}
+    \label{fig:BodeKpiFaux}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiVrai.png}
     \caption{Identification du gain $K_{pi}$ avec la constante multiplicative}
+    \label{fig:BodeKpiVrai}
 \end{figure}
 
 Lors de l'implémentation expérimentale, l'introduction de la valeur théorique de 90,96 engendre un plaquage franc de la maquette contre le rail de guidage. Ce phénomène s'explique par le fait que l'étage de puissance a été initialement dimensionné pour le gain inférieur (de l'ordre de 1,89). Avec un gain de 90, une faible erreur statique génère immédiatement une commande en tension saturée. Bien que les limites matérielles du système saturent physiquement la commande à 48~V et 3,5~A, la dynamique excessive requise par ce gain élevé déstabilise le comportement. Les essais physiques mettent en évidence un fonctionnement plus stable pour un gain $K_{pi}$ proche de 1,88.
