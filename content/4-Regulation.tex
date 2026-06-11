@@ -569,19 +569,21 @@ den     = [a2 a1 1];
 Gui     = tf(num,den); % Manque Kui
 \end{minted}
 
-Ceci à pour cause d'avoir un système à régler complétement différent. Comme observé sur les tracé suivant, on observe que le début du tracé débute en réalité non pas vers 0 mais vers les -40 dB :
+Ceci à pour cause d'avoir un système à régler complétement différent. Comme observé sur les tracé suivant, on observe que le début du tracé débute en réalité non pas vers 0 dB mais vers les -40 dB :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/BodeGaiFaux.png}
+    \includegraphics[width=1\linewidth]{assets/Chap4/BodeGaiFaux.png}
     \caption{Système à régler sans la constante multiplier}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/BodeGaiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/Chap4/BodeGaiVrai.png}
     \caption{Système à régler avec la constante multiplier}
 \end{figure}
+
+Pour la suite, les différents tracé se concentrerons sur le système correcte, c'est à dire le système ayant la constante ajouter.
 
 
 % Valeur fausse
