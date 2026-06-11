@@ -422,7 +422,7 @@ $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
 \end{equation}
 
 \subsection{Mise en commun des équations}
-Une fois les équations linéariser, il est possible de les assembler afin d'avoir une unique équation. Les équations à mettre en commun sont l'équations \ref{eq:f1Lin2} et l'équation \ref{eq:f2Lin2} comme suivit:
+Une fois les équations linéarisées, il est possible de les assembler afin d'obtenir un modèle d'état unique. Les relations à mettre en commun sont les équations \ref{eq:f1Lin2} et \ref{eq:f2Lin2} :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -436,7 +436,7 @@ Une fois les équations linéariser, il est possible de les assembler afin d'avo
     \end{aligned} \right.
 \end{equation*}
 
-Comme décrit dans le rapport de Laucella \cite{Laucella}, il est possible de réaliser une analogie avec le moteur à courant continu. L'équation mécanique régissant un tel moteur définit l'accélération angulaire $\frac{d\Omega}{dt}$ (où $\Omega$ est la vitesse angulaire) en fonction du courant $i$ et d'un couple de frottement résistant $C_r$ (ce dernier pouvant être négligé) :
+Comme décrit dans le rapport de Laucella \cite{Laucella}, il est possible de réaliser une analogie avec le moteur à courant continu. L'équation mécanique régissant un tel moteur définit l'accélération angulaire $\frac{d\Omega}{dt}$ (où $\Omega$ représente la vitesse angulaire) en fonction du courant $i$ et d'un couple de frottement résistant $C_r$, ce dernier pouvant être négligé :
 
 $$J \cdot \frac{d\Omega}{dt} = \sum T = T_{em} - T_{frott}$$
 
@@ -446,7 +446,7 @@ $$\frac{d\Omega}{dt} = \frac{T_{em}}{J} - \frac{T_{frott}}{J}$$
     \frac{d\Omega}{dt} = \frac{K_T}{J}\cdot i - \frac{C_r}{J}
 \end{equation}
 
-On constate dans ce modèle que l'accélération ne dépend aucunement de la position angulaire du rotor. En appliquant ce même principe à notre système, il est possible de supposer, en comparant les deux dynamiques, que l'influence de la position peut être négligée. L'équation mécanique linéarisée complète de la sustentation s'écrit :
+Dans ce modèle, l'accélération ne dépend pas de la position angulaire du rotor. En appliquant ce même principe au système de sustentation, il est possible de supposer, par comparaison des deux dynamiques, que l'influence de la position peut être omise. L'équation mécanique linéarisée complète s'écrit :
 
 \begin{equation*}
     \frac{d^2\delta}{dt^2} \approx
@@ -454,7 +454,7 @@ On constate dans ce modèle que l'accélération ne dépend aucunement de la pos
     + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\delta
 \end{equation*}
 
-C'est de ce fait que la composante liée à la position ($\delta$) sera purement et simplement négligée afin de forcer le système à se comporter comme un moteur électrique et faciliter la régulation du courant, donnant ainsi l'équation simplifiée suivante :
+Par conséquent, la composante liée à la position ($\delta$) est négligée afin de rapprocher le comportement du système de celui d'un moteur électrique et ainsi simplifier la régulation du courant. Le système d'équations se réduit à la forme suivante :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -463,7 +463,15 @@ C'est de ce fait que la composante liée à la position ($\delta$) sera purement
     \end{aligned} \right.
 \end{equation*}
 
-Pour insérer maintenant l'équation de l'accélération dans celle de la variation de courant, il suffit de dérivé encore une fois l'équation de la variation de courant par le temps ce qui donne :
+Une simulation fut réaliser par Luacella prouvant l'éfficacité du système avec et sans la simplification
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{assets/Chap4/ModélisationDeSimplification.png}
+    \caption{Vérification de la simplification de l'accélération \cite{Laucella}}
+\end{figure}
+
+Pour insérer l'équation de l'accélération dans celle de la variation de courant, il suffit de dériver une fois supplémentaire la dynamique du courant par rapport au temps :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -472,7 +480,7 @@ Pour insérer maintenant l'équation de l'accélération dans celle de la variat
     \end{aligned} \right.
 \end{equation*}
 
-En injectant l'accéleration dans la variation de courant, on obtient finalement :
+En substituant l'accélération mécanique dans la dynamique du courant, l'expression différentielle globale est obtenue :
 
 $$    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n}{\delta_n}\cdot\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot i + \frac{1}{L_n}\cdot \frac{dU_d}{dt}$$
 
@@ -481,41 +489,41 @@ $$    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n}{\delta
     \label{eq:FinalEq1}
 \end{equation}
 
-En appliquant la transformé de Laplace sur l'équation \ref{eq:FinalEq1}, la fonction de transfert suivante est obtenue :
+En appliquant la transformée de Laplace à l'équation \ref{eq:FinalEq1}, la fonction de transfert correspondante est déterminée :
 
-$$ s^2\cdot I = -\frac{R}{L_n} \cdot s\cdot I - \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot I + \frac{1}{L_n}\cdot s\cdot U_d $$
+$$ s^2\cdot I(s) = -\frac{R}{L_n} \cdot s\cdot I(s) - \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot I(s) + \frac{1}{L_n}\cdot s\cdot U_d(s) $$
 
-$$ I\left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right) = \frac{1}{L_n}\cdot s\cdot U_d $$
+$$ I(s)\cdot \left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right) = \frac{1}{L_n}\cdot s\cdot U_d(s) $$
 
-$$ G_{ui} = \frac{I}{U_d} = \frac{s}{L_n\cdot \left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right)}$$
+$$ G_{ui}(s) = \frac{I(s)}{U_d(s)} = \frac{s}{L_n\cdot \left( s^2 + \frac{R}{L_n} \cdot s + \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\right)}$$
 
-$$ G_{ui} = \frac{I}{U_d} = \frac{s}{L_n\cdot\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\left(\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot s^2 + \frac{i_n^2\cdot \cancel{L_n}}{m \cdot\delta_n^2}\cdot\frac{R}{\cancel{L_n}} \cdot s + 1 \right)}$$
+$$ G_{ui}(s) = \frac{I(s)}{U_d(s)} = \frac{s}{L_n\cdot\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot\left(\frac{m\cdot\delta_n^2}{i_n^2\cdot L_n}\cdot s^2 + \frac{m\cdot\delta_n^2}{i_n^2\cdot \cancel{L_n}}\cdot\frac{R}{\cancel{L_n}} \cdot s + 1 \right)}$$
 
-$$ G_{ui} = \frac{I}{U_d} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}\cdot\frac{s}{\frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot s^2 + \frac{i_n^2\cdot R}{m \cdot\delta_n^2} \cdot s + 1}$$
+$$ G_{ui}(s) = \frac{I(s)}{U_d(s)} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}\cdot\frac{s}{ \frac{m\cdot\delta_n^2}{i_n^2\cdot L_n}\cdot s^2 + \frac{m\cdot\delta_n^2\cdot R}{i_n^2\cdot L_n^2} \cdot s + 1}$$
 
 \begin{equation}
-    G_{ui} = \frac{I}{U_d} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
+    G_{ui}(s) = \frac{I(s)}{U_d(s)} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
 \end{equation}
 
-Avec
+Avec :
 
 \begin{equation}
-    K_{ui} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}
-\end{equation}
-
-\begin{equation}
-    a_1 = \frac{i_n^2\cdot R}{m \cdot\delta_n^2}
+    K_{ui} = \frac{m}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2
 \end{equation}
 
 \begin{equation}
-    a_2 = \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}
+    a_1 = \frac{m\cdot R}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2
 \end{equation}
 
-Il est maintenant possible de synthétisées la régulation de courant.
+\begin{equation}
+    a_2 = \frac{m}{L_n}\cdot\left(\frac{\delta_n}{i_n^2}\right)^2 = \frac{L_n}{R}\cdot a_1
+\end{equation}
+
+Ces expressions permettent désormais d'entamer la synthèse de la régulation de courant.
 
 \section{La régulation de courant}
 
-La régulation de courant vient être 
+La régulation de courant vient être synthétiser par un PI. Celui-ci
 
 Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
