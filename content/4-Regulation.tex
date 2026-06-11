@@ -549,6 +549,73 @@ Afin de déterminer la constante de temps du capteur, il est néscessaire de fou
     \tau_{mi} = \frac{1}{f_{mi}} = \frac{1}{25\cdot 10} = 6.4 \text{ $\mu s$}
 \end{equation}
 
+Il est maintenant possible d'écrire le système à régler :
+
+\begin{equation}
+    G_{ai} = G_{ui} \cdot G_{cm} \cdot G_{mi} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
+\end{equation}
+
+Une fois cette fonction implémenter dans Matlab, le diagramme de bode peut-être tracé. Cependant, une erreur majeur fut trouver dans les synthèses de la régulation de courant précédente. En effet une constante fut oublier d'être multiplier dans le système $G_{ui}$ comme observé dans le code suivant :
+
+\begin{minted}{matlab}
+%% Inducteur Linéarisé autour de d_n = 2mm (avec terme en delta_d négliger p.12 journal)
+
+Kui     = (d_n/i_n)^2*(m/L_n^2);
+a1      = (d_n/i_n)^2*(m*R/L_n^2);
+a2      = (d_n/i_n)^2*(m/L_n);
+
+num     = [1 0];
+den     = [a2 a1 1];
+Gui     = tf(num,den); % Manque Kui
+\end{minted}
+
+Ceci à pour cause d'avoir un système à régler complétement différent. Comme observé sur les tracé suivant, on observe que le début du tracé débute en réalité non pas vers 0 mais vers les -40 dB :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/BodeGaiFaux.png}
+    \caption{Système à régler sans la constante multiplier}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/BodeGaiVrai.png}
+    \caption{Système à régler avec la constante multiplier}
+\end{figure}
+
+
+% Valeur fausse
+
+% tau_ii =
+
+%      4.636619772367582e-04
+
+
+% Kpi_45_lin =
+
+%    1.888986960757482
+
+% tau_ibf =
+
+%      7.832382599179204e-05
+
+% Valeur juste
+
+% tau_ii =
+
+% 4.636619772367582e-04
+
+
+% Kpi_45_lin =
+
+% 90.963647422318928
+
+% tau_ibf =
+
+% 7.832382599179204e-05
+
+Ceci avait pour conséquence de mal synthétiser le système donnant alors une mauvaise valeur de $K_{pi}$ comme observées dans les figures \ref{fig:BodeKpiFaux} et \ref{fig:BodeKpiFaux}
+
 % Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
 % Concernant votre idée d'augmenter la vitesse par tâtonnement, c'est un grand OUI ! C'est d'ailleurs une démarche d'ingénierie extrêmement pertinente pour optimiser un système limité par son matériel.
