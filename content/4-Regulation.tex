@@ -427,7 +427,7 @@ La régulation de courant vient être synthétiser par un PI. Le schéma bloc de
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/SchemaBlocRegulation.jpg}
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/RegulCourBloc.png}
     \caption{Schéma bloc de la régulation de courant par un PI}
     \label{fig:SchemaBlocRegCur}
 \end{figure}
@@ -473,7 +473,7 @@ Par conséquent, la composante liée à la position ($\delta$) est négligée af
     \end{aligned} \right.
 \end{equation*}
 
-Une simulation a été réalisée par Laucelle \cite{Laucella}, prouvant l'efficacité du système avec et sans cette simplification :
+Une simulation a été réalisée par Laucella \cite{Laucella}, prouvant l'efficacité du système avec et sans cette simplification :
 
 \begin{figure}[H]
     \centering
@@ -517,19 +517,35 @@ $$ G_{ui}(s) = \frac{I(s)}{U_d(s)} = \frac{m \cdot\delta_n^2}{i_n^2\cdot L_n^2}\
 
 Avec :
 
-\begin{equation}
-    K_{ui} = \frac{m}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2
-\end{equation}
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & K_{ui} = \frac{m}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2                     \\
+         & a_1 = \frac{m\cdot R}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2                 \\
+         & a_2 = \frac{m}{L_n}\cdot\left(\frac{\delta_n}{i_n^2}\right)^2 = \frac{L_n}{R}\cdot a_1
+    \end{aligned} \right.
+\end{equation*}
+
+Le bloc $G_{cm}$, représentant l'organne de commande, est approximer par une filtre passe-bas du premier ordre :
 
 \begin{equation}
-    a_1 = \frac{m\cdot R}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2
+    G_{cm} = \frac{K_{cm}}{1+s \cdot\tau_{cm}} = \frac{1}{1+s \cdot\tau_{cm}}
 \end{equation}
+
+La maquette possède une modulation PWM numérique. Celle-ci vient alors dicter la constante de temps de l'organne de mesure $\tau_{cm}$ correspondant alors à la période d'échantiollonage :
 
 \begin{equation}
-    a_2 = \frac{m}{L_n}\cdot\left(\frac{\delta_n}{i_n^2}\right)^2 = \frac{L_n}{R}\cdot a_1
+    \tau_{cm} = h = 40 \text{ $\mu s$}
 \end{equation}
 
-Ces expressions permettent désormais d'entamer la synthèse de la régulation de courant.
+L'organne de mesure du courant $G_{mi}$ est également approximer par un filtre passe-bas d'ordre 1 :
+
+\begin{equation}
+    G_{mi} = \frac{K_{mi}}{1+s \cdot\tau_{mi}} = \frac{1}{1+s \cdot\tau_{mi}}
+\end{equation}
+
+Afin de déterminer la constante de temps du capteur, il est néscessaire de fouiller dans la datasheet du fabriquant \cite{CaptCour}. Celle-ci nous donne une bande passante à 50 kHz. La constante de temps vallant alors la bande passante. Afin de respecter le théorème de Shanon, la fréquence fut choisit à 25 kHz correspondant à la fréquence d'échantiollange du DSP :
+
+
 
 % Donc si je comprends bien le problème avec une marge de phase aussi grande c'est qu'il faudrait des tension réelle de malade pour corriger rapidement la chose. La raison pour laquelle le 1.88 fonctionne c'est car il est faible et laisse suffisament de temps a mon circuit d'appliquer des tensions plus douces. Mais je peux "augmenter" la vitesse en allant en tatonemment de ma valeur de 1.88 jusqu'à une certaine valeurs max.
 
