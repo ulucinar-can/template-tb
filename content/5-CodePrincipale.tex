@@ -68,7 +68,7 @@ Lorsque le programme final est prêt, il faudra à ce moment-là flasher le code
 Il est désormais possible d'utiliser CCS pour la programmation du DSP.
 
 \section{Code de départ}
-Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé jusqu'à présent.
+Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé pour réaliser une sustentation. Son programme étant danse, l'entiereté de celui-ci ne sera pas présenter. Seul certaines parties considérés comme importantes seront détaillé.
 
 Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
 
@@ -84,15 +84,13 @@ Ce fichier centralise l'ensemble de la logique de commande, particulièrement la
     \item Communication UART avec l'ESP32.
 \end{itemize}
 
-Les paragraphes suivants détaillent les différentes composantes logicielles, des bibliothèques utilisées jusqu'aux structures d'interruption.
-
 \subsection{Algorithme du code principal}
 Actuellement, l'algorithme du code principal suit la structure suivante :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{Image/Chap.2/Algorithme.png}
-    \caption{Structure de l'algorithme du code principal}
+    \caption{Structure de l'algorithme du code principal \cite{Freyche}}
     \label{fig:AlgorithmeCodePrincipal}
 \end{figure}
 
@@ -125,16 +123,16 @@ Le projet s'appuie sur les bibliothèques suivantes :
 L'outil SysConfig, accessible via le fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}, offre une interface graphique pour la configuration du DSP. Il est utilisé pour initialiser les modules suivants :
 
 \begin{itemize}
-    \item Les ADC.
-    \item Les modules PWM.
-    \item Le module de communication SCI (UART).
+    \item Les ADC
+    \item Les modules PWM
+    \item Le module de communication SCI (UART)
 \end{itemize}
 
 L'interface propose une vue schématique du microcontrôleur, facilitant la gestion du mappage des broches. Une fois la configuration validée, l'outil génère automatiquement les fichiers \texttt{board.h} et \texttt{board.c}.
 
-\subsubsection{\texttt{FunctionHeader.h}}
+\subsubsection{\texttt{FunctionHeader2.h} et \texttt{FunctionHeader2.c}}
 \label{subsubsec:FunctionHeader}
-Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes de fonctions. Les éléments principaux sont :
+Ces fichiers regroupe l'ensemble des définitions de constantes et des prototypes de fonctions. Les éléments principaux sont :
 
 \begin{itemize}
     \item Paramètres physiques : Caractéristiques de la maquette (entrefer, masse, inductance et géométrie des bobines).
@@ -144,6 +142,8 @@ Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes 
     \item Paramètres de la régulation (Espace d'état) : Gains $K_\omega$, $K_d$ et $K_r$.
     \item Filtres numériques : Coefficients et taille de fenêtre pour les filtres IIR, FIR et Savitzky.
 \end{itemize}
+
+Les fichiers sont une seconde version du travail réaliser par Thomas Freyche. Il a été décidé de séparer les deux fichiers pour obtenir un résultat plus propre et plus aérer. Dans l'emsemble, le fonctionnement reste le meme.
 
 \subsection{Fonctions importantes}
 
@@ -222,7 +222,7 @@ Le fonctionnement du filtre est illustré ci-dessous :
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
-    \caption{Principe du filtre de Savitzky}
+    \caption{Principe du filtre de Savitzky \cite{Savitzky}}
     \label{fig:PrincipeSavitzky}
 \end{figure}
 
@@ -268,9 +268,55 @@ float IIR_Filter(float *entree, float *sortie)
 }
 \end{minted}
 
-Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.
+Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.\\
 
-\section{Mesure du temps}
+Les coefficients employée sont actuellement les suivantes :
+
+\begin{minted}{c}
+    //bandstop Filter 75Hz 2nd order bande coup�e de 40Hz � 130Hz (6)
+#define A1_B1_6         -1.977307757140243538
+#define A2_6            0.97763254912161579
+#define B0_B2_6         0.98881627456080789517756
+\end{minted}
+
+Lors d'analyse précédente, il a été constaté que ces valeurs n'étais pas employé mais d'autre valeur de coefficient furent employé étant les suivantes :
+
+\begin{minted}{c}
+//bandstop Filter 56Hz 2nd order bande coup�e de 47Hz � 90Hz (0) (test)
+#define A1_B1_0         -1.980143772501098
+#define A2_0            0.980339665209542
+#define B0_B2_0         0.9901698326047711
+\end{minted}
+
+Cela provenait très certainement d'essaie précédente. Pour rester en concordence avec les travaux précédents, les coefficient du filtre à 75Hz furent dès alors employer.
+
+\section{Mesure du temps de l'interruption principale}
+Une des premières suposition réaliser fut que le code ne respectait pas le temps mis à disposition pour réaliser l'interruption complète. Il a fallut alors vérifier si les temps était toujours à jours ou non, vérifier le temps consommer par chaque partie de l'interuption et vérifier si l'interruption lié à la communication entre le DSP et l'ESP-32 venait à déranger l'interruption principal. La mesure fut dont réaliser pour deux cas. Un premier cas en vérifiant le comportement avec la communication UART et une fois sans. Pour rappel, l'interuption principal dure 40 $\mu$s.\\
+
+Cette meusre fut alors réaliser dans le tableau suivant :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification des temps}}                                                                                                                                                                                               \\ \hline
+            \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Mesure}}} & \multicolumn{3}{c|}{\textbf{Avec UART}} & \multicolumn{3}{c|}{\textbf{Sans UART}}                                                                                                          \\ \cline{2-7}
+            \multicolumn{1}{|c|}{}                                 & 4 inducteurs [$\mu$s]                   & Inducteurs 1\&2 [$\mu$s]                & Inducteurs 3\&4 [$\mu$s] & 4 inducteurs [$\mu$s] & Inducteurs 1\&2 [$\mu$s] & Inducteurs 3\&4 [$\mu$s] \\ \hline
+            Interruption globale                                   & 20                                      & 13.6                                    & 14.4                     & 20.4                  & 14                       & 14.4                     \\ \hline
+            ADC                                                    & 0.88                                    & 0.86                                    & 0.84                     & 0.88                  & 0.86                     & 0.85                     \\ \hline
+            Machine d'état                                         & 13.2                                    & 9.4                                     & 9.4                      & 13.6                  & 9.6                      & 9.6                      \\ \hline
+            PWM                                                    & 5.2                                     & 2.6                                     & 2.92                     & 4.9                   & 2.76                     & 2.96                     \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification des temps d'exécution avec et sans UART}
+    \label{tab:verif_temps}
+\end{table}
+
+Les mesure de temps sont disponible dans l'annexe \ref{an:MesTemps}.
+
+La mesure vient alors prouver le bon fonctionnement et du respect du temps de l'interruption principale.
+
 
 \section{Machine d'état}
 
