@@ -732,7 +732,7 @@ La régulation de position est réaliser par une régulation d'état. Le schéma
     \label{fig:RegPosBloc}
 \end{figure}
 
-Comme observé dans la figure \ref{fig:RegPosBloc}, 4 paramètres sont à dimmensionner. Ceux-ci sont le gain de retour d'état \ref{k_s^T}, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
+Comme observé dans la figure \ref{fig:RegPosBloc}, 4 paramètres sont à dimmensionner. Ceux-ci sont le gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
 Une simplification est réalisé en regroupant tous les retards en un seul bloc dénomé $G_{pct}$. Celui-ci est la somme des petites constantes de temps de la régulation de position. Cela inclut donc la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre Savitzky par $\tau_{vf2}$ et le filtre coupe bande $\tau_{F_C}$. Les filtres seront représenter que comme des retard synthétiser en filtre passe bas d'ordre 1. Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors :
 
@@ -740,6 +740,7 @@ Avec $G_{pct}$ étant :
 
 \begin{equation}
     G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{iBF} + \tau_{vf2} + \tau_{F_C} \right)}
+    \label{eq:Gpct1}
 \end{equation}
 
 Du travail de Bachelor de Yersin \cite{Yersin}, il est possible de récupérer les constantes de temps suivantes :
@@ -747,6 +748,22 @@ Du travail de Bachelor de Yersin \cite{Yersin}, il est possible de récupérer l
 \begin{equation}
     \tau_{m\delta} = 144.7 \text{ $\mu s$}\quad\tau_{vf2} = 65 \text{ $\mu s$}\quad\tau_{vf2} = 3.98 \text{ $ms$}
 \end{equation}
+
+En insérant ces valeurs dans l'équation \ref{eq:Gpct1}, ot obtient alors :
+
+\begin{equation}
+    G_{pct} = \frac{1}{1 + s \cdot \left( 78.3\cdot 10^{-6} + 144.7\cdot 10^{-6} + 65\cdot 10^{-6} + 3.98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}
+    \label{eq:Gpct1}
+\end{equation}
+
+Il est alors maintenant possible de réaliser le schéma simplié de la figure suivante :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
+    \caption{Schéma bloc simplifié de la régulation de position \cite{Laucella}}
+    \label{fig:RegPosBlocSimple}
+\end{figure}
 
 \subsection{Placement de pôles}
 
