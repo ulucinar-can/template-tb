@@ -1047,7 +1047,7 @@ Travail à réaliser :
 \section{Synthèse d'une régulation de position par PID}
 Une synthèse d'une régulation de la position par un PID fut considéré. Le but derrière cette synthèse serait d'avoir la possibilité de réaliser un système ou les composantes serait connu et plus simple à travailler qu'un système par la méthode d'état. Une fois l'obtention d'un comportement satisfaisant, une étude des pôles serait réaliser afin de pouvoir réaliser un placement des pôles dans la régualtion d'état.\\
 
-La synthèse vient alors s'appuyer sur le schéma bloc réaliser dans la figure \ref{PIDBloc} :
+La synthèse vient alors s'appuyer sur le schéma bloc réaliser dans la figure \ref{fig:PIDBloc} :
 
 \begin{figure}[H]
     \centering
@@ -1061,8 +1061,95 @@ Comme pour la régulation d'état, un bloc général ayant tous les retards fut 
 Le système à régler est alors définit comme étant :
 
 \begin{equation}
-    G_{ap} = G_{pct}\cdot \frac{1}{m}\cdot s^2
+    G_{ap} = G_{pct}\cdot \frac{1}{m}\cdot s^2 =
 \end{equation}
+
+Le diagramme de Bode du système à régler est représenter dans la figure \ref{fig:BodeGap} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BodeGap.png}
+    \caption{Diagramme de Bode du système à régler $G_{ap}$}
+    \label{fig:BodeGap}
+\end{figure}
+
+La fonction de transfert du régulateur $G_{cp}$ se définit comme celle d'un PID qui s'écrit :
+
+\begin{equation}
+    G_{cp} = K_{pid}\cdot\frac{1 + \tau_i \cdot s + \tau_i \cdot\tau_d\cdot s^2}{\tau_i \cdot s}
+\end{equation}
+
+La synthèse vient alors se concentrer sur la recherche des composante $K_{pid}$, $\tau_i$ et $\tau_d$.\\
+
+Pour simplifier la recherche, l'optimum symétrique fut employer c'est à dire que la valeur de la constante de temps de l'intégrateur $\tau_i$ sera définit comme étant 4 fois celle de la constante de temps du dérivateur $\tau_d$ :
+
+\begin{equation}
+    \tau_i = 4\cdot\tau_d
+\end{equation}
+
+Cela permet d'avoir uniquement 2 valeurs à rechercher. Dans un premier temps la valeur de $\tau_d$ et ensuite celle du gain $K_{pid}$.\\
+
+La valeur de $\tau_d$ est définit comme étant le produit de la somme des petites constantes de temps et d'un coefficient N :
+
+\begin{equation}
+    \tau_d = N\cdot\sum\tau_{pct} = N\cdot 4.27\cdot 10^{-3}
+\end{equation}
+
+Comme pour la synthèse de la régulation de courant, plusieurs N furent tracé allant de 1 à 20. Une fois les tracés réalisés, la bande-passante et l'erreur furent tracé par rapport à la valeur de N. Seuls les valeurs atteignant une marge de phase à 45° furent retenue. Le choix de N se fera dès alors en choisissant un compromis entre bande-passante et erreur.
+
+Le tracé pour différente valeur de N est observable dans la figure \ref{fig:ChoixNPID}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/ChoixN.png}
+    \caption{Diagramme de Bode pour différente valeur de N}
+    \label{fig:ChoixNPID}
+\end{figure}
+
+La bande passante est donné par la figure \ref{fig:BPPID} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BP.png}
+    \caption{Evolution de la bande-passante en fonction de N}
+    \label{fig:BPPID}
+\end{figure}
+
+L'erreur est donné par la figure \ref{fig:ErrorPID} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Erreur.png}
+    \caption{Evolution de l'erreur en fonction de N}
+    \label{fig:ErrorPID}
+\end{figure}
+
+Le choix c'est alors porté sur $N=12$ offrant pour cette valeur un bon compromis entre la bande-passante ainsi que l'erreur.
+Cette valeur de N donne les paramètres du PID suivant :
+
+\begin{equation}
+    K_{pid} = 2088.91 \quad \tau_i = 207.7 \text{ ms} \quad \tau_d = 51.9 \text{ ms}
+\end{equation}
+
+Le tracé de la boucle ouverte est observable dans la figure \ref{fig:BOPID} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Gbo.png}
+    \caption{Diagramme de Bode de la boucle ouverte}
+    \label{fig:BOPID}
+\end{figure}
+
+Afin de vérifier le comportement du système, un saut unitaire en boucle fermée fut réaliser. Celui-ci donne le tracé de la figure \ref{fig:RepIndPID}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RepIndi.png}
+    \caption{Réponse impulsionnelle du système en boucle fermée}
+    \label{fig:RepIndPID}
+\end{figure}
+
+Cette réponse indicielle vient alors confirmer la bonne réactivité du système à régler la maquette.
 
 Cette étude est cependant encore à confirmer lors d'essaie sur la maquette. Actuellement celle-ci est simplement synthéthiser.
 
