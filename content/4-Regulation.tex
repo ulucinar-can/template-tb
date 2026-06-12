@@ -1006,7 +1006,7 @@ Avec :
     \right.
 \end{equation}
 
-Certaines règles sont cependant à respecter afin de réaliser un placement de pôles correcte. Celle-ci furent détailler dans les travaux de Laucella \cite{Laucella} et de Yersin \cite{Yersin}. La règle principale se concentre sur un pôle ayant un amortissement absolu minimal :
+Certaines règles sont cependant à respecter afin de réaliser un placement de pôles correcte. Celle-ci furent détailler dans les travaux de Laucella \cite{Laucella} et de Yersin \cite{Yersin}. En se basant sur leur travail, la règle principale se concentre sur un pôle ayant un amortissement absolu minimal :
 
 \begin{equation}
     p_{min} ≤ \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4.27\cdot 10^{-3} - 0} \right)
@@ -1026,6 +1026,19 @@ Ce produit donne alors la fonction de transfert suivante :
     G_{yw}(s) = \frac{\frac{k_r}{T_i} + s \cdot k_w}{m \cdot \tau_{pct} \cdot \left( s^4 + \frac{1}{\tau_{pct}} \cdot s^3 - \frac{k_{\dot{\delta}}}{m \cdot \tau_{pct}} \cdot s^2 - \frac{k_\delta}{m \cdot \tau_{pct}} \cdot s - \frac{k_r}{T_i \cdot m \cdot \tau_{pct}} \right)}
 \end{equation}
 
+Il est alors observable que la boucle fermée contient un zero :
+
+\begin{equation}
+    \frac{k_r}{T_i} + s \cdot k_w = 0 \rightarrow z_1 = - \frac{k_r}{T_i\cdot k_w}
+\end{equation}
+
+Pour améliorer le régime transitoire, les travaux précédents ont décidé d'appliquer une contrainte au système. La contrainte fut que l'un des pôles doit-être purement réel. Cela permet de déterminer $k_w$. L'équation suivante en résulte :
+
+\begin{equation}
+    k_w = - \frac{k_r}{p_k\cdot T_i}
+\end{equation}
+
+Le code Matlab permet de calculer les pôles. A ce jour, il est néscessaire d'encore touiller la valeur du pôle réel afin de trouver une combinaison permettant de réussir une régulation stable en lévitation.
 
 \section{Synthèse d'une régulation de position par PID}
 \begin{itemize}
