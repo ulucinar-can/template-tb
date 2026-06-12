@@ -68,7 +68,7 @@ Lorsque le programme final est prêt, il faudra à ce moment-là flasher le code
 Il est désormais possible d'utiliser CCS pour la programmation du DSP.
 
 \section{Code de départ}
-Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé pour réaliser une sustentation. Son programme étant danse, l'entiereté de celui-ci ne sera pas présenter. Seul certaines parties considérés comme importantes seront détaillé.
+Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé pour assurer la sustentation du démonstrateur. Son programme étant dense, son entièreté ne sera pas présentée. Seules les portions de code considérées comme structurantes seront détaillées.
 
 Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
 
@@ -78,14 +78,14 @@ Ce fichier centralise l'ensemble de la logique de commande, particulièrement la
     \item Conversion des valeurs brutes de l'ADC en grandeurs physiques.
     \item Procédure de lancement de la sustentation.
     \item Régulation de position par retour d'état.
-    \item La régulation de courant avec des régulateurs PI.
-    \item Calcul des cycles de travail (PWM) en fonction de la régulation.
-    \item Affectation des signaux PWM aux broches de commande du pont en H.
-    \item Communication UART avec l'ESP32.
+    \item Régulation de courant par le biais de régulateurs PI.
+    \item Calcul des rapports cycliques (PWM) générés par les boucles de régulation.
+    \item Affectation des signaux PWM aux broches de commande des ponts en H.
+    \item Communication UART avec le module ESP32.
 \end{itemize}
 
 \subsection{Algorithme du code principal}
-Actuellement, l'algorithme du code principal suit la structure suivante :
+Actuellement, l'algorithme du programme principal respecte l'organigramme suivant :
 
 \begin{figure}[H]
     \centering
@@ -94,10 +94,10 @@ Actuellement, l'algorithme du code principal suit la structure suivante :
     \label{fig:AlgorithmeCodePrincipal}
 \end{figure}
 
-La majeure partie du code est exécutée au sein d'une routine d'interruption. Celle-ci englobe la lecture et la conversion des ADC, les algorithmes de régulation, la mise à jour des PWM ainsi que la gestion de l'interface utilisateur (bouton).
+La majeure partie du code s'exécute au sein d'une routine d'interruption. Celle-ci englobe l'acquisition et la conversion des valeurs ADC, l'exécution des algorithmes de régulation, la mise à jour des modules PWM ainsi que la gestion de l'interface utilisateur (boutons).
 
-\subsection{Librairies}
-Le projet s'appuie sur les bibliothèques suivantes :
+\subsection{Bibliothèques}
+Le projet s'appuie sur les dépendances suivantes :
 
 \begin{minted}{c}
 #include "driverlib.h"
@@ -110,45 +110,45 @@ Le projet s'appuie sur les bibliothèques suivantes :
 \end{minted}
 
 \begin{itemize}
-    \item \texttt{driverlib.h} : Bibliothèque fondamentale pour le DSP TI C2000. Elle fournit des fonctions de haut niveau permettant la configuration du matériel (\texttt{ADC\_readResult}, \texttt{GPIO\_writePin}, etc.) sans manipulation directe des registres.
-    \item \texttt{device.h} : Fichier spécifique au microcontrôleur utilisé. Il définit les fonctions d'initialisation système nécessaires au fonctionnement de l'horloge et du matériel.
-    \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir \ref{subsubsec:SysConfig}). Il contient les définitions des entrées/sorties configurées via l'interface graphique.
-    \item \texttt{sfo\_v8.h} : Bibliothèque indispensable pour l'utilisation du HRPWM (High-Resolution PWM). Elle assure une calibration en temps réel des signaux afin de compenser les dérives thermiques ou les variations de tension.
-    \item \texttt{math.h} et \texttt{stdio.h} : Bibliothèques standards C pour les opérations mathématiques et les flux d'entrées/sorties.
-    \item \texttt{FunctionHeader.h} : En-tête local regroupant les définitions spécifiques à la maquette (voir \ref{subsubsec:FunctionHeader}).
+    \item \texttt{driverlib.h} : Bibliothèque fondamentale du DSP TI C2000. Elle met à disposition des fonctions de haut niveau permettant la configuration matérielle (ex. : \texttt{ADC\_readResult}, \texttt{GPIO\_writePin}) en s'affranchissant de la manipulation directe des registres.
+    \item \texttt{device.h} : Fichier de configuration spécifique au microcontrôleur utilisé. Il définit les fonctions d'initialisation système requises pour le fonctionnement de l'horloge et des périphériques.
+    \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir section \ref{subsubsec:SysConfig}). Il regroupe les définitions des entrées/sorties paramétrées via l'interface graphique.
+    \item \texttt{sfo\_v8.h} : Bibliothèque indispensable pour l'exploitation de la fonctionnalité HRPWM (High-Resolution PWM). Elle assure une calibration continue des signaux afin de compenser les dérives thermiques et les fluctuations de tension.
+    \item \texttt{math.h} et \texttt{stdio.h} : Bibliothèques standards C dédiées aux calculs mathématiques et à la gestion des flux d'entrées/sorties.
+    \item \texttt{FunctionHeader.h} : Fichier d'en-tête local regroupant les définitions paramétriques spécifiques à la maquette (détaillé dans la section \ref{subsubsec:FunctionHeader}).
 \end{itemize}
 
 \subsubsection{SysConfig}
 \label{subsubsec:SysConfig}
-L'outil SysConfig, accessible via le fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}, offre une interface graphique pour la configuration du DSP. Il est utilisé pour initialiser les modules suivants :
+L'outil SysConfig, exploité au travers du fichier \texttt{hrpwm\_ex1\_duty\_sfo.syscfg}, offre une interface de configuration graphique du DSP. Son utilisation permet d'initialiser les modules suivants :
 
 \begin{itemize}
-    \item Les ADC
-    \item Les modules PWM
-    \item Le module de communication SCI (UART)
+    \item Les convertisseurs analogiques-numériques (ADC).
+    \item Les générateurs de signaux PWM.
+    \item Le module de communication série SCI (UART).
 \end{itemize}
 
-L'interface propose une vue schématique du microcontrôleur, facilitant la gestion du mappage des broches. Une fois la configuration validée, l'outil génère automatiquement les fichiers \texttt{board.h} et \texttt{board.c}.
+L'interface propose une vue schématique du microcontrôleur simplifiant l'affectation des broches (pin mapping). Lors de la validation de cette configuration, l'outil génère automatiquement les fichiers sources \texttt{board.h} et \texttt{board.c}.
 
 \subsubsection{\texttt{FunctionHeader2.h} et \texttt{FunctionHeader2.c}}
 \label{subsubsec:FunctionHeader}
-Ces fichiers regroupe l'ensemble des définitions de constantes et des prototypes de fonctions. Les éléments principaux sont :
+Ces fichiers regroupent l'ensemble des définitions de constantes et des prototypes de fonctions exploités dans le projet. Les éléments qui y sont définis incluent :
 
 \begin{itemize}
-    \item Paramètres physiques : Caractéristiques de la maquette (entrefer, masse, inductance et géométrie des bobines).
-    \item Configurations électriques : Tension du bus DC (48V) et paramètres de quantification de l'ADC (12 bits).
-    \item Paramètres PWM : Fréquence de découpage (25 kHz), temps morts des MOSFET et corrections associées.
-    \item Paramètres de la régulation de courant (PI) : Consigne de décollage (3A), gains $K_p$, $\tau_i$ et $G_i$.
-    \item Paramètres de la régulation (Espace d'état) : Gains $K_\omega$, $K_d$ et $K_r$.
-    \item Filtres numériques : Coefficients et taille de fenêtre pour les filtres IIR, FIR et Savitzky.
+    \item Les paramètres physiques : caractéristiques mécaniques et électromagnétiques de la maquette (entrefer nominal, masse, inductance et géométrie des bobines).
+    \item Les configurations électriques : tension du bus continu (48~V) et résolution de quantification de l'ADC (12~bits).
+    \item Les paramètres PWM : fréquence de découpage (25~kHz), gestion des temps morts (dead bands) des MOSFET et corrections temporelles associées.
+    \item Les paramètres de la régulation de courant (PI) : seuil de courant au décollage (3~A), ainsi que les gains de régulation $K_p$, $\tau_i$ et $G_i$.
+    \item Les paramètres de la régulation de position (Espace d'état) : coefficients de rétroaction $K_\omega$, $K_d$ et $K_r$.
+    \item Les filtres numériques : dimensionnement des fenêtres et coefficients propres aux filtres IIR, FIR et de Savitzky-Golay.
 \end{itemize}
 
-Les fichiers sont une seconde version du travail réaliser par Thomas Freyche. Il a été décidé de séparer les deux fichiers pour obtenir un résultat plus propre et plus aérer. Dans l'emsemble, le fonctionnement reste le meme.
+Ces fichiers constituent une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique.
 
-\subsection{Fonctions importantes}
+\subsection{Fonctions principales}
 
-\subsubsection{PI\_current\_regulator}
-La fonction \texttt{PI\_current\_regulator} est la suivante :
+\subsubsection{La fonction \texttt{PI\_current\_regulator}}
+L'implémentation de la fonction \texttt{PI\_current\_regulator} se présente ainsi :
 
 \begin{minted}{c}
 void PI_current_regulator(float ic, float current, float *integral,
@@ -169,35 +169,31 @@ float *ue, float *uc){
 }
 \end{minted}
 
-Cette fonction réalise la régulation de courant par une structure PI. Elle prend en entrée les paramètres suivants :
+Cette fonction assure la régulation du courant au moyen d'une structure PI. Les arguments qui lui sont passés sont :
 
 \begin{itemize}
-    \item Le courant de consigne $ic$.
-    \item Le courant réel actuel $current$.
-    \item L'adresse de l'intégrale $integral$.
-    \item L'adresse de l'erreur de tension $ue$.
-    \item L'adresse de la consigne de tension $uc$.
+    \item Le courant de consigne \texttt{ic}.
+    \item Le courant réel mesuré \texttt{current}.
+    \item Le pointeur de la variable d'intégration \texttt{integral}.
+    \item Le pointeur de l'erreur de tension \texttt{ue}.
+    \item Le pointeur de la tension de commande calculée \texttt{uc}.
 \end{itemize}
 
-Les étapes de la régulation sont les suivantes :
+La séquence de régulation s'articule selon les étapes suivantes :
 
 \begin{enumerate}
-    \item Calcul de l'erreur $i_e$ entre le courant de consigne et le courant réel, puis multiplication de cette différence par le gain proportionnel du régulateur.
-
-    \item Calcul de l'intégrale en ajoutant à la valeur précédente la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, multipliée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
-
-    \item Calcul de la tension de consigne intermédiaire ($u_{c\_prim}$) par la somme de l'intégrale et de l'erreur de courant.
-
-    \item Vérification des limites de tension afin de ne pas dépasser les plages de fonctionnement de la maquette (entre 0 V et $U_{MAX}$ = 48 V). En cas de dépassement, la consigne est fixée à la borne correspondante.
-
-    \item Calcul de l'erreur sur la tension par la différence entre la consigne intermédiaire et la consigne finale, pondérée par le coefficient d'anti-windup.
+    \item Calcul de l'erreur $i_e$ (différence entre la consigne et la mesure du courant), puis multiplication par le gain proportionnel.
+    \item Mise à jour de l'action intégrale par sommation de la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, pondérée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
+    \item Évaluation de la commande intermédiaire $u_{c\_prim}$, obtenue par la somme des actions proportionnelle et intégrale.
+    \item Saturation de la commande afin de respecter les limites physiques imposées par l'alimentation de la maquette (plage de 0~V à $U_{MAX}$ = 48~V). La consigne finale est restreinte à ces bornes le cas échéant.
+    \item Calcul de l'écart de tension (différence entre la commande intermédiaire et la commande saturée) pondéré par le coefficient d'anti-windup, afin de prévenir l'emballement de l'intégrateur.
 \end{enumerate}
 
-Cette fonction sera principalement utilisée dans l'interruption principale pour la régulation de courant des bobines.
+Cette fonction est appelée de manière cyclique dans la routine d'interruption principale pour assurer l'asservissement en courant des quatre bobines.
 
 \subsubsection{Filtre de Savitzky}
 \label{subsubsec:Savitzky}
-L'implémentation du filtre de Savitzky est la suivante :
+Le code du filtre de Savitzky-Golay est implémenté de la façon suivante :
 
 \begin{minted}{c}
 float savitzky_Filter(float *Buffer)
@@ -215,18 +211,18 @@ float savitzky_Filter(float *Buffer)
 }
 \end{minted}
 
-Le filtre de Savitzky \cite{Savitzky} est employé pour lisser les signaux présentant un bruit important tout en préservant la tendance de la variation du signal.
+Ce filtre \cite{Savitzky} est utilisé pour lisser les mesures fortement bruitées tout en conservant fidèlement la dynamique temporelle du signal utile.
 
-Le fonctionnement du filtre est illustré ci-dessous :
+Le principe de fonctionnement est illustré par la figure \ref{fig:PrincipeSavitzky} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
-    \caption{Principe du filtre de Savitzky \cite{Savitzky}}
+    \caption{Principe de lissage du filtre de Savitzky-Golay \cite{Savitzky}}
     \label{fig:PrincipeSavitzky}
 \end{figure}
 
-Le filtre de Savitzky s'apparente à un filtre FIR à fenêtre glissante. Dans la configuration actuelle, les 9 dernières positions de l'inducteur sont conservées en mémoire. Une moyenne pondérée est ensuite calculée en multipliant chaque position par les coefficients de Savitzky correspondants :
+Le traitement s'apparente à l'application d'un filtre FIR à fenêtre glissante. Dans son paramétrage actuel, la fonction mémorise les neuf dernières acquisitions de position. Une somme pondérée est calculée en multipliant chaque échantillon par un coefficient propre au filtre de Savitzky :
 
 \begin{minted}{c}
 //savitzky filter coefficients, order = 2, window = 9
@@ -234,12 +230,10 @@ const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
                                      0.0, 0.0167, 0.0333, 0.05, 0.0667};
 \end{minted}
 
-L'augmentation de la taille de la fenêtre permet d'obtenir un signal plus lisse, mais entraîne en contrepartie une augmentation du temps de calcul.
-
-Ce filtre est actuellement utilisé dans le code pour traiter le bruit des mesures provenant des ADC de position (voir \ref{subsubsec:ADC}).
+Un élargissement de la fenêtre de glissement permet de renforcer l'atténuation du bruit, mais ce lissage s'obtient au détriment du temps d'exécution (charge processeur). Ce filtre est spécifiquement exploité dans le firmware pour atténuer le bruit d'acquisition des canaux ADC dédiés aux capteurs de position (voir section \ref{subsubsec:ADC}).
 
 \subsubsection{Filtre IIR}
-L'implémentation du filtre IIR est la suivante :
+L'algorithme du filtre IIR (Infinite Impulse Response) est rédigé comme suit :
 
 \begin{minted}{c}
 float IIR_Filter(float *entree, float *sortie)
@@ -268,27 +262,27 @@ float IIR_Filter(float *entree, float *sortie)
 }
 \end{minted}
 
-Ce filtre possède une structure de type coupe-bande. Son objectif est d'atténuer une fréquence parasite apparaissant aux alentours de 75 Hz. Actuellement, l'origine exacte de ces perturbations n'est pas déterminée, mais leur filtrage est nécessaire pour assurer la stabilité de la régulation.\\
+La topologie retenue pour ce filtre correspond à un réjecteur de bande (filtre coupe-bande). Son rôle consiste à atténuer une perturbation de résonance observée autour de 75~Hz. Si l'origine physique précise de cette oscillation reste à ce jour inexpliquée, son atténuation est une condition stricte pour maintenir la stabilité des boucles de régulation.\\
 
-Les coefficients employée sont actuellement les suivantes :
+Les coefficients paramétrés sont les suivants :
 
 \begin{minted}{c}
-    //bandstop Filter 75Hz 2nd order bande coup�e de 40Hz � 130Hz (6)
+    //bandstop Filter 75Hz 2nd order bande coupe de 40Hz  130Hz (6)
 #define A1_B1_6         -1.977307757140243538
 #define A2_6            0.97763254912161579
 #define B0_B2_6         0.98881627456080789517756
 \end{minted}
 
-Lors d'analyse précédente, il a été constaté que ces valeurs n'étais pas employé mais d'autre valeur de coefficient furent employé étant les suivantes :
+Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
 
 \begin{minted}{c}
-//bandstop Filter 56Hz 2nd order bande coup�e de 47Hz � 90Hz (0) (test)
+//bandstop Filter 56Hz 2nd order bande coupe de 47Hz  90Hz (0) (test)
 #define A1_B1_0         -1.980143772501098
 #define A2_0            0.980339665209542
 #define B0_B2_0         0.9901698326047711
 \end{minted}
 
-Cela provenait très certainement d'essaie précédente. Pour rester en concordence avec les travaux précédents, les coefficient du filtre à 75Hz furent dès alors employer.
+Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec la littérature du projet, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
 
 \section{Mesure du temps de l'interruption principale}
 Une des premières suposition réaliser fut que le code ne respectait pas le temps mis à disposition pour réaliser l'interruption complète. Il a fallut alors vérifier si les temps était toujours à jours ou non, vérifier le temps consommer par chaque partie de l'interuption et vérifier si l'interruption lié à la communication entre le DSP et l'ESP-32 venait à déranger l'interruption principal. La mesure fut dont réaliser pour deux cas. Un premier cas en vérifiant le comportement avec la communication UART et une fois sans. Pour rappel, l'interuption principal dure 40 $\mu$s.\\
