@@ -3,6 +3,9 @@
 \section{Introduction}
 Ce chapitre a pour but de présenter l'architecture logicielle développée lors du précédent projet de Bachelor par Thomas Freyche. Plusieurs illustrations sont d'ailleurs issues de son rapport \cite{Freyche}. Une optimisation de ce code source sera également proposée et détaillée.
 
+\section{Information notable}
+Afin d'optimiser l'appropriation du code source hérité, une première révision syntaxique a été réalisée à l'aide d'outils d'intelligence artificielle. Cette démarche avait pour objectif d'améliorer la structure du programme, d'enrichir les commentaires et d'en accroître la lisibilité globale. Le comportement de la maquette a été rigoureusement contrôlé à la suite de cette restructuration purement formelle. Les résultats obtenus étant strictement identiques à ceux de la version d'origine, il est confirmé que cette intervention n'a introduit aucun dysfonctionnement supplémentaire.
+
 \section{Mise en place de CCS}
 \label{sec:MiseEnPlace}
 \subsection{Installation de Code Composer Studio}
@@ -282,39 +285,59 @@ Toutefois, lors de l'analyse du code source hérité, il a été constaté que c
 #define B0_B2_0         0.9901698326047711
 \end{minted}
 
-Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec la littérature du projet, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
+Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
 
 \section{Mesure du temps de l'interruption principale}
-Une des premières suposition réaliser fut que le code ne respectait pas le temps mis à disposition pour réaliser l'interruption complète. Il a fallut alors vérifier si les temps était toujours à jours ou non, vérifier le temps consommer par chaque partie de l'interuption et vérifier si l'interruption lié à la communication entre le DSP et l'ESP-32 venait à déranger l'interruption principal. La mesure fut dont réaliser pour deux cas. Un premier cas en vérifiant le comportement avec la communication UART et une fois sans. Pour rappel, l'interuption principal dure 40 $\mu$s.\\
+L'une des premières hypothèses formulées a été que le code ne respectait pas le temps d'exécution alloué pour l'interruption complète. Il a donc été nécessaire de vérifier la validité des temps de cycle, de mesurer le temps consommé par chaque sous-routine, et de déterminer si l'interruption liée à la communication entre le DSP et l'ESP32 perturbait l'interruption principale.\\
 
-Cette meusre fut alors réaliser dans le tableau suivant :
+Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
 
-\begin{table}[H]
+L'analyse temporelle se concentre sur quatre phases de l'interruption : premièrement, l'interruption dans son entièreté ; deuxièmement, le temps consommé par les conversions ADC ; troisièmement, le temps d'exécution de la machine d'états ; et enfin, le temps dédié à la mise à jour des signaux PWM. Les relevés ont été effectués à l'aide d'un oscilloscope en observant les commutations d'une broche de sortie (LED).\\
+
+\subsection{Relevé des mesures}
+Les mesures sont recensées dans le tableau \ref{tab:verif_temps_final} :
+
+% [Insère ton tableau tab:verif_temps_final ici]
+
+Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'annexe \ref{an:MesTemps}.
+
+\subsection{Analyse des résultats}
+Comme l'illustre le tableau \ref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
+
+\section{Réalisation d'une nouvelle machine d'état}
+La machine d'état précédente étant compliqué à lire et allant dans tous les sens, la décision de la refaire au propre à été réaliser. Le comportement à suivre est le suivant :
+
+\begin{itemize}
+
+    \item Etat 0 : On attends la pression du boutton
+
+    \item Etat 1 : On monte le courant des inducteurs 1&2 à 3 A (pour ne pas partir de zéro).
+
+    \item Etat 2 : On augmente le courant des inducteurs 1&2 avec une rampe "infinie" (régulation de courant seule).
+
+    \item Etat 3 : Lorsque l'inducteur 1&2 commencent à bouger, on les passe en régulation de position (lévitation de l'avant du véhicule).
+
+    \item Etat 4 : On monte le courant des inducteurs 3&4 à 3 A (pour ne pas partir de zéro).
+
+    \item Etat 5 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
+
+    \item Etat 6 : Lorsque l'inducteur 3&4 commencent à bouger, on les passe en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
+
+    \item Etat 7 : On change les gains statiques pour une régulation plus douce et on passe à une régulation de maintien
+
+    \item Etat 8 : On arrête la sustentation et rénintialise les variables
+
+    \item Etat 9 : On affiche un message d'erreur si la maquette rencontre un problème
+\end{itemize}
+
+En suivant ces informations, le schéma suivant fut réaliser :
+
+\begin{figure}[H]
     \centering
-    \resizebox{\textwidth}{!}{%
-        \begin{tabular}{|l|c|c|c|c|c|c|}
-            \hline
-            \multicolumn{7}{|c|}{\textbf{Vérification des temps}}                                                                                                                                                                                               \\ \hline
-            \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Mesure}}} & \multicolumn{3}{c|}{\textbf{Avec UART}} & \multicolumn{3}{c|}{\textbf{Sans UART}}                                                                                                          \\ \cline{2-7}
-            \multicolumn{1}{|c|}{}                                 & 4 inducteurs [$\mu$s]                   & Inducteurs 1\&2 [$\mu$s]                & Inducteurs 3\&4 [$\mu$s] & 4 inducteurs [$\mu$s] & Inducteurs 1\&2 [$\mu$s] & Inducteurs 3\&4 [$\mu$s] \\ \hline
-            Interruption globale                                   & 20                                      & 13.6                                    & 14.4                     & 20.4                  & 14                       & 14.4                     \\ \hline
-            ADC                                                    & 0.88                                    & 0.86                                    & 0.84                     & 0.88                  & 0.86                     & 0.85                     \\ \hline
-            Machine d'état                                         & 13.2                                    & 9.4                                     & 9.4                      & 13.6                  & 9.6                      & 9.6                      \\ \hline
-            PWM                                                    & 5.2                                     & 2.6                                     & 2.92                     & 4.9                   & 2.76                     & 2.96                     \\ \hline
-        \end{tabular}%
-    }
-    \caption{Vérification des temps d'exécution avec et sans UART}
-    \label{tab:verif_temps}
-\end{table}
-
-Les mesure de temps sont disponible dans l'annexe \ref{an:MesTemps}.
-
-La mesure vient alors prouver le bon fonctionnement et du respect du temps de l'interruption principale.
-
-
-\section{Machine d'état}
-
-\section{Amélioration du code}
+    \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
+    \caption{Principe de lissage du filtre de Savitzky-Golay \cite{Savitzky}}
+    \label{fig:PrincipeSavitzky}
+\end{figure}
 
 \section{A faire}
 \begin{itemize}
