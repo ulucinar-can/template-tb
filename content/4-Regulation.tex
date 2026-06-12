@@ -1044,10 +1044,10 @@ Travail à réaliser :
     \item Analyser les simulations afin de trouver un pôle optimal
 \end{itemize}
 
-\section{Synthèse d'une régulation de position par PID}
-Une synthèse d'une régulation de la position par un PID fut considéré. Le but derrière cette synthèse serait d'avoir la possibilité de réaliser un système ou les composantes serait connu et plus simple à travailler qu'un système par la méthode d'état. Une fois l'obtention d'un comportement satisfaisant, une étude des pôles serait réaliser afin de pouvoir réaliser un placement des pôles dans la régualtion d'état.\\
+\subsection{Synthèse d'une régulation de position par PID}
+La synthèse d'une régulation de position par un régulateur PID a été envisagée. L'objectif de cette démarche est d'obtenir un système dont les composants sont connus et dont l'étude s'avère plus simple qu'une approche par retour d'état. Une fois un comportement satisfaisant obtenu, une analyse des pôles sera réalisée afin de pouvoir effectuer un placement de pôles au sein de la régulation d'état.\\
 
-La synthèse vient alors s'appuyer sur le schéma bloc réaliser dans la figure \ref{fig:PIDBloc} :
+La synthèse s'appuie sur le schéma bloc présenté dans la figure \ref{fig:PIDBloc} :
 
 \begin{figure}[H]
     \centering
@@ -1056,15 +1056,16 @@ La synthèse vient alors s'appuyer sur le schéma bloc réaliser dans la figure 
     \label{fig:PIDBloc}
 \end{figure}
 
-Comme pour la régulation d'état, un bloc général ayant tous les retards fut réaliser.
+À l'instar de la régulation d'état, l'ensemble des retards a été regroupé au sein d'un bloc unique.
 
-Le système à régler est alors définit comme étant :
+Le système à régler est alors défini par l'équation \ref{eq:Gap} :
 
 \begin{equation}
     G_{ap} = G_{pct}\cdot \frac{1}{m}\cdot s^2 =
+    \label{eq:Gap}
 \end{equation}
 
-Le diagramme de Bode du système à régler est représenter dans la figure \ref{fig:BodeGap} :
+Le diagramme de Bode du système à régler est représenté sur la figure \ref{fig:BodeGap} :
 
 \begin{figure}[H]
     \centering
@@ -1073,40 +1074,43 @@ Le diagramme de Bode du système à régler est représenter dans la figure \ref
     \label{fig:BodeGap}
 \end{figure}
 
-La fonction de transfert du régulateur $G_{cp}$ se définit comme celle d'un PID qui s'écrit :
+La fonction de transfert du régulateur $G_{cp}$ se définit comme celle d'un PID, exprimée par l'équation \ref{eq:Gcp} :
 
 \begin{equation}
     G_{cp} = K_{pid}\cdot\frac{1 + \tau_i \cdot s + \tau_i \cdot\tau_d\cdot s^2}{\tau_i \cdot s}
+    \label{eq:Gcp}
 \end{equation}
 
-La synthèse vient alors se concentrer sur la recherche des composante $K_{pid}$, $\tau_i$ et $\tau_d$.\\
+La synthèse se concentre dès lors sur la détermination des paramètres $K_{pid}$, $\tau_i$ et $\tau_d$.\\
 
-Pour simplifier la recherche, l'optimum symétrique fut employer c'est à dire que la valeur de la constante de temps de l'intégrateur $\tau_i$ sera définit comme étant 4 fois celle de la constante de temps du dérivateur $\tau_d$ :
+Afin de simplifier cette recherche, le critère de l'optimum symétrique a été employé. La constante de temps de l'action intégrale $\tau_i$ est ainsi fixée à quatre fois la valeur de la constante de temps de l'action dérivée $\tau_d$, comme formulé dans l'équation \ref{eq:OptSym} :
 
 \begin{equation}
     \tau_i = 4\cdot\tau_d
+    \label{eq:OptSym}
 \end{equation}
 
-Cela permet d'avoir uniquement 2 valeurs à rechercher. Dans un premier temps la valeur de $\tau_d$ et ensuite celle du gain $K_{pid}$.\\
+Cette méthode permet de réduire l'étude à deux paramètres inconnus : la valeur de $\tau_d$ dans un premier temps, puis le gain $K_{pid}$.\\
 
-La valeur de $\tau_d$ est définit comme étant le produit de la somme des petites constantes de temps et d'un coefficient N :
+La grandeur $\tau_d$ est définie comme le produit de la somme des petites constantes de temps par un coefficient $N$, selon l'équation \ref{eq:TauD} :
 
 \begin{equation}
     \tau_d = N\cdot\sum\tau_{pct} = N\cdot 4.27\cdot 10^{-3}
+    \label{eq:TauD}
 \end{equation}
 
-Comme pour la synthèse de la régulation de courant, plusieurs N furent tracé allant de 1 à 20. Une fois les tracés réalisés, la bande-passante et l'erreur furent tracé par rapport à la valeur de N. Seuls les valeurs atteignant une marge de phase à 45° furent retenue. Le choix de N se fera dès alors en choisissant un compromis entre bande-passante et erreur.
+À l'image de la synthèse de la régulation de courant, une analyse paramétrique a été menée pour des valeurs de $N$ comprises entre 1 et 20. À l'issue de ces simulations, l'évolution de la bande passante et de l'erreur a été évaluée en fonction de $N$. Seules les configurations garantissant une marge de phase de 45° ont été retenues. Le choix final du paramètre $N$ repose sur un compromis optimal entre la largeur de la bande passante et la prédiction de l'erreur.
 
-Le tracé pour différente valeur de N est observable dans la figure \ref{fig:ChoixNPID}
+Le tracé pour différentes valeurs de $N$ est disponible sur la figure \ref{fig:ChoixNPID} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/PID/ChoixN.png}
-    \caption{Diagramme de Bode pour différente valeur de N}
+    \caption{Diagramme de Bode pour différentes valeurs de N}
     \label{fig:ChoixNPID}
 \end{figure}
 
-La bande passante est donné par la figure \ref{fig:BPPID} :
+La bande passante est illustrée par la figure \ref{fig:BPPID} :
 
 \begin{figure}[H]
     \centering
@@ -1115,7 +1119,7 @@ La bande passante est donné par la figure \ref{fig:BPPID} :
     \label{fig:BPPID}
 \end{figure}
 
-L'erreur est donné par la figure \ref{fig:ErrorPID} :
+L'erreur est présentée sur la figure \ref{fig:ErrorPID} :
 
 \begin{figure}[H]
     \centering
@@ -1124,14 +1128,24 @@ L'erreur est donné par la figure \ref{fig:ErrorPID} :
     \label{fig:ErrorPID}
 \end{figure}
 
-Le choix c'est alors porté sur $N=12$ offrant pour cette valeur un bon compromis entre la bande-passante ainsi que l'erreur.
-Cette valeur de N donne les paramètres du PID suivant :
+Le choix s'est porté sur la valeur $N=12$, offrant un équilibre satisfaisant entre la bande passante et l'erreur.
+
+Il est alors possible de déterminer le gain $K_{pid}$ en recherchant, pour cette valeur de $N$, la valeur assurant une marge de phase de 45° :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RechercheKpid.png}
+    \caption{Détermination du gain $K_{pid}$}
+\end{figure}
+
+Cette configuration détermine les paramètres finaux du régulateur PID, présentés dans l'équation \ref{eq:ParamPID} :
 
 \begin{equation}
-    K_{pid} = 2088.91 \quad \tau_i = 207.7 \text{ ms} \quad \tau_d = 51.9 \text{ ms}
+    K_{pid} = 20889 \quad \tau_i = 207,7 \text{ ms} \quad \tau_d = 51,9 \text{ ms}
+    \label{eq:ParamPID}
 \end{equation}
 
-Le tracé de la boucle ouverte est observable dans la figure \ref{fig:BOPID} :
+Le diagramme de Bode en boucle ouverte est visible sur la figure \ref{fig:BOPID} :
 
 \begin{figure}[H]
     \centering
@@ -1140,7 +1154,7 @@ Le tracé de la boucle ouverte est observable dans la figure \ref{fig:BOPID} :
     \label{fig:BOPID}
 \end{figure}
 
-Afin de vérifier le comportement du système, un saut unitaire en boucle fermée fut réaliser. Celui-ci donne le tracé de la figure \ref{fig:RepIndPID}
+Afin de vérifier le comportement du système, un saut unitaire en boucle fermée a été réalisé. Les résultats sont présentés sur le tracé de la figure \ref{fig:RepIndPID} :
 
 \begin{figure}[H]
     \centering
@@ -1149,14 +1163,15 @@ Afin de vérifier le comportement du système, un saut unitaire en boucle fermé
     \label{fig:RepIndPID}
 \end{figure}
 
-Cette réponse indicielle vient alors confirmer la bonne réactivité du système à régler la maquette.
+Cette réponse indicielle confirme la réactivité adéquate du système vis-à-vis de la maquette.
 
-Cette étude est cependant encore à confirmer lors d'essaie sur la maquette. Actuellement celle-ci est simplement synthéthiser.
+Cette étude nécessite toutefois d'être validée par des essais physiques sur le démonstrateur, la régulation n'étant pour l'instant qu'au stade de la modélisation.
 
 \begin{itemize}
-    \item Vérifier la synthèse
-    \item Appliquer sur un inducteur pour trouver les bons Paramètres
-    \item Appliquer sur les 4
-    \item Obtenir les poles
-    \item Appliquer les poles sur la régul d'état
+    \item Réaliser une simulation.
+    \item Vérifier la synthèse.
+    \item Appliquer les paramètres sur un inducteur pour identifier le comportement réel.
+    \item Étendre l'application aux quatre inducteurs.
+    \item Déterminer les pôles en boucle fermée.
+    \item Transposer les pôles identifiés sur la régulation d'état.
 \end{itemize}
