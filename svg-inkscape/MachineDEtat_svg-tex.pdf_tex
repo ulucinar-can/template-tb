@@ -1,0 +1,149 @@
+%% Creator: Inkscape 1.2.2 (b0a8486541, 2022-12-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'MachineDEtat_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1110bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.73682432)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.60777027,0.54493243){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 1...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.65506757,0.6125){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current1 < 3A...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.82263514,0.43614865){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 >= 2.97...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.74425676,0.14628378){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Variable :...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.26317568,0.07195946){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Timer de 0.6s\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.43209459,0.62601351){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 0Bouton S2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.43209459,0.56182432){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.02668919,0.28141892){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == ON\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.8125,0.28141892){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Timer de 0.6s\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.43209459,0.02128378){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 >= 2.97...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.34763514,0.71047297){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Reset\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.43209459,0.71047297){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Init\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.72263514,0.43614865){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 2...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.72263514,0.28141892){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 3...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.60777027,0.1597973){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 4...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.65506757,0.08885135){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current3 < 3A...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.26317568,0.1597973){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 6...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.11452703,0.27804054){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 7...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.43209459,0.10574324){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 5...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.11452703,0.43547297){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 8...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.27668919,0.51790541){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 9...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.08074324,0.34898649){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.18643485,0.49310986){\color[rgb]{1,0,0}\rotatebox{24}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.5321771,0.61281636){\rotatebox{-28}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == ON...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.69147319,0.51561338){\rotatebox{-32}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current1 >= 3A...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.76182432,0.36587838){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 < 2.97...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.69907755,0.20136176){\rotatebox{51.6}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 =< 2...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.1632916,0.18085917){\rotatebox{-45}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 =< 2...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.34398516,0.10804343){\rotatebox{-24}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 < 2.97...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.54090221,0.10245696){\rotatebox{15}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current3 >= 3...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.4248673,0.51129628){\color[rgb]{1,0,0}\rotatebox{19}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.47818141,0.41927807){\color[rgb]{1,0,0}\rotatebox{3}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.51787093,0.31182946){\color[rgb]{1,0,0}\rotatebox{-15}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.48960447,0.18999472){\color[rgb]{1,0,0}\rotatebox{-30}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.35341063,0.17095362){\color[rgb]{1,0,0}\rotatebox{-48}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.20767611,0.22706728){\color[rgb]{1,0,0}\rotatebox{-70}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.42986616,0.48212855){\color[rgb]{0,1,0}\rotatebox{11}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.47398649,0.44425676){\color[rgb]{0,1,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=39]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.52585401,0.33898363){\color[rgb]{0,1,0}\rotatebox{-18}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=40]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.51399762,0.23703767){\color[rgb]{0,1,0}\rotatebox{-31}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=41]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.39115824,0.20583446){\color[rgb]{0,1,0}\rotatebox{-47}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=42]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.25464773,0.23838335){\color[rgb]{0,1,0}\rotatebox{-65}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=43]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.48952703,0.2875){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SKIP\_BACK == 1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=44]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.5545714,0.37436928){\rotatebox{-69}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SKIP\_FRONT == 1\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=45]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.74425676,0.06858108){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Régulation de courant active à partir de l'état 1 jusqu'à l'éta...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=46]{MachineDEtat_svg-tex.pdf}}%
+    \put(0.74425676,0.02128378){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}La lecture des ADC se fait constamment \end{tabular}}}}%
+  \end{picture}%
+\endgroup%
