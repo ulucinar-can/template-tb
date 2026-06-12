@@ -823,7 +823,202 @@ Puisque la sortie ne dépends que la positions comme observé dans la figure \re
     C_s = \begin{bmatrix} 1 & 0 \end{bmatrix} \quad D_s =  0 \quad D_{sv} =  0
 \end{equation}
 
+Les gains de retours d'états sont alors définit comme suit :
+
+\begin{equation}
+    K_s = \begin{bmatrix} k_\delta \\ k_{\dot{\delta}} \end{bmatrix}
+\end{equation}
+
+Il est dès à présent possible de continuer sur le grand vecteur d'état qui s'écrit alors :
+
+\begin{equation}
+    x = \begin{bmatrix} x_{em} \\ x_s \\ x_r \end{bmatrix} = \begin{bmatrix} x_{em} \\ \delta \\ \dot{\delta} \\ x_r \end{bmatrix}
+\end{equation}
+
+L'équation du grand vecteur d'état s'écrit :
+
+\begin{equation}
+    \dot{x} = A \cdot x + B \cdot F_c + B_w \cdot \delta_c + B_v \cdot g
+\end{equation}
+
+Il fau tdès à présent retrouver les dérivées de $x_{cm}$, $\delta$, $\dot{\delta}$ et $x_r$. Pour cela, il faudra se basé sur la figure \ref{fig:RegPosBloc}.\\
+
+Pour trouver $x_{cm}$, on la retrouve simplement en partant du gain $G_{m\delta}$ :
+
+$$G_{m\delta} = \frac{x_{em}}{F_c} = \frac{1}{1 + s \cdot T_{pct}}$$
+
+$$\Rightarrow x_{em}(1 + s \cdot T_{pct}) = F_c \Rightarrow x_{em} + \dot{x}_{em} \cdot T_{pct} = F_c$$
+
+\begin{equation}
+    \dot{x}_{em} = \frac{1}{T_{pct}} \cdot F_c - \frac{1}{T_{pct}} \cdot x_{em}
+\end{equation}
+
+Puisque $x_{cm}$ vaut $F_{el}$, il est possible alors d'obtenir l'accèleration qui s'écrit comme suit :
+
+\begin{equation}
+    \ddot{\delta} = g - F_{el} \cdot \frac{1}{m} = g - x_{em} \cdot \frac{1}{m}
+\end{equation}
+
+En observant la figure \ref{fig:RegPosBloc}, $x_r$ s'obtient très facilement en s'écrivant simplement :
+
+\begin{equation}
+    x_r = \frac{1}{s \cdot T_i} \cdot (\delta_c - \delta) \Rightarrow \dot{x}_r = \frac{1}{T_i} \cdot \delta_c - \frac{1}{T_i} \cdot \delta
+\end{equation}
+
+Une fois toutes les équations obtenues, celle-ci peuvent s'écrire comme suit afin d'obtenir les matrices d'états global :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+         & \dot{x}_{em} = -\frac{1}{T_{pct}} \cdot x_{em} + 0 \cdot \delta + 0 \cdot \dot{\delta} + \frac{1}{T_{pct}} \cdot F_c + 0 \cdot \delta_c + 0 \cdot g
+        \\
+         & \dot{\delta} = 0 \cdot x_{em} + 0 \cdot \delta + 1 \cdot \dot{\delta} + 0 \cdot F_c + 0 \cdot \delta_c + 0 \cdot g
+        \\
+         & \ddot{\delta} = -\frac{1}{m} \cdot x_{em} + 0 \cdot \delta + 0 \cdot \dot{\delta} + 0 \cdot F_c + 0 \cdot \delta_c + 1 \cdot g
+        \\
+         & \dot{x}_r = 0 \cdot x_{em} - \frac{1}{T_i} \cdot \delta + 0 \cdot \dot{\delta} + 0 \cdot F_c + \frac{1}{T_i} \cdot \delta_c + 0 \cdot g
+    \end{aligned}
+    \right.
+\end{equation}
+
+Les matrices d'états sont alors :
+
+\begin{equation}
+    A = \begin{bmatrix} -\frac{1}{T_{pct}} & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix} \quad B = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix}\quad B_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}\quad B_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
+\end{equation}
+
+L'équation de la sortie s'écrit :
+
+\begin{equation}
+    y = C \cdot x + D \cdot F_c + D_w \cdot \delta_c + D_v \cdot g
+\end{equation}
+
+Puisque la sortie dépends une nouvelle fois uniquement de la sortie, les matrices d'états de la sortie s'écrivent alors :
+
+\begin{equation}
+    C = \begin{bmatrix} 0 & 1 & 0 & 0 \end{bmatrix}\quad D = 0\quad D_w = 0 \quad D_v = 0
+\end{equation}
+
+Pour terminer, il est possible de déterminer la force de consigne qui s'écrit :
+
+\begin{equation}
+    F_c = K_w \cdot \delta_c + K_v \cdot m - K \cdot x
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $K_v$ : Le gain de compensation de perturbation
+    \item $K_w$ : Le gain de de conversion de force
+    \item $K$ : Le gain de retour d'état global
+\end{itemize}
+
+Le gain de retour d'état global s'écrit :
+
+\begin{equation}
+    K = \begin{bmatrix} 0 & K_s & -K_r \end{bmatrix} = \begin{bmatrix} 0 & K_\delta & K_    {\dot{\delta}} & -K_r \end{bmatrix}
+\end{equation}
+
+L'équation en boucle fermé devient alors :
+
+\begin{equation}
+    \dot{x} = (A - B \cdot K) \cdot x + (B_w + B \cdot K_w) \cdot \delta_c + (B_v - B \cdot K_v) \cdot g = A_G \cdot x + B_G \cdot \delta_c + B_{Gv} \cdot g
+\end{equation}
+
+Avec les matrices d'état global :
+
+\begin{equation}
+    B \cdot K = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} \begin{bmatrix} 0 & K_\delta & K_{\dot{\delta}} & -K_r \end{bmatrix} = \begin{bmatrix} 0 & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    A_G = A - B \cdot K = \begin{bmatrix} -\frac{1}{T_{pct}} & -\frac{K_\delta}{T_{pct}} & -\frac{K_{\dot{\delta}}}{T_{pct}} & \frac{K_r}{T_{pct}} \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    B_G = B_w + B \cdot K_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix} + \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} K_w = \begin{bmatrix} \frac{K_w}{T_{pct}} \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}
+\end{equation}
+
+\begin{equation}
+    B_{Gv} = B_v - B \cdot K_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} - \begin{bmatrix} \frac{K_v}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} -\frac{K_v}{T_{pct}} \\ 0 \\ 1 \\ 0 \end{bmatrix}
+\end{equation}
+
+La sortie global s'écrit :
+\begin{equation}
+    y = C \cdot x + D_G \cdot \delta_c + D_{Gv} \cdot g
+\end{equation}
+
+La sortie étant uniquement la position, les matrices d'états de la sortie sont alors tout simplement :
+
+\begin{equation}
+    C = \begin{bmatrix} 0 & 1 & 0 & 0 \end{bmatrix} \quad D_G = 0 \quad D_{Gv} = 0
+\end{equation}
+
+
+
 \subsection{Placement de pôles}
+Il est dès alors possible de calculer les pôles afin de réaliser un placement des pôles. Ce calculent s'effectuent de la manière suivante :
+
+\begin{equation}
+    P(s) = \det(s \cdot I - A_G) = 0
+\end{equation}
+
+Avec la matrice $s \cdot I$ étant définit comme :
+
+\begin{equation}
+    s \cdot I = \begin{bmatrix} s & 0 & 0 & 0 \\ 0 & s & 0 & 0 \\ 0 & 0 & s & 0 \\ 0 & 0 & 0 & s \end{bmatrix}
+\end{equation}
+
+Le calcule devient alors :
+
+\begin{equation}
+    s \cdot I - A_G = \begin{bmatrix} s + \frac{1}{T_{pct}} & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & s & -1 & 0 \\ \frac{1}{m} & 0 & s & 0 \\ 0 & \frac{1}{T_i} & 0 & s \end{bmatrix}
+\end{equation}
+
+Le determinant de cette soustraction de matrices équivaut alors :
+
+$$\Rightarrow P(s) = \frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{T_{pct}} \cdot s + \frac{K_v}{T_{pct} \cdot T_i} - \frac{K_\delta}{T_{pct}} \cdot s^2 \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{T_{pct}} \right)$$
+
+$$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot T_{pct}} \cdot s^2 + \frac{K_\delta}{m \cdot T_{pct}} \cdot s + \frac{K_v}{m \cdot T_{pct} \cdot T_i} + s^4 + s^3 \cdot \frac{1}{T_{pct}} = 0$$
+
+\begin{equation}
+    P(s) = s^4 + s^3 \cdot \frac{1}{T_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot T_{pct}} + s \cdot \frac{K_\delta}{m \cdot T_{pct}} + \frac{K_v}{m \cdot T_{pct} \cdot T_i}
+\end{equation}
+
+Cette équation doit avoir la forme suivante :
+
+\begin{equation}
+    P(s) = (s - p_1)(s - p_2)(s - p_3)(s - p_4) = s^4 + a_3 \cdot s^3 + a_2 \cdot s^2 + a_1 \cdot s + a_0
+\end{equation}
+
+Avec :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+         & a_0 = -\displaystyle\frac{k_r}{m \cdot T_i \cdot \tau_{pct}} = p_1 \cdot p_2 \cdot p_3 \cdot p_4
+        \\
+         & a_1 = -\displaystyle\frac{k_\delta}{m \cdot \tau_{pct}} = -(p_1 \cdot p_2 \cdot p_3 + p_2 \cdot p_3 \cdot p_4 + p_1 \cdot p_3 \cdot p_4 + p_1 \cdot p_2 \cdot p_4)
+        \\
+         & a_2 = -\displaystyle\frac{k_{\dot{\delta}}}{m \cdot \tau_{pct}} = (p_1 \cdot p_2 + p_1 \cdot p_3 + p_1 \cdot p_4 + p_2 \cdot p_3 + p_2 \cdot p_4 + p_3 \cdot p_4)
+        \\
+         & a_3 = \displaystyle\frac{1}{\tau_{pct}} = -(p_1 + p_2 + p_3 + p_4)
+    \end{aligned}
+    \right.
+\end{equation}
+
+Certaines règles sont cependant à respecter afin de réaliser un placement de pôles correcte. Celle-ci furent détailler dans les travaux de Laucella \cite{Laucella} et de Yersin \cite{Yersin}. La règle principale se concentre sur un pôle ayant un amortissement absolu minimal :
+
+\begin{equation}
+    p_{min} ≤ \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4.27\cdot 10^{-3} - 0} \right)
+\end{equation}
+
+Avec n l'ordre du filtre ici 4 et $tr\left(A_s\right)$ correspondant à la somme des valeurs de la diagonnale de la matrice $A_s$ (La somme de celle-ci étant nulle).\\
+
+Afin de déterminer le coefficient $k_w$, il est néscessaire de développer la fonction de transfert du système. Celle-ci peut être réaliser à partir des matrices d'états comme suit :
+
+\begin{equation}
+    Gyw​(s)=\frac{1}{det\left((s\cdot I - A_G) \right)}\cdot C⋅(s\cdot I - A_G)⋅B_{Gw} + D_G + D_{Gv}
+\end{equation}
 
 \section{Synthèse d'une régulation de position par PID}
 \begin{itemize}
