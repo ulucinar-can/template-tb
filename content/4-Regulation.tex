@@ -1040,17 +1040,34 @@ L'algorithme sous Matlab est utilisé pour calculer les différents pôles admis
 
 Travail à réaliser :
 \begin{itemize}
-    \item Identifier un placement de pôles assurant la robustesse et la stabilité de la régulation.
+    \item Identifier un placement de pôles assurant la robustesse et la stabilité de la régulation
+    \item Analyser les simulations afin de trouver un pôle optimal
 \end{itemize}
 
 \section{Synthèse d'une régulation de position par PID}
 Une synthèse d'une régulation de la position par un PID fut considéré. Le but derrière cette synthèse serait d'avoir la possibilité de réaliser un système ou les composantes serait connu et plus simple à travailler qu'un système par la méthode d'état. Une fois l'obtention d'un comportement satisfaisant, une étude des pôles serait réaliser afin de pouvoir réaliser un placement des pôles dans la régualtion d'état.\\
 
-La synthèse vient alors s'appuyer sur le schéma bloc suivant : 
+La synthèse vient alors s'appuyer sur le schéma bloc réaliser dans la figure \ref{PIDBloc} :
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/PIDBloc.png}
+    \caption{Schéma bloc de la régulation de position par PID}
+    \label{fig:PIDBloc}
+\end{figure}
+
+Comme pour la régulation d'état, un bloc général ayant tous les retards fut réaliser.
+
+Le système à régler est alors définit comme étant :
+
+\begin{equation}
+    G_{ap} = G_{pct}\cdot \frac{1}{m}\cdot s^2
+\end{equation}
+
+Cette étude est cependant encore à confirmer lors d'essaie sur la maquette. Actuellement celle-ci est simplement synthéthiser.
 
 \begin{itemize}
-    \item vérifier la Synthèse
+    \item Vérifier la synthèse
     \item Appliquer sur un inducteur pour trouver les bons Paramètres
     \item Appliquer sur les 4
     \item Obtenir les poles
