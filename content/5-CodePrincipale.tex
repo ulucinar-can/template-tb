@@ -297,7 +297,23 @@ L'analyse temporelle se concentre sur quatre phases de l'interruption : premièr
 \subsection{Relevé des mesures}
 Les mesures sont recensées dans le tableau \ref{tab:verif_temps_final} :
 
-% [Insère ton tableau tab:verif_temps_final ici]
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification des temps}}                                                                                                                                                                                                                                                                                                                                                                                                                                                  \\ \hline
+            \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Mesure}}} & \multicolumn{3}{c|}{\textbf{Avec UART}}                             & \multicolumn{3}{c|}{\textbf{Sans UART}}                                                                                                                                                                                                                                                                                                                                 \\ \cline{2-7}
+            \multicolumn{1}{|c|}{}                                 & \begin{tabular}[c]{@{}c@{}}4 Inducteurs\\ {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 1\&2 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 3\&4 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}4 Inducteurs\\ {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 1\&2 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 3\&4 {[}$\mu$s{]}\end{tabular} \\ \hline
+            Interruption globale                                   & 20                                                                  & 13.6                                                                   & 14.4                                                                   & 20.4                                                                & 14                                                                     & 14.4                                                                   \\ \hline
+            ADC                                                    & 0.88                                                                & 0.86                                                                   & 0.84                                                                   & 0.88                                                                & 0.86                                                                   & 0.85                                                                   \\ \hline
+            Machine d'état                                         & 13.2                                                                & 9.4                                                                    & 9.4                                                                    & 13.6                                                                & 9.6                                                                    & 9.6                                                                    \\ \hline
+            PWM                                                    & 5.2                                                                 & 2.6                                                                    & 2.92                                                                   & 4.9                                                                 & 2.76                                                                   & 2.96                                                                   \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification des temps d'exécution avec et sans UART}
+    \label{tab:verif_temps_final}
+\end{table}
 
 Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'annexe \ref{an:MesTemps}.
 
@@ -311,17 +327,17 @@ La machine d'état précédente étant compliqué à lire et allant dans tous le
 
     \item Etat 0 : On attends la pression du boutton
 
-    \item Etat 1 : On monte le courant des inducteurs 1&2 à 3 A (pour ne pas partir de zéro).
+    \item Etat 1 : On monte le courant des inducteurs 1 et 2 à 3 A (pour ne pas partir de zéro).
 
-    \item Etat 2 : On augmente le courant des inducteurs 1&2 avec une rampe "infinie" (régulation de courant seule).
+    \item Etat 2 : On augmente le courant des inducteurs 1 et 2 avec une rampe "infinie" (régulation de courant seule).
 
-    \item Etat 3 : Lorsque l'inducteur 1&2 commencent à bouger, on les passe en régulation de position (lévitation de l'avant du véhicule).
+    \item Etat 3 : Lorsque l'inducteur 1 et 2 commencent à bouger, on les passe en régulation de position (lévitation de l'avant du véhicule).
 
-    \item Etat 4 : On monte le courant des inducteurs 3&4 à 3 A (pour ne pas partir de zéro).
+    \item Etat 4 : On monte le courant des inducteurs 3 et 4 à 3 A (pour ne pas partir de zéro).
 
     \item Etat 5 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
 
-    \item Etat 6 : Lorsque l'inducteur 3&4 commencent à bouger, on les passe en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
+    \item Etat 6 : Lorsque l'inducteur 3 et 4 commencent à bouger, on les passe en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
 
     \item Etat 7 : On change les gains statiques pour une régulation plus douce et on passe à une régulation de maintien
 
@@ -330,14 +346,16 @@ La machine d'état précédente étant compliqué à lire et allant dans tous le
     \item Etat 9 : On affiche un message d'erreur si la maquette rencontre un problème
 \end{itemize}
 
-En suivant ces informations, le schéma suivant fut réaliser :
+En suivant ces informations, le schéma présent dans la figure \ref{fig:MachineDEtat} fut réaliser :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
-    \caption{Principe de lissage du filtre de Savitzky-Golay \cite{Savitzky}}
-    \label{fig:PrincipeSavitzky}
+    \includegraphics[width=1\linewidth]{assets/Chap5/MachineDEtat.png}
+    \caption{Machine d'état pour réaliser la régulation}
+    \label{fig:MachineDEtat}
 \end{figure}
+
+La machine d'état est également disponible dans l'annexe \ref{} pour obtenir plus de détail.
 
 \section{A faire}
 \begin{itemize}
