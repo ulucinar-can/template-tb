@@ -2,8 +2,38 @@
 
 \section{Conclusion sur les hypothèses}
 
-\red{Faire un tableau avec les hypothèses avec une coche ou une croix}
+Le tableau ci-dessous dresse le bilan des différentes hypothèses de recherche formulées initialement pour expliquer le problème de lévitation.
 
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Permet d'aérer les lignes du tableau
+    \begin{tabular}{|p{12cm}|c|}
+        \hline
+        \textbf{Hypothèse de recherche}                                                                                                                      & \textbf{Bilan} \\
+        \hline
+        Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation.                          & $\times$       \\
+        \hline
+        Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption. & $\times$       \\
+        \hline
+        L'ajout récent d'une action intégrale engendre une instabilité du système.                                                                           & $\sim$         \\
+        \hline
+        Une mauvaise calibration globale du système empêche le décollage.                                                                                    & $\checkmark$   \\
+        \hline
+        L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.                      & $\checkmark$   \\
+        \hline
+        Une erreur s'est glissée lors de la phase de synthèse des régulateurs.                                                                               & $\checkmark$   \\
+        \hline
+        La condition de vérification à 99 \% perturbe le comportement de la machine d'état.                                                                  & $-$            \\
+        \hline
+        La carte principale présente un défaut matériel.                                                                                                     & $\sim$         \\
+        \hline
+        Les broches du DSP ne sont pas correctement reliées au reste de la carte principale.                                                                 & $-$            \\
+        \hline
+    \end{tabular}
+    \vspace{0.3cm}
+    \caption{Bilan de la validation des hypothèses de recherche ($\checkmark$ : Validé, $\times$ : Invalidé, $\sim$ : Partiel/Moyen), $-$ pas essayers}
+    \label{tab:bilan_hypotheses}
+\end{table}
 
 \vfil
 \hspace{8cm}\makeatletter\@author\makeatother\par
