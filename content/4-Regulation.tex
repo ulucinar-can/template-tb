@@ -723,7 +723,7 @@ Travail à réaliser par la suite :
 \end{itemize}
 
 \section{La régulation de position}
-La régulation de position est réaliser par une régulation d'état. Le schéma bloc de cette régulation est définie dans le travail de Zayadine comme présenter dans la figure \ref{fig:RegPosBloc} :
+La régulation de position est réalisée au moyen d'un retour d'état. Le schéma bloc de cette régulation est défini dans les travaux de Zayadine \cite{Zayadine}, tel que présenté sur la figure \ref{fig:RegPosBloc} :
 
 \begin{figure}[H]
     \centering
@@ -732,9 +732,9 @@ La régulation de position est réaliser par une régulation d'état. Le schéma
     \label{fig:RegPosBloc}
 \end{figure}
 
-Comme observé dans la figure \ref{fig:RegPosBloc}, 4 paramètres sont à dimmensionner. Ceux-ci sont le gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
+Comme l'illustre la figure \ref{fig:RegPosBloc}, quatre paramètres doivent être dimensionnés : le vecteur de gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
-Une simplification est réalisé en regroupant tous les retards en un seul bloc dénomé $G_{pct}$. Celui-ci est la somme des petites constantes de temps de la régulation de position. Cela inclut donc la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre Savitzky par $\tau_{vf2}$ et le filtre coupe bande $\tau_{F_C}$. Les filtres seront représenter que comme des retard synthétiser en filtre passe bas d'ordre 1.
+Une simplification est effectuée en regroupant l'ensemble des retards dans un bloc unique, désigné par $G_{pct}$. Celui-ci représente la somme des petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces différents filtres sont modélisés comme de simples retards synthétisés sous forme de filtres passe-bas du premier ordre.
 
 \begin{figure}[H]
     \centering
@@ -743,7 +743,7 @@ Une simplification est réalisé en regroupant tous les retards en un seul bloc 
     \label{fig:MiseCommunRetard}
 \end{figure}
 
-Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors la figure \ref{fig:RegPosBlocSimple}:
+Ces constantes de temps sont alors fusionnées en un seul bloc, aboutissant au schéma simplifié de la figure \ref{fig:RegPosBlocSimple} :
 
 \begin{figure}[H]
     \centering
@@ -752,49 +752,49 @@ Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors
     \label{fig:RegPosBlocSimple}
 \end{figure}
 
-Avec $G_{pct}$ étant :
+La fonction de transfert $G_{pct}$ est définie par l'équation \ref{eq:Gpct1} :
 
 \begin{equation}
     G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{iBF} + \tau_{vf2} + \tau_{F_C} \right)}
     \label{eq:Gpct1}
 \end{equation}
 
-Du travail de Bachelor de Yersin \cite{Yersin}, il est possible de récupérer les constantes de temps suivantes :
+Les travaux de Yersin \cite{Yersin} permettent d'extraire les valeurs suivantes :
 
 \begin{equation}
-    \tau_{m\delta} = 144.7 \text{ $\mu s$}\quad\tau_{vf2} = 65 \text{ $\mu s$}\quad\tau_{vf2} = 3.98 \text{ $ms$}
+    \tau_{m\delta} = 144,7 \text{ $\mu$s}\quad\tau_{vf2} = 65 \text{ $\mu$s}\quad\tau_{F_C} = 3,98 \text{ ms}
 \end{equation}
 
-En insérant ces valeurs dans l'équation \ref{eq:Gpct1}, ot obtient alors :
+En substituant ces valeurs dans l'équation \ref{eq:Gpct1}, l'expression devient :
 
 \begin{equation}
-    G_{pct} = \frac{1}{1 + s \cdot \left( 78.3\cdot 10^{-6} + 144.7\cdot 10^{-6} + 65\cdot 10^{-6} + 3.98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}}
-    \label{eq:Gpct1}
+    G_{pct} = \frac{1}{1 + s \cdot \left( 78,3\cdot 10^{-6} + 144,7\cdot 10^{-6} + 65\cdot 10^{-6} + 3,98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4,27\cdot 10^{-3}}
+    \label{eq:Gpct1_val}
 \end{equation}
 
-Il est alors possible de s'attaquer à la définition de l'éspace d'état.
+L'établissement de la représentation d'état du système peut alors être abordé.
 
 \subsection{Définition de l'espace d'état}
-A partir des figures \ref{fig:RegPosBloc} à \ref{fig:RegPosBlocSimple}, il est possible d'observer que la seule équation jouant un rôle dans cette régulation est l'quation de Newton \ref{eq:Newton1}. Comme rappel la voici :
+L'analyse des schémas blocs (figures \ref{fig:RegPosBloc} à \ref{fig:RegPosBlocSimple}) met en évidence que la dynamique principale est régie par la loi de Newton, formulée dans l'équation \ref{eq:Newton1}. Pour rappel :
 
 \begin{equation}
     m \cdot \ddot{\delta} =\sum F = F_p - F_{el} = m \cdot g - F_{el}
-    \label{eq:Newton1}
+    \tag{\ref{eq:Newton1}}
 \end{equation}
 
-La première étape sera d'écrire un vecteur d'état pour la position et la vitesse en se bassant sur la figure \ref{fig:RegPosBlocSimple} :
+La première étape consiste à définir un vecteur d'état intégrant la position et la vitesse du système, conformément à la figure \ref{fig:RegPosBlocSimple} :
 
 \begin{equation}
     x_s =\left[\begin{matrix} \delta \\ \dot{\delta} \end{matrix}\right]
 \end{equation}
 
-L'équation de l'espace d'état s'écrit alors :
+Le modèle d'état s'exprime sous la forme générique :
 
 \begin{equation}
-    \dot{x_s} = A_s\cdot x_s + B_s\cdot F_{el} + B_{sv}\cdot g
+    \dot{x}_s = A_s\cdot x_s + B_s\cdot F_{el} + B_{sv}\cdot g
 \end{equation}
 
-Il faut dès a présent rechercher les matrices d'état $A_s$, $B_s$ et $B_{sv}$. Pour cela, les quations suivante sont posées :
+L'identification des matrices $A_s$, $B_s$ et $B_{sv}$ repose sur la décomposition suivante :
 
 \begin{equation}
     \left\{ \begin{aligned}
@@ -804,46 +804,46 @@ Il faut dès a présent rechercher les matrices d'état $A_s$, $B_s$ et $B_{sv}$
     \end{aligned} \right.
 \end{equation}
 
-Les matrices d'états sont alors :
+Les matrices d'état correspondantes sont :
 
 \begin{equation}
     A_s = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} \quad B_s = \begin{bmatrix} 0 \\ -\frac{1}{m} \end{bmatrix}\quad B_{sv} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
 \end{equation}
 
-La sortie s'exprime par l'équation \ref{eq:Sortie1} :
+L'équation d'observation de la sortie est définie par l'équation \ref{eq:Sortie1} :
 
 \begin{equation}
     y = C_s \cdot x_s + D_s \cdot F_{el} + D_{sv} \cdot g
     \label{eq:Sortie1}
 \end{equation}
 
-Puisque la sortie ne dépends que la positions comme observé dans la figure \ref{fig:RegPosBlocSimple}, les matrices de sorties sont alors simplement :
+La sortie du système étant exclusivement la position (voir figure \ref{fig:RegPosBlocSimple}), les matrices d'observation s'écrivent :
 
 \begin{equation}
     C_s = \begin{bmatrix} 1 & 0 \end{bmatrix} \quad D_s =  0 \quad D_{sv} =  0
 \end{equation}
 
-Les gains de retours d'états sont alors définit comme suit :
+Le vecteur des gains de retour d'état s'exprime par :
 
 \begin{equation}
     K_s = \begin{bmatrix} k_\delta \\ k_{\dot{\delta}} \end{bmatrix}
 \end{equation}
 
-Il est dès à présent possible de continuer sur le grand vecteur d'état qui s'écrit alors :
+La modélisation est ensuite étendue au vecteur d'état global du système augmenté :
 
 \begin{equation}
     x = \begin{bmatrix} x_{em} \\ x_s \\ x_r \end{bmatrix} = \begin{bmatrix} x_{em} \\ \delta \\ \dot{\delta} \\ x_r \end{bmatrix}
 \end{equation}
 
-L'équation du grand vecteur d'état s'écrit :
+La dynamique de ce vecteur global est décrite par la relation :
 
 \begin{equation}
     \dot{x} = A \cdot x + B \cdot F_c + B_w \cdot \delta_c + B_v \cdot g
 \end{equation}
 
-Il fau tdès à présent retrouver les dérivées de $x_{cm}$, $\delta$, $\dot{\delta}$ et $x_r$. Pour cela, il faudra se basé sur la figure \ref{fig:RegPosBloc}.\\
+Il est nécessaire d'établir les expressions des dérivées de $x_{em}$, $\delta$, $\dot{\delta}$ et $x_r$ en se basant sur le schéma de la figure \ref{fig:RegPosBloc}.\\
 
-Pour trouver $x_{cm}$, on la retrouve simplement en partant du gain $G_{m\delta}$ :
+La variable $x_{em}$ se déduit de la fonction de transfert $G_{m\delta}$ :
 
 $$G_{m\delta} = \frac{x_{em}}{F_c} = \frac{1}{1 + s \cdot T_{pct}}$$
 
@@ -853,19 +853,19 @@ $$\Rightarrow x_{em}(1 + s \cdot T_{pct}) = F_c \Rightarrow x_{em} + \dot{x}_{em
     \dot{x}_{em} = \frac{1}{T_{pct}} \cdot F_c - \frac{1}{T_{pct}} \cdot x_{em}
 \end{equation}
 
-Puisque $x_{cm}$ vaut $F_{el}$, il est possible alors d'obtenir l'accèleration qui s'écrit comme suit :
+L'état $x_{em}$ correspondant physiquement à $F_{el}$, l'équation de l'accélération s'écrit :
 
 \begin{equation}
     \ddot{\delta} = g - F_{el} \cdot \frac{1}{m} = g - x_{em} \cdot \frac{1}{m}
 \end{equation}
 
-En observant la figure \ref{fig:RegPosBloc}, $x_r$ s'obtient très facilement en s'écrivant simplement :
+D'après la figure \ref{fig:RegPosBloc}, l'état de l'intégrateur $x_r$ est régi par :
 
 \begin{equation}
     x_r = \frac{1}{s \cdot T_i} \cdot (\delta_c - \delta) \Rightarrow \dot{x}_r = \frac{1}{T_i} \cdot \delta_c - \frac{1}{T_i} \cdot \delta
 \end{equation}
 
-Une fois toutes les équations obtenues, celle-ci peuvent s'écrire comme suit afin d'obtenir les matrices d'états global :
+Le regroupement de ces équations permet de définir le système d'état complet :
 
 \begin{equation}
     \left\{
@@ -881,25 +881,25 @@ Une fois toutes les équations obtenues, celle-ci peuvent s'écrire comme suit a
     \right.
 \end{equation}
 
-Les matrices d'états sont alors :
+Les matrices du modèle d'état global s'écrivent alors :
 
 \begin{equation}
     A = \begin{bmatrix} -\frac{1}{T_{pct}} & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix} \quad B = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix}\quad B_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}\quad B_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
 \end{equation}
 
-L'équation de la sortie s'écrit :
+L'équation d'observation du système s'écrit :
 
 \begin{equation}
     y = C \cdot x + D \cdot F_c + D_w \cdot \delta_c + D_v \cdot g
 \end{equation}
 
-Puisque la sortie dépends une nouvelle fois uniquement de la sortie, les matrices d'états de la sortie s'écrivent alors :
+La sortie correspondant à la position, les matrices associées sont :
 
 \begin{equation}
     C = \begin{bmatrix} 0 & 1 & 0 & 0 \end{bmatrix}\quad D = 0\quad D_w = 0 \quad D_v = 0
 \end{equation}
 
-Pour terminer, il est possible de déterminer la force de consigne qui s'écrit :
+La loi de commande (force de consigne) est structurée par la relation suivante :
 
 \begin{equation}
     F_c = K_w \cdot \delta_c + K_v \cdot m - K \cdot x
@@ -907,24 +907,24 @@ Pour terminer, il est possible de déterminer la force de consigne qui s'écrit 
 
 Avec :
 \begin{itemize}
-    \item $K_v$ : Le gain de compensation de perturbation
-    \item $K_w$ : Le gain de de conversion de force
-    \item $K$ : Le gain de retour d'état global
+    \item $K_v$ : Gain de compensation de perturbation.
+    \item $K_w$ : Gain de conversion de force.
+    \item $K$ : Matrice de gain de retour d'état global.
 \end{itemize}
 
-Le gain de retour d'état global s'écrit :
+Le vecteur de gain global est défini par :
 
 \begin{equation}
-    K = \begin{bmatrix} 0 & K_s & -K_r \end{bmatrix} = \begin{bmatrix} 0 & K_\delta & K_    {\dot{\delta}} & -K_r \end{bmatrix}
+    K = \begin{bmatrix} 0 & K_s & -K_r \end{bmatrix} = \begin{bmatrix} 0 & K_\delta & K_{\dot{\delta}} & -K_r \end{bmatrix}
 \end{equation}
 
-L'équation en boucle fermé devient alors :
+La dynamique du système bouclé prend la forme :
 
 \begin{equation}
     \dot{x} = (A - B \cdot K) \cdot x + (B_w + B \cdot K_w) \cdot \delta_c + (B_v - B \cdot K_v) \cdot g = A_G \cdot x + B_G \cdot \delta_c + B_{Gv} \cdot g
 \end{equation}
 
-Avec les matrices d'état global :
+Les matrices d'état du système en boucle fermée sont déterminées par :
 
 \begin{equation}
     B \cdot K = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} \begin{bmatrix} 0 & K_\delta & K_{\dot{\delta}} & -K_r \end{bmatrix} = \begin{bmatrix} 0 & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}
@@ -942,39 +942,37 @@ Avec les matrices d'état global :
     B_{Gv} = B_v - B \cdot K_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} - \begin{bmatrix} \frac{K_v}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} -\frac{K_v}{T_{pct}} \\ 0 \\ 1 \\ 0 \end{bmatrix}
 \end{equation}
 
-La sortie global s'écrit :
+La sortie du système en boucle fermée est donnée par :
 \begin{equation}
     y = C \cdot x + D_G \cdot \delta_c + D_{Gv} \cdot g
 \end{equation}
 
-La sortie étant uniquement la position, les matrices d'états de la sortie sont alors tout simplement :
+Celle-ci se limitant à la mesure de position, les matrices directes sont nulles :
 
 \begin{equation}
     C = \begin{bmatrix} 0 & 1 & 0 & 0 \end{bmatrix} \quad D_G = 0 \quad D_{Gv} = 0
 \end{equation}
 
-
-
 \subsection{Placement de pôles}
-Il est dès alors possible de calculer les pôles afin de réaliser un placement des pôles. Ce calculent s'effectuent de la manière suivante :
+Afin de concevoir le régulateur, le placement de pôles nécessite la résolution de l'équation caractéristique de la matrice d'état en boucle fermée :
 
 \begin{equation}
     P(s) = \det(s \cdot I - A_G) = 0
 \end{equation}
 
-Avec la matrice $s \cdot I$ étant définit comme :
+La matrice identité proportionnelle $s \cdot I$ est :
 
 \begin{equation}
     s \cdot I = \begin{bmatrix} s & 0 & 0 & 0 \\ 0 & s & 0 & 0 \\ 0 & 0 & s & 0 \\ 0 & 0 & 0 & s \end{bmatrix}
 \end{equation}
 
-Le calcule devient alors :
+Le terme principal du déterminant devient :
 
 \begin{equation}
     s \cdot I - A_G = \begin{bmatrix} s + \frac{1}{T_{pct}} & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & s & -1 & 0 \\ \frac{1}{m} & 0 & s & 0 \\ 0 & \frac{1}{T_i} & 0 & s \end{bmatrix}
 \end{equation}
 
-Le determinant de cette soustraction de matrices équivaut alors :
+Le calcul de ce déterminant conduit au polynôme caractéristique suivant :
 
 $$\Rightarrow P(s) = \frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{T_{pct}} \cdot s + \frac{K_v}{T_{pct} \cdot T_i} - \frac{K_\delta}{T_{pct}} \cdot s^2 \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{T_{pct}} \right)$$
 
@@ -984,61 +982,66 @@ $$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot T_{pct}} \cdot s^2 + \fra
     P(s) = s^4 + s^3 \cdot \frac{1}{T_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot T_{pct}} + s \cdot \frac{K_\delta}{m \cdot T_{pct}} + \frac{K_v}{m \cdot T_{pct} \cdot T_i}
 \end{equation}
 
-Cette équation doit avoir la forme suivante :
+Cette équation caractéristique doit être identifiée au polynôme cible imposé par les pôles désirés $(p_1, p_2, p_3, p_4)$ :
 
 \begin{equation}
     P(s) = (s - p_1)(s - p_2)(s - p_3)(s - p_4) = s^4 + a_3 \cdot s^3 + a_2 \cdot s^2 + a_1 \cdot s + a_0
 \end{equation}
 
-Avec :
+L'identification des coefficients fournit le système suivant :
 
 \begin{equation}
     \left\{
     \begin{aligned}
-         & a_0 = -\displaystyle\frac{k_r}{m \cdot T_i \cdot \tau_{pct}} = p_1 \cdot p_2 \cdot p_3 \cdot p_4
+         & a_0 = -\displaystyle\frac{K_r}{m \cdot T_i \cdot \tau_{pct}} = p_1 \cdot p_2 \cdot p_3 \cdot p_4
         \\
-         & a_1 = -\displaystyle\frac{k_\delta}{m \cdot \tau_{pct}} = -(p_1 \cdot p_2 \cdot p_3 + p_2 \cdot p_3 \cdot p_4 + p_1 \cdot p_3 \cdot p_4 + p_1 \cdot p_2 \cdot p_4)
+         & a_1 = -\displaystyle\frac{K_\delta}{m \cdot \tau_{pct}} = -(p_1 \cdot p_2 \cdot p_3 + p_2 \cdot p_3 \cdot p_4 + p_1 \cdot p_3 \cdot p_4 + p_1 \cdot p_2 \cdot p_4)
         \\
-         & a_2 = -\displaystyle\frac{k_{\dot{\delta}}}{m \cdot \tau_{pct}} = (p_1 \cdot p_2 + p_1 \cdot p_3 + p_1 \cdot p_4 + p_2 \cdot p_3 + p_2 \cdot p_4 + p_3 \cdot p_4)
+         & a_2 = -\displaystyle\frac{K_{\dot{\delta}}}{m \cdot \tau_{pct}} = (p_1 \cdot p_2 + p_1 \cdot p_3 + p_1 \cdot p_4 + p_2 \cdot p_3 + p_2 \cdot p_4 + p_3 \cdot p_4)
         \\
          & a_3 = \displaystyle\frac{1}{\tau_{pct}} = -(p_1 + p_2 + p_3 + p_4)
     \end{aligned}
     \right.
 \end{equation}
 
-Certaines règles sont cependant à respecter afin de réaliser un placement de pôles correcte. Celle-ci furent détailler dans les travaux de Laucella \cite{Laucella} et de Yersin \cite{Yersin}. En se basant sur leur travail, la règle principale se concentre sur un pôle ayant un amortissement absolu minimal :
+Plusieurs critères de stabilité doivent être respectés pour assurer un placement de pôles fonctionnel. Conformément aux méthodologies établies dans les travaux de Laucella \cite{Laucella} et Yersin \cite{Yersin}, la contrainte majeure stipule que le pôle le plus lent (en valeur absolue) doit satisfaire la condition d'amortissement minimal :
 
 \begin{equation}
-    p_{min} ≤ \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4.27\cdot 10^{-3} - 0} \right)
+    |p_{min}| \leq \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4,27\cdot 10^{-3} - 0} \right)
 \end{equation}
 
-Avec n l'ordre du filtre ici 4 et $tr\left(A_s\right)$ correspondant à la somme des valeurs de la diagonnale de la matrice $A_s$ (La somme de celle-ci étant nulle).\\
+Où $n$ représente l'ordre du système (ici 4) et $tr\left(A_s\right)$ correspond à la trace de la matrice $A_s$ (dont la valeur est nulle pour ce système).\\
 
-Afin de déterminer le coefficient $k_w$, il est néscessaire de développer la fonction de transfert du système. Celle-ci peut être réaliser à partir des matrices d'états comme suit :
+Pour déterminer le coefficient $k_w$, le développement de la fonction de transfert en boucle fermée $G_{yw}(s)$ est nécessaire. Elle s'obtient à partir des matrices d'état selon l'équation :
 
 \begin{equation}
-    Gyw​(s)= C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{Gw} + D_G + D_{Gv}
+    G_{yw}(s) = C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{Gw} + D_G + D_{Gv}
 \end{equation}
 
-Ce produit donne alors la fonction de transfert suivante :
+Le développement de ce produit donne la fonction de transfert suivante :
 
 \begin{equation}
-    G_{yw}(s) = \frac{\frac{k_r}{T_i} + s \cdot k_w}{m \cdot \tau_{pct} \cdot \left( s^4 + \frac{1}{\tau_{pct}} \cdot s^3 - \frac{k_{\dot{\delta}}}{m \cdot \tau_{pct}} \cdot s^2 - \frac{k_\delta}{m \cdot \tau_{pct}} \cdot s - \frac{k_r}{T_i \cdot m \cdot \tau_{pct}} \right)}
+    G_{yw}(s) = \frac{\frac{K_r}{T_i} + s \cdot K_w}{m \cdot \tau_{pct} \cdot \left( s^4 + \frac{1}{\tau_{pct}} \cdot s^3 - \frac{K_{\dot{\delta}}}{m \cdot \tau_{pct}} \cdot s^2 - \frac{K_\delta}{m \cdot \tau_{pct}} \cdot s - \frac{K_r}{T_i \cdot m \cdot \tau_{pct}} \right)}
 \end{equation}
 
-Il est alors observable que la boucle fermée contient un zero :
+L'expression du numérateur révèle la présence d'un zéro dans la fonction de transfert :
 
 \begin{equation}
-    \frac{k_r}{T_i} + s \cdot k_w = 0 \rightarrow z_1 = - \frac{k_r}{T_i\cdot k_w}
+    \frac{K_r}{T_i} + s \cdot K_w = 0 \rightarrow z_1 = - \frac{K_r}{T_i\cdot K_w}
 \end{equation}
 
-Pour améliorer le régime transitoire, les travaux précédents ont décidé d'appliquer une contrainte au système. La contrainte fut que l'un des pôles doit-être purement réel. Cela permet de déterminer $k_w$. L'équation suivante en résulte :
+Afin d'optimiser le régime transitoire, les modélisations antérieures ont imposé une contrainte spécifique de conception : forcer un pôle du système à être strictement réel et l'annuler par le zéro de la fonction de transfert. Cette approche permet de déterminer la valeur de $K_w$ :
 
 \begin{equation}
-    k_w = - \frac{k_r}{p_k\cdot T_i}
+    K_w = - \frac{K_r}{p_k\cdot T_i}
 \end{equation}
 
-Le code Matlab permet de calculer les pôles. A ce jour, il est néscessaire d'encore touiller la valeur du pôle réel afin de trouver une combinaison permettant de réussir une régulation stable en lévitation.
+L'algorithme sous Matlab est utilisé pour calculer les différents pôles admissibles. L'ajustement empirique de la valeur du pôle réel ($p_k$) reste nécessaire afin d'obtenir un jeu de paramètres garantissant la stabilité du système en lévitation.
+
+Travail à réaliser :
+\begin{itemize}
+    \item Identifier un placement de pôles assurant la robustesse et la stabilité de la régulation.
+\end{itemize}
 
 \section{Synthèse d'une régulation de position par PID}
 \begin{itemize}
