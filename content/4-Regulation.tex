@@ -797,10 +797,30 @@ L'équation de l'espace d'état s'écrit alors :
 Il faut dès a présent rechercher les matrices d'état $A_s$, $B_s$ et $B_{sv}$. Pour cela, les quations suivante sont posées :
 
 \begin{equation}
-    \left\{
-    \dot{\delta} = 0\cdot \delta + 1\cdot \dot{\delta} + 0\cdot F_{el} + 0\cdot g
-    \ddot{\delta} = 0\cdot \delta + 0\cdot \dot{\delta} - \frac{1}{m}\cdot F_{el} + 1\cdot g
-    \right.
+    \left\{ \begin{aligned}
+         & \dot{\delta} = 0\cdot \delta + 1\cdot \dot{\delta} + 0\cdot F_{el} + 0\cdot g
+        \\
+         & \ddot{\delta} = 0\cdot \delta + 0\cdot \dot{\delta} - \frac{1}{m}\cdot F_{el} + 1\cdot g
+    \end{aligned} \right.
+\end{equation}
+
+Les matrices d'états sont alors :
+
+\begin{equation}
+    A_s = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} \quad B_s = \begin{bmatrix} 0 \\ -\frac{1}{m} \end{bmatrix}\quad B_{sv} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\end{equation}
+
+La sortie s'exprime par l'équation \ref{eq:Sortie1} :
+
+\begin{equation}
+    y = C_s \cdot x_s + D_s \cdot F_{el} + D_{sv} \cdot g
+    \label{eq:Sortie1}
+\end{equation}
+
+Puisque la sortie ne dépends que la positions comme observé dans la figure \ref{fig:RegPosBlocSimple}, les matrices de sorties sont alors simplement :
+
+\begin{equation}
+    C_s = \begin{bmatrix} 1 & 0 \end{bmatrix} \quad D_s =  0 \quad D_{sv} =  0
 \end{equation}
 
 \subsection{Placement de pôles}
