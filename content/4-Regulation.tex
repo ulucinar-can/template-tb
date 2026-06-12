@@ -727,14 +727,30 @@ La régulation de position est réaliser par une régulation d'état. Le schéma
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBloc.png}
+    \includegraphics[width=1\linewidth]{assets/Chap4/SchemaMethBuler.png}
     \caption{Schéma bloc de la régulation de position par méthode d'état \cite{Zayadine}}
     \label{fig:RegPosBloc}
 \end{figure}
 
 Comme observé dans la figure \ref{fig:RegPosBloc}, 4 paramètres sont à dimmensionner. Ceux-ci sont le gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
-Une simplification est réalisé en regroupant tous les retards en un seul bloc dénomé $G_{pct}$. Celui-ci est la somme des petites constantes de temps de la régulation de position. Cela inclut donc la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre Savitzky par $\tau_{vf2}$ et le filtre coupe bande $\tau_{F_C}$. Les filtres seront représenter que comme des retard synthétiser en filtre passe bas d'ordre 1. Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors :
+Une simplification est réalisé en regroupant tous les retards en un seul bloc dénomé $G_{pct}$. Celui-ci est la somme des petites constantes de temps de la régulation de position. Cela inclut donc la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre Savitzky par $\tau_{vf2}$ et le filtre coupe bande $\tau_{F_C}$. Les filtres seront représenter que comme des retard synthétiser en filtre passe bas d'ordre 1.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBloc.png}
+    \caption{Mise en commun des retards}
+    \label{fig:MiseCommunRetard}
+\end{figure}
+
+Ces constante de temps sont alors mise dans un seul et unique bloc donnant alors la figure \ref{fig:RegPosBlocSimple}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
+    \caption{Schéma bloc de la régulation de position simplifiée}
+    \label{fig:RegPosBlocSimple}
+\end{figure}
 
 Avec $G_{pct}$ étant :
 
@@ -752,18 +768,40 @@ Du travail de Bachelor de Yersin \cite{Yersin}, il est possible de récupérer l
 En insérant ces valeurs dans l'équation \ref{eq:Gpct1}, ot obtient alors :
 
 \begin{equation}
-    G_{pct} = \frac{1}{1 + s \cdot \left( 78.3\cdot 10^{-6} + 144.7\cdot 10^{-6} + 65\cdot 10^{-6} + 3.98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}
+    G_{pct} = \frac{1}{1 + s \cdot \left( 78.3\cdot 10^{-6} + 144.7\cdot 10^{-6} + 65\cdot 10^{-6} + 3.98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}}
     \label{eq:Gpct1}
 \end{equation}
 
-Il est alors maintenant possible de réaliser le schéma simplié de la figure suivante :
+Il est alors possible de s'attaquer à la définition de l'éspace d'état.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
-    \caption{Schéma bloc simplifié de la régulation de position \cite{Laucella}}
-    \label{fig:RegPosBlocSimple}
-\end{figure}
+\subsection{Définition de l'espace d'état}
+A partir des figures \ref{fig:RegPosBloc} à \ref{fig:RegPosBlocSimple}, il est possible d'observer que la seule équation jouant un rôle dans cette régulation est l'quation de Newton \ref{eq:Newton1}. Comme rappel la voici :
+
+\begin{equation}
+    m \cdot \ddot{\delta} =\sum F = F_p - F_{el} = m \cdot g - F_{el}
+    \label{eq:Newton1}
+\end{equation}
+
+La première étape sera d'écrire un vecteur d'état pour la position et la vitesse en se bassant sur la figure \ref{fig:RegPosBlocSimple} :
+
+\begin{equation}
+    x_s =\left[\begin{matrix} \delta \\ \dot{\delta} \end{matrix}\right]
+\end{equation}
+
+L'équation de l'espace d'état s'écrit alors :
+
+\begin{equation}
+    \dot{x_s} = A_s\cdot x_s + B_s\cdot F_{el} + B_{sv}\cdot g
+\end{equation}
+
+Il faut dès a présent rechercher les matrices d'état $A_s$, $B_s$ et $B_{sv}$. Pour cela, les quations suivante sont posées :
+
+\begin{equation}
+    \left\{
+    \dot{\delta} = 0\cdot \delta + 1\cdot \dot{\delta} + 0\cdot F_{el} + 0\cdot g
+    \ddot{\delta} = 0\cdot \delta + 0\cdot \dot{\delta} - \frac{1}{m}\cdot F_{el} + 1\cdot g
+    \right.
+\end{equation}
 
 \subsection{Placement de pôles}
 
