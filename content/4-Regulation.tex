@@ -755,7 +755,7 @@ Ces constantes de temps sont alors fusionnées en un seul bloc, aboutissant au s
 La fonction de transfert $G_{pct}$ est définie par l'équation \ref{eq:Gpct1} :
 
 \begin{equation}
-    G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{iBF} + \tau_{vf2} + \tau_{F_C} \right)}
+    G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{m\delta} + \tau_{vf2} + \tau_{F_C} \right)}
     \label{eq:Gpct1}
 \end{equation}
 
@@ -768,7 +768,7 @@ Les travaux de Yersin \cite{Yersin} permettent d'extraire les valeurs suivantes 
 En substituant ces valeurs dans l'équation \ref{eq:Gpct1}, l'expression devient :
 
 \begin{equation}
-    G_{pct} = \frac{1}{1 + s \cdot \left( 78,3\cdot 10^{-6} + 144,7\cdot 10^{-6} + 65\cdot 10^{-6} + 3,98\cdot 10^{-3} \right)} = \frac{1}{1 + s \cdot 4,27\cdot 10^{-3}}
+    G_{pct} = \frac{1}{1 + s \cdot \left( 78,3 + 144,7 + 65 + 3'980 \right)}\cdot 10^{-6} = \frac{1}{1 + s \cdot 4,27\cdot 10^{-3}}
     \label{eq:Gpct1_val}
 \end{equation}
 
@@ -845,12 +845,12 @@ Il est nécessaire d'établir les expressions des dérivées de $x_{em}$, $\delt
 
 La variable $x_{em}$ se déduit de la fonction de transfert $G_{m\delta}$ :
 
-$$G_{m\delta} = \frac{x_{em}}{F_c} = \frac{1}{1 + s \cdot T_{pct}}$$
+$$G_{m\delta} = \frac{x_{em}}{F_c} = \frac{1}{1 + s \cdot \sum\tau_{pct}}$$
 
-$$\Rightarrow x_{em}(1 + s \cdot T_{pct}) = F_c \Rightarrow x_{em} + \dot{x}_{em} \cdot T_{pct} = F_c$$
+$$\Rightarrow x_{em}(1 + s \cdot \sum\tau_{pct}) = F_c \Rightarrow x_{em} + \dot{x}_{em} \cdot \sum\tau_{pct} = F_c$$
 
 \begin{equation}
-    \dot{x}_{em} = \frac{1}{T_{pct}} \cdot F_c - \frac{1}{T_{pct}} \cdot x_{em}
+    \dot{x}_{em} = \frac{1}{\sum\tau_{pct}} \cdot F_c - \frac{1}{\sum\tau_{pct}} \cdot x_{em}
 \end{equation}
 
 L'état $x_{em}$ correspondant physiquement à $F_{el}$, l'équation de l'accélération s'écrit :
@@ -870,7 +870,7 @@ Le regroupement de ces équations permet de définir le système d'état complet
 \begin{equation}
     \left\{
     \begin{aligned}
-         & \dot{x}_{em} = -\frac{1}{T_{pct}} \cdot x_{em} + 0 \cdot \delta + 0 \cdot \dot{\delta} + \frac{1}{T_{pct}} \cdot F_c + 0 \cdot \delta_c + 0 \cdot g
+         & \dot{x}_{em} = -\frac{1}{\sum\tau_{pct}} \cdot x_{em} + 0 \cdot \delta + 0 \cdot \dot{\delta} + \frac{1}{\sum\tau_{pct}} \cdot F_c + 0 \cdot \delta_c + 0 \cdot g
         \\
          & \dot{\delta} = 0 \cdot x_{em} + 0 \cdot \delta + 1 \cdot \dot{\delta} + 0 \cdot F_c + 0 \cdot \delta_c + 0 \cdot g
         \\
@@ -884,7 +884,7 @@ Le regroupement de ces équations permet de définir le système d'état complet
 Les matrices du modèle d'état global s'écrivent alors :
 
 \begin{equation}
-    A = \begin{bmatrix} -\frac{1}{T_{pct}} & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix} \quad B = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix}\quad B_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}\quad B_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
+    A = \begin{bmatrix} -\frac{1}{\sum\tau_{pct}} & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix} \quad B = \begin{bmatrix} \frac{1}{\sum\tau_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix}\quad B_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}\quad B_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix}
 \end{equation}
 
 L'équation d'observation du système s'écrit :
@@ -927,19 +927,19 @@ La dynamique du système bouclé prend la forme :
 Les matrices d'état du système en boucle fermée sont déterminées par :
 
 \begin{equation}
-    B \cdot K = \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} \begin{bmatrix} 0 & K_\delta & K_{\dot{\delta}} & -K_r \end{bmatrix} = \begin{bmatrix} 0 & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}
+    B \cdot K = \begin{bmatrix} \frac{1}{\sum\tau_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} \begin{bmatrix} 0 & K_\delta & K_{\dot{\delta}} & -K_r \end{bmatrix} = \begin{bmatrix} 0 & \frac{K_\delta}{\sum\tau_{pct}} & \frac{K_{\dot{\delta}}}{\sum\tau_{pct}} & -\frac{K_r}{\sum\tau_{pct}} \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0 \end{bmatrix}
 \end{equation}
 
 \begin{equation}
-    A_G = A - B \cdot K = \begin{bmatrix} -\frac{1}{T_{pct}} & -\frac{K_\delta}{T_{pct}} & -\frac{K_{\dot{\delta}}}{T_{pct}} & \frac{K_r}{T_{pct}} \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix}
+    A_G = A - B \cdot K = \begin{bmatrix} -\frac{1}{\sum\tau_{pct}} & -\frac{K_\delta}{\sum\tau_{pct}} & -\frac{K_{\dot{\delta}}}{\sum\tau_{pct}} & \frac{K_r}{\sum\tau_{pct}} \\ 0 & 0 & 1 & 0 \\ -\frac{1}{m} & 0 & 0 & 0 \\ 0 & -\frac{1}{T_i} & 0 & 0 \end{bmatrix}
 \end{equation}
 
 \begin{equation}
-    B_G = B_w + B \cdot K_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix} + \begin{bmatrix} \frac{1}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} K_w = \begin{bmatrix} \frac{K_w}{T_{pct}} \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}
+    B_G = B_w + B \cdot K_w = \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix} + \begin{bmatrix} \frac{1}{\sum\tau_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} K_w = \begin{bmatrix} \frac{K_w}{\sum\tau_{pct}} \\ 0 \\ 0 \\ \frac{1}{T_i} \end{bmatrix}
 \end{equation}
 
 \begin{equation}
-    B_{Gv} = B_v - B \cdot K_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} - \begin{bmatrix} \frac{K_v}{T_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} -\frac{K_v}{T_{pct}} \\ 0 \\ 1 \\ 0 \end{bmatrix}
+    B_{Gv} = B_v - B \cdot K_v = \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} - \begin{bmatrix} \frac{K_v}{\sum\tau_{pct}} \\ 0 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} -\frac{K_v}{\sum\tau_{pct}} \\ 0 \\ 1 \\ 0 \end{bmatrix}
 \end{equation}
 
 La sortie du système en boucle fermée est donnée par :
@@ -969,17 +969,17 @@ La matrice identité proportionnelle $s \cdot I$ est :
 Le terme principal du déterminant devient :
 
 \begin{equation}
-    s \cdot I - A_G = \begin{bmatrix} s + \frac{1}{T_{pct}} & \frac{K_\delta}{T_{pct}} & \frac{K_{\dot{\delta}}}{T_{pct}} & -\frac{K_r}{T_{pct}} \\ 0 & s & -1 & 0 \\ \frac{1}{m} & 0 & s & 0 \\ 0 & \frac{1}{T_i} & 0 & s \end{bmatrix}
+    s \cdot I - A_G = \begin{bmatrix} s + \frac{1}{\sum\tau_{pct}} & \frac{K_\delta}{\sum\tau_{pct}} & \frac{K_{\dot{\delta}}}{\sum\tau_{pct}} & -\frac{K_r}{\sum\tau_{pct}} \\ 0 & s & -1 & 0 \\ \frac{1}{m} & 0 & s & 0 \\ 0 & \frac{1}{T_i} & 0 & s \end{bmatrix}
 \end{equation}
 
 Le calcul de ce déterminant conduit au polynôme caractéristique suivant :
 
-$$\Rightarrow P(s) = \frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{T_{pct}} \cdot s + \frac{K_v}{T_{pct} \cdot T_i} - \frac{K_\delta}{T_{pct}} \cdot s^2 \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{T_{pct}} \right)$$
+$$\Rightarrow P(s) = \frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{\sum\tau_{pct}} \cdot s + \frac{K_v}{\sum\tau_{pct} \cdot T_i} - \frac{K_\delta}{\sum\tau_{pct}} \cdot s^2 \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{\sum\tau_{pct}} \right) = 0$$
 
-$$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot T_{pct}} \cdot s^2 + \frac{K_\delta}{m \cdot T_{pct}} \cdot s + \frac{K_v}{m \cdot T_{pct} \cdot T_i} + s^4 + s^3 \cdot \frac{1}{T_{pct}} = 0$$
+$$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} \cdot s^2 + \frac{K_\delta}{m \cdot \sum\tau_{pct}} \cdot s + \frac{K_v}{m \cdot \sum\tau_{pct} \cdot T_i} + s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} = 0$$
 
 \begin{equation}
-    P(s) = s^4 + s^3 \cdot \frac{1}{T_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot T_{pct}} + s \cdot \frac{K_\delta}{m \cdot T_{pct}} + \frac{K_v}{m \cdot T_{pct} \cdot T_i}
+    P(s) = s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} + s \cdot \frac{K_\delta}{m \cdot \sum\tau_{pct}} + \frac{K_v}{m \cdot \sum\tau_{pct} \cdot T_i}
 \end{equation}
 
 Cette équation caractéristique doit être identifiée au polynôme cible imposé par les pôles désirés $(p_1, p_2, p_3, p_4)$ :
@@ -993,13 +993,13 @@ L'identification des coefficients fournit le système suivant :
 \begin{equation}
     \left\{
     \begin{aligned}
-         & a_0 = -\displaystyle\frac{K_r}{m \cdot T_i \cdot \tau_{pct}} = p_1 \cdot p_2 \cdot p_3 \cdot p_4
+         & a_0 = -\displaystyle\frac{K_r}{m \cdot T_i \cdot \sum\tau_{pct}} = p_1 \cdot p_2 \cdot p_3 \cdot p_4
         \\
-         & a_1 = -\displaystyle\frac{K_\delta}{m \cdot \tau_{pct}} = -(p_1 \cdot p_2 \cdot p_3 + p_2 \cdot p_3 \cdot p_4 + p_1 \cdot p_3 \cdot p_4 + p_1 \cdot p_2 \cdot p_4)
+         & a_1 = -\displaystyle\frac{K_\delta}{m \cdot \sum\tau_{pct}} = -(p_1 \cdot p_2 \cdot p_3 + p_2 \cdot p_3 \cdot p_4 + p_1 \cdot p_3 \cdot p_4 + p_1 \cdot p_2 \cdot p_4)
         \\
-         & a_2 = -\displaystyle\frac{K_{\dot{\delta}}}{m \cdot \tau_{pct}} = (p_1 \cdot p_2 + p_1 \cdot p_3 + p_1 \cdot p_4 + p_2 \cdot p_3 + p_2 \cdot p_4 + p_3 \cdot p_4)
+         & a_2 = -\displaystyle\frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} = (p_1 \cdot p_2 + p_1 \cdot p_3 + p_1 \cdot p_4 + p_2 \cdot p_3 + p_2 \cdot p_4 + p_3 \cdot p_4)
         \\
-         & a_3 = \displaystyle\frac{1}{\tau_{pct}} = -(p_1 + p_2 + p_3 + p_4)
+         & a_3 = \displaystyle\frac{1}{\sum\tau_{pct}} = -(p_1 + p_2 + p_3 + p_4)
     \end{aligned}
     \right.
 \end{equation}
@@ -1007,12 +1007,12 @@ L'identification des coefficients fournit le système suivant :
 Plusieurs critères de stabilité doivent être respectés pour assurer un placement de pôles fonctionnel. Conformément aux méthodologies établies dans les travaux de Laucella \cite{Laucella} et Yersin \cite{Yersin}, la contrainte majeure stipule que le pôle le plus lent (en valeur absolue) doit satisfaire la condition d'amortissement minimal :
 
 \begin{equation}
-    |p_{min}| \leq \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4,27\cdot 10^{-3} - 0} \right)
+    p_{min} \leq \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4,27\cdot 10^{-3} - 0} \right)
 \end{equation}
 
 Où $n$ représente l'ordre du système (ici 4) et $tr\left(A_s\right)$ correspond à la trace de la matrice $A_s$ (dont la valeur est nulle pour ce système).\\
 
-Pour déterminer le coefficient $k_w$, le développement de la fonction de transfert en boucle fermée $G_{yw}(s)$ est nécessaire. Elle s'obtient à partir des matrices d'état selon l'équation :
+Pour déterminer le coefficient $K_w$, le développement de la fonction de transfert en boucle fermée $G_{yw}(s)$ est nécessaire. Elle s'obtient à partir des matrices d'état selon l'équation :
 
 \begin{equation}
     G_{yw}(s) = C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{Gw} + D_G + D_{Gv}
@@ -1044,6 +1044,9 @@ Travail à réaliser :
 \end{itemize}
 
 \section{Synthèse d'une régulation de position par PID}
+Une synthèse d'une régulation de la position par un PID fut considéré. Le but derrière cette synthèse serait d'avoir la possibilité de réaliser un système ou les composantes serait connu et plus simple à travailler qu'un système par la méthode d'état. Une fois l'obtention
+
+
 \begin{itemize}
     \item vérifier la Synthèse
     \item Appliquer sur un inducteur pour trouver les bons Paramètres
