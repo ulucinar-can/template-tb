@@ -1017,8 +1017,15 @@ Avec n l'ordre du filtre ici 4 et $tr\left(A_s\right)$ correspondant à la somme
 Afin de déterminer le coefficient $k_w$, il est néscessaire de développer la fonction de transfert du système. Celle-ci peut être réaliser à partir des matrices d'états comme suit :
 
 \begin{equation}
-    Gyw​(s)=\frac{1}{det\left((s\cdot I - A_G) \right)}\cdot C⋅(s\cdot I - A_G)⋅B_{Gw} + D_G + D_{Gv}
+    Gyw​(s)= C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{Gw} + D_G + D_{Gv}
 \end{equation}
+
+Ce produit donne alors la fonction de transfert suivante :
+
+\begin{equation}
+    G_{yw}(s) = \frac{\frac{k_r}{T_i} + s \cdot k_w}{m \cdot \tau_{pct} \cdot \left( s^4 + \frac{1}{\tau_{pct}} \cdot s^3 - \frac{k_{\dot{\delta}}}{m \cdot \tau_{pct}} \cdot s^2 - \frac{k_\delta}{m \cdot \tau_{pct}} \cdot s - \frac{k_r}{T_i \cdot m \cdot \tau_{pct}} \right)}
+\end{equation}
+
 
 \section{Synthèse d'une régulation de position par PID}
 \begin{itemize}
