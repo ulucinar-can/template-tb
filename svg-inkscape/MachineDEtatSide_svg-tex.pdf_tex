@@ -1,0 +1,149 @@
+%% Creator: Inkscape 1.2.2 (b0a8486541, 2022-12-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'MachineDEtatSide_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{817.5bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,1.35779817)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.25963303,0.82614679){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 1...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.16788991,0.89036697){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current1 < 3A...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.40779817,1.11743119){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 >= 2.97...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.80091743,1.01146789){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Variable :...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.90229358,0.3587156){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Timer de 0.6s\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.14954128,0.58761468){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 0Bouton S2\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.23669725,0.58761468){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.61743119,0.03715596){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.61788991,1.10366972){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Timer de 0.6s\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.97110092,0.58807339){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 >= 2.97...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.03577982,0.47201835){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Reset\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.03577982,0.58669725){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Init\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.40733945,0.98211009){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 2...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.61743119,0.98211009){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 3...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.78256881,0.82614679){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 4...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.87889908,0.89036697){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current3 < 3A...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.78256881,0.35825688){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 6...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.62201835,0.15642202){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 7...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.8559633,0.58761468){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 5...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.40917431,0.15642202){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 8...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.29633028,0.3766055){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Etat 9...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.52568807,0.11055046){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.3308754,0.25424491){\color[rgb]{1,0,0}\rotatebox{114}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.16746036,0.72350653){\rotatebox{62}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == ON...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.29944238,0.93979846){\rotatebox{58}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current1 >= 3A...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.50275229,1.0353211){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 < 2.97...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.72613265,0.95012365){\rotatebox{141.6}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position1 =< 2...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.75397103,0.22263447){\rotatebox{45}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 =< 2...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.85325605,0.46862826){\rotatebox{66}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Position3 < 2.97...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.86042542,0.73535346){\rotatebox{105}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}current3 >= 3...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.30530466,0.57780025){\color[rgb]{1,0,0}\rotatebox{109}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.4302702,0.65019206){\color[rgb]{1,0,0}\rotatebox{93}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.57602175,0.70409608){\color[rgb]{1,0,0}\rotatebox{75}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.74171018,0.66559633){\color[rgb]{1,0,0}\rotatebox{60}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.76759314,0.48030039){\color[rgb]{1,0,0}\rotatebox{42}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.69116338,0.2823314){\color[rgb]{1,0,0}\rotatebox{20}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}error == ON\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.34553102,0.58487031){\color[rgb]{0,1,0}\rotatebox{101}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.39633028,0.64449541){\color[rgb]{0,1,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=39]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.53926993,0.71492104){\color[rgb]{0,1,0}\rotatebox{72}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=40]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.67837493,0.69856867){\color[rgb]{0,1,0}\rotatebox{59}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=41]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.71993394,0.5317198){\color[rgb]{0,1,0}\rotatebox{43}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=42]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.67586282,0.3466741){\color[rgb]{0,1,0}\rotatebox{25}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}S2 == OFF\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=43]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.60917431,0.66559633){\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SKIP\_BACK == 1\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=44]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.49122337,0.75391347){\rotatebox{21}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SKIP\_FRONT == 1\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=45]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.90642202,1.01146789){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Régulation de courant active à partir de l'état 1 jusqu'à l'éta...\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=46]{MachineDEtatSide_svg-tex.pdf}}%
+    \put(0.9706422,1.01146789){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}La lecture des ADC se fait constamment \end{tabular}}}}}%
+  \end{picture}%
+\endgroup%
