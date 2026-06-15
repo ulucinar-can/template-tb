@@ -91,6 +91,32 @@ Le compilateur de l'environnement Arduino permet d'évaluer l'espace mémoire oc
 
 En ce qui concerne la taille des fichiers sources, le code propre à l'ESP32 représente 9,9~ko, tandis que celui définissant l'interface web occupe 10,6~ko.
 
+\section{Modif sur la page}
+
+\subsection*{Améliorations de l'Interface Web et de la Communication}
+
+\subsubsection*{1. Résolution du problème de chargement infini (Serveur Web)}
+Le blocage systématique lors de la connexion initiale à la page web a été résolu par deux interventions logicielles majeures sur l'ESP32 :
+\begin{itemize}
+  \item \textbf{Correction des codes de statut HTTP :} Les fonctions de réponse du serveur (via la méthode \texttt{server.send()}) renvoyaient initialement le code \texttt{250}. Ce code n'étant pas un standard de succès HTTP, les navigateurs web restaient en attente d'une confirmation. Ce code a été remplacé par le code standard \texttt{200} (OK), validant ainsi immédiatement la complétion de la requête.
+  \item \textbf{Désengorgement de la boucle principale (\textit{Main Loop}) :} La lecture ininterrompue du buffer série (\texttt{while (MySerial.available() > 0)}) monopolisait les ressources processeur de l'ESP32 en présence d'un flux de données élevé en provenance du DSP. Une limite logicielle a été introduite (\texttt{bytesToRead = 128}) pour forcer le microcontrôleur à sortir de la boucle de lecture matérielle, libérant ainsi du temps de calcul pour le traitement des requêtes clients WiFi (\texttt{server.handleClient()}).
+\end{itemize}
+
+\subsubsection*{2. Intégration de l'affichage des courants}
+Afin de superviser simultanément la position et le courant des quatre inducteurs, la chaîne de communication globale a été restructurée pour transmettre 8 variables flottantes (au lieu de 4) :
+\begin{itemize}
+  \item \textbf{Côté DSP (\texttt{C2000}) :} La taille du buffer d'émission (\texttt{TX\_BUF\_LEN}) a été augmentée de 64 à 128 octets pour éviter les débordements de mémoire. Le prototype et la définition de la fonction \texttt{SendFloatAsText()} ont été modifiés pour accepter 8 arguments, permettant de concaténer et d'envoyer la trame complète en une seule interruption série.
+  \item \textbf{Côté Microcontrôleur WiFi (\texttt{ESP32-S2}) :} Le buffer de réception (\texttt{UART\_BUFFER}) a été proportionnellement agrandi. La fonction de \textit{parsing} (découpage de la trame via \texttt{strtok}) a été ajustée pour extraire itérativement jusqu'à 8 valeurs. Ces données sont ensuite formatées dans le serveur web en injectant de nouvelles balises XML dédiées (\texttt{<curIndX>}).
+  \item \textbf{Côté Client Web (\texttt{HTML/JS}) :} L'interface a été enrichie d'une nouvelle structure en colonne (DOM). Le script JavaScript asynchrone gérant la communication AJAX a été complété pour extraire les données de courant du flux XML, traiter la conversion des virgules en points, et actualiser dynamiquement l'affichage en temps réel.
+\end{itemize}
+
+\subsubsection*{3. Optimisation pour l'affichage mobile (\textit{Responsive Design})}
+Pour pallier le chevauchement et le débordement des éléments graphiques sur des écrans étroits (smartphones), le code CSS de l'interface a été remanié :
+\begin{itemize}
+  \item \textbf{Restructuration de la mise en page :} Implémentation d'une disposition en boîte flexible (\texttt{flex-wrap: wrap}) sur le conteneur principal pour autoriser le retour à la ligne des éléments si nécessaire.
+  \item \textbf{Requêtes multimédias (\textit{Media Queries}) :} Ajout d'une règle d'adaptation conditionnelle (\texttt{@media (max-width: 600px)}). Cette règle réduit dynamiquement l'espacement inter-colonnes (\texttt{gap}), les marges internes (\texttt{padding}), la taille des polices d'écriture (\texttt{font-size}) et la largeur absolue des cellules d'affichage lorsque la résolution horizontale de l'écran est critique.
+\end{itemize}
+
 \section{A faire}
 \begin{itemize}
   \item Ajouter la mesure de courant
