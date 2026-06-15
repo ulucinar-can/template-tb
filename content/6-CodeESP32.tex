@@ -91,7 +91,7 @@ Le compilateur de l'environnement Arduino permet d'évaluer l'espace mémoire oc
 
 En ce qui concerne la taille des fichiers sources, le code propre à l'ESP32 représente 9,9~ko, tandis que celui définissant l'interface web occupe 10,6~ko.
 
-\section{Modif sur la page}
+\section{Modifications sur la page web et la communication}
 
 \subsection*{Améliorations de l'Interface Web et de la Communication}
 
@@ -115,6 +115,20 @@ Pour pallier le chevauchement et le débordement des éléments graphiques sur d
 \begin{itemize}
   \item \textbf{Restructuration de la mise en page :} Implémentation d'une disposition en boîte flexible (\texttt{flex-wrap: wrap}) sur le conteneur principal pour autoriser le retour à la ligne des éléments si nécessaire.
   \item \textbf{Requêtes multimédias (\textit{Media Queries}) :} Ajout d'une règle d'adaptation conditionnelle (\texttt{@media (max-width: 600px)}). Cette règle réduit dynamiquement l'espacement inter-colonnes (\texttt{gap}), les marges internes (\texttt{padding}), la taille des polices d'écriture (\texttt{font-size}) et la largeur absolue des cellules d'affichage lorsque la résolution horizontale de l'écran est critique.
+\end{itemize}
+
+\subsubsection*{4. Déploiement d'un graphique dynamique (Oscilloscope virtuel)}
+Afin de faciliter l'analyse du comportement transitoire du système de sustentation, un outil de visualisation temporelle a été ajouté à la page web :
+\begin{itemize}
+  \item \textbf{Technologie autonome :} L'ESP32 générant un réseau local sans accès à Internet, l'utilisation de bibliothèques tierces (comme \textit{Chart.js}) était impossible. Le graphique a été entièrement implémenté en utilisant l'élément natif HTML5 \texttt{<canvas>} et un script JavaScript dédié.
+  \item \textbf{Fenêtre glissante et chronométrie :} L'axe temporel (abscisse) utilise l'horloge interne du navigateur (\texttt{Date.now()}) pour garantir un défilement rigoureusement fluide. La zone d'affichage agit comme une fenêtre glissante de 10 secondes synchronisée au clic sur le bouton de démarrage, simulant avec précision le comportement d'un oscilloscope classique.
+\end{itemize}
+
+\subsubsection*{5. Débogage et validation physique de la machine d'états}
+Lors des essais d'intégration, une anomalie a été identifiée grâce à la télémétrie web : bien que la position réponde correctement, le courant restait figé autour de 3A (valeur de pré-décollage), et ce même lorsque l'inducteur entrait en contact physique avec l'aimant.
+\begin{itemize}
+  \item \textbf{Déduction théorique :} Selon la loi de commande implémentée ($i_c = \sqrt{K_{FC} \cdot f_c} \cdot z$), si l'entrefer $z$ devient nul (inducteur collé), le courant de consigne $i_c$ devrait théoriquement s'annuler de manière instantanée.
+  \item \textbf{Correction logicielle :} L'analyse du flux d'exécution a révélé que le DSP restait bloqué indéfiniment dans l'état de préparation au décollage (\texttt{STATE\_1}). La condition de transition exigeait la stabilisation stricte de deux inducteurs simultanément. En isolant la condition pour réaliser les tests sur un seul inducteur, la machine d'états a pu basculer en mode de régulation nominale (\texttt{STATE\_3}), confirmant la justesse de l'hypothèse physique et le bon fonctionnement de l'asservissement en espace d'état.
 \end{itemize}
 
 \section{A faire}
