@@ -525,14 +525,29 @@ Constat :
 \subsection*{16 juin 2026}
 Travaille réalisé :
 \begin{itemize}
-    \item Mettre dans l'ordre mon code
-    \item Réfléchir pourquoi
-    \item Méthode de mesures
-    \item Mesure
-    \item Modélisation des mesures
+    \item Mettre de l'ordre dans le calcul de la consigne de courant (fc filtré un échantillon précédent)
+    \item Réfléchir pourquoi l'intégrateur se contente de la position
+    \item Création d'un fichier de mesures via l'UART
+    \item Mesure des grandeurs sélectionné
+    \item Modélisation des mesures sur matlab
 \end{itemize}
 
 Pensé :
 \begin{itemize}
-    \item Ce serait bien de faire une simulation du code ou de vérifier lec omportement du système en simu. Pour vérifier le comportement théorique et le comportement réelle de la maquette avec les mesures.
+    \item Faire une simu du code afin de voir le comportement réelle de la maquette
+\end{itemize}
+
+\subsection*{17 juin 2026}
+Travaille réalisé :
+\begin{itemize}
+    \item Suite des analyses
+    \item Changement du bauderate pour les test
+    \item Amélioration du code principale en réalsisant un reset des variables
+    \item Mesure de l'inductance pour un entrefer infinie, a 2mm. a 1mm et 0. Réalisé pour 10kHz.
+\end{itemize}
+
+Observation :
+\begin{itemize}
+    \item Le comportement de la force fluctuent énormément. La force devrait se stabiliser aux aléantour d'environ 45 N (9.82 * 4.513 $\approx$ 45N) mais ce n'est pas le cas. Il semble se situé plus aux aléentour de 60-65N.
+    \item L'inductance fut mesuré pour vérifier la valeur de l'inductance nominale. Pour une fréquence de 10 kHz, la valeur ne se situais pas aux aléentours de 4.9mH
 \end{itemize}
