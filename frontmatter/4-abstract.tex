@@ -1,11 +1,19 @@
 \begin{abstract}
 
     % Francais
-    Oui
-    %% L'asterisme est un signe typographique en forme d'étoile, utilisé pour marquer une pause dans un texte ou pour séparer des paragraphes. Il est souvent utilisé pour indiquer un changement de scène dans un récit. Bien qu'il se fasse rare dans la typographie moderne, c'est un symbole de choix pour séparer les différentes langues du résumé de thèse.
+    Ce travail de Bachelor s'inscrit dans la continuité du développement d'un démonstrateur de sustentation magnétique par attraction (EMS) à quatre inducteurs. L'objectif principal de ce projet est de finaliser et de fiabiliser le système en programmant une nouvelle carte de commande, intégrant un processeur de signal numérique (DSP) pour la régulation en temps réel, et un microcontrôleur ESP32 chargé d'héberger une interface web utilisateur via Wi-Fi.
+
+    Au cours du projet, une analyse matérielle et physique a permis d'identifier plusieurs anomalies issues des itérations précédentes. Il a notamment été découvert que la masse réelle de la partie lévitante s'élève à 18,052~kg, au lieu des 13,6~kg initialement documentés, ce qui faussait drastiquement les modèles de régulation. Les capteurs de courant et de position ont fait l'objet de campagnes de mesures et de recalibrations (notamment par la méthode \textit{Teach-in}) afin d'améliorer la précision des données d'acquisition.
+
+    Sur le plan logiciel, la machine d'états gérant la séquence de décollage a été entièrement restructurée pour assurer un comportement séquentiel plus robuste et sécurisé. Les boucles d'asservissement, comprenant une régulation de courant par correcteur PI et une régulation de position par retour d'état (ainsi que l'exploration d'une synthèse PID), ont été réévaluées et corrigées pour correspondre à la dynamique réelle du système. Enfin, l'interface web a été améliorée pour permettre un pilotage à distance fluide et une visualisation des données. Bien que la stabilisation parfaite de la lévitation requière encore quelques ajustements fins, ce travail a permis de consolider considérablement l'architecture matérielle et logicielle du démonstrateur.
+
     \asterism
 
     % English
-    Yes
+    This Bachelor's thesis is part of the ongoing development of a four-inductor electromagnetic suspension (EMS) demonstrator. The main objective of this project is to finalize and improve the reliability of the system by programming a new control board. This board integrates a Digital Signal Processor (DSP) for real-time regulation and an ESP32 microcontroller designed to host a user-friendly web interface via Wi-Fi.
+
+    During the project, a thorough hardware and physical analysis identified several anomalies from previous iterations. Notably, the actual mass of the levitating assembly was found to be 18.052~kg, rather than the initially documented 13.6~kg, a discrepancy that drastically distorted the theoretical control models. Current and position sensors were extensively measured and recalibrated (specifically using the \textit{Teach-in} method) to enhance the accuracy of the data acquisition process.
+
+    On the software side, the state machine managing the takeoff sequence was completely restructured to ensure a more robust and secure sequential behavior. The control loops, including a PI controller for current regulation and a state-feedback controller for position regulation (alongside the exploration of a PID synthesis), were mathematically re-evaluated and corrected to match the actual system dynamics. Finally, the web interface was improved to provide seamless remote control and real-time data visualization. Although achieving perfect levitation stabilization still requires fine-tuning, this work has significantly consolidated the hardware and software architecture of the demonstrator.
 
 \end{abstract}
