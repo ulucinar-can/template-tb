@@ -754,8 +754,10 @@ Avec :
 \begin{itemize}
     \item Position maximale : 3~mm
     \item Position minimale : 0~mm
-    \item Valeur maximale de l'ADC : 3722,7
+    \item Valeur maximale de l'ADC : 3723
 \end{itemize}
+
+La valeur max de l'adc étant 3723 dû au conditionneur allant de 0V à 3V. La tension de référence du DSP étant à 3.3V, celui-ci ne peut donc pas utiliser sa plage entière sur 12bit. Le max n'étant alors plus 4095 mais 3723.\\
 
 Dans le but d'obtenir une correction plus précise et spécifique à chaque inducteur, une nouvelle fonction de transfert a été développée pour convertir directement le signal de l'ADC en une grandeur physique exprimée en millimètres.\\
 
