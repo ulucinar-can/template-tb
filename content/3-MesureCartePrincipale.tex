@@ -750,9 +750,9 @@ Face à l'absence de résultats concluants, l'application d'une correction direc
 
 Avec :
 \begin{itemize}
-    \item $\text{Position}_{max}$ : Position maximale (3~mm).
-    \item $\text{Position}_{min}$ : Position minimale (0~mm).
-    \item $\text{ADC}_{max}$ : Valeur numérique maximale lue par l'ADC (3723).
+    \item $\text{Position}_{max}$ : Position maximale (3~mm)
+    \item $\text{Position}_{min}$ : Position minimale (0~mm)
+    \item $\text{ADC}_{max}$ : Valeur numérique maximale lue par l'ADC (3723)
 \end{itemize}
 
 La valeur maximale de l'ADC est limitée à 3723 en raison du conditionneur de signal, dont la tension de sortie varie de 0~V à 3~V. La tension de référence du DSP étant fixée à 3,3~V, ce dernier ne peut exploiter la totalité de sa plage de quantification sur 12~bits. La valeur numérique maximale n'est donc plus de 4095, mais se calcule de la manière suivante :
@@ -763,7 +763,7 @@ La valeur maximale de l'ADC est limitée à 3723 en raison du conditionneur de s
 
 Afin d'obtenir une mesure de position plus précise et spécifique à chaque inducteur, une nouvelle fonction de transfert a été développée pour convertir directement le signal brut de l'ADC en une grandeur physique exprimée en millimètres.
 
-Au cours des différentes campagnes d'essais, il a été constaté que les capteurs de position présentaient un comportement fortement non linéaire. L'utilisation d'une approximation linéaire classique a donc été écartée au profit d'une modélisation par régression polynomiale d'ordre supérieur. Les données brutes recueillies sont présentées dans les tableaux \ref{tab:adc_brut_inducteur1}, \ref{tab:adc_brut_inducteur2}, \ref{tab:adc_brut_inducteur3} et \ref{tab:adc_brut_inducteur4} :
+Au cours des différentes essais, il a été constaté que les capteurs de position présentaient un comportement fortement non linéaire. L'utilisation d'une approximation linéaire classique a donc été écartée au profit d'une modélisation par régression polynomiale d'ordre supérieur. Les données brutes recueillies sont présentées dans les tableaux \ref{tab:adc_brut_inducteur1}, \ref{tab:adc_brut_inducteur2}, \ref{tab:adc_brut_inducteur3} et \ref{tab:adc_brut_inducteur4} :
 
 \begin{table}[H]
     \centering
