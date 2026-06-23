@@ -85,15 +85,17 @@ L'utilisation de Code Composer Studio requiert différentes installations et con
 Plusieurs hypothèses ont été formulées concernant l'origine potentielle du problème de lévitation :
 
 \begin{itemize}
-    \item Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation.
-    \item Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption.
+    \item Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation
+    \item Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption
     \item L'ajout récent d'une action intégrale engendre une instabilité du système.
-    \item Une mauvaise calibration globale du système empêche le décollage.
-    \item L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.
-    \item Une erreur s'est glissée lors de la phase de synthèse des régulateurs.
-    \item La condition de vérification à 99 \% perturbe le comportement de la machine d'état.
-    \item La carte principale présente un défaut matériel.
-    \item Les broches du DSP ne sont pas correctement reliées au reste de la carte principale.
+    \item Une mauvaise calibration globale du système empêche le décollage
+    \item L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation
+    \item Une erreur s'est glissée lors de la phase de synthèse des régulateurs
+    \item La condition de vérification à 99 \% perturbe le comportement de la machine d'état
+    \item La carte principale présente un défaut matériel
+    \item Les broches du DSP ne sont pas correctement reliées au reste de la carte principale
+    \item L'inductance nominale calculée est incorrecte
+    \item L'erreur n'est pas calculée correctement pour la régulation de position
 \end{itemize}
 
 \section{Usage de l'IA}
