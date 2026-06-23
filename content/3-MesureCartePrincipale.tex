@@ -168,7 +168,7 @@ Les mesures globales des circuits de conditionnement sont présentées dans les 
     \label{tab:cond_courant_1}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
     \centering
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -200,15 +200,15 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                               \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 67                                                      & 7.4                                                                 & 6.1                                                              & 1.3    & 18                                                                 \\ \cline{1-1} \cline{6-10}
-            2         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                 & 6.2                                                              & 1.2    & 17                                                                 \\ \cline{1-1} \cline{6-10}
-            3         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                 & 6.4                                                              & 1.0    & 13                                                                 \\ \cline{1-1} \cline{6-10}
-            4         &                                                            &                           &                                                         &                                                          & 67                                                      & 7.4                                                                 & 5.8                                                              & 1.5    & 21                                                                 \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{3.4} & 33 & 5.2 & 6.1 & 0.9 & 17 \\ \cline{1-1} \cline{6-10}
+            2 & & & & & 33 & 5.2 & 6.2 & 0.9 & 18 \\ \cline{1-1} \cline{6-10}
+            3 & & & & & 33 & 5.2 & 6.4 & 1.2 & 23 \\ \cline{1-1} \cline{6-10}
+            4 & & & & & 33 & 5.2 & 5.8 & 0.6 & 12 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par sonde (Sans poids, 6.8 kg)}
+    \caption{Mesures de courant par sonde (Sans poids)}
     \label{tab:sans_poids_sonde}
 \end{table}
 
@@ -218,15 +218,15 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Sans poids}}                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & \multirow{4}{*}{6.8}                                     & 66.7                                                    & 7.38                                                                & 6.79                                                  & 0.594  & 8.05                                                               \\ \cline{1-1} \cline{6-10}
-            2         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.45                                                  & 0.933  & 12.6                                                               \\ \cline{1-1} \cline{6-10}
-            3         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.54                                                  & 0.841  & 11.4                                                               \\ \cline{1-1} \cline{6-10}
-            4         &                                                            &                           &                                                         &                                                          & 66.7                                                    & 7.38                                                                & 6.02                                                  & 1.36   & 18.5                                                               \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Sans poids}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & \multirow{4}{*}{3.4} & 33.4 & 5.22 & 6.79 & 1.57 & 30.03 \\ \cline{1-1} \cline{6-10}
+            2 & & & & & 33.4 & 5.22 & 6.45 & 1.23 & 23.5 \\ \cline{1-1} \cline{6-10}
+            3 & & & & & 33.4 & 5.22 & 6.54 & 1.32 & 25.3 \\ \cline{1-1} \cline{6-10}
+            4 & & & & & 33.4 & 5.22 & 6.02 & 0.80 & 15.3 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par ADC (Sans poids, 6.8 kg)}
+    \caption{Mesures de courant par ADC (Sans poids)}
     \label{tab:sans_poids_adc}
 \end{table}
 
@@ -235,14 +235,14 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{4}{|c|}{\textbf{Sans poids}}        \\ \hline
+        \multicolumn{4}{|c|}{\textbf{Sans poids}} \\ \hline
         Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
-        1         & 6.79        & 6.08          & 0.71   \\ \hline
-        2         & 6.45        & 6.16          & 0.29   \\ \hline
-        3         & 6.54        & 6.40          & 0.14   \\ \hline
-        4         & 6.02        & 5.84          & 0.18   \\ \hline
+        1 & 6.79 & 6.08 & 0.71 \\ \hline
+        2 & 6.45 & 6.16 & 0.29 \\ \hline
+        3 & 6.54 & 6.40 & 0.14 \\ \hline
+        4 & 6.02 & 5.84 & 0.18 \\ \hline
     \end{tabular}
-    \caption{Comparatif des erreurs entre l'ADC et la sonde (Sans poids, 6.8 kg)}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Sans poids)}
     \label{tab:sans_poids_comp}
 \end{table}
 
@@ -255,15 +255,15 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 8.0                                                      & 78.7                                                    & 8.02                                                                & 7.6                                                              & 0.4    & 5.2                                                                \\ \cline{1-1} \cline{5-10}
-            2         &                                                            &                           &                                                         & 8.0                                                      & 78.5                                                    & 8.00                                                                & 7.2                                                              & 0.8    & 10                                                                 \\ \cline{1-1} \cline{5-10}
-            3         &                                                            &                           &                                                         & 8.0                                                      & 78.7                                                    & 8.02                                                                & 7.4                                                              & 0.6    & 7.7                                                                \\ \cline{1-1} \cline{5-10}
-            4         &                                                            &                           &                                                         & 8.0                                                      & 78.5                                                    & 8.00                                                                & 7.2                                                              & 0.8    & 10                                                                 \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & 4.6 & 45.4 & 6.09 & 7.6 & 1.5 & 24.9 \\ \cline{1-1} \cline{5-10}
+            2 & & & & 4.6 & 45.1 & 6.07 & 7.2 & 1.1 & 19 \\ \cline{1-1} \cline{5-10}
+            3 & & & & 4.6 & 45.4 & 6.09 & 7.4 & 1.3 & 21.6 \\ \cline{1-1} \cline{5-10}
+            4 & & & & 4.6 & 45.1 & 6.07 & 7.2 & 1.1 & 19 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par sonde (Poids de 1.25 kg, 8.0 kg)}
+    \caption{Mesures de courant par sonde (Poids de 1.25 kg)}
     \label{tab:poids_1_25_sonde}
 \end{table}
 
@@ -273,15 +273,15 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 8.0                                                      & 78.7                                                    & 8.02                                                                & 7.98                                                  & 0.039  & 0.491                                                              \\ \cline{1-1} \cline{5-10}
-            2         &                                                            &                           &                                                         & 8.0                                                      & 78.5                                                    & 8.00                                                                & 7.26                                                  & 0.743  & 9.28                                                               \\ \cline{1-1} \cline{5-10}
-            3         &                                                            &                           &                                                         & 8.0                                                      & 78.7                                                    & 8.02                                                                & 7.47                                                  & 0.552  & 6.89                                                               \\ \cline{1-1} \cline{5-10}
-            4         &                                                            &                           &                                                         & 8.0                                                      & 78.5                                                    & 8.00                                                                & 7.10                                                  & 0.906  & 11.3                                                               \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 1.25 kg}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & 4.6 & 45.4 & 6.09 & 7.98 & 1.89 & 31.068 \\ \cline{1-1} \cline{5-10}
+            2 & & & & 4.6 & 45.1 & 6.07 & 7.26 & 1.19 & 19.65 \\ \cline{1-1} \cline{5-10}
+            3 & & & & 4.6 & 45.4 & 6.09 & 7.47 & 1.38 & 22.64 \\ \cline{1-1} \cline{5-10}
+            4 & & & & 4.6 & 45.1 & 6.07 & 7.10 & 1.03 & 17.0 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par ADC (Poids de 1.25 kg, 8.0 kg)}
+    \caption{Mesures de courant par ADC (Poids de 1.25 kg)}
     \label{tab:poids_1_25_adc}
 \end{table}
 
@@ -290,14 +290,14 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{4}{|c|}{\textbf{Poids de 1.25 kg}}  \\ \hline
+        \multicolumn{4}{|c|}{\textbf{Poids de 1.25 kg}} \\ \hline
         Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
-        1         & 8.0         & 7.6           & 0.38   \\ \hline
-        2         & 7.3         & 7.2           & 0.060  \\ \hline
-        3         & 7.5         & 7.4           & 0.065  \\ \hline
-        4         & 7.1         & 7.2           & 0.10   \\ \hline
+        1 & 8.0 & 7.6 & 0.38 \\ \hline
+        2 & 7.3 & 7.2 & 0.060 \\ \hline
+        3 & 7.5 & 7.4 & 0.065 \\ \hline
+        4 & 7.1 & 7.2 & 0.10 \\ \hline
     \end{tabular}
-    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 1.25 kg, 8.0 kg)}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 1.25 kg)}
     \label{tab:poids_1_25_comp}
 \end{table}
 
@@ -310,15 +310,15 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                                          \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 9.2                                                      & 91                                                      & 8.6                                                                 & 8.2                                                              & 0.40   & 4.6                                                                \\ \cline{1-1} \cline{5-10}
-            2         &                                                            &                           &                                                         & 9.3                                                      & 91                                                      & 8.6                                                                 & 8.2                                                              & 0.42   & 4.8                                                                \\ \cline{1-1} \cline{5-10}
-            3         &                                                            &                           &                                                         & 9.2                                                      & 91                                                      & 8.6                                                                 & 8.2                                                              & 0.40   & 4.6                                                                \\ \cline{1-1} \cline{5-10}
-            4         &                                                            &                           &                                                         & 9.3                                                      & 91                                                      & 8.6                                                                 & 8.8                                                              & 0.18   & 2.1                                                                \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ mesuré {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & 5.8 & 57 & 6.8 & 8.2 & 1.36 & 20.0 \\ \cline{1-1} \cline{5-10}
+            2 & & & & 5.9 & 58 & 6.9 & 8.2 & 1.34 & 19.6 \\ \cline{1-1} \cline{5-10}
+            3 & & & & 5.8 & 57 & 6.8 & 8.2 & 1.36 & 20.0 \\ \cline{1-1} \cline{5-10}
+            4 & & & & 5.9 & 58 & 6.9 & 8.8 & 1.94 & 28.3 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par sonde (Poids de 2.5 kg, 9.2 kg)}
+    \caption{Mesures de courant par sonde (Poids de 2.5 kg)}
     \label{tab:poids_2_5_sonde}
 \end{table}
 
@@ -328,15 +328,15 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
             \hline
-            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}}                                                                                                                                                                                                                                                                                                                                                                                                                                               \\ \hline
-            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]}                 & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
-            1         & \multirow{4}{*}{2.00E-03}                                  & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06}                               & 9.2                                                      & 90.6                                                    & 8.60                                                                & 8.93                                                  & 0.325  & 3.78                                                               \\ \cline{1-1} \cline{5-10}
-            2         &                                                            &                           &                                                         & 9.3                                                      & 90.9                                                    & 8.62                                                                & 8.29                                                  & 0.323  & 3.75                                                               \\ \cline{1-1} \cline{5-10}
-            3         &                                                            &                           &                                                         & 9.2                                                      & 90.6                                                    & 8.60                                                                & 8.05                                                  & 0.548  & 6.37                                                               \\ \cline{1-1} \cline{5-10}
-            4         &                                                            &                           &                                                         & 9.3                                                      & 90.9                                                    & 8.62                                                                & 8.78                                                  & 0.162  & 1.88                                                               \\ \hline
+            \multicolumn{10}{|c|}{\textbf{Poids de 2.5 kg}} \\ \hline
+            Inducteur & \begin{tabular}[c]{@{}c@{}}Position\\ {[}m{]}\end{tabular} & L {[}H{]} & \begin{tabular}[c]{@{}c@{}}k\\ {[}m*A/N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Masse\\ {[}kg{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Force\\ {[}N{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Courant\\ théorique {[}A{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}ADC\\ {[}A{]}\end{tabular} & Erreur & \begin{tabular}[c]{@{}c@{}}Erreur\\ relative {[}\%{]}\end{tabular} \\ \hline
+            1 & \multirow{4}{*}{2.00E-03} & \multirow{4}{*}{4.90E-03} & \multirow{4}{*}{4.90E-06} & 5.8 & 57.2 & 6.84 & 8.93 & 2.09 & 30.57 \\ \cline{1-1} \cline{5-10}
+            2 & & & & 5.9 & 57.6 & 6.86 & 8.29 & 1.44 & 20.95 \\ \cline{1-1} \cline{5-10}
+            3 & & & & 5.8 & 57.2 & 6.84 & 8.05 & 1.22 & 17.80 \\ \cline{1-1} \cline{5-10}
+            4 & & & & 5.9 & 57.6 & 6.86 & 8.78 & 1.92 & 28.03 \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures de courant par ADC (Poids de 2.5 kg, 9.2 kg)}
+    \caption{Mesures de courant par ADC (Poids de 2.5 kg)}
     \label{tab:poids_2_5_adc}
 \end{table}
 
@@ -345,14 +345,14 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
     \centering
     \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{4}{|c|}{\textbf{Poids de 2.5 kg}}   \\ \hline
+        \multicolumn{4}{|c|}{\textbf{Poids de 2.5 kg}} \\ \hline
         Inducteur & ADC {[}A{]} & Sonde {[}A{]} & Erreur \\ \hline
-        1         & 8.9         & 8.2           & 0.73   \\ \hline
-        2         & 8.3         & 8.2           & 0.093  \\ \hline
-        3         & 8.1         & 8.2           & 0.15   \\ \hline
-        4         & 8.8         & 8.8           & 0.022  \\ \hline
+        1 & 8.9 & 8.2 & 0.73 \\ \hline
+        2 & 8.3 & 8.2 & 0.093 \\ \hline
+        3 & 8.1 & 8.2 & 0.15 \\ \hline
+        4 & 8.8 & 8.8 & 0.022 \\ \hline
     \end{tabular}
-    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 2.5 kg, 9.2 kg)}
+    \caption{Comparatif des erreurs entre l'ADC et la sonde (Poids de 2.5 kg)}
     \label{tab:poids_2_5_comp}
 \end{table}
 
