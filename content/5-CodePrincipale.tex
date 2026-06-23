@@ -233,7 +233,22 @@ const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
                                      0.0, 0.0167, 0.0333, 0.05, 0.0667};
 \end{minted}
 
-Un élargissement de la fenêtre de glissement permet de renforcer l'atténuation du bruit, mais ce lissage s'obtient au détriment du temps d'exécution (charge processeur). Ce filtre est spécifiquement exploité dans le firmware pour atténuer le bruit d'acquisition des canaux ADC dédiés aux capteurs de position (voir section \ref{subsubsec:ADC}).
+Un élargissement de la fenêtre de glissement permet de renforcer l'atténuation du bruit, mais ce lissage s'obtient au détriment du temps d'exécution (charge processeur). Ce filtre est spécifiquement exploité dans le firmware pour calculer la dérivée de la position et filtrer le résultat afin d'obtenir la vitesse :
+
+\begin{minted}{c}
+        // --- Filtres de vitesse Savitzky-Golay ---
+        pos1Buff[FILTWINDOW-1] = Position1;
+        v1 = savitzky_Filter(pos1Buff);
+
+        pos2Buff[FILTWINDOW-1] = Position2;
+        v2 = savitzky_Filter(pos2Buff);
+
+        pos3Buff[FILTWINDOW-1] = Position3;
+        v3 = savitzky_Filter(pos3Buff);
+
+        pos4Buff[FILTWINDOW-1] = Position4;
+        v4 = savitzky_Filter(pos4Buff);
+\end{minted}
 
 \subsubsection{Filtre IIR}
 L'algorithme du filtre IIR (Infinite Impulse Response) est rédigé comme suit :
