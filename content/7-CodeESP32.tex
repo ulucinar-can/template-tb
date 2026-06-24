@@ -4,7 +4,13 @@
 \section{Introduction}
 Le microcontrôleur ESP32 est chargé de gérer la communication avec le DSP ainsi que d'héberger l'interface web. Cette section détaille les différents éléments logiciels qui le composent.
 
-\section{Affichage de l'interface WEB}
+\section{Mise en place}
+\subsection{Configuration de l'Arduino IDE}
+Afin de programmer l'ESP-32, l'Arduino IDE a été employer afin de réaliser cela. Pour une utilisation optimum, les réglages suivants doivent être fait.\\
+
+Dans l'interface, les librairies suivantes doivent être installé si non réal
+
+\subsection{Affichage de l'interface WEB}
 Afin de se connecter à l'interface, il est néscessaire de se connecter au WIFI créer par l'ESP-32. Pour cela, les informations suivantes sont néscessaire pour s'y connecter :
 
 \begin{itemize}
@@ -46,7 +52,7 @@ Le fonctionnement logiciel est basé sur les travaux de Thomas Freyche et est il
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{assets/Chap6/FonctionnementCode.png}
+  \includegraphics[width=1\linewidth]{assets/Chap7/FonctionnementCode.png}
   \caption{Diagramme du fonctionnement du code de l'ESP32 \cite{Freyche}}
   \label{fig:FoncCodeESP32}
 \end{figure}
@@ -68,7 +74,7 @@ L'interface web se présente telle qu'illustrée sur la figure \ref{fig:Interfac
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\linewidth]{assets/Chap6/interface.png}
+  \includegraphics[width=1\linewidth]{assets/Chap7/interface.png}
   \caption{Affichage de l'interface utilisateur - page de lancement à distance \cite{Freyche}}
   \label{fig:Interface}
 \end{figure}
