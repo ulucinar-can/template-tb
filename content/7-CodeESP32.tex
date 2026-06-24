@@ -8,7 +8,53 @@ Le microcontrôleur ESP32 est chargé de gérer la communication avec le DSP ain
 \subsection{Configuration de l'Arduino IDE}
 Afin de programmer l'ESP-32, l'Arduino IDE a été employer afin de réaliser cela. Pour une utilisation optimum, les réglages suivants doivent être fait.\\
 
-Dans l'interface, les librairies suivantes doivent être installé si non réal
+Une librairies à installer est la librairie "FastLED.h" de Daniel Garcia :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{assets/Chap7/Mise en place/LibInstall.png}
+  \caption{Librairie à installer}
+  \label{fig:LibInstall}
+\end{figure}
+
+Par la suite, le compilateur doit être réglé. Pour commencer, la bonne carte doit être installé. Pour se faire il est néscessaire d'installer dans "Boards Manager" celui d'Espressif Systems concernant l'esp32 :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{assets/Chap7/Mise en place/BoardInstall.png}
+  \caption{Carte à installer}
+  \label{fig:BoardInstall}
+\end{figure}
+
+Une fois cela fait, il faut sélectionné la bonne carte. Celle qui nous intéresse est l'ESP32S2 Dev Module :
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{assets/Chap7/Mise en place/BoardSelect1.png}
+    \caption{Première étape}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{assets/Chap7/Mise en place/BoardSelect2.png}
+    \caption{Deuxième étape}
+  \end{subfigure}
+  \caption{Étapes à réaliser pour la sélection de la carte}
+\end{figure}
+
+\begin{enumerate}
+  \item ESP32S2 Dev Module
+  \item USB CDC On Boot Enable
+  \item Erase All Flash Before Sketch Upload Enable
+  \item cpu speed 240 mhz
+  \item flash speed 80 mhz
+  \item flash mode qio
+  \item flash size 4mb
+  \item partition scheme default
+\end{enumerate}
+
+
 
 \subsection{Affichage de l'interface WEB}
 Afin de se connecter à l'interface, il est néscessaire de se connecter au WIFI créer par l'ESP-32. Pour cela, les informations suivantes sont néscessaire pour s'y connecter :
