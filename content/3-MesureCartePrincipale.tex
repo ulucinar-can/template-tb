@@ -191,7 +191,7 @@ Les mesures globales des circuits de conditionnement sont présentées dans les 
 \end{table}
 
 \subsection{Mesure du courant sans ajout de poids}
-Une première série de mesures a été réalisée sans ajout de masse afin d'établir des comparaisons entre les valeurs théoriques, les mesures par sonde de courant et les données acquises par l'ADC. Ces résultats sont consignés dans les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc} et \ref{tab:sans_poids_comp} :
+Une première série de mesures a été réalisée sans ajout de masse afin d'établir des comparaisons entre les valeurs théoriques, les mesures par sonde de courant et les données acquises par l'ADC. Ces résultats sont consignés dans les tableaux \ref{tab:sans_poids_sonde} à \ref{tab:sans_poids_comp} :
 
 % --- Sans Poids - Partie 1 (Sonde) ---
 \begin{table}[H]
@@ -246,7 +246,7 @@ Une première série de mesures a été réalisée sans ajout de masse afin d'é
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 1.25kg}
-Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25 kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc} et \ref{tab:poids_1_25_comp} :
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25 kg. Afin de garantir une précision maximale, ces masses ont été pesées au préalable pour obtenir une valeur de charge exacte. Les mesures correspondantes sont présentées dans les tableaux \ref{tab:poids_1_25_sonde} à \ref{tab:poids_1_25_comp} :
 
 % --- Poids 1.25 kg - Partie 1 (Sonde) ---
 \begin{table}[H]
@@ -301,7 +301,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 2.5kg}
-Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans les tableaux \ref{tab:poids_2_5_sonde}, \ref{tab:poids_2_5_adc} et \ref{tab:poids_2_5_comp} :
+Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans les tableaux \ref{tab:poids_2_5_sonde} à \ref{tab:poids_2_5_comp} :
 
 % --- Poids 2.5 kg - Partie 1 (Sonde) ---
 \begin{table}[H]
@@ -356,11 +356,11 @@ Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les r
 \end{table}
 
 \subsection{Analyse des résultats}
-Comme le montrent les tableaux \ref{tab:sans_poids_sonde}, \ref{tab:sans_poids_adc}, \ref{tab:poids_1_25_sonde}, \ref{tab:poids_1_25_adc}, \ref{tab:poids_2_5_sonde} et \ref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Cet écart engendre des erreurs relatives non négligeables. Ce phénomène s'explique par le fait que seule une extrémité du chariot (l'avant ou l'arrière) était soulevée lors des essais ; le point d'appui resté en contact avec le sol agit indirectement comme un support mécanique, modifiant ainsi la charge réelle supportée individuellement par chaque inducteur.
+Comme le montrent les tableaux \ref{tab:sans_poids_sonde} à \ref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Il est observé que le courant mesuré est globalement supérieur au courant théorique calculé. Cet écart s'explique par le fait que les calculs théoriques initiaux s'appuyaient sur une masse estimée à 3,4~kg par inducteur. Comme expliqué précédemment, la masse effective à sustenter n'est pas de 3,4~kg par inducteur, mais s'élève en réalité à 4,513~kg. Cette différence de charge justifie logiquement la consommation de courant plus importante.
 
-En comparant les deux méthodes de mesure à travers les tableaux \ref{tab:sans_poids_comp}, \ref{tab:poids_1_25_comp} et \ref{tab:poids_2_5_comp}, une forte similarité entre les résultats est observée. Cela démontre que l'acquisition de données est correcte et qu'il y a une bonne correspondance entre le courant circulant réellement dans l'inducteur et la valeur mesurée par le capteur.
+La comparaison des deux méthodes de mesure, illustrée par les tableaux \ref{tab:sans_poids_comp} à \ref{tab:poids_2_5_comp}, met en évidence une forte corrélation entre les résultats. Cela démontre la fiabilité de la chaîne d'acquisition des données et confirme l'exactitude de la correspondance entre le courant circulant réellement dans l'inducteur et la valeur numérique lue par le capteur.
 
-Le fonctionnement du capteur de courant est donc validé et considéré comme correct.
+Le fonctionnement du capteur de courant est par conséquent validé.
 
 \section{Mesure des capteurs de position}
 Cette section traite des mesures réalisées sur les capteurs de position. De nombreuses séries d'essais ont été effectuées afin de tester différents étalonnages. Par conséquent, seules les approches les plus pertinentes ont été conservées afin d'alléger le contenu de ce document.
