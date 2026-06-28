@@ -1,0 +1,133 @@
+%% Creator: Inkscape 1.2.2 (b0a8486541, 2022-12-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'SchemFonct_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1028.25bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.79576951)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{SchemFonct_svg-tex.pdf}}%
+    \put(0.56528082,0.27498177){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Capteur de position 3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{SchemFonct_svg-tex.pdf}}%
+    \put(0.95550693,0.77097009){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Inducteur\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{SchemFonct_svg-tex.pdf}}%
+    \put(0.04376368,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Alimentation...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{SchemFonct_svg-tex.pdf}}%
+    \put(0.61998541,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Interface utilisateur\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{SchemFonct_svg-tex.pdf}}%
+    \put(0.3245806,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}DSP\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{SchemFonct_svg-tex.pdf}}%
+    \put(0.41210795,0.12910284){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Circuit de condit...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{SchemFonct_svg-tex.pdf}}%
+    \put(0.41210795,0.27498177){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Circuit de condit...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{SchemFonct_svg-tex.pdf}}%
+    \put(0.23705325,0.27498177){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Circuit de condit...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{SchemFonct_svg-tex.pdf}}%
+    \put(0.23705325,0.12910284){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Circuit de condit...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{SchemFonct_svg-tex.pdf}}%
+    \put(0.10649161,0.21298322){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}VCC\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{SchemFonct_svg-tex.pdf}}%
+    \put(0.10649161,0.19037199){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}GND\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{SchemFonct_svg-tex.pdf}}%
+    \put(0.20787746,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Carte principale\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{SchemFonct_svg-tex.pdf}}%
+    \put(0.41210795,0.38439096){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Carte de puissance 3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{SchemFonct_svg-tex.pdf}}%
+    \put(0.23705325,0.38439096){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Carte de puissance 1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{SchemFonct_svg-tex.pdf}}%
+    \put(0.23705325,0.01969365){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Carte de puissance 2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{SchemFonct_svg-tex.pdf}}%
+    \put(0.41210795,0.01969365){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Carte de puissance 4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{SchemFonct_svg-tex.pdf}}%
+    \put(0.56528082,0.12910284){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Capteur de position 4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{SchemFonct_svg-tex.pdf}}%
+    \put(0.08388038,0.12910284){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Capteur de position 2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{SchemFonct_svg-tex.pdf}}%
+    \put(0.08388038,0.27498177){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Capteur de position 1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{SchemFonct_svg-tex.pdf}}%
+    \put(0.40408461,0.20714807){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}UART\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{SchemFonct_svg-tex.pdf}}%
+    \put(0.45222465,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}ESP32\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{SchemFonct_svg-tex.pdf}}%
+    \put(0.52516411,0.2020423){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}WIFI\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{SchemFonct_svg-tex.pdf}}%
+    \put(0.14587892,0.28227571){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$\delta_{m1}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{SchemFonct_svg-tex.pdf}}%
+    \put(0.14587892,0.13639679){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$\delta_{m2}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{SchemFonct_svg-tex.pdf}}%
+    \put(0.50328228,0.13639679){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$\delta_{m4}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{SchemFonct_svg-tex.pdf}}%
+    \put(0.50328228,0.28227571){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$\delta_{m3}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{SchemFonct_svg-tex.pdf}}%
+    \put(0.22611233,0.35448578){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$I_{m1}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{SchemFonct_svg-tex.pdf}}%
+    \put(0.42304887,0.35448578){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$I_{m3}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{SchemFonct_svg-tex.pdf}}%
+    \put(0.42304887,0.05032823){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$I_{m4}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{SchemFonct_svg-tex.pdf}}%
+    \put(0.22611233,0.05032823){\color[rgb]{1,0.50196078,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$I_{m2}$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{SchemFonct_svg-tex.pdf}}%
+    \put(0.29175784,0.0671043){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$PWM2$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{SchemFonct_svg-tex.pdf}}%
+    \put(0.35740336,0.0671043){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$PWM4$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{SchemFonct_svg-tex.pdf}}%
+    \put(0.35740336,0.34427425){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$PWM3$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{SchemFonct_svg-tex.pdf}}%
+    \put(0.29175784,0.34427425){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}$$PWM1$$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{SchemFonct_svg-tex.pdf}}%
+    \put(0.11086798,0.38439096){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Inducteur 1\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{SchemFonct_svg-tex.pdf}}%
+    \put(0.53099927,0.38439096){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Inducteur 3\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{SchemFonct_svg-tex.pdf}}%
+    \put(0.11086798,0.01969365){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Inducteur 2\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{SchemFonct_svg-tex.pdf}}%
+    \put(0.53099927,0.01969365){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Inducteur 4\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
