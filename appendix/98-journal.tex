@@ -647,10 +647,35 @@ Travaille réalisé :
 \subsection*{30 juin 2026}
 Réaliser :
 \begin{itemize}
-    \item Réaliser un LQI avec un filtre Kalhman
+    \item Synthèse PID
     \item Refaire la mesure avec l'erreur
     \item Réinit de l'erreur lors du déclenchement
     \item Changement de la gestion d'un bouton, avec uniquement une seule variable pour s'occuper du bouton
     \item Ajout d'un moyen d'éteindre la maquette sous n'importe quel état
     \item Perçage de la planche en bois
 \end{itemize}
+
+\subsection*{01 juillet 2026}
+Réaliser :
+\begin{itemize}
+    \item Suite synthèse PID
+    \item Modification de tau_iBF
+    \item Ajout d'un observateur de vitesse
+    \item Synthèse d'une régulation d'un LQI par inducteur
+\end{itemize}
+
+Observation : L'appoximation réaliser avait le mauvais tau_ibf. Cela est dû au fait que je n'utilse finalement pas le meme Kpi que celui qu'on voudrait. En fixant Kpi à 2, le systèm est beaucoup plus lent que prévu pour atteindre la consigne donc un tau_ibf plus lent. Cependant il atteint jamais la consigne.
+
+\subsection*{02 juillet 2026}
+Réaliser :
+\begin{itemize}
+    \item Suite synthèse LQI et analyse de mesure
+\end{itemize}
+
+\subsection*{03 juillet 2026}
+Réaliser :
+\begin{itemize}
+    \item Suite synthèse LQI et analyse de mesure
+\end{itemize}
+
+Observation : Le système lévite lorsque l'inducteur 3 est presque posé et que l'inducteur 4 se lève un peu. Offrant alors un sensation proche d'un glissement. de plus la consigne de courant ne peut jamais etre atteint gardant toujours un petite erreur qui pourrait expliquer pourquoi on atteint jamais la consgine de position. La maquette est par ailleurs en pente, cela insinue que la force n'est pas uniformément disposé. L'arrière dois prendre plus de charge. Cela rends la composition de la régulation actuelle fausse car les inducteurs ne doivent pas fournir le meme travail.
