@@ -80,7 +80,7 @@ Sur le principe, la carte principale doit assurer l’ensemble de la régulation
 
 La maquette peut être commandée à l’aide d’une interface web accessible depuis un téléphone ou tout autre appareil pouvant se connecter au réseau Wi-Fi de l’ESP32.
 
-Actuellement, une alimentation externe est utilisée. À terme, l’intégration d’un convertisseur, puis d’un transformateur, permettra au système de disposer de sa propre source d’alimentation autonome.
+Actuellement, une alimentation de laboratoire est utilisée. À terme, l’intégration d’une alimentation propre au système sera mise en place.
 
 \clearpage
 
@@ -107,7 +107,7 @@ C’est dans cette partie que se situe le cœur de la maquette. On y retrouve :
 Les sous-sections suivantes présentent les parties décrites ci-dessus.
 
 \subsection{DSP}
-Le DSP héberge le programme principal assurant la lévitation. Le schéma présente un connecteur standard permettant de relier les broches du DSP aux différentes sections de la carte :
+Le schéma électrique de l'interface du DSP intègre un connecteur destiné à recevoir une carte d'évaluation Texas Instruments \cite{Freyche}. Cette dernière exécute le programme principal régissant la lévitation. Le connecteur assure ainsi la liaison avec le reste de la carte :
 
 \begin{figure}[H]
     \centering
@@ -117,6 +117,8 @@ Le DSP héberge le programme principal assurant la lévitation. Le schéma prés
 \end{figure}
 
 Ce connecteur permet de retirer efficacement la carte en cas de dysfonctionnement du DSP.
+
+\red{Ajouter une photo du connecteur ainsi que de la carte de développement}
 
 \subsection{Conditionneurs}
 \label{subsec:Conditionneur}
