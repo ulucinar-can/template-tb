@@ -107,7 +107,7 @@ C’est dans cette partie que se situe le cœur de la maquette. On y retrouve :
 Les sous-sections suivantes présentent les parties décrites ci-dessus.
 
 \subsection{DSP}
-Le schéma électrique de l'interface du DSP intègre un connecteur destiné à recevoir une carte d'évaluation Texas Instruments \cite{Freyche}. Cette dernière exécute le programme principal régissant la lévitation. Le connecteur assure ainsi la liaison avec le reste de la carte :
+Le schéma électrique de l'interface du DSP intègre un connecteur destiné à recevoir une carte d'évaluation Texas Instruments \cite{Freyche}. Cette dernière exécute le programme principal régissant la lévitation. Le connecteur assure ainsi la liaison avec le reste de la carte, comme illustré par la figure \ref{fig:DspScheme} :
 
 \begin{figure}[H]
     \centering
@@ -116,29 +116,30 @@ Le schéma électrique de l'interface du DSP intègre un connecteur destiné à 
     \label{fig:DspScheme}
 \end{figure}
 
-Ce connecteur permet de retirer efficacement la carte en cas de dysfonctionnement du DSP.
+Cette implémentation modulaire permet de retirer facilement la carte d'évaluation en cas de défaillance matérielle du DSP.
 
-Le connecteur et la carte se présente comme telle :
+Le connecteur et la carte d'évaluation se présentent comme illustré sur la figure \ref{fig:DspEtConnecteur} :
 
 \begin{figure}[H]
     \centering
     % Première sous-figure
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[trim = 100 100 150 50, clip, width=\linewidth]{assets/Chap2/CarteEval.jpg}
+        \includegraphics[trim = 80 100 150 80, clip, width=\linewidth]{assets/Chap2/CarteEval.jpg}
         \caption{Carte d'évaluation}
+        \label{subfig:carte_eval}
     \end{subfigure}\hfill
     % Deuxième sous-figure
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{assets/Chap2/Connector.jpg}
+        \includegraphics[trim = 50 50 50 50, clip, width=\linewidth]{assets/Chap2/Connector.jpg}
         \caption{Connecteur}
+        \label{subfig:connecteur}
     \end{subfigure}
 
     \caption{Connecteur et carte d'évaluation}
+    \label{fig:DspEtConnecteur}
 \end{figure}
-
-\red{Ajouter une photo du connecteur ainsi que de la carte de développement}
 
 \subsection{Conditionneurs}
 \label{subsec:Conditionneur}
