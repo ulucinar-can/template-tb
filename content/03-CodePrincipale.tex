@@ -121,8 +121,8 @@ La séquence de régulation s'articule selon les étapes suivantes :
     \item Calcul de l'erreur $i_e$ (différence entre la consigne et la mesure du courant), puis multiplication par le gain proportionnel.
     \item Mise à jour de l'action intégrale par sommation de la différence entre l'erreur de courant $i_e$ et l'erreur de tension $u_e$, pondérée par le gain intégral $GI_I$ et la période d'échantillonnage $H$.
     \item Évaluation de la commande intermédiaire $u_{c\_prim}$, obtenue par la somme des actions proportionnelle et intégrale.
-    \item Saturation de la commande afin de respecter les limites physiques imposées par l'alimentation de la maquette (plage de 0~V à $U_{MAX}$ = 48~V). La consigne finale est restreinte à ces bornes le cas échéant.
-    \item Calcul de l'écart de tension (différence entre la commande intermédiaire et la commande saturée) pondéré par le coefficient d'anti-windup, afin de prévenir l'emballement de l'intégrateur.
+    \item La limitation de la commande (antiwindup) afin de respecter les limites physiques imposées par l'alimentation de la maquette (plage de 0~V à $U_{MAX}$ = 48~V). La consigne finale est restreinte à ces bornes le cas échéant.
+    \item Calcul de l'écart de tension (différence entre la commande intermédiaire et la commande limitée) pondéré par le coefficient d'anti-windup, afin de prévenir l'emballement de l'intégrateur.
 \end{enumerate}
 
 Cette fonction est appelée de manière cyclique dans la routine d'interruption principale pour assurer l'asservissement en courant des quatre bobines.
@@ -166,7 +166,7 @@ const float SAVITZKY[FILTWINDOW] = {-0.0667, -0.05, -0.0333, -0.0167,
                                      0.0, 0.0167, 0.0333, 0.05, 0.0667};
 \end{minted}
 
-Un élargissement de la fenêtre de glissement permet de renforcer l'atténuation du bruit, mais ce lissage s'obtient au détriment du temps d'exécution (charge processeur). Ce filtre est spécifiquement exploité dans le firmware pour calculer la dérivée de la position et filtrer le résultat afin d'obtenir la vitesse :
+L'élargissement de la fenêtre glissante permet d'améliorer l'atténuation du bruit, mais ce lissage introduit un retard dans la réponse du système. Ce filtre est spécifiquement implémenté dans le firmware pour dériver la position et en filtrer le résultat afin d'obtenir la vitesse :
 
 \begin{minted}{c}
         // --- Filtres de vitesse Savitzky-Golay ---
