@@ -204,12 +204,14 @@ Cette valeur de crête est ensuite exploitée pour convertir les signaux numéri
 
 Le calcul du courant s'effectue selon la relation suivante :
 
-$$I = \text{ADC}_{lu} \cdot \frac{I_{max} - I_{min}}{\text{ADC}_{max}} - I_{offset}$$
+$$I = \text{ADC} \cdot \frac{I_{max} - I_{min}}{\text{ADC}_{max}} - I_{offset}$$
+
+Un offset est appliqué au courant afin d'exploiter l'intégralité de la plage de mesure. En effet, sans cette correction, la valeur calculée resterait toujours positive ; en soustrayant l'offset, on retrouve la partie négative de la caractéristique illustrée à la figure \ref{fig:GrapheCaptCour}.
 
 En appliquant les valeurs numériques propres au capteur de courant :
 
 \begin{equation}
-    I = \text{ADC}_{lu} \cdot \frac{30 - (-30)}{3723} - 30 = 0,01612 \cdot \text{ADC}_{lu} - 30 \quad [\text{A}]
+    I = \text{ADC} \cdot \frac{30 - (-30)}{3723} - 30 = 0,01612 \cdot \text{ADC} - 30 \quad [\text{A}]
     \label{eq:conv_courant}
 \end{equation}
 
