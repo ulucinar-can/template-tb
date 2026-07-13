@@ -211,7 +211,7 @@ Un offset est appliqué au courant afin d'exploiter l'intégralité de la plage 
 En appliquant les valeurs numériques propres au capteur de courant :
 
 \begin{equation}
-    I = \text{ADC} \cdot \frac{30 - (-30)}{3723} - 30 = 0,01612 \cdot \text{ADC} - 30 \quad [\text{A}]
+    I = \text{ADC} \cdot \frac{30 - (-30)}{3723} - 30 = 0,01612 \cdot \text{ADC} - 30~[\text{A}]
     \label{eq:conv_courant}
 \end{equation}
 
@@ -222,7 +222,7 @@ La loi de conversion se réduit alors à :
 $$\text{Position} = \text{ADC}_{lu} \cdot \frac{\text{Position}_{max} - \text{Position}_{min}}{\text{ADC}_{max}}$$
 
 \begin{equation}
-    \text{Position} = \text{ADC}_{lu} \cdot \frac{3 \cdot 10^{-3} - 0}{3723} = 8,058 \cdot 10^{-7} \cdot \text{ADC}_{lu} \quad [\text{m}]
+    \text{Position} = \text{ADC} \cdot \frac{3 \cdot 10^{-3} - 0}{3723} = 8,058 \cdot 10^{-7} \cdot \text{ADC}~[\text{m}]
     \label{eq:conv_position}
 \end{equation}
 
@@ -308,10 +308,6 @@ D’après la documentation technique \cite{ESP32}, les caractéristiques princi
     \item Fréquence maximale du processeur : 240 MHz
     \item Dimensions approximatives du PCB : 37 mm x 18 mm
 \end{itemize}
-
-Bien que l’ESP32 dispose d’une mémoire limitée, celle-ci s’avère suffisante pour l’application visée (voir \ref{sec:CodeESP32}).
-
-Dans l’éventualité où les ressources de la carte deviendraient insuffisantes, une modification de la carte principale du système serait nécessaire afin d’accueillir un autre modèle. La version 3 \cite{CarbonV3} de la carte présente notamment un brochage entièrement différent.
 
 Le raccordement de la carte est établi selon le schéma \ref{fig:PinoutESP32} :
 
