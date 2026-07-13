@@ -221,10 +221,10 @@ Les cartes de puissance sont représentées à la figure \ref{fig:PowerSchem} :
 
 Chaque carte intègre les éléments suivants :
 \begin{itemize}
-    \item Un pont en H permettant de faire circuler un courant bidirectionnel au sein de la bobine.
+    \item Un pont en H permettant un fonctionnement à 4 quadrants, assurant une circulation bidirectionnelle du courant dans la bobine ainsi qu'un contrôle rapide de sa dynamique (montée/descente).
     \item Deux drivers assurant l’amplification des signaux PWM appliqués sur les MOSFET.
     \item Un capteur de courant destinés à la mesure de l’intensité traversant la bobine.
-    \item Des condensateurs de découplage en parallèle du pont en H afin de garantir la stabilité de la tension d’alimentation.
+    \item Des condensateurs de découplage placés en parallèle du bus DC, à proximité du pont en H, afin de garantir la stabilité de la tension d'alimentation face aux appels de courant pulsés du pont.
 \end{itemize}
 
 \subsection{ESP32}
