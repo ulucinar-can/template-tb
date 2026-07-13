@@ -58,9 +58,23 @@ Les inducteurs présentent une résistance de $0,8\text{ }\Omega$ et comportent 
     \label{fig:surface_inducteur}
 \end{figure}
 
-Les capteurs de courant sont des capteurs LEM \cite{CaptCour}. Il s’agit de capteurs à effet Hall. Ces capteurs sont disposés sur les cartes de puissance. Leur plage de mesure s’étend de $-30\text{ }A$ à $30\text{ }A$. Leur bande passante est de $50\text{ }kHz$. Ils permettent de mesurer le courant traversant les bobines.
+Les capteurs de courant sont des capteurs LEM \cite{CaptCour}. Il s’agit de capteurs à effet Hall. Ces capteurs sont disposés sur les cartes de puissance. Leur plage de mesure s’étend de $-30\text{ }A$ à $30\text{ }A$ (voir tracé \ref{fig:GrapheCaptCour}). Leur bande passante est de $50\text{ }kHz$. Ils permettent de mesurer le courant traversant les bobines.
 
-Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}. Il s’agit de capteurs optiques par triangulation laser. Leur distance de base se situe entre $30\text{ }mm$ et $70\text{ }mm$. Grâce à une fonction d’apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l’entrefer. Afin de réaliser une calibration du capteur, il est possible de suivre les instructions de la \autoref{sec:CalibrationCaptPos}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap2/CaracteristiqueCourant.png}
+    \caption{Caractéristique de sortie du capteur de courant}
+    \label{fig:GrapheCaptCour}
+\end{figure}
+
+Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}. Il s’agit de capteurs optiques par triangulation laser. Leur distance de base se situe entre $30\text{ }mm$ et $70\text{ }mm$ (voir tracé \ref{fig:GrapheCaptPos}). Grâce à une fonction d’apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l’entrefer. Afin de réaliser une calibration du capteur, il est possible de suivre les instructions de la \autoref{sec:CalibrationCaptPos}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap2/CaracteristiquePosition.png}
+    \caption{Caractéristique de sortie du capteur de position}
+    \label{fig:GrapheCaptPos}
+\end{figure}
 
 De plus amples détails sur l’électronique sont présentés dans la section \ref{sec:SchemEle}.
 
@@ -169,7 +183,46 @@ Le conditionnement du capteur de position suit les étapes suivantes :
 
 L’ensemble des conditionneurs est réalisé de manière identique pour chaque canal de mesure.
 
-Cependant la tension de référence de l'ADC correspond à 3.3 V. Il est dès alors
+La tension de référence de l'ADC étant fixée à 3.3~V, la plage de conversion exploitable est inférieure à la résolution numérique maximale théorique.
+
+La valeur numérique maximale effective est déterminée par un calcul de proportionnalité :
+
+$$3.3\text{ V} = 4095$$
+$$3\text{ V} = \text{ADC}_{max}$$
+
+\begin{equation}
+    \text{ADC}_{max} = \frac{3}{3,3} \cdot 4095 \approx 3723
+    \label{eq:adc_max_calc}
+\end{equation}
+
+Cette valeur de crête est ensuite exploitée pour convertir les signaux numériques en grandeurs physiques (courant et position). Les capteur présentant une caractéristique linéaire, leur comportement modélisé s'exprime par une équation du premier degré :
+
+\begin{equation}
+    y = ax + b
+    \label{eq:droite_lineaire}
+\end{equation}
+
+Le calcul du courant s'effectue selon la relation suivante :
+
+$$I = \text{ADC}_{lu} \cdot \frac{I_{max} - I_{min}}{\text{ADC}_{max}} - I_{offset}$$
+
+En appliquant les valeurs numériques propres au capteur de courant :
+
+\begin{equation}
+    I = \text{ADC}_{lu} \cdot \frac{30 - (-30)}{3723} - 30 = 0,01612 \cdot \text{ADC}_{lu} - 30 \quad [\text{A}]
+    \label{eq:conv_courant}
+\end{equation}
+
+La conversion de la position est simplifiée par l'application d'un étalonnage par apprentissage (\textit{teach-in}) sur le capteur (section \ref{sec:CalibrationCaptPos}). Cette méthode permet de redéfinir la plage de mesure du transducteur : la plage nominale initiale, allant de 30~mm pour 0~V à 70~mm pour 10~V, est ajustée pour correspondre exactement à l'intervalle utile de 0~mm à 3~mm.
+
+La loi de conversion se réduit alors à :
+
+$$\text{Position} = \text{ADC}_{lu} \cdot \frac{\text{Position}_{max} - \text{Position}_{min}}{\text{ADC}_{max}}$$
+
+\begin{equation}
+    \text{Position} = \text{ADC}_{lu} \cdot \frac{3 \cdot 10^{-3} - 0}{3723} = 8,058 \cdot 10^{-7} \cdot \text{ADC}_{lu} \quad [\text{m}]
+    \label{eq:conv_position}
+\end{equation}
 
 \subsection{Alimentation}
 Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la figure \ref{fig:AlimSchema} :
