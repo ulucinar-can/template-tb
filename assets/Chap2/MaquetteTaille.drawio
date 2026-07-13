@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="4">
     <diagram id="Xo6wlHYhQf75YVSAdotK" name="Maquette">
-        <mxGraphModel dx="1063" dy="1320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="500" dy="1823" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -81,9 +81,6 @@
                         <mxPoint x="260" y="600" as="sourcePoint"/>
                         <mxPoint x="760" y="600" as="targetPoint"/>
                     </mxGeometry>
-                </mxCell>
-                <mxCell id="RKygvFQRlygKI74C-8Fs-1" value="Poids total à soulever : 18.052 kg" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=24;" parent="1" vertex="1">
-                    <mxGeometry x="293.75" y="620" width="432.5" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="MWkrSIkIh2DbW69YV285-2" value="" style="group" parent="1" connectable="0" vertex="1">
                     <mxGeometry x="330" y="240" width="60" height="140" as="geometry"/>

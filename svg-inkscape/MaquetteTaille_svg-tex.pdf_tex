@@ -50,40 +50,38 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.68965517)%
+  \begin{picture}(1,0.65398335)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.49940547,0.578478){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}%
+    \put(0.49940547,0.54280618){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}6\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.06539834,0.28953627){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0.06539834,0.25386445){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.9334126,0.28953627){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
+    \put(0.9334126,0.25386445){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}5\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.20214031,0.30142687){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0.20214031,0.26575505){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.79667063,0.30499405){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
+    \put(0.79667063,0.26932224){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.49940547,0.49524376){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
+    \put(0.49940547,0.45957194){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=7]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.20808561,0.45719382){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0.20808561,0.421522){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=8]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.79072533,0.45719382){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
+    \put(0.79072533,0.421522){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}3\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=9]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.19262782,0.41200951){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}3\end{tabular}}}}%
+    \put(0.19262782,0.37633769){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l} 3\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=10]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.26753864,0.13495838){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}60 mm\end{tabular}}}}%
+    \put(0.26159334,0.09928656){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}60 mm\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=11]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.50535077,0.13495838){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}140 mm\end{tabular}}}}%
+    \put(0.49940547,0.09928656){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}140 mm\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=12]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.49940547,0.06361474){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}260 mm\end{tabular}}}}%
+    \put(0.49940547,0.02794293){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}260 mm\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=13]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.49940547,0.01010702){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Poids total à soulever : 18.052 kg\end{tabular}}}}%
+    \put(0.32104637,0.31450654){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=14]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.32104637,0.35017836){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
+    \put(0.67776457,0.31450654){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=15]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.67776457,0.35017836){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1\end{tabular}}}}%
-    \put(0,0){\includegraphics[width=\unitlength,page=16]{MaquetteTaille_svg-tex.pdf}}%
-    \put(0.49940547,0.66171225){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de face\end{tabular}}}}%
+    \put(0.49940547,0.62604043){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Maquete vue de face\end{tabular}}}}%
   \end{picture}%
 \endgroup%
