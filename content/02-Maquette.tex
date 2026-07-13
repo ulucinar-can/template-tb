@@ -1,20 +1,30 @@
 \chapter{Situation de départ - Hardware}
 
+\section{Introduction}
+Ce chapitre se concentre sur l'analyse des développements matériels réalisés lors des Travaux de Bachelor précédents, plus particulièrement la conception des cartes de puissance par Mattia Laucella \cite{Laucella} et la refonte de la carte principale par Thomas Freyche \cite{Freyche}. Bien que la révision de la carte principale opérée par ce dernier ait permis de corriger de nombreuses anomalies issues du routage initial de Christophe Isoz \cite{Isoz}, il n'est pas exclu que certains défauts subsistent.
+
 \section{Présentation de la maquette}
 La maquette est constituée de cinq PCB, soit une carte principale et quatre cartes de puissance, ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{assets/Chap2/MaquetteDessus.png}
-    \caption{La maquette vue de dessus}
-    \label{fig:MaquetteUp}
-\end{figure}
+    % Première vue (Dessus) - ajout de [c]
+    \begin{subfigure}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/Chap2/MaquetteDessus.png}
+        \caption{Vue de dessus}
+        \label{fig:MaquetteUp}
+    \end{subfigure}\hfill
+    % Deuxième vue (Côté) - ajout de [c]
+    \begin{subfigure}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/Chap2/MaquetteCote.png}
+        \caption{Vue de côté}
+        \label{fig:MaquetteSide}
+    \end{subfigure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap2/MaquetteCote.png}
-    \caption{La maquette vue de côté}
-    \label{fig:MaquetteSide}
+    \caption{Vues de la maquette}
+    \label{fig:MaquetteGlobale}
 \end{figure}
 
 Comme présenté sur les images \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}, la maquette comprend :

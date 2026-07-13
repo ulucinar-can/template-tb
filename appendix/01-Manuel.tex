@@ -1,4 +1,5 @@
 \chapter{Manuel de la maquette}
+\label{annexe:Manuel}
 
 \section{Protocole de mise en service}
 \label{sec:Protocole}
@@ -48,6 +49,17 @@ L'exécution de ce code permet de plaquer les électroaimants contre les rails d
 
 Une fois cette procédure terminée, le capteur est calibré.
 
+\section{Mise en place de CCS}
+\label{sec:MiseEnPlace}
+\subsection{Installation de Code Composer Studio}
+Afin de programmer correctement le DSP, une version spécifique de Code Composer Studio (CCS) ainsi qu'une bibliothèque dédiée au DSP doivent être installées.
+
+La version requise de CCS est la suivante \cite{CCS_Install} :
+\url{https://www.ti.com/tool/download/CCSTUDIO/12.6.0} \\
+
+Pour la bibliothèque C2000Ware, la version suivante doit être installée \cite{C2000_Install} :
+\url{https://www.ti.com/tool/download/C2000WARE/5.02.00.00}\\
+
 \subsection{Configuration de CCS}
 
 Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'il détecte la bibliothèque. La procédure d'intégration est la suivante :
@@ -66,13 +78,13 @@ Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'
 
     \item Si l'explorateur de fichiers s'ouvre, sélectionner l'emplacement exact du dossier (généralement \verb|C:\ti\c2000\C2000Ware_5_02_00_00|).
 
-    \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La figure \ref{fig:Res_conf_C2000Manuel} illustre le résultat attendu.
+    \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La figure \ref{fig:Res_conf_C2000} illustre le résultat attendu.
 
           \begin{figure}[H]
               \centering
               \includegraphics[width=0.75\linewidth]{Image/Chap.2/Resultat_conf_C2000.png}
               \caption{Résultat de la configuration du C2000}
-              \label{fig:Res_conf_C2000Manuel}
+              \label{fig:Res_conf_C2000}
           \end{figure}
 
     \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
@@ -93,7 +105,7 @@ Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est co
               \centering
               \includegraphics[width=0.75\linewidth]{Image/Chap.2/CCS_Opti_Windows.png}
               \caption{Configuration des paramètres d'optimisation}
-              \label{fig:Res_conf_OptiManuel}
+              \label{fig:Res_conf_Opti}
           \end{figure}
 \end{enumerate}
 
