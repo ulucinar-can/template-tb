@@ -156,9 +156,18 @@ Cette section traite des différentes mesures réalisées afin de vérifier le c
 
 Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
 
-Par la suite, le chariot a été soulevé uniquement du côté avant ou arrière. Cette manipulation permet de modifier la répartition de la force de pesanteur et d'alourdir localement la charge sur les inducteurs concernés. En fonctionnement nominal, la force électromécanique générée doit compenser cette charge pour maintenir la lévitation. La sustentation simultanée sur les quatre inducteurs n'étant pas exploitable au moment des tests, l'analyse s'est concentrée sur le soulèvement isolé de l'avant ou de l'arrière. L'application de ces charges connues offre la possibilité de calculer théoriquement le courant requis à partir de la force appliquée et des valeurs nominales de l'entrefer.
+Par la suite, le courant mesuré par une sonde de courant et la mesure de l'adc sont réalisé. Cela à pour but de les comparer et de savoir si un quelconque défaut se présenterai sur les capteurs de courants lors d'une grande différence entre la sonde et celle-ci.
 
-Cette série de mesures a été effectuée avant la découverte de la modification de la masse globale du système. Pour cette raison, le calcul du courant théorique s'appuie sur une masse de 3,4~kg par inducteur. Cette démarche permet de maintenir la cohérence avec le code source qui, au moment des essais, exploitait les coefficients ainsi que la commande a priori dimensionnés pour une masse totale de 13,6~kg.
+La mesure se fait en soulevant soit uniquement l'avant soit uniquement l'arrière. Cela avait pour but d'avoir un point de fonctionnement stable et non oscillant avec les quatres inducteurs en fonctionnement. Afin de garantir la mesure plusieurs masses furent employer en les plaçant sur les points élevé de la maquette comme indiqué sur la figure \ref{fig:EmplacementPoids} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap3/MesureMasse.jpeg}
+    \caption{Emplacement des poids}
+    \label{fig:EmplacementPoids}
+\end{figure}
+
+Des mesures comparatives entre un calcul théorique selon le poid et la mesure (adc et sonde) furent également réaliser. Celle-ci étant moins parlante et étant réaliser avant la découverte du changement de poids, elle seront placer dans l'annexe \ref{annexe:MesCour}.
 
 \subsection{Mesure des circuits de conditionnement des capteurs de courants}
 
