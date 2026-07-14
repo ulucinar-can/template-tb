@@ -1,10 +1,10 @@
-\chapter{Mesure des positions - Différents essais d'étallonage}
+\chapter{Mesure des positions - Différents essais d'étalonnage}
 \label{annexe:MesPos}
 
 \section{Introduction}
-Cette annexe vient traiter les différentes approches effectuer afin de calibrer correctement les capteurs de positions.
+Cette annexe traite les différentes approches mises en œuvre afin de calibrer correctement les capteurs de position. Les essais sont présentés dans l'ordre chronologique de leur réalisation. Seule la dernière approche a été conservée dans le chapitre principal (section « Mesure des capteurs de position ») ; les autres tentatives, écartées, sont regroupées ici.
 
-\subsection{Première mesure des capteurs de position}
+\section{Première mesure des capteurs de position}
 La première série d'essais correspond à la configuration matérielle issue du précédent travail de bachelor. Les résultats obtenus sont détaillés dans les tableaux \ref{tab:premier_mesure_pos_cond} et \ref{tab:premier_mesure_pos_adc} :
 
 % --- Tableau 1 : Après le conditionnement ---
@@ -55,7 +55,7 @@ La première série d'essais correspond à la configuration matérielle issue du
     \label{tab:premier_mesure_pos_adc}
 \end{table}
 
-\subsection{Mesure après la calibration du capteur 3}
+\section{Mesure après la calibration du capteur 3}
 À la suite de ces résultats, une première calibration par la méthode d'apprentissage "Teach-In" a été effectuée sur le capteur de l'inducteur 3. Une série de mesures, de la sortie du capteur jusqu'à l'ADC, a été réalisée afin d'analyser l'évolution de la tension. Les relevés sont présentés dans les tableaux \ref{tab:teachin_3_capteurs}, \ref{tab:teachin_3_cond} et \ref{tab:teachin_3_adc} :
 
 % --- Tableau 1 : Après la sortie des capteurs (Droite sur l'image) ---
@@ -119,7 +119,7 @@ La première série d'essais correspond à la configuration matérielle issue du
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                      \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions d'entrefer après l'ADC}}                     \\ \hline
         Inducteur          & Théorique {[}mm{]} & Mesurée {[}mm{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
         \multirow{4}{*}{1} & 0.000              & 0.194            & 0.194  & -                        \\ \cline{2-5}
                            & 1.000              & 0.887            & 0.113  & 11.3                     \\ \cline{2-5}
@@ -142,7 +142,7 @@ La première série d'essais correspond à la configuration matérielle issue du
     \label{tab:teachin_3_adc}
 \end{table}
 
-\subsection{Premier étalonnage de chaque capteur}
+\section{Premier étalonnage de chaque capteur}
 Les résultats n'étant pas concluants, un étalonnage logiciel a été envisagé. L'implémentation initiale de cet étalonnage présentait plusieurs défauts : une correction par gain était bien appliquée, mais aucun décalage (offset) n'était pris en compte. De plus, les coefficients de correction destinés aux positions 1 et 2 étaient dupliqués pour les positions 3 et 4, comme l'illustre l'extrait de code suivant :
 
 \begin{minted}{c}
@@ -160,7 +160,7 @@ Une nouvelle procédure d'étalonnage a été mise en œuvre. Des mesures ont é
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                      \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions d'entrefer après l'ADC}}                     \\ \hline
         Inducteur          & Théorique {[}mm{]} & Mesurée {[}mm{]} & Erreur & Erreur relative {[}\%{]} \\ \hline
         \multirow{4}{*}{1} & 0.000              & 0.231            & 0.231  & -                        \\ \cline{2-5}
                            & 1.000              & 1.023            & 0.023  & 2.30                     \\ \cline{2-5}
@@ -220,7 +220,7 @@ Une vérification expérimentale a ensuite été menée, dont les résultats fig
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                     \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions d'entrefer après l'ADC}}                    \\ \hline
         Inducteur          & Théorique {[}m{]} & Mesure {[}m{]} & Erreur   & Erreur relative {[}\%{]} \\ \hline
         \multirow{4}{*}{1} & 0.00E+00          & 1.81E-04       & 1.81E-04 & -                        \\ \cline{2-5}
                            & 1.00E-03          & 9.80E-04       & 2.00E-05 & 2.00                     \\ \cline{2-5}
@@ -245,13 +245,13 @@ Une vérification expérimentale a ensuite été menée, dont les résultats fig
 
 Malgré la faiblesse des erreurs relatives observées, l'implémentation de ces équations n'a pas apporté d'amélioration significative concernant la lévitation du système.
 
-\subsection{Mesure après la calibration de tous les capteurs}
+\section{Mesure après la calibration de tous les capteurs}
 À la suite de l'étalonnage précédent, une calibration simultanée des quatre capteurs a été effectuée. L'objectif de cette démarche consistait à définir une origine de référence commune pour chaque inducteur :
 
 \begin{figure}[H]
     \centering
     \includesvg[width=1\linewidth]{assets/Chap3/MaquetteCote}
-    \caption{Méthode teachin en levant que l'avant}
+    \caption{Méthode teach-in en ne levant que l'avant}
     \label{fig:DessinMaquetteCote}
 \end{figure}
 
@@ -265,7 +265,7 @@ Pour garantir une bonne homogénéité, les quatre inducteurs ont été soulevé
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                     \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions d'entrefer après l'ADC}}                    \\ \hline
         Inducteur          & Théorique {[}m{]} & Mesure {[}m{]} & Erreur   & Erreur relative {[}\%{]} \\ \hline
         \multirow{4}{*}{1} & 0.00E+00          & 1.43E-04       & 1.43E-04 & -                        \\ \cline{2-5}
                            & 1.00E-03          & 8.23E-04       & 1.77E-04 & 17.7                     \\ \cline{2-5}
@@ -300,21 +300,21 @@ Ces nouvelles données ont fait l'objet d'une modélisation graphique afin d'en 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd2.pdf}
-    \caption{Graphique du second étalonnage de l'inducteur 1}
+    \caption{Graphique du second étalonnage de l'inducteur 2}
     \label{fig:Sec_tracé_ind2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd3.pdf}
-    \caption{Graphique du second étalonnage de l'inducteur 1}
+    \caption{Graphique du second étalonnage de l'inducteur 3}
     \label{fig:Sec_tracé_ind3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd4.pdf}
-    \caption{Graphique du second étalonnage de l'inducteur 1}
+    \caption{Graphique du second étalonnage de l'inducteur 4}
     \label{fig:Sec_tracé_ind4}
 \end{figure}
 
@@ -324,7 +324,7 @@ Après intégration de ces nouvelles équations dans le code source, une mesure 
     \centering
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{5}{|c|}{\textbf{Mesure des positions entrefers après l'ADC}}                     \\ \hline
+        \multicolumn{5}{|c|}{\textbf{Mesure des positions d'entrefer après l'ADC}}                    \\ \hline
         Inducteur          & Théorique {[}m{]} & Mesure {[}m{]} & Erreur   & Erreur relative {[}\%{]} \\ \hline
         \multirow{4}{*}{1} & 0.00E+00          & 1.06E-04       & 1.06E-04 & -                        \\ \cline{2-5}
                            & 1.00E-03          & 7.90E-04       & 2.10E-04 & 21                       \\ \cline{2-5}
@@ -349,13 +349,13 @@ Après intégration de ces nouvelles équations dans le code source, une mesure 
 
 Cependant, comme observé précédemment, ce nouvel étalonnage n'a pas permis d'améliorer la stabilité de la lévitation en conditions de fonctionnement.
 
-\subsection{Mesure d'étalonnage des valeurs d'ADC}
-Cette section traite différent polynôme employer. Ceux-ci n'étant pas correcte car s'éloignant trop du comportement désiré ont été placé ici.
+\section{Étalonnages polynomiaux écartés (ordres 5 et 3)}
+Cette section traite des différents polynômes employés. Ceux-ci, ne s'avérant pas satisfaisants car s'éloignant trop du comportement désiré, ont été regroupés ici.
 
 Afin d'implémenter des équations d'ordre supérieur de manière optimale, la méthode de Horner \cite{Horner} a été employée, comme défini dans l'équation \ref{eq:Horner} :
 
 \begin{equation}
-    y = ((a_5 \cdot x + a_4) \cdot x + a_3) \cdot x + a_2) \cdot x + a_1) \cdot x + a_0
+    y = ((((a_5 \cdot x + a_4) \cdot x + a_3) \cdot x + a_2) \cdot x + a_1) \cdot x + a_0
     \label{eq:Horner}
 \end{equation}
 

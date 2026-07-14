@@ -1,23 +1,22 @@
 \chapter{Mesure du hardware - Carte principale}
 
 \section{Introduction}
-La mesure de la carte principale permet de déterminer plusieurs points des hypothèses émise tel que :
+La mesure de la carte principale permet de vérifier plusieurs des hypothèses émises, telles que :
 
 \begin{itemize}
     \item Une mauvaise calibration globale du système empêche le décollage.
     \item L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.
-    \item Une mauvaise calibration globale du système empêche le décollage.
     \item La carte principale présente un défaut matériel.
 \end{itemize}
 
 \subsection{Objectif de la mesure}
-Les objéctifs de la mesure sont :
+Les objectifs de la mesure sont :
 
 \begin{itemize}
-    \item Déterminer si la carte est correctement alimenté.
-    \item Vérifier que les capteurs de courants fonctionnent correctement.
-    \item Vérifier que les capteurs de positions fonctionne correctement
-    \item Déterminer le besoin d'une nouvelle calibration des capteurs de positons.
+    \item Déterminer si la carte est correctement alimentée.
+    \item Vérifier que les capteurs de courant fonctionnent correctement.
+    \item Vérifier que les capteurs de position fonctionnent correctement.
+    \item Déterminer le besoin d'une nouvelle calibration des capteurs de position.
 \end{itemize}
 
 \section{Vérification du circuit de précharge}
@@ -42,7 +41,7 @@ Lors des mesures effectuées dans le cadre de ce travail, un profil de charge id
 Ces observations confirment le bon fonctionnement du circuit de précharge. Il convient toutefois de veiller à respecter scrupuleusement la durée nécessaire à la charge complète du circuit avant toute mise sous tension de l'étage de puissance.
 
 \section{Mesure de la masse}
-La masse du système a été vérifiée expérimentalement. Pour ce faire, les blocs situées à l'avant de la maquette ont été retirées afin d'extraire le module en lévitation. La masse de ce dernier a ensuite été mesurée au moyen d'une balance disponible au MakeLab et en utilisant une plaque intermédiaire afin de répartir uniformément la charge :
+La masse du système a été vérifiée expérimentalement. Pour ce faire, les blocs situés à l'avant de la maquette ont été retirés afin d'extraire le module en lévitation. La masse de ce dernier a ensuite été mesurée au moyen d'une balance disponible au MakeLab et en utilisant une plaque intermédiaire afin de répartir uniformément la charge :
 
 \begin{figure}[H]
     \centering
@@ -51,7 +50,7 @@ La masse du système a été vérifiée expérimentalement. Pour ce faire, les b
     \label{fig:mesure_masse}
 \end{figure}
 
-À la suite de cette pesée, la masse totale s'avère être de 18,052~kg, contrairement à la valeur théorique initiale de 13,6~kg.
+À la suite de cette pesée, la masse totale s'élève à 18.052~kg, contre une valeur théorique initiale de 13.6~kg.
 
 Cette nouvelle valeur expérimentale sera par conséquent employée pour la synthèse des régulateurs ainsi que dans le code source.
 
@@ -68,9 +67,9 @@ Les performances du bus principal 24~V et de l'entrée 48~V sont consignées dan
             \hline
             \multicolumn{7}{|c|}{\textbf{Convertisseur 24~V et entrée 48~V (PS1)}}                                                                                                                                                                   \\ \hline
             N°  & \multicolumn{1}{c|}{Mesure}          & Point de mesure  & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 48~V                       & Bornier d'entrée & 48                                                                 & 48,05                                                            & 0,05           & 0,10            \\ \hline
-            1.b & Tension après le switch de précharge & TP4              & 48                                                                 & 48,04                                                            & 0,04           & 0,08            \\ \hline
-            2.a & Sortie du régulateur 24~V            & TP6 et TP8       & 24                                                                 & 23,85                                                            & 0,15           & 0,62            \\ \hline
+            1.a & Entrée du 48~V                       & Bornier d'entrée & 48                                                                 & 48.05                                                            & 0.05           & 0.10            \\ \hline
+            1.b & Tension après le switch de précharge & TP4              & 48                                                                 & 48.04                                                            & 0.04           & 0.08            \\ \hline
+            2.a & Sortie du convertisseur 24~V         & TP6 et TP8       & 24                                                                 & 23.85                                                            & 0.15           & 0.62            \\ \hline
         \end{tabular}%
     }
     \caption{Mesures sur le convertisseur 24~V et l'entrée 48~V (PS1)}
@@ -86,8 +85,8 @@ Les relevés effectués sur l'étage d'alimentation 15~V sont résumés dans le 
             \hline
             \multicolumn{7}{|c|}{\textbf{Convertisseur 15~V (PS2)}}                                                                                                                                                                           \\ \hline
             N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure    & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 24~V              & Côté C12 de la C13 & 24                                                                 & 23,07                                                            & 0,93           & 3,88            \\ \hline
-            2.a & Sortie du régulateur 15~V   & TP1                & 15                                                                 & 14,95                                                            & 0,05           & 0,333           \\ \hline
+            1.a & Entrée du 24~V              & Côté C12 de la C13 & 24                                                                 & 23.07                                                            & 0.93           & 3.88            \\ \hline
+            2.a & Sortie du convertisseur 15~V & TP1                & 15                                                                 & 14.95                                                            & 0.05           & 0.333           \\ \hline
         \end{tabular}%
     }
     \caption{Mesures sur le convertisseur 15~V (PS2)}
@@ -103,53 +102,53 @@ Le comportement du convertisseur abaisseur 5~V est présenté dans le tableau \r
             \hline
             \multicolumn{7}{|c|}{\textbf{Convertisseur 5~V (IC1)}}                                                                                                                                                                              \\ \hline
             N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure      & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 24~V              & Pin 1 IC1            & 24                                                                 & 23,86                                                            & 0,14           & 0,583           \\ \hline
-            2.a & Sortie du régulateur 5~V    & L2 côté condensateur & 5                                                                  & 4,989                                                            & 0,011          & 0,220           \\ \hline
-            2.b & Après l'inducteur L2        & TP2                  & 5                                                                  & 4,987                                                            & 0,013          & 0,260           \\ \hline
+            1.a & Entrée du 24~V              & Pin 1 IC1            & 24                                                                 & 23.86                                                            & 0.14           & 0.583           \\ \hline
+            2.a & Sortie du convertisseur 5~V & L2 côté condensateur & 5                                                                  & 4.989                                                            & 0.011          & 0.220           \\ \hline
+            2.b & Après l'inducteur L2        & TP2                  & 5                                                                  & 4.987                                                            & 0.013          & 0.260           \\ \hline
         \end{tabular}%
     }
     \caption{Mesures sur le convertisseur 5~V (IC1)}
     \label{tab:conv_5v}
 \end{table}
 
-Le tableau \ref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'alimentation 3,3~V :
+Le tableau \ref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'alimentation 3.3~V :
 
 \begin{table}[H]
     \centering
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|l|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Convertisseur 3,3~V (U6)}}                                                                                                                                                                        \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Convertisseur 3.3~V (U6)}}                                                                                                                                                                        \\ \hline
             N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 5~V               & J5 pin 2        & 5                                                                  & 4,982                                                            & 0,018          & 0,360           \\ \hline
-            2.a & Sortie du régulateur 3,3~V  & TP5             & 3,3                                                                & 3,296                                                            & 0,004          & 0,121           \\ \hline
+            1.a & Entrée du 5~V               & J5 pin 2        & 5                                                                  & 4.982                                                            & 0.018          & 0.360           \\ \hline
+            2.a & Sortie du convertisseur 3.3~V & TP5             & 3.3                                                                & 3.296                                                            & 0.004          & 0.121           \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures sur le convertisseur 3,3~V (U6)}
+    \caption{Mesures sur le convertisseur 3.3~V (U6)}
     \label{tab:conv_3_3v}
 \end{table}
 
-Enfin, les résultats propres à l'étage très basse tension de 0,5~V sont regroupés dans le tableau \ref{tab:conv_0_5v} :
+Enfin, les résultats propres à l'étage très basse tension de 0.5~V sont regroupés dans le tableau \ref{tab:conv_0_5v} :
 
 \begin{table}[H]
     \centering
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|l|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Convertisseur 0,5~V (U5)}}                                                                                                                                                                        \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Convertisseur 0.5~V (U5)}}                                                                                                                                                                        \\ \hline
             N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 5~V               & C18 côté U6     & 5                                                                  & 4,981                                                            & 0,019          & 0,380           \\ \hline
-            2.a & Sortie du régulateur 0,5~V  & TP3             & 0,5                                                                & 0,4982                                                           & 0,0018         & 0,360           \\ \hline
+            1.a & Entrée du 5~V               & C18 côté U6     & 5                                                                  & 4.981                                                            & 0.019          & 0.380           \\ \hline
+            2.a & Sortie du convertisseur 0.5~V & TP3             & 0.5                                                                & 0.4982                                                           & 0.0018         & 0.360           \\ \hline
         \end{tabular}%
     }
-    \caption{Mesures sur le convertisseur 0,5~V (U5)}
+    \caption{Mesures sur le convertisseur 0.5~V (U5)}
     \label{tab:conv_0_5v}
 \end{table}
 
 \subsection{Analyse des résultats}
-Les différents régulateurs présentés ci-dessus fonctionnent de manière nominale. Les tensions fournies sont conformes aux spécifications des constructeurs, ce qui garantit une alimentation stable pour l'ensemble de la carte.
+Les différents convertisseurs présentés ci-dessus fonctionnent de manière nominale. Les tensions fournies sont conformes aux spécifications des constructeurs, ce qui garantit une alimentation stable pour l'ensemble de la carte.
 
-Une anomalie a néanmoins été détectée sur le convertisseur 24 V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
+Une anomalie a néanmoins été détectée sur le convertisseur 24~V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
 
 \section{Mesures sur les capteurs de courant}
 \label{sec:mesure_capteurs_courant}
@@ -240,8 +239,8 @@ Une première série de mesures a été réalisée sans ajout de masse. Ces rés
     \label{tab:sans_poids_comp}
 \end{table}
 
-\subsection{Mesure du courant avec une masse de 1.25kg}
-Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1,25 kg. Les mesures correspondantes sont présentées dans le tableau \ref{tab:poids_1_25_comp} :
+\subsection{Mesure du courant avec une masse de 1.25~kg}
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1.25 kg. Les mesures correspondantes sont présentées dans le tableau \ref{tab:poids_1_25_comp} :
 
 % --- Poids 1.25 kg - Partie 3 (Comparatif) ---
 \begin{table}[H]
@@ -259,8 +258,8 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
     \label{tab:poids_1_25_comp}
 \end{table}
 
-\subsection{Mesure du courant avec une masse de 2.5kg}
-Enfin, une charge d'environ 2,5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans le tableau \ref{tab:poids_2_5_comp} :
+\subsection{Mesure du courant avec une masse de 2.5~kg}
+Enfin, une charge d'environ 2.5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans le tableau \ref{tab:poids_2_5_comp} :
 
 % --- Poids 2.5 kg - Partie 3 (Comparatif) ---
 \begin{table}[H]
@@ -284,7 +283,7 @@ La comparaison des deux méthodes de mesure, illustrée par les tableaux \ref{ta
 Le fonctionnement du capteur de courant est par conséquent validé.
 
 \section{Mesure des capteurs de position}
-Cette section traite des mesures réalisées sur les capteurs de position. L'étalonnage précédent fut réaliser de la manière suivante :
+Cette section traite des mesures réalisées sur les capteurs de position. L'étalonnage précédent a été réalisé de la manière suivante :
 
 \begin{minted}{c}
 // 3722.7 / 3500 = 1.06, valeur 12 bit pour 3mm / valeur mesuree ADC (2.8mm) = ecart
@@ -295,9 +294,9 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-L'aproche de multiplier un gain similaire pour les inducteur 3 et 4 laissant a désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer étalonnages. Par conséquent, seule la dernière approche fut garder afin d'alléger le contenu de ce document. Les autres sont disponible dans l'annexe \ref{annexe:MesPos}.
+L'approche consistant à multiplier un gain similaire pour les inducteurs 3 et 4 laissant à désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer l'étalonnage. Seule la dernière approche a été conservée afin d'alléger le contenu de ce document ; les autres sont disponibles dans l'annexe \ref{annexe:MesPos}.
 
-Il fut également décider de réaliser une nouvelle calibration teach-in des capteurs de positions. Cela est dû au fait la calibration fut réaliser en levant uniquement l'arrière ou uniquement l'avant. Cela avait également pour but d'éliminer un angle qui pouvait se créer entre les capteurs avant et arrière comme indiqué sur la figure \ref{fig:MaqCote} :
+Il a également été décidé de réaliser une nouvelle calibration teach-in des capteurs de position. Cela s'explique par le fait que la calibration précédente avait été réalisée en levant uniquement l'arrière ou uniquement l'avant. Cette démarche visait aussi à éliminer un angle pouvant se créer entre les capteurs avant et arrière, comme indiqué sur la figure \ref{fig:MaqCote} :
 
 \begin{figure}[H]
     \centering
@@ -306,9 +305,9 @@ Il fut également décider de réaliser une nouvelle calibration teach-in des ca
     \label{fig:MaqCote}
 \end{figure}
 
-La calibration fut réaliser à une meme hauteur en suivant les étapes décrites dans l'annexe \ref{sec:CalibrationCaptPosManuel} concernant la calibration.
+La calibration a été réalisée à une même hauteur en suivant les étapes décrites dans l'annexe \ref{sec:CalibrationCaptPosManuel}.
 
-Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1,5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2,5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1,5~mm.
+Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1.5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2.5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1.5~mm.
 
 \subsection{Mesure des circuits de conditionnement}
 Dans un premier temps, une vérification globale des circuits de conditionnement a été effectuée, de manière analogue à la procédure suivie pour les capteurs de courant. Les résultats sont présentés dans le tableau \ref{tab:cond_position} :
@@ -585,12 +584,12 @@ Les performances n'étant toujours pas satisfaisantes, un dernier essai reposant
 \subsection{Analyse des résultats}
 Le traitement des signaux issus des capteurs de position n'a pas été concluant. Les diverses corrections appliquées présentaient régulièrement de faibles erreurs relatives d'un point de vue théorique, mais ne permettaient jamais d'atteindre un résultat satisfaisant en pratique.
 
-Ces corrections furent réaliser précédemment la découverte que la plaque de références fut en réalité ondulé faussant ainsi grandement les résultat obtenues.
+Ces corrections ont été réalisées avant la découverte que la plaque de référence était en réalité ondulée, ce qui a grandement faussé les résultats obtenus.
 
-Il est toutefois intéressant de noter que la calibration « Teach-In » de l'ensemble des capteurs à un niveau de référence commun a semblé améliorer légèrement la stabilité de maintien de la maquette. Mais cette référence néscessite une nouvelle fois une bonne référence.
+Il est toutefois intéressant de noter que la calibration « Teach-In » de l'ensemble des capteurs à un niveau de référence commun a semblé améliorer légèrement la stabilité de la maquette. Cette approche nécessite néanmoins de disposer d'une référence fiable.
 
 \section{Conclusion des mesures}
-Les premières mesures effectuées sur l'ensemble des régulateurs ont donné d'excellents résultats, validant ainsi leur bon fonctionnement global.\\
+Les premières mesures effectuées sur l'ensemble des convertisseurs ont donné d'excellents résultats, validant ainsi leur bon fonctionnement global.\\
 
 Les relevés liés aux capteurs de courant et à leurs circuits de conditionnement ont montré des écarts par rapport aux valeurs théoriques calculées. Bien que les valeurs obtenues par la méthode inverse, telle qu'implémentée dans le code, diffèrent légèrement des prédictions, la mesure réelle du courant traversant l'inducteur et celle perçue par le capteur restent très proches. Il est donc possible de conclure que le capteur de courant fonctionne correctement.\\
 
