@@ -83,9 +83,9 @@ Les relevés effectués sur l'étage d'alimentation 15~V sont résumés dans le 
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|l|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Convertisseur 15~V (PS2)}}                                                                                                                                                                           \\ \hline
-            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure    & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 24~V              & Côté C12 de la C13 & 24                                                                 & 23.07                                                            & 0.93           & 3.88            \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Convertisseur 15~V (PS2)}}                                                                                                                                                                            \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure}  & Point de mesure    & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée du 24~V               & Côté C12 de la C13 & 24                                                                 & 23.07                                                            & 0.93           & 3.88            \\ \hline
             2.a & Sortie du convertisseur 15~V & TP1                & 15                                                                 & 14.95                                                            & 0.05           & 0.333           \\ \hline
         \end{tabular}%
     }
@@ -118,9 +118,9 @@ Le tableau \ref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'a
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|l|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Convertisseur 3.3~V (U6)}}                                                                                                                                                                        \\ \hline
-            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 5~V               & J5 pin 2        & 5                                                                  & 4.982                                                            & 0.018          & 0.360           \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Convertisseur 3.3~V (U6)}}                                                                                                                                                                          \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure}   & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée du 5~V                 & J5 pin 2        & 5                                                                  & 4.982                                                            & 0.018          & 0.360           \\ \hline
             2.a & Sortie du convertisseur 3.3~V & TP5             & 3.3                                                                & 3.296                                                            & 0.004          & 0.121           \\ \hline
         \end{tabular}%
     }
@@ -135,9 +135,9 @@ Enfin, les résultats propres à l'étage très basse tension de 0.5~V sont regr
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{|c|l|c|c|c|c|c|}
             \hline
-            \multicolumn{7}{|c|}{\textbf{Convertisseur 0.5~V (U5)}}                                                                                                                                                                        \\ \hline
-            N°  & \multicolumn{1}{c|}{Mesure} & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
-            1.a & Entrée du 5~V               & C18 côté U6     & 5                                                                  & 4.981                                                            & 0.019          & 0.380           \\ \hline
+            \multicolumn{7}{|c|}{\textbf{Convertisseur 0.5~V (U5)}}                                                                                                                                                                          \\ \hline
+            N°  & \multicolumn{1}{c|}{Mesure}   & Point de mesure & \begin{tabular}[c]{@{}c@{}}Valeur théorique\\ {[}V{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Valeur\\ mesurée {[}V{]}\end{tabular} & Erreur {[}V{]} & Erreur {[}\%]{} \\ \hline
+            1.a & Entrée du 5~V                 & C18 côté U6     & 5                                                                  & 4.981                                                            & 0.019          & 0.380           \\ \hline
             2.a & Sortie du convertisseur 0.5~V & TP3             & 0.5                                                                & 0.4982                                                           & 0.0018         & 0.360           \\ \hline
         \end{tabular}%
     }
@@ -301,13 +301,17 @@ Il a également été décidé de réaliser une nouvelle calibration teach-in de
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap3/MaquetteCote.png}
-    \caption{Calibration en levant uniquement un côté}
+    \caption{Calibration en levant uniquement un côté(Avant ou arrière)}
     \label{fig:MaqCote}
 \end{figure}
+
+Avec 8 la carte principale et 9 les cartes de puissances.
 
 La calibration a été réalisée à une même hauteur en suivant les étapes décrites dans l'annexe \ref{sec:CalibrationCaptPosManuel}.
 
 Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1.5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2.5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1.5~mm.
+
+Les mesures sont réalisé en affichant la valeur de l'adc filtré sur l'interface web.
 
 \subsection{Mesure des circuits de conditionnement}
 Dans un premier temps, une vérification globale des circuits de conditionnement a été effectuée, de manière analogue à la procédure suivie pour les capteurs de courant. Les résultats sont présentés dans le tableau \ref{tab:cond_position} :
