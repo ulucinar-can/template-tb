@@ -151,23 +151,24 @@ Les différents régulateurs présentés ci-dessus fonctionnent de manière nomi
 
 Une anomalie a néanmoins été détectée sur le convertisseur 24 V lors des essais. Une broche mal soudée provoquait l'apparition d'arcs électriques sous le circuit imprimé. Ce module devra donc faire l'objet d'une attention particulière en cas de futurs dysfonctionnements électriques. Après la reprise de la soudure, le phénomène a été éliminé.
 
-\section{Mesure des capteurs de courants}
-Cette section traite des différentes mesures réalisées afin de vérifier le comportement des capteurs de courant.
+\section{Mesures sur les capteurs de courant}
+\label{sec:mesure_capteurs_courant}
+Cette section présente les différents tests réalisés pour vérifier le comportement et la précision des capteurs de courant.
 
-Dans un premier temps, une évaluation globale du bon fonctionnement des composants situés entre le capteur de courant et l'étage de réception des données par l'ADC a été effectuée.
+Dans un premier temps, le bon fonctionnement global de la chaîne d'acquisition a été vérifié, c'est-à-dire tous les composants situés entre le capteur de courant et l'entrée de l'ADC.
 
-Par la suite, le courant mesuré par une sonde de courant et la mesure de l'adc sont réalisé. Cela à pour but de les comparer et de savoir si un quelconque défaut se présenterai sur les capteurs de courants lors d'une grande différence entre la sonde et celle-ci.
+Ensuite, le courant mesuré avec une sonde externe a été comparé directement à la valeur lue par l'ADC. L'objectif est de vérifier la précision de la mesure embarquée et de repérer un éventuel défaut sur les capteurs en cas d'écart important entre les deux.
 
-La mesure se fait en soulevant soit uniquement l'avant soit uniquement l'arrière. Cela avait pour but d'avoir un point de fonctionnement stable et non oscillant avec les quatres inducteurs en fonctionnement. Afin de garantir la mesure plusieurs masses furent employer en les plaçant sur les points élevé de la maquette comme indiqué sur la figure \ref{fig:EmplacementPoids} :
+Pour éviter les oscillations qui peuvent apparaître quand les quatre inducteurs fonctionnent en même temps, les tests ont été faits en soulevant uniquement l'avant ou uniquement l'arrière de la maquette afin d'avoir un point de fonctionnement stable. Pour tester différentes charges, plusieurs masses ont été ajoutées sur la partie soulevée, comme montré sur la figure \ref{fig:EmplacementPoids} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap3/MesureMasse.jpeg}
-    \caption{Emplacement des poids}
+    \includegraphics[width=0.75\linewidth]{assets/Chap3/PoidsPose.jpg}
+    \caption{Emplacement des masses lors des tests}
     \label{fig:EmplacementPoids}
 \end{figure}
 
-Des mesures comparatives entre un calcul théorique selon le poid et la mesure (adc et sonde) furent également réaliser. Celle-ci étant moins parlante et étant réaliser avant la découverte du changement de poids, elle seront placer dans l'annexe \ref{annexe:MesCour}.
+Enfin, des comparaisons ont aussi été faites entre un calcul théorique (basé sur la masse) et les mesures réelles (sonde et ADC). Comme ces tests ont été réalisés avant de découvrir la différence de masse réelle de la maquette, leurs résultats sont moins pertinents et ont été mis dans l'annexe \ref{annexe:MesCour}.
 
 \subsection{Mesure des circuits de conditionnement des capteurs de courants}
 
