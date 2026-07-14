@@ -348,3 +348,75 @@ Après intégration de ces nouvelles équations dans le code source, une mesure 
 \end{table}
 
 Cependant, comme observé précédemment, ce nouvel étalonnage n'a pas permis d'améliorer la stabilité de la lévitation en conditions de fonctionnement.
+
+\subsection{Mesure d'étalonnage des valeurs d'ADC}
+Cette section traite différent polynôme employer. Ceux-ci n'étant pas correcte car s'éloignant trop du comportement désiré ont été placé ici.
+
+Afin d'implémenter des équations d'ordre supérieur de manière optimale, la méthode de Horner \cite{Horner} a été employée, comme défini dans l'équation \ref{eq:Horner} :
+
+\begin{equation}
+    y = ((a_5 \cdot x + a_4) \cdot x + a_3) \cdot x + a_2) \cdot x + a_1) \cdot x + a_0
+    \label{eq:Horner}
+\end{equation}
+
+Pour un polynôme d'ordre inférieur, tel qu'un ordre 3, les coefficients $a_5$ et $a_4$ sont nuls.
+
+Une première tentative a été réalisée à l'aide d'un polynôme d'ordre 5. Les courbes correspondantes sont représentées sur les figures \ref{fig:Ind1Pol5}, \ref{fig:Ind2Pol5}, \ref{fig:Ind3Pol5} et \ref{fig:Ind4Pol5} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-1.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (polynome d'ordre 5)}
+    \label{fig:Ind1Pol5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-2.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (polynome d'ordre 5)}
+    \label{fig:Ind2Pol5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-3.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (polynome d'ordre 5)}
+    \label{fig:Ind3Pol5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-4.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (polynome d'ordre 5)}
+    \label{fig:Ind4Pol5}
+\end{figure}
+
+Ces modélisations n'étant pas concluantes et semblant restreindre la dynamique du système, le degré du polynôme a été réduit à 3. Cette approche a généré les tracés des figures \ref{fig:Ind1Pol3}, \ref{fig:Ind2Pol3}, \ref{fig:Ind3Pol3} et \ref{fig:Ind4Pol3} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-1.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (polynome d'ordre 3)}
+    \label{fig:Ind1Pol3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-2.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (polynome d'ordre 3)}
+    \label{fig:Ind2Pol3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-3.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (polynome d'ordre 3)}
+    \label{fig:Ind3Pol3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-4.pdf}
+    \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (polynome d'ordre 3)}
+    \label{fig:Ind4Pol3}
+\end{figure}
