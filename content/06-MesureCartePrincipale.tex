@@ -295,7 +295,18 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-La''proche de multiplier un gain similaire pour les inducteur 3 et 4 laissant a désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer étalonnages. Par conséquent, seule la dernière approche fut garder afin d'alléger le contenu de ce document. Les autres sont disponible dans l'annexe \ref{annexe:MesPos}.
+L'aproche de multiplier un gain similaire pour les inducteur 3 et 4 laissant a désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer étalonnages. Par conséquent, seule la dernière approche fut garder afin d'alléger le contenu de ce document. Les autres sont disponible dans l'annexe \ref{annexe:MesPos}.
+
+Il fut également décider de réaliser une nouvelle calibration teach-in des capteurs de positions. Cela est dû au fait la calibration fut réaliser en levant uniquement l'arrière ou uniquement l'avant. Cela avait également pour but d'éliminer un angle qui pouvait se créer entre les capteurs avant et arrière comme indiqué sur la figure \ref{fig:MaqCote} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap3/MaquetteCote.png}
+    \caption{Calibration en levant uniquement un côté}
+    \label{fig:MaqCote}
+\end{figure}
+
+La calibration fut réaliser à une meme hauteur en suivant les étapes décrites dans l'annexe \cite{sec:CalibrationCaptPosManuel} concernant la calibration.
 
 Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1,5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2,5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1,5~mm.
 
