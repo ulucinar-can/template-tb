@@ -3,7 +3,7 @@
 \section{Introduction}
 Ce chapitre a pour but de présenter l'architecture logicielle développée lors du précédent projet de Bachelor par Thomas Freyche \cite{Freyche}.
 
-\section{Code de départ}
+\section{Principe du fonctionnement du programme}
 Cette section traite du fichier principal (\texttt{hrpwm\_ex1\_duty\_sfo.c}) développé pour assurer la sustentation du démonstrateur. Son programme étant dense, son entièreté ne sera pas présentée. Seules les portions de code considérées comme structurantes seront détaillées.
 
 Ce fichier centralise l'ensemble de la logique de commande, particulièrement la régulation, l'acquisition des données ADC et la communication sans fil. Les fonctionnalités implémentées sont les suivantes :
@@ -20,7 +20,7 @@ Ce fichier centralise l'ensemble de la logique de commande, particulièrement la
     \item Communication UART avec le module ESP32.
 \end{itemize}
 
-\subsection{Algorithme du code principal}
+\section{Algorithme du code principal}
 Actuellement, l'algorithme du programme principal respecte l'organigramme suivant :
 
 \begin{figure}[H]
@@ -32,6 +32,7 @@ Actuellement, l'algorithme du programme principal respecte l'organigramme suivan
 
 La majeure partie du code s'exécute au sein d'une routine d'interruption. Celle-ci englobe l'acquisition et la conversion des valeurs ADC, l'exécution des algorithmes de régulation, la mise à jour des modules PWM ainsi que la gestion de l'interface utilisateur (boutons).
 
+\section{Element principaux du programme}
 \subsection{Bibliothèques}
 Le projet s'appuie sur les dépendances suivantes :
 
@@ -66,9 +67,9 @@ L'outil SysConfig, exploité au travers du fichier \texttt{hrpwm\_ex1\_duty\_sfo
 
 L'interface propose une vue schématique du microcontrôleur simplifiant l'affectation des broches (pin mapping). Lors de la validation de cette configuration, l'outil génère automatiquement les fichiers sources \texttt{board.h} et \texttt{board.c}.
 
-\subsubsection{\texttt{FunctionHeader2.h} et \texttt{FunctionHeader2.c}}
+\subsubsection{\texttt{FunctionHeader.h}}
 \label{subsubsec:FunctionHeader}
-Ces fichiers regroupent l'ensemble des définitions de constantes et des prototypes de fonctions exploités dans le projet. Les éléments qui y sont définis incluent :
+Ce fichier regroupe l'ensemble des définitions de constantes et des prototypes de fonctions exploités dans le projet. Les éléments qui y sont définis incluent :
 
 \begin{itemize}
     \item Les paramètres physiques : caractéristiques mécaniques et électromagnétiques de la maquette (entrefer nominal, masse, inductance et géométrie des bobines).
@@ -78,8 +79,6 @@ Ces fichiers regroupent l'ensemble des définitions de constantes et des prototy
     \item Les paramètres de la régulation de position (Espace d'état) : coefficients de rétroaction $K_\omega$, $K_d$ et $K_r$.
     \item Les filtres numériques : dimensionnement des fenêtres et coefficients propres aux filtres IIR, FIR et de Savitzky-Golay.
 \end{itemize}
-
-Ces fichiers constituent une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique.
 
 \subsection{Fonctions principales}
 
