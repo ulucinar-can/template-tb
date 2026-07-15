@@ -545,9 +545,13 @@ Une comparaison fut dès alors réaliser par Laucella \cite{Laucella} donnant ai
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/ModélisationDeSimplification.png}
+    \includegraphics[width=1\linewidth]{assets/Chap4/CompSimpleEtBrute.png}
     \caption{Comparaison entre l'équation simplifié et l'équation brute \cite{Laucella}}
 \end{figure}
+
+Avec $G_{ui}$ l'équation simplifié et $G_{ui1}$ l'équation brute.
+
+L'analyse du système démontre qu'en basse fréquence, l'action dérivateur est bien dominante sur l'équation $G_{ui1}$. La droite commençant à 90°. Les deux courbes viennent se supperposer vers les aléantour de 100 rad/s. Dès lors les traces sont presque identique. Il est alors acceptable d'admettre que la simplification est possible car le résultat final dépendra principalement des sommes des petites constantes de temps qui viennent agir sur des fréquence plus élevé.
 
 Le bloc $G_{cm}$, représentant l'organe de commande, est approximé par un filtre passe-bas du premier ordre :
 
@@ -579,33 +583,7 @@ La fonction de transfert du système à régler s'écrit alors :
     G_{ai} = G_{ui} \cdot G_{cm} \cdot G_{mi} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
 \end{equation}
 
-Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut être tracé. Une erreur majeure a cependant été identifiée dans les synthèses de régulation de courant antérieures. En effet, la constante $K_{ui}$ a été omise dans le système $G_{ui}$, comme le montre le code suivant :
-
-\begin{minted}{matlab}
-%% Inducteur Linéarisé autour de d_n = 2mm (avec terme en delta_d négliger p.12 journal)
-
-Kui     = (d_n/i_n)^2*(m/L_n^2);
-a1      = (d_n/i_n)^2*(m*R/L_n^2);
-a2      = (d_n/i_n)^2*(m/L_n);
-
-num     = [1 0];
-den     = [a2 a1 1];
-Gui     = tf(num,den); % Manque Kui
-\end{minted}
-
-Cette omission modifie significativement le comportement du système à régler. Les courbes montrent que le gain initial réel débute à environ -40~dB et non à 0~dB :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/BodeGaiFaux.png}
-    \caption{Système à régler sans la constante multiplicative $K_{ui}$}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/BodeGaiVrai.png}
-    \caption{Système à régler avec la constante multiplicative $K_{ui}$}
-\end{figure}
+Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut être tracé. 
 
 La suite de l'étude se concentre exclusivement sur le modèle corrigé intégrant la constante $K_{ui}$.\\
 
