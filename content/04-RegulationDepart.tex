@@ -7,18 +7,18 @@ La réalisation du système nécessite une régulation de courant imbriquée dan
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{assets/Chap4/SchemaBlocRegulation.jpg}
+    \includegraphics[width=1\linewidth]{assets/Chap4/SchemaBlocRegulationSISO.png}
     \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
     \label{fig:SchemaBlocRégulation}
 \end{figure}
 
 Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
 
-Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
+Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. Une consigne de courant est fournie en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
 
 Les blocs « Reg $\delta$1 » à « Reg $\delta$4 » représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
 
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force émise par un électroaimant. L'équation mathématique est développée dans la sous-section \ref{subsec:Fele}.
+Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force souhaitée par un électroaimant. L'équation mathématique est développée dans la sous-section \ref{subsec:Fele}.
 
 \section{Définition du système}
 
@@ -205,7 +205,7 @@ Avec :
     \item $F_{el}$ : La force électromagnétique [N].
 \end{itemize}
 
-La force électromagnétique se définit comme la dérivée de l'énergie co-magnétique par rapport à la position :
+La force électromagnétique se déduit de la dérivée de la coénergie magnétique par rapport à la position :
 \label{subsec:Fele}
 
 \begin{equation}
@@ -481,8 +481,6 @@ Une simulation a été réalisée par Laucella \cite{Laucella}, prouvant l'effic
     \caption{Vérification de la simplification de l'accélération \cite{Laucella}}
 \end{figure}
 
-\red{ajouter la figure comparative entre la simplification et sans}
-
 Pour insérer l'équation de l'accélération dans celle de la variation de courant, la variation du courant est dérivée une fois supplémentaire par rapport au temps :
 
 \begin{equation*}
@@ -526,6 +524,30 @@ Avec :
          & a_2 = \frac{m}{L_n}\cdot\left(\frac{\delta_n}{i_n^2}\right)^2 = \frac{L_n}{R}\cdot a_1
     \end{aligned} \right.
 \end{equation*}
+
+Ceci est la fonction de transfert avec la simplification, sans celle-ci le résultat fut calculer dans le travail de bachelor de Laucella \cite{Laucella} donnat alors l'équation suivante :
+
+\begin{equation}
+    G_{ui}(s) = K_{ui}\cdot\frac{1-a_1 \cdot s^2}{1 - a_1 \cdot s^2 - a_2\cdot s^3}
+\end{equation}
+
+Avec :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & K_{ui} = \frac{1}{R}                                          \\
+         & a_1 = \frac{m}{L_n}\cdot \left(\frac{\delta_n}{i_n} \right)^2 \\
+         & a_2 = \frac{L_n}{R}\cdot a_1
+    \end{aligned} \right.
+\end{equation*}
+
+Une comparaison fut dès alors réaliser par Laucella \cite{Laucella} donnant ainsi la \autoref{} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/Chap4/ModélisationDeSimplification.png}
+    \caption{Comparaison entre l'équation simplifié et l'équation brute \cite{Laucella}}
+\end{figure}
 
 Le bloc $G_{cm}$, représentant l'organe de commande, est approximé par un filtre passe-bas du premier ordre :
 
@@ -719,7 +741,7 @@ Lors de l'implémentation expérimentale, l'introduction de la valeur théorique
 
 Il est donc nécessaire d'ajuster expérimentalement ce paramètre dans le code source afin de trouver un compromis offrant une dynamique rapide sans saturer l'actionneur.
 
-\red{Dire que j'ai choisi N = 7 et Kpi a 2 et donner les résultat de tau_ibf. J'ai choisi cette valeur en essayant plusieurs valeurs. Dire que forcément le choix donnera un tau_ibf beaucoup plus}
+\red{Dire que j'ai choisi N = 7 et Kpi a 2 et donner les résultat de tau\_ibf. J'ai choisi cette valeur en essayant plusieurs valeurs. Dire que forcément le choix donnera un tau\_ibf beaucoup plus}
 
 \red{Travail à réaliser par la suite :}
 \begin{itemize}
