@@ -1,24 +1,13 @@
 \chapter{Modification de la régulation}
 
-Ce chapitre revient principalement se concentrer sur les travaux réalisés par Laucella \cite{Laucella} et Yersin \cite{Yersin}.
-
 \section{Introduction}
-La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
+Ce chapitre vient traiter les modifications sur la régulation de courant ainsi que la nouvelle régulation de position. réaliser au cours de ce bachelor. La régulation de position en Single Input Single Output (SISO) n'ayant pas réussi a faire ses preuves, une régulation en Multiple Input Multiple Output (MIMO) fut envisagée et réalisé. Les détails de cette méthode sont décrite dans les sections a venir.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{assets/Chap4/SchemaBlocRegulation.jpg}
-    \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
-    \label{fig:SchemaBlocRégulation}
-\end{figure}
+\section{Analyse de la régulation de courant}
 
-Cette disposition permet d'assurer la lévitation de la maquette. La régulation de courant assure le contrôle du courant traversant l'inducteur, tandis que la régulation de position détermine l'élévation de la maquette par la mesure de la distance de l'entrefer.
+\subsection{Constat de l'erreur}
 
-Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. Un courant de consigne est fourni en entrée et une tension est appliquée aux inducteurs en sortie. Cette régulation de courant est réalisée par un régulateur PI.
-
-Les blocs « Reg $\delta$1 » à « Reg $\delta$4 » représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
-
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force émise par un électroaimant. L'équation mathématique est développée dans la sous-section \ref{subsec:Fele}.
+\subsection{Choix de N et de Kpi}
 
 \section{Définition du système}
 
