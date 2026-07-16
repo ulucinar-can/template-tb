@@ -583,9 +583,13 @@ La fonction de transfert du système à régler s'écrit alors :
     G_{ai} = G_{ui} \cdot G_{cm} \cdot G_{mi} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2} \cdot \frac{1}{1+s \cdot\tau_{cm}} \cdot \frac{1}{1+s \cdot\tau_{mi}}
 \end{equation}
 
-Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut être tracé. 
+Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut être tracé.
 
-La suite de l'étude se concentre exclusivement sur le modèle corrigé intégrant la constante $K_{ui}$.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/BodeGaiFaux.png}
+    \caption{Diagramme de bode du système à régler}
+\end{figure}
 
 La fonction de transfert du régulateur est donnée par l'équation \ref{eq:PI} :
 
