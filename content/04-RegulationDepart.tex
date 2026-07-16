@@ -651,7 +651,7 @@ La valeur sélectionnée est $N=10$, ce qui conduit à la constante de temps sui
     \caption{Détermination du gain $K_{pi}$ pour une marge de phase de 45°}
 \end{figure}
 
-La valeur de $K_{pi}$ retenue est d'environ 5.52~dB, ce qui correspond à un gain linéaire de 1.88.
+La valeur de $K_{pi}$ retenue est d'environ 5.52~dB, ce qui correspond à un gain linéaire de 1.89.
 
 La validation du comportement global est effectuée par l'application d'un saut unitaire en boucle fermée :
 
@@ -680,20 +680,29 @@ Enfin, une approximation de ce système par un modèle du premier ordre est réa
     \label{fig:BFPI}
 \end{figure}
 
-La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78,32~$\mu$s.
+La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78,32~$\mu$s. L'approximation de la boucle fermée se défini alors comme un filtre passe-bas du premier ordre comme observé dans l'\autoref{eq:GiBF} :
+
+\begin{equation}
+    G_{iBF} = \frac{1}{1+\tau_{iBF}\cdot s} = \frac{1}{1+78.32\cdot10^{-6}\cdot s}
+    \label{eq:GiBF}
+\end{equation}
+
+Cette équation peut dès alors être tracé afin d'observer son allure repésenté par \autoref{fig:Approx} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Approx.pdf}
     \caption{Diagramme de Bode de l'approximation de la boucle fermée}
+    \label{fig:Approx}
 \end{figure}
 
+Pour résumer, les valeurs obtenues sont les suivantes :
 
+\begin{equation*}
+    K_{pi} = 1.89 \quad \tau_{ii} = 464 \text{ $\mu$s} \quad \tau_{iBF} = 78.32~\text{$\mu$s}
+\end{equation*}
 
-\red{Travail à réaliser par la suite :}
-\begin{itemize}
-    \item Déterminer expérimentalement la valeur optimale du gain $K_{pi}$.
-\end{itemize}
+Cependant cette analyse est malheuresement erronnée. Cette erreur sera dès alors traité dans la \autoref{subsec:RegPIError}.
 
 \section{La régulation de position}
 La régulation de position est réalisée au moyen d'un retour d'état. Le schéma bloc de cette régulation est défini dans les travaux de Zayadine \cite{Zayadine}, tel que présenté sur la figure \ref{fig:RegPosBloc} :
