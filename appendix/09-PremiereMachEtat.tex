@@ -1,6 +1,6 @@
 \chapter{Développement d'une machine d'état pour la régulation en SISO}
 
-Cette annexe vient démontrer la première machine d'état développer dans le programme. Celui-ci avait pour but d'améliorer la machine d'état déjà existante mais possédant une architecture complexe et difficilement lisible. Le comportement séquentiel défini est le suivant :
+Cette annexe présente la première machine d'état développée dans le programme. Celle-ci avait pour but d'améliorer la machine d'état déjà existante, dont l'architecture était complexe et difficilement lisible. Le comportement séquentiel défini est le suivant :
 
 \begin{itemize}
     \item État 0 : Attente de la pression du bouton d'activation.
@@ -20,11 +20,11 @@ Conformément à ces spécifications, l'organigramme de la figure \ref{fig:Machi
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap5/MachineDEtat.png}
-    \caption{Machine d'états régissant la séquence de lévitation}
+    \caption{Machine d'état régissant la séquence de lévitation}
     \label{fig:MachineDEtat}
 \end{figure}
 
-Le diagramme détaillé de cette machine d'états est également disponible dans l'annexe \ref{an:MachineDetat}.\\
+Le diagramme détaillé de cette machine d'état est également disponible dans l'annexe \ref{an:MachineDetat}.\\
 
 Les différents états sont implémentés dans le code source en respectant scrupuleusement la logique illustrée par la figure \ref{fig:MachineDEtat}.\\
 
@@ -337,7 +337,7 @@ L'état 7 est défini par les instructions de maintien :
         break;
 \end{minted}
 
-Finalement, l'état 8 est définit comme une simple condition :
+Finalement, l'état 8 est défini comme une simple condition :
 
 \begin{minted}{c}
     // State 8 :
@@ -396,16 +396,16 @@ Finalement, l'état 8 est définit comme une simple condition :
 
 Actuellement, l'état 9 n'est pas encore développé. À terme, son implémentation sera requise pour assurer la gestion sécurisée des erreurs et défaillances de la maquette.\\
 
-Il est également possible de sauter l'activation de l'avant ou de l'arrière. Pour se faire de \texttt{#define} furent réaliser en début du code comme suit :
+Il est également possible de sauter l'activation de l'avant ou de l'arrière. Pour ce faire, des \texttt{\#define} ont été ajoutés en début de code, comme suit :
 
 \begin{minted}{c}
     #define SKIP_BACK                   0
     #define SKIP_FRONT                  0
 \end{minted}
 
-La vérification d'une demande de saut de l'avant et de l'arrière se font dans l'état 0 et l'état 3.
+La vérification d'une demande de saut de l'avant ou de l'arrière s'effectue respectivement dans l'état 0 et dans l'état 3.
 
-Afin de permettre d'éteindre a n'importe quel moment la maquette, une simple condition au dessus de la machine d'état fut réalisé comme suit :
+Afin de permettre d'éteindre la maquette à n'importe quel moment, une simple condition a été ajoutée en amont de la machine d'état, comme suit :
 
 \begin{minted}{c}
     if (!SystemOn && (state != STATE_0) && (state != STATE_8))
@@ -414,4 +414,4 @@ Afin de permettre d'éteindre a n'importe quel moment la maquette, une simple co
     }
 \end{minted}
 
-Celui-ci vérifie simplement que le bouton fut effectivement pressé en vérifiant qu'il est éteint mais également que l'état actuelle est différent de l'état 0 et l'état 8.
+Cette condition contrôle simplement que le bouton a effectivement été pressé pour demander l'arrêt (signal \texttt{SystemOn} désactivé), mais également que l'état actuel est différent de l'état 0 et de l'état 8.
