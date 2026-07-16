@@ -1,6 +1,6 @@
 \chapter{La régulation}
 
-Ce chapitre revient principalement se concentrer sur les travaux réalisés par Laucella \cite{Laucella} et Yersin \cite{Yersin}.
+Ce chapitre se concentre principalement sur les travaux réalisés par Laucella \cite{Laucella} et Yersin \cite{Yersin}.
 
 \section{Introduction}
 La réalisation du système nécessite une régulation de courant imbriquée dans une régulation de position. Le schéma suivant illustre cette architecture :
@@ -125,7 +125,7 @@ L'inductance se calcule ensuite en injectant l'équation \ref{eq:PermTot} dans l
 Le système est défini autour d'un point de fonctionnement nominal, correspondant à l'état stable pour une hauteur de lévitation de 1~mm. Dans cette condition, l'entrefer équivaut à l'entrefer nominal, soit $\delta = \delta_n = 2\text{ mm}$. En repartant de l'équation précédente \ref{eq:IndAnal}, l'inductance nominale s'écrit alors :
 
 \begin{equation}
-    L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} = \frac{125^2 \cdot 4\pi \cdot 10^{-7} \cdot 10^{-3}}{2 \cdot 2 \cdot 10^{-3}} = 4,9 \text{ mH}
+    L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} = \frac{125^2 \cdot 4\pi \cdot 10^{-7} \cdot 10^{-3}}{2 \cdot 2 \cdot 10^{-3}} = 4.9 \text{ mH}
     \label{eq:IndNom}
 \end{equation}
 
@@ -223,7 +223,7 @@ La force électromagnétique se déduit de la dérivée de la coénergie magnét
 Avec la constante $k$ définie par :
 
 \begin{equation}
-    k = \frac{L_n\cdot\delta_n}{2} = \frac{4,9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4,9\cdot 10^{-6} \text{ } \text{N}\cdot\text{m}^2/\text{A}^2
+    k = \frac{L_n\cdot\delta_n}{2} = \frac{4.9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4.9\cdot 10^{-6} \text{ } \text{N}\cdot\text{m}^2/\text{A}^2
 \end{equation}
 
 La méthode inverse, implémentée au sein du microcontrôleur, consiste à isoler le courant requis à partir de l'équation \ref{eq:MethInv1} :
@@ -279,19 +279,19 @@ L'accélération étant nulle au point fixe, la force électromagnétique doit c
 $$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
 
 \begin{equation}
-    F_{el} = F_p = m\cdot g = 4,513 \cdot 9,81 = 44,3 \text{ N}
+    F_{el} = F_p = m\cdot g = 4.513 \cdot 9.81 = 44.3 \text{ N}
 \end{equation}
 
 En appliquant la relation \ref{eq:MethInv2} aux grandeurs nominales, le courant nominal est déterminé par :
 
 \begin{equation}
-    i_n = \sqrt{\frac{F_{el}}{k}}\cdot\delta_n = \sqrt{\frac{44,3}{4,9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6,01 \text{ A}
+    i_n = \sqrt{\frac{F_{el}}{k}}\cdot\delta_n = \sqrt{\frac{44.3}{4.9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6.01 \text{ A}
 \end{equation}
 
 La tension nominale se déduit de l'équation \ref{eq:TensionBobineEtape2}. La variation de courant et la vitesse mécanique étant nulles, seul le comportement résistif de l'enroulement subsiste. La tension nominale se calcule alors par la loi d'Ohm :
 
 \begin{equation}
-    U_{d,n} = R\cdot i_n = 0,8 \cdot 6,01 = 4,81 \text{ V}
+    U_{d,n} = R\cdot i_n = 0.8 \cdot 6.01 = 4.81 \text{ V}
 \end{equation}
 
 Le développement en série de Taylor peut dès lors être appliqué. Pour alléger les notations, l'indice $n$ au niveau des barres d'évaluation indique que l'expression est évaluée au point de fonctionnement nominal.\\
@@ -525,7 +525,7 @@ Avec :
     \end{aligned} \right.
 \end{equation*}
 
-Ceci est la fonction de transfert avec la simplification, sans celle-ci le résultat fut calculer dans le travail de bachelor de Laucella \cite{Laucella} donnat alors l'équation suivante :
+Il s'agit de la fonction de transfert avec la simplification. Sans celle-ci, le résultat a été calculé dans le travail de bachelor de Laucella \cite{Laucella}, donnant alors l'équation suivante :
 
 \begin{equation}
     G_{ui}(s) = K_{ui}\cdot\frac{1-a_1 \cdot s^2}{1 - a_1 \cdot s^2 - a_2\cdot s^3}
@@ -541,17 +541,18 @@ Avec :
     \end{aligned} \right.
 \end{equation*}
 
-Une comparaison fut dès alors réaliser par Laucella \cite{Laucella} donnant ainsi la \autoref{} :
+Une comparaison a alors été réalisée par Laucella \cite{Laucella}, donnant ainsi la figure \ref{fig:CompSimpleBrute} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/CompSimpleEtBrute.png}
-    \caption{Comparaison entre l'équation simplifié et l'équation brute \cite{Laucella}}
+    \caption{Comparaison entre l'équation simplifiée et l'équation brute \cite{Laucella}}
+    \label{fig:CompSimpleBrute}
 \end{figure}
 
-Avec $G_{ui}$ l'équation simplifié et $G_{ui1}$ l'équation brute.
+Avec $G_{ui}$ l'équation simplifiée et $G_{ui1}$ l'équation brute.
 
-L'analyse du système démontre qu'en basse fréquence, l'action dérivateur est bien dominante sur l'équation $G_{ui1}$. La droite commençant à 90°. Les deux courbes viennent se supperposer vers les aléantour de 100 rad/s. Dès lors les traces sont presque identique. Il est alors acceptable d'admettre que la simplification est possible car le résultat final dépendra principalement des sommes des petites constantes de temps qui viennent agir sur des fréquence plus élevé.
+L'analyse du système démontre qu'en basse fréquence, l'action dérivée est bien dominante sur l'équation $G_{ui1}$, la phase débutant à 90°. Les deux courbes viennent se superposer aux alentours de 100~rad/s ; dès lors, les tracés sont presque identiques. Il est alors acceptable d'admettre que la simplification est possible, car le résultat final dépend principalement de la somme des petites constantes de temps, qui agissent sur des fréquences plus élevées.
 
 Le bloc $G_{cm}$, représentant l'organe de commande, est approximé par un filtre passe-bas du premier ordre :
 
@@ -574,7 +575,7 @@ L'organe de mesure du courant $G_{mi}$ est également approximé par un filtre p
 La constante de temps du capteur est déterminée à partir de la fiche technique du fabricant \cite{CaptCour}, qui indique une bande passante de 50~kHz. Afin de respecter le critère de Shannon \cite{Shanon}, la fréquence de coupure du filtre anti-repliement a été fixée à 25~kHz, ce qui correspond à la fréquence d'échantillonnage du DSP :
 
 \begin{equation}
-    \tau_{mi} = \frac{1}{f_{mi}} = \frac{1}{25\cdot 10^3} = 6.4 \text{ $\mu$s}
+    \tau_{mi} = \frac{1}{2\pi\cdot f_{mi}} = \frac{1}{2\pi\cdot 25\cdot 10^3} = 6.4 \text{ $\mu$s}
 \end{equation}
 
 La fonction de transfert du système à régler s'écrit alors :
@@ -588,7 +589,7 @@ Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut êt
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Bode.pdf}
-    \caption{Diagramme de bode du système à régler}
+    \caption{Diagramme de Bode du système à régler}
 \end{figure}
 
 La fonction de transfert du régulateur est donnée par l'équation \ref{eq:PI} :
@@ -680,14 +681,14 @@ Enfin, une approximation de ce système par un modèle du premier ordre est réa
     \label{fig:BFPI}
 \end{figure}
 
-La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78,32~$\mu$s. L'approximation de la boucle fermée se défini alors comme un filtre passe-bas du premier ordre comme observé dans l'\autoref{eq:GiBF} :
+La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78.32~$\mu$s. L'approximation de la boucle fermée se définit alors comme un filtre passe-bas du premier ordre, comme observé dans l'\autoref{eq:GiBF} :
 
 \begin{equation}
     G_{iBF} = \frac{1}{1+\tau_{iBF}\cdot s} = \frac{1}{1+78.32\cdot10^{-6}\cdot s}
     \label{eq:GiBF}
 \end{equation}
 
-Cette équation peut dès alors être tracé afin d'observer son allure repésenté par \autoref{fig:Approx} :
+Cette équation peut alors être tracée afin d'observer son allure, représentée sur la figure \ref{fig:Approx} :
 
 \begin{figure}[H]
     \centering
@@ -702,7 +703,7 @@ Pour résumer, les valeurs obtenues sont les suivantes :
     K_{pi} = 1.89 \quad \tau_{ii} = 464 \text{ $\mu$s} \quad \tau_{iBF} = 78.32~\text{$\mu$s}
 \end{equation*}
 
-Cependant cette analyse est malheuresement erronnée. Cette erreur sera dès alors traité dans la \autoref{subsec:RegPIError}.
+Cette analyse s'avère cependant erronée. Cette erreur est traitée dans la \autoref{subsec:RegPIError}.
 
 \section{La régulation de position}
 La régulation de position est réalisée au moyen d'un retour d'état. Le schéma bloc de cette régulation est défini dans les travaux de Zayadine \cite{Zayadine}, tel que présenté sur la figure \ref{fig:RegPosBloc} :
@@ -716,7 +717,7 @@ La régulation de position est réalisée au moyen d'un retour d'état. Le sché
 
 Comme l'illustre la figure \ref{fig:RegPosBloc}, quatre paramètres doivent être dimensionnés : le vecteur de gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
-Les travaux précédent prirent la décision de regrouper certains élement (Filtre coupe bande, Filtre Savitzky, retard du capteur de positon et approximation de la boucle fermée de courant) en une simplification représenté en un seul bloc représentant le retard. Cette méthode se base sur la méthode de H.Bühler, présent dans les travaux de Zayadine \cite{Zayadine}. Ce bloc est désigné par $G_{pct}$. Elle est réalisé en y sommant les petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces deux filtres sont modélisés comme de simples retards pour but de simplifier grandement leur influence dans la synthèse de la régulation de position.
+Les travaux précédents ont pris la décision de regrouper certains éléments (filtre coupe-bande, filtre de Savitzky-Golay, retard du capteur de position et approximation de la boucle fermée de courant) en un seul bloc représentant le retard. Cette approche se base sur la méthode de H.~Bühler, présentée dans les travaux de Zayadine \cite{Zayadine}. Ce bloc, désigné par $G_{pct}$, est obtenu en sommant les petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces deux filtres sont modélisés comme de simples retards dans le but de simplifier grandement leur influence dans la synthèse de la régulation de position.
 
 \begin{figure}[H]
     \centering
@@ -725,7 +726,7 @@ Les travaux précédent prirent la décision de regrouper certains élement (Fil
     \label{fig:MiseCommunRetard}
 \end{figure}
 
-L'équation de ce bloc est alors définit dans l'\autoref{eq:Gpct1} :
+L'équation de ce bloc est alors définie dans l'\autoref{eq:Gpct1} :
 
 \begin{equation}
     G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{m\delta} + \tau_{vf2} + \tau_{F_C} \right)}
@@ -735,13 +736,13 @@ L'équation de ce bloc est alors définit dans l'\autoref{eq:Gpct1} :
 Les travaux de Yersin \cite{Yersin} permettent d'extraire les valeurs suivantes :
 
 \begin{equation}
-    \tau_{m\delta} = 144,7 \text{ $\mu$s}\quad\tau_{vf2} = 65 \text{ $\mu$s}\quad\tau_{F_C} = 3,98 \text{ ms}
+    \tau_{m\delta} = 144.7 \text{ $\mu$s}\quad\tau_{vf2} = 65 \text{ $\mu$s}\quad\tau_{F_C} = 3.98 \text{ ms}
 \end{equation}
 
 En substituant ces valeurs dans l'équation \ref{eq:Gpct1}, l'expression devient :
 
 \begin{equation}
-    G_{pct} = \frac{1}{1 + s \cdot \left( 78,3 + 144,7 + 65 + 3'980 \right)}\cdot 10^{-6} = \frac{1}{1 + s \cdot 4,27\cdot 10^{-3}}
+    G_{pct} = \frac{1}{1 + s \cdot \left( 78.3 + 144.7 + 65 + 3980 \right)\cdot 10^{-6}} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}}
     \label{eq:Gpct1_val}
 \end{equation}
 
@@ -956,12 +957,12 @@ Le terme principal du déterminant devient :
 
 Le calcul de ce déterminant conduit au polynôme caractéristique suivant :
 
-$$\Rightarrow P(s) = \frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{\sum\tau_{pct}} \cdot s + \frac{K_v}{\sum\tau_{pct} \cdot T_i} - \frac{K_\delta}{\sum\tau_{pct}} \cdot s^2 \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{\sum\tau_{pct}} \right) = 0$$
+$$\Rightarrow P(s) = -\frac{1}{m} \cdot \left( \frac{K_{\dot{\delta}}}{\sum\tau_{pct}} \cdot s^2 + \frac{K_\delta}{\sum\tau_{pct}} \cdot s + \frac{K_r}{\sum\tau_{pct} \cdot T_i} \right) + s \cdot \left( s^3 + s^2 \cdot \frac{1}{\sum\tau_{pct}} \right) = 0$$
 
-$$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} \cdot s^2 + \frac{K_\delta}{m \cdot \sum\tau_{pct}} \cdot s + \frac{K_v}{m \cdot \sum\tau_{pct} \cdot T_i} + s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} = 0$$
+$$ \Rightarrow P(s) = -\frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} \cdot s^2 - \frac{K_\delta}{m \cdot \sum\tau_{pct}} \cdot s - \frac{K_r}{m \cdot \sum\tau_{pct} \cdot T_i} + s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} = 0$$
 
 \begin{equation}
-    P(s) = s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} + s \cdot \frac{K_\delta}{m \cdot \sum\tau_{pct}} + \frac{K_v}{m \cdot \sum\tau_{pct} \cdot T_i}
+    P(s) = s^4 + s^3 \cdot \frac{1}{\sum\tau_{pct}} - s^2 \cdot \frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} - s \cdot \frac{K_\delta}{m \cdot \sum\tau_{pct}} - \frac{K_r}{m \cdot \sum\tau_{pct} \cdot T_i}
 \end{equation}
 
 Cette équation caractéristique doit être identifiée au polynôme cible imposé par les pôles désirés $(p_1, p_2, p_3, p_4)$ :
@@ -986,10 +987,10 @@ L'identification des coefficients fournit le système suivant :
     \right.
 \end{equation}
 
-Plusieurs critères de stabilité doivent être respectés pour assurer un placement de pôles fonctionnel. Conformément aux méthodologies établies dans les travaux de Laucella \cite{Laucella} et Yersin \cite{Yersin}, la contrainte majeure stipule que le pôle le plus lent doit satisfaire la condition d'amortissement minimal :
+Plusieurs critères de stabilité doivent être respectés pour assurer un placement de pôles fonctionnel. Conformément aux méthodologies établies dans les travaux de Laucella \cite{Laucella} et Yersin \cite{Yersin}, la contrainte majeure stipule que le pôle le plus lent doit satisfaire la condition d'amortissement maximal :
 
 \begin{equation}
-    p_{min} \leq \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4,27\cdot 10^{-3} - 0} \right) = 58.55\text{ $1/s$}
+    p_{max} \leq \frac{1}{n}\left( \frac{1}{\sum\tau_{pct} - tr\left(A_s\right)} \right) = \frac{1}{4}\left( \frac{1}{4.27\cdot 10^{-3} - 0} \right) = 58.55\text{ $1/s$}
 \end{equation}
 
 Où $n$ représente l'ordre du système (ici 4) et $tr\left(A_s\right)$ correspond à la trace de la matrice $A_s$ (dont la valeur est nulle pour ce système).\\
@@ -997,13 +998,13 @@ Où $n$ représente l'ordre du système (ici 4) et $tr\left(A_s\right)$ correspo
 Pour déterminer le coefficient $K_w$, le développement de la fonction de transfert en boucle fermée $G_{yw}(s)$ est nécessaire. Elle s'obtient à partir des matrices d'état selon l'équation :
 
 \begin{equation}
-    G_{yw}(s) = C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{Gw} + D_G + D_{Gv}
+    G_{yw}(s) = C\cdot\left( s\cdot I - A_G \right)^{-1}\cdot B_{G} + D_G
 \end{equation}
 
 Le développement de ce produit donne la fonction de transfert suivante :
 
 \begin{equation}
-    G_{yw}(s) = \frac{\frac{K_r}{T_i} + s \cdot K_w}{m \cdot \tau_{pct} \cdot \left( s^4 + \frac{1}{\tau_{pct}} \cdot s^3 - \frac{K_{\dot{\delta}}}{m \cdot \tau_{pct}} \cdot s^2 - \frac{K_\delta}{m \cdot \tau_{pct}} \cdot s - \frac{K_r}{T_i \cdot m \cdot \tau_{pct}} \right)}
+    G_{yw}(s) = \frac{\frac{K_r}{T_i} + s \cdot K_w}{m \cdot \sum\tau_{pct} \cdot \left( s^4 + \frac{1}{\sum\tau_{pct}} \cdot s^3 - \frac{K_{\dot{\delta}}}{m \cdot \sum\tau_{pct}} \cdot s^2 - \frac{K_\delta}{m \cdot \sum\tau_{pct}} \cdot s - \frac{K_r}{T_i \cdot m \cdot \sum\tau_{pct}} \right)}
 \end{equation}
 
 L'expression du numérateur révèle la présence d'un zéro dans la fonction de transfert :
@@ -1020,140 +1021,5 @@ Afin d'optimiser le régime transitoire, les modélisations antérieures ont imp
 
 L'algorithme sous Matlab est utilisé pour calculer les différents pôles admissibles. L'ajustement empirique de la valeur du pôle réel ($p_k$) reste nécessaire afin d'obtenir un jeu de paramètres garantissant la stabilité du système en lévitation.
 
-\red{Travail à réaliser :}
-\begin{itemize}
-    \item Identifier un placement de pôles assurant la robustesse et la stabilité de la régulation
-    \item Analyser les simulations afin de trouver un pôle optimal
-\end{itemize}
+Pour la suite de ce travail, il a été décidé de s'orienter vers une régulation de position dans l'espace au lieu d'une régulation par inducteur. La suite du développement n'est donc pas détaillée ici, mais est disponible dans le travail de Yersin \cite{Yersin}.
 
-\subsection{Synthèse d'une régulation de position par PID}
-La synthèse d'une régulation de position par un régulateur PID a été envisagée. L'objectif de cette démarche est d'obtenir un système dont les composants sont connus et dont l'étude s'avère plus simple qu'une approche par retour d'état. Une fois un comportement satisfaisant obtenu, une analyse des pôles sera réalisée afin de pouvoir effectuer un placement de pôles au sein de la régulation d'état.\\
-
-La synthèse s'appuie sur le schéma bloc présenté dans la figure \ref{fig:PIDBloc} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PIDBloc.png}
-    \caption{Schéma bloc de la régulation de position par PID}
-    \label{fig:PIDBloc}
-\end{figure}
-
-À l'instar de la régulation d'état, l'ensemble des retards a été regroupé au sein d'un bloc unique.
-
-Le système à régler est alors défini par l'équation \ref{eq:Gap} :
-
-\begin{equation}
-    G_{ap} = G_{pct}\cdot \frac{1}{m}\cdot s^2 =
-    \label{eq:Gap}
-\end{equation}
-
-Le diagramme de Bode du système à régler est représenté sur la figure \ref{fig:BodeGap} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BodeGap.png}
-    \caption{Diagramme de Bode du système à régler $G_{ap}$}
-    \label{fig:BodeGap}
-\end{figure}
-
-La fonction de transfert du régulateur $G_{cp}$ se définit comme celle d'un PID, exprimée par l'équation \ref{eq:Gcp} :
-
-\begin{equation}
-    G_{cp} = K_{pid}\cdot\frac{1 + \tau_i \cdot s + \tau_i \cdot\tau_d\cdot s^2}{\tau_i \cdot s}
-    \label{eq:Gcp}
-\end{equation}
-
-La synthèse se concentre dès lors sur la détermination des paramètres $K_{pid}$, $\tau_i$ et $\tau_d$.\\
-
-Afin de simplifier cette recherche, le critère de l'optimum symétrique a été employé. La constante de temps de l'action intégrale $\tau_i$ est ainsi fixée à quatre fois la valeur de la constante de temps de l'action dérivée $\tau_d$, comme formulé dans l'équation \ref{eq:OptSym} :
-
-\begin{equation}
-    \tau_i = 4\cdot\tau_d
-    \label{eq:OptSym}
-\end{equation}
-
-Cette méthode permet de réduire l'étude à deux paramètres inconnus : la valeur de $\tau_d$ dans un premier temps, puis le gain $K_{pid}$.\\
-
-La grandeur $\tau_d$ est définie comme le produit de la somme des petites constantes de temps par un coefficient $N$, selon l'équation \ref{eq:TauD} :
-
-\begin{equation}
-    \tau_d = N\cdot\sum\tau_{pct} = N\cdot 4.27\cdot 10^{-3}
-    \label{eq:TauD}
-\end{equation}
-
-À l'image de la synthèse de la régulation de courant, une analyse paramétrique a été menée pour des valeurs de $N$ comprises entre 1 et 20. À l'issue de ces simulations, l'évolution de la bande passante et de l'erreur a été évaluée en fonction de $N$. Seules les configurations garantissant une marge de phase de 45° ont été retenues. Le choix final du paramètre $N$ repose sur un compromis optimal entre la largeur de la bande passante et la prédiction de l'erreur.
-
-Le tracé pour différentes valeurs de $N$ est disponible sur la figure \ref{fig:ChoixNPID} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/ChoixN.png}
-    \caption{Diagramme de Bode pour différentes valeurs de N}
-    \label{fig:ChoixNPID}
-\end{figure}
-
-La bande passante est illustrée par la figure \ref{fig:BPPID} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BP.png}
-    \caption{Evolution de la bande-passante en fonction de N}
-    \label{fig:BPPID}
-\end{figure}
-
-L'erreur est présentée sur la figure \ref{fig:ErrorPID} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Erreur.png}
-    \caption{Evolution de l'erreur en fonction de N}
-    \label{fig:ErrorPID}
-\end{figure}
-
-Le choix s'est porté sur la valeur $N=12$, offrant un équilibre satisfaisant entre la bande passante et l'erreur.
-
-Il est alors possible de déterminer le gain $K_{pid}$ en recherchant, pour cette valeur de $N$, la valeur assurant une marge de phase de 45° :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RechercheKpid.png}
-    \caption{Détermination du gain $K_{pid}$}
-\end{figure}
-
-Cette configuration détermine les paramètres finaux du régulateur PID, présentés dans l'équation \ref{eq:ParamPID} :
-
-\begin{equation}
-    K_{pid} = 20889 \quad \tau_i = 207,7 \text{ ms} \quad \tau_d = 51,9 \text{ ms}
-    \label{eq:ParamPID}
-\end{equation}
-
-Le diagramme de Bode en boucle ouverte est visible sur la figure \ref{fig:BOPID} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Gbo.png}
-    \caption{Diagramme de Bode de la boucle ouverte}
-    \label{fig:BOPID}
-\end{figure}
-
-Afin de vérifier le comportement du système, un saut unitaire en boucle fermée a été réalisé. Les résultats sont présentés sur le tracé de la figure \ref{fig:RepIndPID} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RepIndi.png}
-    \caption{Réponse impulsionnelle du système en boucle fermée}
-    \label{fig:RepIndPID}
-\end{figure}
-
-Cette réponse indicielle confirme la réactivité adéquate du système vis-à-vis de la maquette.
-
-Cette étude nécessite toutefois d'être validée par des essais physiques sur le démonstrateur, la régulation n'étant pour l'instant qu'au stade de la modélisation.
-
-\begin{itemize}
-    \item Réaliser une simulation.
-    \item Vérifier la synthèse.
-    \item Appliquer les paramètres sur un inducteur pour identifier le comportement réel.
-    \item Étendre l'application aux quatre inducteurs.
-    \item Déterminer les pôles en boucle fermée.
-    \item Transposer les pôles identifiés sur la régulation d'état.
-\end{itemize}
