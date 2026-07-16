@@ -651,7 +651,7 @@ La valeur sélectionnée est $N=10$, ce qui conduit à la constante de temps sui
     \caption{Détermination du gain $K_{pi}$ pour une marge de phase de 45°}
 \end{figure}
 
-La valeur de $K_{pi}$ retenue est d'environ 39~dB, ce qui correspond à un gain linéaire de 90.96.
+La valeur de $K_{pi}$ retenue est d'environ 5.52~dB, ce qui correspond à un gain linéaire de 1.88.
 
 La validation du comportement global est effectuée par l'application d'un saut unitaire en boucle fermée :
 
@@ -675,7 +675,7 @@ Enfin, une approximation de ce système par un modèle du premier ordre est réa
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Approx.pdf}
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/TibfSearch.pdf}
     \caption{Identification de la constante de temps de la boucle fermée}
     \label{fig:BFPI}
 \end{figure}
@@ -684,46 +684,11 @@ La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78,32~$\m
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/ApproxPI.png}
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Approx.pdf}
     \caption{Diagramme de Bode de l'approximation de la boucle fermée}
 \end{figure}
 
-Une comparaison des paramètres du système synthétisé avec et sans la prise en compte de la constante $K_{ui}$ est présentée ci-dessous.
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lcc}
-        \hline
-        \textbf{Paramètre} & \textbf{Sans $K_{ui}$} & \textbf{Avec $K_{ui}$} \\ \hline
-        $\tau_{ii}$        & $4,63 \cdot 10^{-4}$   & $4,63 \cdot 10^{-4}$   \\
-        $K_{pi}$           & $1,89$                 & $90,96$                \\
-        $\tau_{iBF}$       & $7,83 \cdot 10^{-5}$   & $7,83 \cdot 10^{-5}$   \\ \hline
-    \end{tabular}
-    \caption{Comparaison des paramètres avec et sans intégration de $K_{ui}$}
-    \label{tab:comparatif_kui}
-\end{table}
-
-L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifiée. L'introduction d'une constante n'exerce aucune influence sur la phase du système, son déphasage propre étant nul. Ce comportement est confirmé par les figures \ref{fig:BodeKpiFaux} et \ref{fig:BodeKpiVrai} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiFaux.png}
-    \caption{Identification du gain $K_{pi}$ sans la constante multiplicative}
-    \label{fig:BodeKpiFaux}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/BodeKpiVrai.png}
-    \caption{Identification du gain $K_{pi}$ avec la constante multiplicative}
-    \label{fig:BodeKpiVrai}
-\end{figure}
-
-Lors de l'implémentation expérimentale, l'introduction de la valeur théorique de 90,96 engendre un plaquage franc de la maquette contre le rail de guidage. Ce phénomène s'explique par le fait que l'étage de puissance a été initialement dimensionné pour le gain inférieur (de l'ordre de 1,89). Avec un gain de 90, une faible erreur statique génère immédiatement une commande en tension saturée. Bien que les limites matérielles du système saturent physiquement la commande à 48~V et 3,5~A, la dynamique excessive requise par ce gain élevé déstabilise le comportement. Les essais physiques mettent en évidence un fonctionnement plus stable pour un gain $K_{pi}$ proche de 1,88.
-
-Il est donc nécessaire d'ajuster expérimentalement ce paramètre dans le code source afin de trouver un compromis offrant une dynamique rapide sans saturer l'actionneur.
-
-\red{Dire que j'ai choisi N = 7 et Kpi a 2 et donner les résultat de tau\_ibf. J'ai choisi cette valeur en essayant plusieurs valeurs. Dire que forcément le choix donnera un tau\_ibf beaucoup plus}
 
 \red{Travail à réaliser par la suite :}
 \begin{itemize}
