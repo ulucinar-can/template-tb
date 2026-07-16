@@ -39,7 +39,7 @@ L'état 0 se définit comme une simple condition d'attente :
         {
             GPIO_writePin(LED_D2, 0); // Allumage LED2 (Indicateur sustentation)
 
-            // V rifie si l'on veut uniquement lever l'arri re
+            // V rifie si l'on veut uniquement lever l'arrière
             state = SKIP_FRONT ? STATE_4 : STATE_1;
         }
 
@@ -357,12 +357,12 @@ Finalement, l'état 8 est définit comme une simple condition :
                 HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
             }
 
-            // Reset de la machine d' tat
+            // Reset de la machine d'état
             state = STATE_1;
             PosRegFlag1 = false;
             PosRegFlag3 = false;
 
-            // Reset des gains d' tat
+            // Reset des gains d'état
             Kw = KW;
             Kd = KD;
             Kddot = KDDOT;
@@ -372,13 +372,13 @@ Finalement, l'état 8 est définit comme une simple condition :
             // Reset timer
             i_store = 0;
 
-            // 1. Reset des int grales du r gulateur de courant PI et de l'anti-windup
+            // 1. Reset des int grales du régulateur de courant PI et de l'anti-windup
             integral_i1 = 0.0f; ue1 = 0.0f; ic1 = 0.0f;
             integral_i2 = 0.0f; ue2 = 0.0f; ic2 = 0.0f;
             integral_i3 = 0.0f; ue3 = 0.0f; ic3 = 0.0f;
             integral_i4 = 0.0f; ue4 = 0.0f; ic4 = 0.0f;
 
-            // 2. Reset des int grateurs de la r gulation d' tat (position) et anti-windup de force
+            // 2. Reset des int grateurs de la régulation d' tat (position) et anti-windup de force
             xr1 = 0.0f; fce1 = 0.0f; ep1 = 0.0f;
             xr2 = 0.0f; fce2 = 0.0f; ep2 = 0.0f;
             xr3 = 0.0f; fce3 = 0.0f; ep3 = 0.0f;
@@ -395,6 +395,15 @@ Finalement, l'état 8 est définit comme une simple condition :
 \end{minted}
 
 Actuellement, l'état 9 n'est pas encore développé. À terme, son implémentation sera requise pour assurer la gestion sécurisée des erreurs et défaillances de la maquette.\\
+
+Il est également possible de sauter l'activation de l'avant ou de l'arrière. Pour se faire de \texttt{#define} furent réaliser en début du code comme suit :
+
+\begin{minted}{c}
+    #define SKIP_BACK                   0
+    #define SKIP_FRONT                  0
+\end{minted}
+
+La vérification d'une demande de saut de l'avant et de l'arrière se font dans l'état 0 et l'état 3
 
 Cette nouvelle machine d'états a été testée et a fourni des résultats nettement plus conformes au comportement espéré. La lévitation s'en trouve stabilisée ; cependant, il reste nécessaire d'optimiser les conditions de transition entre les différents états. Certains critères de basculement apparaissent en effet trop sensibles, à l'image de la détection du décollage basée sur un seuil de 99~\%. Une perturbation ponctuelle ou un bruit de mesure pourrait ainsi être faussement interprété comme un décollage effectif, déclenchant une transition prématurée.\\
 
