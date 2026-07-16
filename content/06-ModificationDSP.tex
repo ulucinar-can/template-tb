@@ -15,3 +15,36 @@ Afin d'optimiser l'appropriation du code source hérité, une première révisio
 \section{Création d'un fichier secondaire .c}
 
 Ce fichier constitue une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique.
+
+\section{Mesure du temps de l'interruption principale}
+L'une des premières hypothèses formulées a été que le code ne respectait pas le temps d'exécution alloué pour l'interruption complète. Il a donc été nécessaire de vérifier la validité des temps de cycle, de mesurer le temps consommé par chaque sous-routine, et de déterminer si l'interruption liée à la communication entre le DSP et l'ESP32 perturbait l'interruption principale.\\
+
+Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
+
+L'analyse temporelle se concentre sur quatre phases de l'interruption : premièrement, l'interruption dans son entièreté ; deuxièmement, le temps consommé par les conversions ADC ; troisièmement, le temps d'exécution de la machine d'états ; et enfin, le temps dédié à la mise à jour des signaux PWM. Les relevés ont été effectués à l'aide d'un oscilloscope en observant les commutations d'une broche de sortie (LED).\\
+
+\subsection{Relevé des mesures}
+Les mesures sont recensées dans le tableau \ref{tab:verif_temps_final} :
+
+\begin{table}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{7}{|c|}{\textbf{Vérification des temps}}                                                                                                                                                                                                                                                                                                                                                                                                                                                  \\ \hline
+            \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Mesure}}} & \multicolumn{3}{c|}{\textbf{Avec UART}}                             & \multicolumn{3}{c|}{\textbf{Sans UART}}                                                                                                                                                                                                                                                                                                                                 \\ \cline{2-7}
+            \multicolumn{1}{|c|}{}                                 & \begin{tabular}[c]{@{}c@{}}4 Inducteurs\\ {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 1\&2 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 3\&4 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}4 Inducteurs\\ {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 1\&2 {[}$\mu$s{]}\end{tabular} & \begin{tabular}[c]{@{}c@{}}Inducteurs\\ 3\&4 {[}$\mu$s{]}\end{tabular} \\ \hline
+            Interruption globale                                   & 20                                                                  & 13.6                                                                   & 14.4                                                                   & 20.4                                                                & 14                                                                     & 14.4                                                                   \\ \hline
+            ADC                                                    & 0.88                                                                & 0.86                                                                   & 0.84                                                                   & 0.88                                                                & 0.86                                                                   & 0.85                                                                   \\ \hline
+            Machine d'état                                         & 13.2                                                                & 9.4                                                                    & 9.4                                                                    & 13.6                                                                & 9.6                                                                    & 9.6                                                                    \\ \hline
+            PWM                                                    & 5.2                                                                 & 2.6                                                                    & 2.92                                                                   & 4.9                                                                 & 2.76                                                                   & 2.96                                                                   \\ \hline
+        \end{tabular}%
+    }
+    \caption{Vérification des temps d'exécution avec et sans UART}
+    \label{tab:verif_temps_final}
+\end{table}
+
+Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'annexe \ref{an:MesTemps}.
+
+\subsection{Analyse des résultats}
+Comme l'illustre le tableau \ref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
