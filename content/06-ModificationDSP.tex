@@ -48,3 +48,14 @@ Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'an
 
 \subsection{Analyse des résultats}
 Comme l'illustre le tableau \ref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
+
+Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
+
+\begin{minted}{c}
+//bandstop Filter 56Hz 2nd order bande coupe de 47Hz  90Hz (0) (test)
+#define A1_B1_0         -1.980143772501098
+#define A2_0            0.980339665209542
+#define B0_B2_0         0.9901698326047711
+\end{minted}
+
+Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.

@@ -223,13 +223,41 @@ Les coefficients paramétrés sont les suivants :
 #define B0_B2_6         0.98881627456080789517756
 \end{minted}
 
-Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
+\subsection{La fonction \texttt{SendFloatToText}}
+La fonction \texttt{SendFloatToText} est la fonction permettant la transmission des données des positions sur l'interface web. La fonction est la suivante :
 
 \begin{minted}{c}
-//bandstop Filter 56Hz 2nd order bande coupe de 47Hz  90Hz (0) (test)
-#define A1_B1_0         -1.980143772501098
-#define A2_0            0.980339665209542
-#define B0_B2_0         0.9901698326047711
+    void SendFloatAsText(float f0, float f1, float f2, float f3)
+    {
+        char str[TX_BUF_LEN];
+        int i = 0, j = 0;
+
+    // Mise en forme de la trame envoyée
+        str[i++] = '\x02'; // start bit
+
+        i += ftoa(f0, &str[i], 3);
+        str[i++] = ',';
+
+        i += ftoa(f1, &str[i], 3);
+        str[i++] = ',';
+
+        i += ftoa(f2, &str[i], 3);
+        str[i++] = ',';
+
+        i += ftoa(f3, &str[i], 3);
+
+        str[i++] = '\x03'; // stop bit
+
+        for (j = 0; j < i && j < TX_BUF_LEN; j++) {
+            txBuffer[j] = (uint8_t)str[j];
+        }
+
+        txLength = i;
+        txIndex = 0;
+
+        // Envoi de la trame
+        SCI_enableInterrupt(SCIA_BASE, SCI_INT_TXFF);
+    }
 \end{minted}
 
-Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
+\subsection{Les intéruptions}
