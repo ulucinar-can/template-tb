@@ -716,7 +716,7 @@ La régulation de position est réalisée au moyen d'un retour d'état. Le sché
 
 Comme l'illustre la figure \ref{fig:RegPosBloc}, quatre paramètres doivent être dimensionnés : le vecteur de gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
-Une simplification est effectuée en regroupant l'ensemble des retards dans un bloc unique, désigné par $G_{pct}$. Celui-ci représente la somme des petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces différents filtres sont modélisés comme de simples retards synthétisés sous forme de filtres passe-bas du premier ordre.
+Les travaux précédent prirent la décision de regrouper certains élement (Filtre coupe bande, Filtre Savitzky, retard du capteur de positon et approximation de la boucle fermée de courant) en une simplification représenté en un seul bloc représentant le retard. Cette méthode se base sur la méthode de H.Bühler, présent dans les travaux de Zayadine \cite{Zayadine}. Ce bloc est désigné par $G_{pct}$. Elle est réalisé en y sommant les petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces deux filtres sont modélisés comme de simples retards pour but de simplifier grandement leur influence dans la synthèse de la régulation de position.
 
 \begin{figure}[H]
     \centering
@@ -725,16 +725,7 @@ Une simplification est effectuée en regroupant l'ensemble des retards dans un b
     \label{fig:MiseCommunRetard}
 \end{figure}
 
-Ces constantes de temps sont alors fusionnées en un seul bloc, aboutissant au schéma simplifié de la figure \ref{fig:RegPosBlocSimple} :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
-    \caption{Schéma bloc de la régulation de position simplifiée}
-    \label{fig:RegPosBlocSimple}
-\end{figure}
-
-La fonction de transfert $G_{pct}$ est définie par l'équation \ref{eq:Gpct1} :
+L'équation de ce bloc est alors définit dans l'\autoref{eq:Gpct1} :
 
 \begin{equation}
     G_{pct} = \frac{1}{1 + s \cdot \sum\tau_{pct}} = \frac{1}{1 + s \cdot \left( \tau_{iBF} +\tau_{m\delta} + \tau_{vf2} + \tau_{F_C} \right)}
@@ -753,6 +744,15 @@ En substituant ces valeurs dans l'équation \ref{eq:Gpct1}, l'expression devient
     G_{pct} = \frac{1}{1 + s \cdot \left( 78,3 + 144,7 + 65 + 3'980 \right)}\cdot 10^{-6} = \frac{1}{1 + s \cdot 4,27\cdot 10^{-3}}
     \label{eq:Gpct1_val}
 \end{equation}
+
+En insérant le bloc $G_{pct}$ dans le schéma bloc, celui-ci se simplifie et est repésenté par la figure \ref{fig:RegPosBlocSimple} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
+    \caption{Schéma bloc de la régulation de position simplifiée}
+    \label{fig:RegPosBlocSimple}
+\end{figure}
 
 L'établissement de la représentation d'état du système peut alors être abordé.
 
