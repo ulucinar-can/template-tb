@@ -77,7 +77,7 @@ Les capteurs de courant sont des capteurs LEM \cite{CaptCour}, à effet Hall, di
     \label{fig:GrapheCaptCour}
 \end{figure}
 
-Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}, de type optique par triangulation laser. Leur distance de base se situe entre 30~mm et 70~mm (voir tracé \ref{fig:GrapheCaptPos}). Grâce à une fonction d'apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l'entrefer. La procédure de calibration du capteur est détaillée à la \autoref{sec:CalibrationCaptPos}.
+Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}, de type optique par triangulation laser. Leur distance de base se situe entre 30~mm et 70~mm (voir tracé \ref{fig:GrapheCaptPos}). Grâce à une fonction d'apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l'entrefer. La procédure de calibration du capteur est détaillée à la \autoref{sec:CalibrationCaptPosManuel}.
 
 \begin{figure}[H]
     \centering
@@ -225,7 +225,7 @@ En appliquant les valeurs numériques propres au capteur de courant :
     \label{eq:conv_courant}
 \end{equation}
 
-La conversion de la position est simplifiée par l'application d'un étalonnage par apprentissage (\textit{teach-in}) sur le capteur (section \ref{sec:CalibrationCaptPos}). Cette méthode permet de redéfinir la plage de mesure du transducteur : la plage nominale initiale, allant de 30~mm pour 0~V à 70~mm pour 10~V, est ajustée pour correspondre exactement à l'intervalle utile de 0~mm à 3~mm.
+La conversion de la position est simplifiée par l'application d'un étalonnage par apprentissage (\textit{teach-in}) sur le capteur (section \ref{sec:CalibrationCaptPosManuel}). Cette méthode permet de redéfinir la plage de mesure du transducteur : la plage nominale initiale, allant de 30~mm pour 0~V à 70~mm pour 10~V, est ajustée pour correspondre exactement à l'intervalle utile de 0~mm à 3~mm.
 
 La loi de conversion se réduit alors à :
 
