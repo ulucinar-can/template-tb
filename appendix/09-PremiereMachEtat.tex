@@ -403,8 +403,15 @@ Il est également possible de sauter l'activation de l'avant ou de l'arrière. P
     #define SKIP_FRONT                  0
 \end{minted}
 
-La vérification d'une demande de saut de l'avant et de l'arrière se font dans l'état 0 et l'état 3
+La vérification d'une demande de saut de l'avant et de l'arrière se font dans l'état 0 et l'état 3.
 
-Cette nouvelle machine d'états a été testée et a fourni des résultats nettement plus conformes au comportement espéré. La lévitation s'en trouve stabilisée ; cependant, il reste nécessaire d'optimiser les conditions de transition entre les différents états. Certains critères de basculement apparaissent en effet trop sensibles, à l'image de la détection du décollage basée sur un seuil de 99~\%. Une perturbation ponctuelle ou un bruit de mesure pourrait ainsi être faussement interprété comme un décollage effectif, déclenchant une transition prématurée.\\
+Afin de permettre d'éteindre a n'importe quel moment la maquette, une simple condition au dessus de la machine d'état fut réalisé comme suit :
 
-Dans l'ensemble, l'architecture de cette nouvelle machine d'états est validée et fonctionnelle.
+\begin{minted}{c}
+    if (!SystemOn && (state != STATE_0) && (state != STATE_8))
+    {
+        state = STATE_8;
+    }
+\end{minted}
+
+Celui-ci vérifie simplement que le bouton fut effectivement pressé en vérifiant qu'il est éteint mais également que l'état actuelle est différent de l'état 0 et l'état 8.
