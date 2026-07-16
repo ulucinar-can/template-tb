@@ -1,123 +1,343 @@
-\chapter{Synthèse d'une régulation de position par PID}
+\chapter{Développement d'une machine d'état pour la régulation en SISO}
 
-La synthèse d'une régulation de position par un régulateur PID a été envisagée. L'objectif de cette démarche est d'obtenir un système dont les composants sont connus et dont l'étude s'avère plus simple qu'une approche par retour d'état. Une fois un comportement satisfaisant obtenu, une analyse des pôles sera réalisée afin de pouvoir effectuer un placement de pôles au sein de la régulation d'état.\\
+Cette annexe vient démontrer la première machine d'état développer dans le programme. Celui-ci avait pour but d'améliorer la machine d'état déjà existante mais possédant une architecture complexe et difficilement lisible. Le comportement séquentiel défini est le suivant :
 
-La synthèse s'appuie sur le schéma bloc présenté dans la figure \ref{fig:PIDBloc} :
+\begin{itemize}
+    \item État 0 : Attente de la pression du bouton d'activation.
+    \item État 1 : Montée du courant des inducteurs 1 et 2 à 3~A (afin d'éviter un démarrage à zéro).
+    \item État 2 : Augmentation du courant des inducteurs 1 et 2 suivant une rampe continue (régulation de courant seule).
+    \item État 3 : Basculement en régulation de position dès l'amorce du mouvement des inducteurs 1 et 2 (lévitation de la partie avant du véhicule).
+    \item État 4 : Montée du courant des inducteurs 3 et 4 à 3~A.
+    \item État 5 : Augmentation du courant des inducteurs 3 et 4 suivant une rampe continue (régulation de courant seule).
+    \item État 6 : Basculement en régulation de position dès l'amorce du mouvement des inducteurs 3 et 4 (lévitation de la partie arrière, l'avant étant déjà sustenté).
+    \item État 7 : Ajustement des gains statiques pour assurer un comportement transitoire plus doux et passage en régulation de maintien.
+    \item État 8 : Arrêt de la sustentation et réinitialisation des variables.
+    \item État 9 : Affichage d'un message d'erreur en cas de défaillance matérielle ou logicielle de la maquette.
+\end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PIDBloc.png}
-    \caption{Schéma bloc de la régulation de position par PID}
-    \label{fig:PIDBloc}
-\end{figure}
-
-À l'instar de la régulation d'état, l'ensemble des retards a été regroupé au sein d'un bloc unique.
-
-Le système à régler est alors défini par l'équation \ref{eq:Gap} :
-
-\begin{equation}
-    G_{ap} = G_{pct}\cdot \frac{1}{m\cdot s^2}
-    \label{eq:Gap}
-\end{equation}
-
-Le diagramme de Bode du système à régler est représenté sur la figure \ref{fig:BodeGap} :
+Conformément à ces spécifications, l'organigramme de la figure \ref{fig:MachineDEtat} a été établi :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BodeGap.png}
-    \caption{Diagramme de Bode du système à régler $G_{ap}$}
-    \label{fig:BodeGap}
+    \includegraphics[width=1\linewidth]{assets/Chap5/MachineDEtat.png}
+    \caption{Machine d'états régissant la séquence de lévitation}
+    \label{fig:MachineDEtat}
 \end{figure}
 
-La fonction de transfert du régulateur $G_{cp}$ se définit comme celle d'un PID, exprimée par l'équation \ref{eq:Gcp} :
+Le diagramme détaillé de cette machine d'états est également disponible dans l'annexe \ref{an:MachineDetat}.\\
 
-\begin{equation}
-    G_{cp} = K_{pid}\cdot\frac{1 + \tau_i \cdot s + \tau_i \cdot\tau_d\cdot s^2}{\tau_i \cdot s}
-    \label{eq:Gcp}
-\end{equation}
+Les différents états sont implémentés dans le code source en respectant scrupuleusement la logique illustrée par la figure \ref{fig:MachineDEtat}.\\
 
-La synthèse se concentre dès lors sur la détermination des paramètres $K_{pid}$, $\tau_i$ et $\tau_d$.\\
+Les états 0 et 8 sont actuellement structurés par de simples conditions logiques :
 
-Afin de simplifier cette recherche, le critère de l'optimum symétrique a été employé. La constante de temps de l'action intégrale $\tau_i$ est ainsi fixée à quatre fois la valeur de la constante de temps de l'action dérivée $\tau_d$, comme formulé dans l'équation \ref{eq:OptSym} :
+\begin{minted}{c}
+    // State 0 :
+    // Vérification de l'enclenchement de la régulation
+    if(ButtonS2 || state_PIN)
+    {
+        ...
+    }
+    // State 8 :
+    // Arrêt de la sustentation
+    else if(!ButtonS2 || !state_PIN)
+    {
+        ...
+    }
+\end{minted}
 
-\begin{equation}
-    \tau_i = 4\cdot\tau_d
-    \label{eq:OptSym}
-\end{equation}
+L'état 1 est programmé de la manière suivante :
 
-Cette méthode permet de réduire l'étude à deux paramètres inconnus : la valeur de $\tau_d$ dans un premier temps, puis le gain $K_{pid}$.\\
+\begin{minted}{c}
+    // State 1 :
+    // Rampe de courant sur les inducteur 1&2 jusqu'à atteindre les 3A
+    case STATE_1:
 
-La grandeur $\tau_d$ est définie comme le produit de la somme des petites constantes de temps par un coefficient $N$, selon l'équation \ref{eq:TauD} :
+        // Rampe vers 3A par pas de 0.04A
+        if(ic1 < I_SP)
+        {
+            ic1 += TAKEOFF_CURRENT_STEP1;
+        }
+        else
+        {
+            ic1 = I_SP;
+        }
 
-\begin{equation}
-    \tau_d = N\cdot\sum\tau_{pct} = N\cdot 4.27\cdot 10^{-3}
-    \label{eq:TauD}
-\end{equation}
+        // Fixe le courant de consigne 2 par rapport à ic1
+        ic2 = ic1;
 
-À l'image de la synthèse de la régulation de courant, une analyse paramétrique a été menée pour des valeurs de $N$ comprises entre 1 et 20. À l'issue de ces simulations, l'évolution de la bande passante et de l'erreur a été évaluée en fonction de $N$. Seules les configurations garantissant une marge de phase de 45° ont été retenues. Le choix final du paramètre $N$ repose sur un compromis optimal entre la largeur de la bande passante et la prédiction de l'erreur.
+        mean1 += Current1;
+        mean2 += Current2;
+        dt_mean++;
 
-Le tracé pour différentes valeurs de $N$ est disponible sur la figure \ref{fig:ChoixNPID} :
+        if(dt_mean >= 200) // dt = 8ms
+        {
+            mean1 = mean1 / dt_mean;
+            mean2 = mean2 / dt_mean;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/ChoixN.png}
-    \caption{Diagramme de Bode pour différentes valeurs de $N$}
-    \label{fig:ChoixNPID}
-\end{figure}
+            if((mean1 <= I_SP105 && mean1 >= I_SP095) && (mean2 <= I_SP105 && mean2 >= I_SP095))
+            {
+                // Reset des variables
+                mean1 = 0;
+                mean2 = 0;
+                dt_mean = 0;
 
-La bande passante est illustrée par la figure \ref{fig:BPPID} :
+                // Changement d'état
+                state = STATE_2;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/BP.png}
-    \caption{Évolution de la bande passante en fonction de $N$}
-    \label{fig:BPPID}
-\end{figure}
+            }
+            else
+            {
+                // Reset des variables pour mesurer à nouveau
+                mean1 = 0;
+                mean2 = 0;
+                dt_mean = 0;
+            }
+        }
 
-Le calcul de l'erreur est réalisé en intégrant l'erreur lors d'un essai en régulation de maintien, ce qui correspond à la surface comprise entre la consigne et la réponse du système. L'évolution de cette surface en fonction de $N$ est présentée sur la figure \ref{fig:ErrorPID} :
+        break;
+\end{minted}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Erreur.png}
-    \caption{Évolution de l'erreur en fonction de $N$}
-    \label{fig:ErrorPID}
-\end{figure}
+L'état 2 s'exécute selon la logique suivante :
 
-Le choix s'est porté sur la valeur $N=12$, offrant un équilibre satisfaisant entre la bande passante et l'erreur.
+\begin{minted}{c}
+    // State 2 :
+    // Rampe de courant "infinie" pour atteindre un courant
+    // assez grand pour faire décoller l'avant
+    case STATE_2:
 
-Il est alors possible de déterminer le gain $K_{pid}$ en recherchant, pour cette valeur de $N$, le gain assurant une marge de phase de 45° :
+        if(Position1 <= Position_c1_dec && Position2 <= Position_c2_dec)
+        {
+            // Update des variables
+            Position_c1 = Position1;
+            Position_c2 = Position2;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RechercheKpid.png}
-    \caption{Détermination du gain $K_{pid}$}
-\end{figure}
+            // Changement d'état
+            state = STATE_3;
+        }
+        else if(ic1 < 7.82f)
+        {
+            ic1 += TAKEOFF_CURRENT_STEP1;
+        }
+        else
+        {
+            // Fixe le courant à une valeur max
+            ic1 = 7.82f;
+        }
 
-Cette configuration détermine les paramètres finaux du régulateur PID, présentés dans l'équation \ref{eq:ParamPID} :
+        // Fixe le courant de ic2 à ic1
+        ic2 = ic1;
 
-\begin{equation}
-    K_{pid} = 20889 \quad \tau_i = 207.7 \text{ ms} \quad \tau_d = 51.9 \text{ ms}
-    \label{eq:ParamPID}
-\end{equation}
+        break;
+\end{minted}
 
-Le diagramme de Bode en boucle ouverte est visible sur la figure \ref{fig:BOPID} :
+L'état 3 est défini par le bloc de code ci-dessous :
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/Gbo.png}
-    \caption{Diagramme de Bode de la boucle ouverte}
-    \label{fig:BOPID}
-\end{figure}
+\begin{minted}{c}
+    // State 3 :
+    // Activation de la régulation de position pour atteindre les 2mm
+    // à l'avant
+    case STATE_3:
 
-Afin de vérifier le comportement du système, un saut unitaire en boucle fermée a été réalisé. Les résultats sont présentés sur le tracé de la figure \ref{fig:RepIndPID} :
+        // Activer la régulation d'état
+        if(!PosRegFlag1) PosRegFlag1 = true;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/PID/RepIndi.png}
-    \caption{Réponse indicielle du système en boucle fermée}
-    \label{fig:RepIndPID}
-\end{figure}
+        // Set point generator (Ramp from 3mm to 2mm)
+        if(Position_c1 > DELTA_N)
+        {
+            Position_c1 -= 2.5 * 4e-7;
+        }
+        else
+        {
+            Position_c1 = DELTA_N;
+        }
 
-Cette réponse indicielle confirme la réactivité adéquate du système vis-à-vis de la maquette.
+        if(Position_c2 > DELTA_N)
+        {
+            Position_c2 -= 2.5 * 4e-7;
+        }
+        else
+        {
+            Position_c2 = DELTA_N;
+        }
 
-Cette étude nécessite toutefois d'être validée par des essais physiques sur le démonstrateur, la régulation n'étant pour l'instant qu'au stade de la modélisation.
+        // Incrémentation du timer
+        i_store++;
+
+        // Timer pour attendre un peu pour être sur que le système à bien décoller
+        if(i_store == I_STORE_2E_DECOLLAGE)
+        {
+            // Reset de la varibale
+            i_store = 0;
+
+            if(SKIP_BACK)
+            {
+                state = STATE_7;
+            }
+            else
+            {
+                state = STATE_4;
+            }
+        }
+
+        break;
+\end{minted}
+
+L'état 4 repose sur la structure suivante :
+
+\begin{minted}{c}
+    // State 4 :
+    // Rampe de courant sur les inducteur 3&4 jusqu'à atteindre les 3A
+    case STATE_4:
+
+        // Rampe vers 3A par pas de 0.04A
+        if(ic3 < I_SP)
+        {
+            ic3 += TAKEOFF_CURRENT_STEP1;
+        }
+        else
+        {
+            ic3 = I_SP;
+        }
+
+        // Fixe le courant de consigne 4 par rapport à ic3
+        ic4 = ic3;
+
+        mean3 += Current3;
+        mean4 += Current4;
+        dt_mean++;
+
+        if(dt_mean >= 200) // dt = 8ms
+        {
+            mean3 = mean3 / dt_mean;
+            mean4 = mean4 / dt_mean;
+
+            if((mean3 <= I_SP105 && mean3 >= I_SP095) && (mean4 <= I_SP105 && mean4 >= I_SP095))
+            {
+                // Reset des variables
+                mean3 = 0;
+                mean4 = 0;
+                dt_mean = 0;
+
+                state = STATE_5;
+            }
+            else
+            {
+                // Reset des variables pour mesurer à nouveau
+                mean3 = 0;
+                mean4 = 0;
+                dt_mean = 0;
+            }
+        }
+
+        break;
+\end{minted}
+
+L'état 5 est implémenté selon les instructions suivantes :
+
+\begin{minted}{c}
+    // State 5 :
+    // Rampe de courant "infinie" pour atteindre un courant
+    // assez grand pour faire décoller l'arrière
+    case STATE_5:
+
+        if(Position3 <= Position_c3_dec && Position4 <= Position_c4_dec)
+        {
+            // Update des variables
+            Position2_c3 = Position3;
+            Position2_c4 = Position4;
+
+            // Changement d'état
+            state = STATE_6;
+        }
+        else if(ic3 < 7.82f)
+        {
+            ic3 += TAKEOFF_CURRENT_STEP1;
+        }
+        else
+        {
+            // Fixe le courant à une valeur max
+            ic3 = 7.82f;
+        }
+
+        // Fixe le courant de ic4 à ic3
+        ic4 = ic3;
+
+
+        break;
+\end{minted}
+
+L'état 6 s'articule comme suit :
+
+\begin{minted}{c}
+    // State 6 :
+    // Activation de la régulation de position pour atteindre les 2mm
+    // à l'arrière
+    case STATE_6:
+
+        // Activer la régulation d'état
+        if(!PosRegFlag3) PosRegFlag3 = true;
+
+        // Set point generator (Ramp from 3mm to 2mm)
+        if(Position2_c3 > DELTA_N)
+        {
+            Position2_c3 -= 2.5 * 4e-7;
+        }
+        else
+        {
+            Position2_c3 = DELTA_N;
+        }
+
+        if(Position2_c4 > DELTA_N)
+        {
+            Position2_c4 -= 2.5 * 4e-7;
+        }
+        else
+        {
+            Position2_c4 = DELTA_N;
+        }
+
+        // Incrémentation du timer
+        i_store++;
+
+        // Timer pour attendre un peu pour être sur que le système à bien décoller
+        if(i_store == I_STORE_2E_DECOLLAGE)
+        {
+            // Reset de la varibale
+            i_store = 0;
+
+            // Changement du gain statique de l'inducteur 3
+            Kr_sans_int = 0; //-1.0;
+
+            // Changement d'état
+            state = STATE_7;
+        }
+
+        break;
+\end{minted}
+
+Enfin, l'état 7 est défini par les instructions de maintien :
+
+\begin{minted}{c}
+    // State 7 :
+    // Régulation de maintien pour tenir la maquette en l'air
+    case STATE_7:
+
+        // Changement des variables pour une régulation plus douce
+        Kr = KR_CHANGE;
+        Kw = KW_CHANGE;
+        Kd = KD_CHANGE;
+        Kddot = KDDOT_CHANGE;
+
+        break;
+
+    // Default :
+    // Something went wrong so let's just go to state 9 for an error
+    default:
+        break;
+\end{minted}
+
+Actuellement, l'état 9 n'est pas encore développé. À terme, son implémentation sera requise pour assurer la gestion sécurisée des erreurs et défaillances de la maquette.\\
+
+Cette nouvelle machine d'états a été testée et a fourni des résultats nettement plus conformes au comportement espéré. La lévitation s'en trouve stabilisée ; cependant, il reste nécessaire d'optimiser les conditions de transition entre les différents états. Certains critères de basculement apparaissent en effet trop sensibles, à l'image de la détection du décollage basée sur un seuil de 99~\%. Une perturbation ponctuelle ou un bruit de mesure pourrait ainsi être faussement interprété comme un décollage effectif, déclenchant une transition prématurée.\\
+
+Dans l'ensemble, l'architecture de cette nouvelle machine d'états est validée et fonctionnelle.
