@@ -1,22 +1,22 @@
 \chapter{Mesure des inductances}
 
 \section{Introduction}
-La mesure démontré tente de redéfinir la valeur de l'inductance. Celle-ci considérer comme erroné par les mesures précédente, elle fut mesuréer au moyen d'un RLC-mètre.
+La mesure présentée dans ce chapitre vise à redéfinir la valeur de l'inductance. Cette dernière étant considérée comme erronée à la suite des mesures précédentes, une nouvelle détermination a été réalisée au moyen d'un RLC-mètre.
 
 \section{Protocole de mesure}
-Afin de réaliser la mesure, les éléments suivant sont néscessaires :
+Afin de réaliser la mesure, les éléments suivants sont nécessaires :
 
 \begin{itemize}
-    \item Des cales de 1mm, 1.5mm,2mm et 3mm. Chaque fois 4 d'entre elle.
-    \item Un RLC-mètre
+    \item Des cales de 1~mm, 1.5~mm, 2~mm et 3~mm (quatre exemplaires de chaque).
+    \item Un RLC-mètre.
 \end{itemize}
 
-La mesure se réalise en plaçant les cales entre la partie lévitante et le profilé. Le RLC-mètre vient se brancher directer sur les bornes des inductances.
+La mesure se réalise en plaçant les cales entre la partie lévitante et le profilé. Le RLC-mètre se branche directement sur les bornes des inducteurs.
 
-\red{Important !} Il ne faut surtout pas alimenter la maquette lors de la mesure des inductances. Cela viendrait a endommager l'appareil de mesure.
+\red{Important !} Il ne faut surtout pas alimenter la maquette lors de la mesure des inductances. Cela endommagerait l'appareil de mesure.
 
 \section{Mesure des inductances}
-La plage de mesure commence de $20~Hz$ jusqu'à $25~kHz$. Les mesures sont représenté par les figures \ref{fig:MesInd1} à \ref{fig:MesInd4}
+La plage de mesure s'étend de 20~Hz à 25~kHz. Les mesures sont représentées de la \autoref{fig:MesInd1} à la \autoref{fig:MesInd4} :
 
 \begin{figure}[H]
     \centering
@@ -46,7 +46,7 @@ La plage de mesure commence de $20~Hz$ jusqu'à $25~kHz$. Les mesures sont repr�
     \label{fig:MesInd4}
 \end{figure}
 
-Il faut dès a présent choisir une fréquence afin d'y récupérer les valeurs de la bobine. Le résultat souhaité doit se trouver en basse fréquence. Car au vue de la bobine, le courant transmis par PWM est similaire a celui d'une tension DC. Mais il ne faut pas non plus prendre trop bas afin de pas avoir les bruits parasites venant du RLC-mètre. De ce fait, les valeurs a une fréquence de $120~Hz$ fut sélectionné. Ceci donne les valeurs suivantes :
+Une fréquence de lecture doit à présent être choisie afin d'y relever les paramètres de la bobine. Le point de lecture doit se situer en basse fréquence : du point de vue de la bobine, le courant issu de la PWM est similaire à celui d'une alimentation continue. La fréquence ne doit toutefois pas être choisie trop basse, afin d'éviter les bruits parasites provenant du RLC-mètre. De ce fait, les valeurs relevées à une fréquence de 120~Hz ont été sélectionnées. Ceci donne les valeurs suivantes :
 
 \begin{table}[H]
     \centering
@@ -68,11 +68,11 @@ Il faut dès a présent choisir une fréquence afin d'y récupérer les valeurs 
 \end{table}
 
 \subsection{Analyse des mesures}
-Comme observé, les inductances sont effectivement plus élevé. Les valeurs observé sont souvent plus proche du double de la valeur théorique de $4.9~mH$.
+Comme observé, les inductances sont effectivement plus élevées. Les valeurs mesurées se rapprochent du double de la valeur théorique de 4.9~mH.
 
-Ces valeurs peuvent s'expliquer par le fait que la surface de l'entrefer est en réalité bien plus grande que prévue dû au effet de bord du champ magnétique. Les calculs on une nouvelle fois étét réaliser en prenant en compte la reluctance du fer dans le calcul de l'inductance. Cependant ces calculs ne donnèrent pas plus de preuve sur la raison derrière la valeur double.
+Ces valeurs peuvent s'expliquer par le fait que la surface effective de l'entrefer est en réalité plus grande que prévu, en raison des effets de bord du champ magnétique. Les calculs ont été réalisés une nouvelle fois en prenant en compte la réluctance du fer dans le calcul de l'inductance. Cependant, ces calculs n'ont pas apporté d'explication supplémentaire concernant ce doublement de la valeur.
 
-Il en va que les valeurs de mesures seront dès alors employé pour réaliser la régulation de courant ainsi que pour la méthode inverse. Celle retenues sont dès lors celle du point nominal à 2mm d'entrefer. Ces valeurs sont dès alors représenter dans le \autoref{tab:mesures_2mm}
+Les valeurs mesurées seront par conséquent employées pour la synthèse de la régulation de courant ainsi que pour la méthode inverse. Celles retenues correspondent au point nominal, soit un entrefer de 2~mm. Ces valeurs sont représentées dans le \autoref{tab:mesures_2mm} :
 
 \begin{table}[H]
     \centering
@@ -84,9 +84,9 @@ Il en va que les valeurs de mesures seront dès alors employé pour réaliser la
         2                 & 1.17                & 7.74          & 1.37                & 8.65          & 1.23                & 7.70          & 1.34                & 7.75          \\
         \bottomrule
     \end{tabular}
-    \caption{Valeur retenue pour un entrefer de 2 mm}
+    \caption{Valeurs retenues pour un entrefer de 2~mm}
     \label{tab:mesures_2mm}
 \end{table}
 
 \section{Conclusion}
-La mesure fut très interessantes démontrant effectivement que les valeurs d'inductances sont effectivement supérieur a celle calculé. Il sera dès alors possible d'employer ces valeurs afin d'améliorer l'état actuelle de la maquette.
+Cette mesure a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. Il sera dès lors possible d'employer ces valeurs afin d'améliorer l'état actuel de la maquette.
