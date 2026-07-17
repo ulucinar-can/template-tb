@@ -4,21 +4,21 @@
 Ce chapitre se concentre sur l'analyse des développements matériels réalisés lors des Travaux de Bachelor précédents, plus particulièrement la conception des cartes de puissance par Mattia Laucella \cite{Laucella} et la refonte de la carte principale par Thomas Freyche \cite{Freyche}. Bien que la révision de la carte principale opérée par ce dernier ait permis de corriger de nombreuses anomalies issues du routage initial de Christophe Isoz \cite{Isoz}, il n'est pas exclu que certains défauts subsistent.
 
 \section{Présentation de la maquette}
-La maquette est constituée de cinq PCB, soit une carte principale et quatre cartes de puissance, ainsi que de quatre inducteurs, comme illustré sur les figures \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}.
+La maquette est constituée de cinq PCB, soit une carte principale et quatre cartes de puissance, ainsi que de quatre inducteurs, comme illustré sur la \autoref{fig:MaquetteUp} et la \autoref{fig:MaquetteSide}.
 
 \begin{figure}[H]
     \centering
     % Première vue (Dessus) - ajout de [c]
     \begin{subfigure}[c]{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{assets/Chap2/MaquetteDessus.png}
+        \includegraphics[width=\linewidth]{assets/content/02-Maquette/MaquetteDessus.png}
         \caption{Vue de dessus}
         \label{fig:MaquetteUp}
     \end{subfigure}\hfill
     % Deuxième vue (Côté) - ajout de [c]
     \begin{subfigure}[c]{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{assets/Chap2/MaquetteCote.png}
+        \includegraphics[width=\linewidth]{assets/content/02-Maquette/MaquetteCote.png}
         \caption{Vue de côté}
         \label{fig:MaquetteSide}
     \end{subfigure}
@@ -27,7 +27,7 @@ La maquette est constituée de cinq PCB, soit une carte principale et quatre car
     \label{fig:MaquetteGlobale}
 \end{figure}
 
-Comme présenté sur les images \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}, la maquette comprend :
+Comme présenté sur la \autoref{fig:MaquetteUp} et la \autoref{fig:MaquetteSide}, la maquette comprend :
 \begin{itemize}
     \item une carte principale.
     \item quatre cartes de puissance.
@@ -38,11 +38,11 @@ Comme présenté sur les images \ref{fig:MaquetteUp} et \ref{fig:MaquetteSide}, 
 
 Une symétrie est adoptée afin d'assurer une répartition de masse équilibrée entre les inducteurs.
 
-Les dimensions de la partie lévitante de la maquette, exprimées en millimètres, sont représentées sur l'image \ref{fig:TailleMaquette} :
+Les dimensions de la partie lévitante de la maquette, exprimées en millimètres, sont représentées sur la \autoref{fig:TailleMaquette} :
 
 \begin{figure}[H]
     \centering
-    \includesvg[width=1\linewidth]{assets/Chap2/MaquetteTaille}
+    \includesvg[width=1\linewidth]{assets/content/02-Maquette/MaquetteTaille}
     \caption{Dimension de la partie lévitante de la maquette}
     \label{fig:TailleMaquette}
 \end{figure}
@@ -63,30 +63,30 @@ Les inducteurs présentent une résistance de 0.8~$\Omega$ et comportent chacun 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{assets/Chap2/inducteur.jpg}
+    \includegraphics[width=0.5\linewidth]{assets/content/02-Maquette/inducteur.jpg}
     \caption{Surface d'un seul inducteur}
     \label{fig:surface_inducteur}
 \end{figure}
 
-Les capteurs de courant sont des capteurs LEM \cite{CaptCour}, à effet Hall, disposés sur les cartes de puissance. Leur plage de mesure s'étend de $-30$~A à 30~A (voir tracé \ref{fig:GrapheCaptCour}) et leur bande passante atteint 50~kHz. Ils permettent de mesurer le courant traversant les bobines.
+Les capteurs de courant sont des capteurs LEM \cite{CaptCour}, à effet Hall, disposés sur les cartes de puissance. Leur plage de mesure s'étend de $-30$~A à 30~A (voir la \autoref{fig:GrapheCaptCour}) et leur bande passante atteint 50~kHz. Ils permettent de mesurer le courant traversant les bobines.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap2/CaracteristiqueCourant.png}
+    \includegraphics[width=0.75\linewidth]{assets/content/02-Maquette/CaracteristiqueCourant.png}
     \caption{Caractéristique de sortie du capteur de courant}
     \label{fig:GrapheCaptCour}
 \end{figure}
 
-Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}, de type optique par triangulation laser. Leur distance de base se situe entre 30~mm et 70~mm (voir tracé \ref{fig:GrapheCaptPos}). Grâce à une fonction d'apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l'entrefer. La procédure de calibration du capteur est détaillée à la \autoref{sec:CalibrationCaptPosManuel}.
+Les capteurs de position sont des capteurs Baumer \cite{CaptPosition}, de type optique par triangulation laser. Leur distance de base se situe entre 30~mm et 70~mm (voir la \autoref{fig:GrapheCaptPos}). Grâce à une fonction d'apprentissage, cette plage peut être réduite afin de se focaliser sur la distance de l'entrefer. La procédure de calibration du capteur est détaillée à la \autoref{sec:CalibrationCaptPosManuel}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap2/CaracteristiquePosition.png}
+    \includegraphics[width=0.75\linewidth]{assets/content/02-Maquette/CaracteristiquePosition.png}
     \caption{Caractéristique de sortie du capteur de position}
     \label{fig:GrapheCaptPos}
 \end{figure}
 
-De plus amples détails sur l'électronique sont présentés dans la section \ref{sec:SchemEle}.
+De plus amples détails sur l'électronique sont présentés dans la \autoref{sec:SchemEle}.
 
 \clearpage
 
@@ -95,7 +95,7 @@ Le schéma fonctionnel de la maquette est présenté ci-dessous :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap2/SchemFonct.png}
+    \includegraphics[width=1\linewidth]{assets/content/02-Maquette/SchemFonct.png}
     \caption{Schéma fonctionnel}
     \label{fig:SchemFonct}
 \end{figure}
@@ -114,7 +114,7 @@ La section suivante présente l'électronique réalisée au départ du projet. L
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=1]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[width=1\linewidth,page=1]{assets/shared/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Schéma électrique \cite{Freyche}}
     \label{fig:SchemaComplet}
 \end{figure}
@@ -131,32 +131,32 @@ Cette partie constitue le cœur de la maquette. Elle regroupe :
 Les sous-sections suivantes présentent les parties décrites ci-dessus.
 
 \subsection{DSP}
-Le schéma électrique de l'interface du DSP intègre un connecteur destiné à recevoir une carte d'évaluation Texas Instruments \cite{Freyche}. Cette dernière exécute le programme principal régissant la lévitation. Le connecteur assure ainsi la liaison avec le reste de la carte, comme illustré par la figure \ref{fig:DspScheme} :
+Le schéma électrique de l'interface du DSP intègre un connecteur destiné à recevoir une carte d'évaluation Texas Instruments \cite{Freyche}. Cette dernière exécute le programme principal régissant la lévitation. Le connecteur assure ainsi la liaison avec le reste de la carte, comme illustré par la \autoref{fig:DspScheme} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[page=8, width=1\linewidth]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[page=8, width=1\linewidth]{assets/shared/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Connecteur pour la carte du DSP \cite{Freyche}}
     \label{fig:DspScheme}
 \end{figure}
 
 Cette implémentation modulaire permet de retirer facilement la carte d'évaluation en cas de défaillance matérielle du DSP.
 
-Le connecteur et la carte d'évaluation se présentent comme illustré sur la figure \ref{fig:DspEtConnecteur} :
+Le connecteur et la carte d'évaluation se présentent comme illustré sur la \autoref{fig:DspEtConnecteur} :
 
 \begin{figure}[H]
     \centering
     % Première sous-figure
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[trim = 80 100 150 80, clip, width=\linewidth]{assets/Chap2/CarteEval.jpg}
+        \includegraphics[trim = 80 100 150 80, clip, width=\linewidth]{assets/content/02-Maquette/CarteEval.jpg}
         \caption{Carte d'évaluation}
         \label{subfig:carte_eval}
     \end{subfigure}\hfill
     % Deuxième sous-figure
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[trim = 50 50 50 50, clip, width=\linewidth]{assets/Chap2/Connector.jpg}
+        \includegraphics[trim = 50 50 50 50, clip, width=\linewidth]{assets/content/02-Maquette/Connector.jpg}
         \caption{Connecteur}
         \label{subfig:connecteur}
     \end{subfigure}
@@ -171,7 +171,7 @@ Les conditionneurs permettent de convertir les valeurs brutes des capteurs en si
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=4]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[width=1\linewidth,page=4]{assets/shared/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Schéma des conditionneurs de courant et de position \cite{Freyche}}
     \label{fig:ConditionneursScheme}
 \end{figure}
@@ -216,7 +216,7 @@ Le calcul du courant s'effectue selon la relation suivante :
 
 $$I = \text{ADC} \cdot \frac{I_{max} - I_{min}}{\text{ADC}_{max}} - I_{offset}$$
 
-Un offset est appliqué au courant afin d'exploiter l'intégralité de la plage de mesure. Sans cette correction, la valeur calculée resterait toujours positive ; la soustraction de l'offset permet de retrouver la partie négative de la caractéristique illustrée à la figure \ref{fig:GrapheCaptCour}.
+Un offset est appliqué au courant afin d'exploiter l'intégralité de la plage de mesure. Sans cette correction, la valeur calculée resterait toujours positive ; la soustraction de l'offset permet de retrouver la partie négative de la caractéristique illustrée à la \autoref{fig:GrapheCaptCour}.
 
 En appliquant les valeurs numériques propres au capteur de courant :
 
@@ -225,7 +225,7 @@ En appliquant les valeurs numériques propres au capteur de courant :
     \label{eq:conv_courant}
 \end{equation}
 
-La conversion de la position est simplifiée par l'application d'un étalonnage par apprentissage (\textit{teach-in}) sur le capteur (section \ref{sec:CalibrationCaptPosManuel}). Cette méthode permet de redéfinir la plage de mesure du transducteur : la plage nominale initiale, allant de 30~mm pour 0~V à 70~mm pour 10~V, est ajustée pour correspondre exactement à l'intervalle utile de 0~mm à 3~mm.
+La conversion de la position est simplifiée par l'application d'un étalonnage par apprentissage (\textit{teach-in}) sur le capteur (\autoref{sec:CalibrationCaptPosManuel}). Cette méthode permet de redéfinir la plage de mesure du transducteur : la plage nominale initiale, allant de 30~mm pour 0~V à 70~mm pour 10~V, est ajustée pour correspondre exactement à l'intervalle utile de 0~mm à 3~mm.
 
 La loi de conversion se réduit alors à :
 
@@ -237,11 +237,11 @@ $$\text{Position} = \text{ADC}_{lu} \cdot \frac{\text{Position}_{max} - \text{Po
 \end{equation}
 
 \subsection{Alimentation}
-Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la figure \ref{fig:AlimSchema} :
+Cette section détaille les alimentations des différentes parties de la carte. Les différents blocs sont illustrés sur la \autoref{fig:AlimSchema} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=2]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[width=1\linewidth,page=2]{assets/shared/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Bloc d'alimentation}
     \label{fig:AlimSchema}
 \end{figure}
@@ -258,11 +258,11 @@ Le système se compose des éléments suivants :
 Ces composants assurent la distribution des tensions nécessaires au fonctionnement des différents éléments de la carte principale.
 
 \subsection{Circuit de précharge}
-Le circuit de précharge a pour objectif d'assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la figure \ref{fig:PrechSchem}.
+Le circuit de précharge a pour objectif d'assurer une mise sous tension progressive des cartes de puissance. Le schéma électrique est présenté sur la \autoref{fig:PrechSchem}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth,page=3]{assets/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
+    \includegraphics[width=1\linewidth,page=3]{assets/shared/SchemaElectrique/TB_TFE_Sust_Mag_1_0_0.pdf}
     \caption{Circuit de précharge \cite{Freyche}}
     \label{fig:PrechSchem}
 \end{figure}
@@ -275,11 +275,11 @@ Le fonctionnement repose sur les étapes suivantes :
 \end{enumerate}
 
 \subsection{Cartes de puissance}
-Les cartes de puissance sont représentées à la figure \ref{fig:PowerSchem} :
+Les cartes de puissance sont représentées à la \autoref{fig:PowerSchem} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/SchemaElectrique/power2_V2.pdf}
+    \includegraphics[width=1\linewidth]{assets/shared/SchemaElectrique/power2_V2.pdf}
     \caption{Circuit des cartes de puissance \cite{Laucella}}
     \label{fig:PowerSchem}
 \end{figure}
@@ -297,7 +297,7 @@ L'ESP32 est un microcontrôleur compact utilisé dans ce projet pour fournir une
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{assets/Chap2/ESP32_Board.png}
+    \includegraphics[width=0.5\linewidth]{assets/content/02-Maquette/ESP32_Board.png}
     \caption{Carte Carbon S2 \cite{ESP32}}
     \label{fig:Esp32Board}
 \end{figure}
@@ -319,11 +319,11 @@ D'après la documentation technique \cite{ESP32}, les caractéristiques principa
     \item Dimensions approximatives du PCB : 37~mm $\times$ 18~mm
 \end{itemize}
 
-Le raccordement de la carte est établi selon le schéma \ref{fig:PinoutESP32} :
+Le raccordement de la carte est établi selon la \autoref{fig:PinoutESP32} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap2/ESP32_Scheme.png}
+    \includegraphics[width=1\linewidth]{assets/content/02-Maquette/ESP32_Scheme.png}
     \caption{Schéma de connexion de l'ESP32 \cite{Freyche}}
     \label{fig:PinoutESP32}
 \end{figure}

@@ -5,7 +5,7 @@
 Cette annexe traite les différentes approches mises en œuvre afin de calibrer correctement les capteurs de position. Les essais sont présentés dans l'ordre chronologique de leur réalisation. Seule la dernière approche a été conservée dans le chapitre principal (section « Mesure des capteurs de position ») ; les autres tentatives, écartées, sont regroupées ici.
 
 \section{Première mesure des capteurs de position}
-La première série d'essais correspond à la configuration matérielle issue du précédent travail de bachelor. Les résultats obtenus sont détaillés dans les tableaux \ref{tab:premier_mesure_pos_cond} et \ref{tab:premier_mesure_pos_adc} :
+La première série d'essais correspond à la configuration matérielle issue du précédent travail de bachelor. Les résultats obtenus sont détaillés dans le \autoref{tab:premier_mesure_pos_cond} et le \autoref{tab:premier_mesure_pos_adc} :
 
 % --- Tableau 1 : Après le conditionnement ---
 \begin{table}[H]
@@ -56,7 +56,7 @@ La première série d'essais correspond à la configuration matérielle issue du
 \end{table}
 
 \section{Mesure après la calibration du capteur 3}
-À la suite de ces résultats, une première calibration par la méthode d'apprentissage "Teach-In" a été effectuée sur le capteur de l'inducteur 3. Une série de mesures, de la sortie du capteur jusqu'à l'ADC, a été réalisée afin d'analyser l'évolution de la tension. Les relevés sont présentés dans les tableaux \ref{tab:teachin_3_capteurs}, \ref{tab:teachin_3_cond} et \ref{tab:teachin_3_adc} :
+À la suite de ces résultats, une première calibration par la méthode d'apprentissage "Teach-In" a été effectuée sur le capteur de l'inducteur 3. Une série de mesures, de la sortie du capteur jusqu'à l'ADC, a été réalisée afin d'analyser l'évolution de la tension. Les relevés sont présentés dans le \autoref{tab:teachin_3_capteurs}, le \autoref{tab:teachin_3_cond} et le \autoref{tab:teachin_3_adc} :
 
 % --- Tableau 1 : Après la sortie des capteurs (Droite sur l'image) ---
 \begin{table}[H]
@@ -154,7 +154,7 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-Une nouvelle procédure d'étalonnage a été mise en œuvre. Des mesures ont été effectuées sans application de la correction initiale. Seule la conversion numérique a été conservée et affichée sur l'interface web (Valeur filtré). Les valeurs mesurées sont consignées dans le tableau \ref{tab:premier_etalonnage_code_adc} :
+Une nouvelle procédure d'étalonnage a été mise en œuvre. Des mesures ont été effectuées sans application de la correction initiale. Seule la conversion numérique a été conservée et affichée sur l'interface web (Valeur filtré). Les valeurs mesurées sont consignées dans le \autoref{tab:premier_etalonnage_code_adc} :
 
 \begin{table}[H]
     \centering
@@ -183,38 +183,38 @@ Une nouvelle procédure d'étalonnage a été mise en œuvre. Des mesures ont é
     \label{tab:premier_etalonnage_code_adc}
 \end{table}
 
-Ces données ont permis d'établir les courbes présentées dans les figures \ref{fig:Prem_tracé_ind1}, \ref{fig:Prem_tracé_ind2}, \ref{fig:Prem_tracé_ind3} et \ref{fig:Prem_tracé_ind4} :
+Ces données ont permis d'établir les courbes présentées dans la \autoref{fig:Prem_tracé_ind1}, la \autoref{fig:Prem_tracé_ind2}, la \autoref{fig:Prem_tracé_ind3} et la \autoref{fig:Prem_tracé_ind4} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd1.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/PremierEtalonnage/PremEtaloInd1.pdf}
     \caption{Graphique de l'étalonnage de l'inducteur 1}
     \label{fig:Prem_tracé_ind1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd2.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/PremierEtalonnage/PremEtaloInd2.pdf}
     \caption{Graphique de l'étalonnage de l'inducteur 2}
     \label{fig:Prem_tracé_ind2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd3.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/PremierEtalonnage/PremEtaloInd3.pdf}
     \caption{Graphique de l'étalonnage de l'inducteur 3}
     \label{fig:Prem_tracé_ind3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/PremEtaloInd4.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/PremierEtalonnage/PremEtaloInd4.pdf}
     \caption{Graphique de l'étalonnage de l'inducteur 4}
     \label{fig:Prem_tracé_ind4}
 \end{figure}
 
 L'analyse de ces tracés a permis de déduire des équations de correction intégrant un gain et un décalage (offset), où la variable $x$ représente la valeur issue de l'ADC convertie en millimètres.\\
-Une vérification expérimentale a ensuite été menée, dont les résultats figurent dans le tableau \ref{tab:correction1_adc} :
+Une vérification expérimentale a ensuite été menée, dont les résultats figurent dans le \autoref{tab:correction1_adc} :
 
 \begin{table}[H]
     \centering
@@ -250,16 +250,16 @@ Malgré la faiblesse des erreurs relatives observées, l'implémentation de ces 
 
 \begin{figure}[H]
     \centering
-    \includesvg[width=1\linewidth]{assets/Chap3/MaquetteCote}
+    \includesvg[width=1\linewidth]{assets/shared/MaquetteCote}
     \caption{Méthode teach-in en ne levant que l'avant}
     \label{fig:DessinMaquetteCote}
 \end{figure}
 
 Le schéma illustre le montage expérimental : le repère 7 désigne le support en bois, le repère 8 correspond à la carte principale et les repères 9 identifient les cartes de puissance.
 
-Pour garantir une bonne homogénéité, les quatre inducteurs ont été soulevés puis abaissés selon la procédure détaillée dans la section \ref{sec:CalibrationCaptPosManuel}.
+Pour garantir une bonne homogénéité, les quatre inducteurs ont été soulevés puis abaissés selon la procédure détaillée dans la \autoref{sec:CalibrationCaptPosManuel}.
 
-À l'issue de cette calibration, une nouvelle série de mesures (sans correction) a été réalisée. Les données sont regroupées dans le tableau \ref{tab:recalib_sans_correction_adc} :
+À l'issue de cette calibration, une nouvelle série de mesures (sans correction) a été réalisée. Les données sont regroupées dans le \autoref{tab:recalib_sans_correction_adc} :
 
 \begin{table}[H]
     \centering
@@ -288,37 +288,37 @@ Pour garantir une bonne homogénéité, les quatre inducteurs ont été soulevé
     \label{tab:recalib_sans_correction_adc}
 \end{table}
 
-Ces nouvelles données ont fait l'objet d'une modélisation graphique afin d'en déduire une fonction de correction à implémenter au sein du microcontrôleur. Les courbes obtenues sont visibles sur les figures \ref{fig:Sec_tracé_ind1}, \ref{fig:Sec_tracé_ind2}, \ref{fig:Sec_tracé_ind3} et \ref{fig:Sec_tracé_ind4} :
+Ces nouvelles données ont fait l'objet d'une modélisation graphique afin d'en déduire une fonction de correction à implémenter au sein du microcontrôleur. Les courbes obtenues sont visibles sur la \autoref{fig:Sec_tracé_ind1}, la \autoref{fig:Sec_tracé_ind2}, la \autoref{fig:Sec_tracé_ind3} et la \autoref{fig:Sec_tracé_ind4} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd1.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/SecondEtalonnage/SecEtaloInd1.pdf}
     \caption{Graphique du second étalonnage de l'inducteur 1}
     \label{fig:Sec_tracé_ind1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd2.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/SecondEtalonnage/SecEtaloInd2.pdf}
     \caption{Graphique du second étalonnage de l'inducteur 2}
     \label{fig:Sec_tracé_ind2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd3.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/SecondEtalonnage/SecEtaloInd3.pdf}
     \caption{Graphique du second étalonnage de l'inducteur 3}
     \label{fig:Sec_tracé_ind3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/SecEtaloInd4.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/SecondEtalonnage/SecEtaloInd4.pdf}
     \caption{Graphique du second étalonnage de l'inducteur 4}
     \label{fig:Sec_tracé_ind4}
 \end{figure}
 
-Après intégration de ces nouvelles équations dans le code source, une mesure de vérification a été effectuée. Les résultats sont présentés dans le tableau \ref{tab:verif_etalonnage_teachin_adc} :
+Après intégration de ces nouvelles équations dans le code source, une mesure de vérification a été effectuée. Les résultats sont présentés dans le \autoref{tab:verif_etalonnage_teachin_adc} :
 
 \begin{table}[H]
     \centering
@@ -352,7 +352,7 @@ Cependant, comme observé précédemment, ce nouvel étalonnage n'a pas permis d
 \section{Étalonnages polynomiaux écartés (ordres 5 et 3)}
 Cette section traite des différents polynômes employés. Ceux-ci, ne s'avérant pas satisfaisants car s'éloignant trop du comportement désiré, ont été regroupés ici.
 
-Afin d'implémenter des équations d'ordre supérieur de manière optimale, la méthode de Horner \cite{Horner} a été employée, comme défini dans l'équation \ref{eq:Horner} :
+Afin d'implémenter des équations d'ordre supérieur de manière optimale, la méthode de Horner \cite{Horner} a été employée, comme défini dans l'\autoref{eq:Horner} :
 
 \begin{equation}
     y = ((((a_5 \cdot x + a_4) \cdot x + a_3) \cdot x + a_2) \cdot x + a_1) \cdot x + a_0
@@ -361,62 +361,62 @@ Afin d'implémenter des équations d'ordre supérieur de manière optimale, la m
 
 Pour un polynôme d'ordre inférieur, tel qu'un ordre 3, les coefficients $a_5$ et $a_4$ sont nuls.
 
-Une première tentative a été réalisée à l'aide d'un polynôme d'ordre 5. Les courbes correspondantes sont représentées sur les figures \ref{fig:Ind1Pol5}, \ref{fig:Ind2Pol5}, \ref{fig:Ind3Pol5} et \ref{fig:Ind4Pol5} :
+Une première tentative a été réalisée à l'aide d'un polynôme d'ordre 5. Les courbes correspondantes sont représentées sur la \autoref{fig:Ind1Pol5}, la \autoref{fig:Ind2Pol5}, la \autoref{fig:Ind3Pol5} et la \autoref{fig:Ind4Pol5} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-1.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol5/EtaADCPol5-1.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (polynome d'ordre 5)}
     \label{fig:Ind1Pol5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-2.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol5/EtaADCPol5-2.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (polynome d'ordre 5)}
     \label{fig:Ind2Pol5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-3.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol5/EtaADCPol5-3.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (polynome d'ordre 5)}
     \label{fig:Ind3Pol5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol5/EtaADCPol5-4.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol5/EtaADCPol5-4.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (polynome d'ordre 5)}
     \label{fig:Ind4Pol5}
 \end{figure}
 
-Ces modélisations n'étant pas concluantes et semblant restreindre la dynamique du système, le degré du polynôme a été réduit à 3. Cette approche a généré les tracés des figures \ref{fig:Ind1Pol3}, \ref{fig:Ind2Pol3}, \ref{fig:Ind3Pol3} et \ref{fig:Ind4Pol3} :
+Ces modélisations n'étant pas concluantes et semblant restreindre la dynamique du système, le degré du polynôme a été réduit à 3. Cette approche a généré les tracés de la \autoref{fig:Ind1Pol3}, la \autoref{fig:Ind2Pol3}, la \autoref{fig:Ind3Pol3} et la \autoref{fig:Ind4Pol3} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-1.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol3/EtaADCPol3-1.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (polynome d'ordre 3)}
     \label{fig:Ind1Pol3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-2.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol3/EtaADCPol3-2.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (polynome d'ordre 3)}
     \label{fig:Ind2Pol3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-3.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol3/EtaADCPol3-3.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (polynome d'ordre 3)}
     \label{fig:Ind3Pol3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCPol3/EtaADCPol3-4.pdf}
+    \includegraphics[width=1\linewidth]{assets/appendix/07-MesurePosition/EtaADCPol3/EtaADCPol3-4.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (polynome d'ordre 3)}
     \label{fig:Ind4Pol3}
 \end{figure}

@@ -11,7 +11,7 @@ Le protocole de mesure a consisté à évaluer le système avec les quatre induc
 L'analyse temporelle se concentre sur quatre phases de l'interruption : premièrement, l'interruption dans son entièreté ; deuxièmement, le temps consommé par les conversions ADC ; troisièmement, le temps d'exécution de la machine d'états ; et enfin, le temps dédié à la mise à jour des signaux PWM. Les relevés ont été effectués à l'aide d'un oscilloscope en observant les commutations d'une broche de sortie (LED).\\
 
 \subsection{Relevé des mesures}
-Les mesures sont recensées dans le tableau \ref{tab:verif_temps_final} :
+Les mesures sont recensées dans le \autoref{tab:verif_temps_final} :
 
 \begin{table}[H]
     \centering
@@ -31,10 +31,10 @@ Les mesures sont recensées dans le tableau \ref{tab:verif_temps_final} :
     \label{tab:verif_temps_final}
 \end{table}
 
-Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'annexe \ref{an:MesTemps}.
+Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'\autoref{an:MesTemps}.
 
 \subsection{Analyse des résultats}
-Comme l'illustre le tableau \ref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
+Comme l'illustre le \autoref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
 
 Il aurait toute fois été plus interessant d'ajouter le trigger sur l'impulsion d'une durée minimum afin de voir si potentiellement l'interruption principale fut interrompue et aurais dès lors causer un problème.
 

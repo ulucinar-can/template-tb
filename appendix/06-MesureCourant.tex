@@ -4,7 +4,7 @@
 \section{Introduction}
 Cette annexe présente les comparaisons réalisées entre le calcul théorique et la mesure.
 
-Le calcul repose sur la méthode inverse établie lors de la définition du système pour la régulation de courant (équation \ref{eq:MethInv1}). Celle-ci est reprise ci-dessous :
+Le calcul repose sur la méthode inverse établie lors de la définition du système pour la régulation de courant (\autoref{eq:MethInv1}). Celle-ci est reprise ci-dessous :
 
 \begin{equation}
     i = \sqrt{\frac{F_{el}}{k}} \cdot \delta
@@ -131,6 +131,6 @@ Avec $k$, une constante définie par :
 \end{table}
 
 \subsection{Analyse des résultats}
-Comme le montrent les tableaux \ref{tab:sans_poids_sonde} à \ref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Il est observé que le courant mesuré est globalement supérieur au courant théorique calculé. Cet écart s'explique par le fait que les calculs théoriques initiaux s'appuyaient sur une masse estimée à 3.4~kg par inducteur. La masse effective à sustenter n'est pas de 3.4~kg par inducteur, mais s'élève en réalité à 4.513~kg. Cette différence de charge justifie la consommation de courant plus importante.
+Comme le montrent les résultats du \autoref{tab:sans_poids_sonde} au \autoref{tab:poids_2_5_adc}, les valeurs mesurées (via la sonde ou l'ADC) convergent vers les valeurs théoriques, bien qu'un certain écart subsiste. Il est observé que le courant mesuré est globalement supérieur au courant théorique calculé. Cet écart s'explique par le fait que les calculs théoriques initiaux s'appuyaient sur une masse estimée à 3.4~kg par inducteur. La masse effective à sustenter n'est pas de 3.4~kg par inducteur, mais s'élève en réalité à 4.513~kg. Cette différence de charge justifie la consommation de courant plus importante.
 
 Une autre explication possible réside dans les inductances, dont la valeur réelle diffère de celle calculée, ce qui modifie la valeur de la constante $k$.

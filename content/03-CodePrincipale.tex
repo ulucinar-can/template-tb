@@ -26,7 +26,7 @@ Actuellement, l'algorithme du programme principal respecte l'organigramme suivan
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{Image/Chap.2/Algorithme.png}
+    \includegraphics[width=0.7\linewidth]{assets/content/03-CodePrincipale/Algorithme.png}
     \caption{Structure de l'algorithme du code principal \cite{Freyche}}
     \label{fig:AlgorithmeCodePrincipal}
 \end{figure}
@@ -50,10 +50,10 @@ Le projet s'appuie sur les dépendances suivantes :
 \begin{itemize}
     \item \texttt{driverlib.h} : Bibliothèque fondamentale du DSP TI C2000. Elle met à disposition des fonctions de haut niveau permettant la configuration matérielle (ex. : \texttt{ADC\_readResult}, \texttt{GPIO\_writePin}) en s'affranchissant de la manipulation directe des registres.
     \item \texttt{device.h} : Fichier de configuration spécifique au microcontrôleur utilisé. Il définit les fonctions d'initialisation système requises pour le fonctionnement de l'horloge et des périphériques.
-    \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir section \ref{subsubsec:SysConfig}). Il regroupe les définitions des entrées/sorties paramétrées via l'interface graphique.
+    \item \texttt{board.h} : Fichier généré par l'outil SysConfig (voir \autoref{subsubsec:SysConfig}). Il regroupe les définitions des entrées/sorties paramétrées via l'interface graphique.
     \item \texttt{sfo\_v8.h} : Bibliothèque indispensable pour l'exploitation de la fonctionnalité HRPWM (High-Resolution PWM). Elle assure une calibration continue des signaux afin de compenser les dérives thermiques et les fluctuations de tension.
     \item \texttt{math.h} et \texttt{stdio.h} : Bibliothèques standards C dédiées aux calculs mathématiques et à la gestion des flux d'entrées/sorties.
-    \item \texttt{FunctionHeader.h} : Fichier d'en-tête local regroupant les définitions paramétriques spécifiques à la maquette (détaillé dans la section \ref{subsubsec:FunctionHeader}).
+    \item \texttt{FunctionHeader.h} : Fichier d'en-tête local regroupant les définitions paramétriques spécifiques à la maquette (détaillé dans la \autoref{subsubsec:FunctionHeader}).
 \end{itemize}
 
 \subsubsection{SysConfig}
@@ -149,11 +149,11 @@ float savitzky_Filter(float *Buffer)
 
 Ce filtre \cite{Savitzky} est utilisé pour lisser les mesures fortement bruitées tout en conservant au mieux la dynamique temporelle du signal utile.
 
-Le principe de fonctionnement est illustré par la figure \ref{fig:PrincipeSavitzky} :
+Le principe de fonctionnement est illustré par la \autoref{fig:PrincipeSavitzky} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Image/Chap.2/PrincipeSyvitzky.png}
+    \includegraphics[width=1\linewidth]{assets/content/03-CodePrincipale/PrincipeSyvitzky.png}
     \caption{Principe de lissage du filtre de Savitzky-Golay \cite{Savitzky}}
     \label{fig:PrincipeSavitzky}
 \end{figure}

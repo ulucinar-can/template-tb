@@ -156,7 +156,7 @@
 % ADC_cur_4 = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
 % \end{minted}
 
-% Ces données représentent le résultat numérique brut (codé sur 12 bits) après le traitement du signal par l'étage de conditionnement (voir \ref{subsec:Conditionneur}).
+% Ces données représentent le résultat numérique brut (codé sur 12 bits) après le traitement du signal par l'étage de conditionnement (voir la \autoref{subsec:Conditionneur}).
 
 % Concernant la mesure du courant, une procédure de suppression de l'offset résiduel est indispensable avant l'activation de la sustentation. L'algorithme suivant assure cette fonction :
 
@@ -262,7 +262,7 @@
 
 % Dans le cas où l'une des deux conditions est atteinte, la régulation débute. Une LED s'enclenche lorsque celles-ci sont respectées.\\
 
-% Au départ, le filtre de Savitzky est employé pour filtrer les données issues de la conversion de la position (voir \ref{subsubsec:Savitzky} pour le fonctionnement) :
+% Au départ, le filtre de Savitzky est employé pour filtrer les données issues de la conversion de la position (voir la \autoref{subsubsec:Savitzky} pour le fonctionnement) :
 
 % \begin{minted}{c}
 % pos1Buff[FILTWINDOW-1] = Position1;

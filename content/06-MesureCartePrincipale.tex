@@ -20,20 +20,20 @@ Les objectifs de la mesure sont :
 \end{itemize}
 
 \section{Vérification du circuit de précharge}
-Le comportement du circuit de précharge a été vérifié afin de comparer le résultat obtenu à celui présenté par Thomas Freyche, illustré à la figure \ref{fig:ResFreycheCapa} :
+Le comportement du circuit de précharge a été vérifié afin de comparer le résultat obtenu à celui présenté par Thomas Freyche, illustré à la \autoref{fig:ResFreycheCapa} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap3/Result_Freyche_Capa.png}
+    \includegraphics[width=0.75\linewidth]{assets/shared/Result_Freyche_Capa.png}
     \caption{Évolution de la tension de charge des condensateurs selon le rapport de Thomas Freyche \cite{Freyche}}
     \label{fig:ResFreycheCapa}
 \end{figure}
 
-Lors des mesures effectuées dans le cadre de ce travail, un profil de charge identique a été relevé, comme le montre la figure \ref{fig:ResCanCapa} :
+Lors des mesures effectuées dans le cadre de ce travail, un profil de charge identique a été relevé, comme le montre la \autoref{fig:ResCanCapa} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap3/MesureCondoCan.JPG}
+    \includegraphics[width=0.75\linewidth]{assets/shared/MesureCondoCan.JPG}
     \caption{Évolution expérimentale de la tension de charge des condensateurs mesurée lors de cette étude}
     \label{fig:ResCanCapa}
 \end{figure}
@@ -45,7 +45,7 @@ La masse du système a été vérifiée expérimentalement. Pour ce faire, les b
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap3/MesureMasse.jpeg}
+    \includegraphics[width=0.75\linewidth]{assets/content/06-MesureCartePrincipale/MesureMasse.jpeg}
     \caption{Mesure de la masse totale de la partie en lévitation}
     \label{fig:mesure_masse}
 \end{figure}
@@ -58,7 +58,7 @@ Cette nouvelle valeur expérimentale sera par conséquent employée pour la synt
 \label{sec:mesures_convertisseurs}
 Cette section traite des relevés expérimentaux réalisés sur les convertisseurs DC/DC de la carte principale. Ces étages d'alimentation garantissent la distribution des tensions requises pour le bon fonctionnement de l'intégralité du système.
 
-Les performances du bus principal 24~V et de l'entrée 48~V sont consignées dans le tableau \ref{tab:conv_24v_48v} :
+Les performances du bus principal 24~V et de l'entrée 48~V sont consignées dans le \autoref{tab:conv_24v_48v} :
 
 \begin{table}[H]
     \centering
@@ -76,7 +76,7 @@ Les performances du bus principal 24~V et de l'entrée 48~V sont consignées dan
     \label{tab:conv_24v_48v}
 \end{table}
 
-Les relevés effectués sur l'étage d'alimentation 15~V sont résumés dans le tableau \ref{tab:conv_15v} :
+Les relevés effectués sur l'étage d'alimentation 15~V sont résumés dans le \autoref{tab:conv_15v} :
 
 \begin{table}[H]
     \centering
@@ -93,7 +93,7 @@ Les relevés effectués sur l'étage d'alimentation 15~V sont résumés dans le 
     \label{tab:conv_15v}
 \end{table}
 
-Le comportement du convertisseur abaisseur 5~V est présenté dans le tableau \ref{tab:conv_5v} :
+Le comportement du convertisseur abaisseur 5~V est présenté dans le \autoref{tab:conv_5v} :
 
 \begin{table}[H]
     \centering
@@ -111,7 +111,7 @@ Le comportement du convertisseur abaisseur 5~V est présenté dans le tableau \r
     \label{tab:conv_5v}
 \end{table}
 
-Le tableau \ref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'alimentation 3.3~V :
+Le \autoref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'alimentation 3.3~V :
 
 \begin{table}[H]
     \centering
@@ -128,7 +128,7 @@ Le tableau \ref{tab:conv_3_3v} détaille les valeurs mesurées pour la ligne d'a
     \label{tab:conv_3_3v}
 \end{table}
 
-Enfin, les résultats propres à l'étage très basse tension de 0.5~V sont regroupés dans le tableau \ref{tab:conv_0_5v} :
+Enfin, les résultats propres à l'étage très basse tension de 0.5~V sont regroupés dans le \autoref{tab:conv_0_5v} :
 
 \begin{table}[H]
     \centering
@@ -158,20 +158,20 @@ Dans un premier temps, le bon fonctionnement global de la chaîne d'acquisition 
 
 Ensuite, le courant mesuré avec une sonde externe a été comparé directement à la valeur lue par l'ADC. L'objectif est de vérifier la précision de la mesure embarquée et de repérer un éventuel défaut sur les capteurs en cas d'écart important entre les deux.
 
-Pour éviter les oscillations qui peuvent apparaître quand les quatre inducteurs fonctionnent en même temps, les tests ont été faits en soulevant uniquement l'avant ou uniquement l'arrière de la maquette afin d'avoir un point de fonctionnement stable. Pour tester différentes charges, plusieurs masses ont été ajoutées sur la partie soulevée, comme montré sur la figure \ref{fig:EmplacementPoids} :
+Pour éviter les oscillations qui peuvent apparaître quand les quatre inducteurs fonctionnent en même temps, les tests ont été faits en soulevant uniquement l'avant ou uniquement l'arrière de la maquette afin d'avoir un point de fonctionnement stable. Pour tester différentes charges, plusieurs masses ont été ajoutées sur la partie soulevée, comme montré sur la \autoref{fig:EmplacementPoids} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap3/PoidsPose.jpg}
+    \includegraphics[width=0.75\linewidth]{assets/content/06-MesureCartePrincipale/PoidsPose.jpg}
     \caption{Emplacement des masses lors des tests}
     \label{fig:EmplacementPoids}
 \end{figure}
 
-Enfin, des comparaisons ont aussi été faites entre un calcul théorique (basé sur la masse) et les mesures réelles (sonde et ADC). Comme ces tests ont été réalisés avant de découvrir la différence de masse réelle de la maquette, leurs résultats sont moins pertinents et ont été mis dans l'annexe \ref{annexe:MesCour}.
+Enfin, des comparaisons ont aussi été faites entre un calcul théorique (basé sur la masse) et les mesures réelles (sonde et ADC). Comme ces tests ont été réalisés avant de découvrir la différence de masse réelle de la maquette, leurs résultats sont moins pertinents et ont été mis dans l'\autoref{annexe:MesCour}.
 
 \subsection{Mesure des circuits de conditionnement des capteurs de courants}
 
-Les mesures globales des circuits de conditionnement sont présentées dans les tableaux \ref{tab:cond_courant_1} et \ref{tab:cond_courant_2} :
+Les mesures globales des circuits de conditionnement sont présentées dans le \autoref{tab:cond_courant_1} et le \autoref{tab:cond_courant_2} :
 
 
 \begin{table}[H]
@@ -221,7 +221,7 @@ Les mesures globales des circuits de conditionnement sont présentées dans les 
 \end{table}
 
 \subsection{Mesure du courant sans ajout de poids}
-Une première série de mesures a été réalisée sans ajout de masse. Ces résultats sont consignés dans le tableau \ref{tab:sans_poids_comp} :
+Une première série de mesures a été réalisée sans ajout de masse. Ces résultats sont consignés dans le \autoref{tab:sans_poids_comp} :
 
 % --- Sans Poids - Partie 3 (Comparatif) ---
 \begin{table}[H]
@@ -240,7 +240,7 @@ Une première série de mesures a été réalisée sans ajout de masse. Ces rés
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 1.25~kg}
-Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1.25 kg. Les mesures correspondantes sont présentées dans le tableau \ref{tab:poids_1_25_comp} :
+Selon le même principe, des essais ont été effectués en ajoutant une masse d'environ 1.25 kg. Les mesures correspondantes sont présentées dans le \autoref{tab:poids_1_25_comp} :
 
 % --- Poids 1.25 kg - Partie 3 (Comparatif) ---
 \begin{table}[H]
@@ -259,7 +259,7 @@ Selon le même principe, des essais ont été effectués en ajoutant une masse d
 \end{table}
 
 \subsection{Mesure du courant avec une masse de 2.5~kg}
-Enfin, une charge d'environ 2.5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans le tableau \ref{tab:poids_2_5_comp} :
+Enfin, une charge d'environ 2.5~kg a été ajoutée pour clore les essais. Les résultats de ces mesures sont détaillés dans le \autoref{tab:poids_2_5_comp} :
 
 % --- Poids 2.5 kg - Partie 3 (Comparatif) ---
 \begin{table}[H]
@@ -278,7 +278,7 @@ Enfin, une charge d'environ 2.5~kg a été ajoutée pour clore les essais. Les r
 \end{table}
 
 \subsection{Analyse des résultats}
-La comparaison des deux méthodes de mesure, illustrée par les tableaux \ref{tab:sans_poids_comp} à \ref{tab:poids_2_5_comp}, met en évidence une forte corrélation entre les résultats. Cela démontre la fiabilité de la chaîne d'acquisition des données et confirme l'exactitude de la correspondance entre le courant circulant réellement dans l'inducteur et la valeur numérique lue par le capteur.
+La comparaison des deux méthodes de mesure, illustrée du \autoref{tab:sans_poids_comp} au \autoref{tab:poids_2_5_comp}, met en évidence une forte corrélation entre les résultats. Cela démontre la fiabilité de la chaîne d'acquisition des données et confirme l'exactitude de la correspondance entre le courant circulant réellement dans l'inducteur et la valeur numérique lue par le capteur.
 
 Le fonctionnement du capteur de courant est par conséquent validé.
 
@@ -294,27 +294,27 @@ Position3 = (float)(ADC_pos_3) * CONV_POS2 * POS_CORRECTION_1;
 Position4 = (float)(ADC_pos_4) * CONV_POS2 * POS_CORRECTION_2;
 \end{minted}
 
-L'approche consistant à multiplier un gain similaire pour les inducteurs 3 et 4 laissant à désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer l'étalonnage. Seule la dernière approche a été conservée afin d'alléger le contenu de ce document ; les autres sont disponibles dans l'annexe \ref{annexe:MesPos}.
+L'approche consistant à multiplier un gain similaire pour les inducteurs 3 et 4 laissant à désirer, de nombreuses séries d'essais ont été effectuées afin d'améliorer l'étalonnage. Seule la dernière approche a été conservée afin d'alléger le contenu de ce document ; les autres sont disponibles dans l'\autoref{annexe:MesPos}.
 
-Il a également été décidé de réaliser une nouvelle calibration teach-in des capteurs de position. Cela s'explique par le fait que la calibration précédente avait été réalisée en levant uniquement l'arrière ou uniquement l'avant. Cette démarche visait aussi à éliminer un angle pouvant se créer entre les capteurs avant et arrière, comme indiqué sur la figure \ref{fig:MaqCote} :
+Il a également été décidé de réaliser une nouvelle calibration teach-in des capteurs de position. Cela s'explique par le fait que la calibration précédente avait été réalisée en levant uniquement l'arrière ou uniquement l'avant. Cette démarche visait aussi à éliminer un angle pouvant se créer entre les capteurs avant et arrière, comme indiqué sur la \autoref{fig:MaqCote} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/MaquetteCote.png}
+    \includegraphics[width=1\linewidth]{assets/shared/MaquetteCote.png}
     \caption{Calibration en levant uniquement un côté(Avant ou arrière)}
     \label{fig:MaqCote}
 \end{figure}
 
 Avec 7 la plaque en bois, 8 la carte principale et 9 les cartes de puissances.
 
-La calibration a été réalisée à une même hauteur en suivant les étapes décrites dans l'annexe \ref{sec:CalibrationCaptPosManuel}.
+La calibration a été réalisée à une même hauteur en suivant les étapes décrites dans l'\autoref{sec:CalibrationCaptPosManuel}.
 
 Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1.5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2.5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1.5~mm.
 
 Les mesures sont réalisé en affichant la valeur de l'adc filtré sur l'interface web.
 
 \subsection{Mesure des circuits de conditionnement}
-Dans un premier temps, une vérification globale des circuits de conditionnement a été effectuée, de manière analogue à la procédure suivie pour les capteurs de courant. Les résultats sont présentés dans le tableau \ref{tab:cond_position} :
+Dans un premier temps, une vérification globale des circuits de conditionnement a été effectuée, de manière analogue à la procédure suivie pour les capteurs de courant. Les résultats sont présentés dans le \autoref{tab:cond_position} :
 
 \begin{table}[H]
     \centering
@@ -555,32 +555,32 @@ Une moyenne de ces valeurs a ensuite été calculée pour chaque point de mesure
     \label{tab:adc_brut_moyenne}
 \end{table}
 
-Les performances n'étant toujours pas satisfaisantes, un dernier essai reposant sur une simple équation linéaire a été mené, donnant les tracés des figures \ref{fig:Ind1Lin} à \ref{fig:Ind4Lin} :
+Les performances n'étant toujours pas satisfaisantes, un dernier essai reposant sur une simple équation linéaire a été mené, donnant les tracés de la \autoref{fig:Ind1Lin} à la \autoref{fig:Ind4Lin} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-1.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/06-MesureCartePrincipale/EtaADCLin/EtaADCLin-1.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 1 (courbe linéaire)}
     \label{fig:Ind1Lin}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-2.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/06-MesureCartePrincipale/EtaADCLin/EtaADCLin-2.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 2 (courbe linéaire)}
     \label{fig:Ind2Lin}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-3.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/06-MesureCartePrincipale/EtaADCLin/EtaADCLin-3.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 3 (courbe linéaire)}
     \label{fig:Ind3Lin}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap3/EtaADCLin/EtaADCLin-4.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/06-MesureCartePrincipale/EtaADCLin/EtaADCLin-4.pdf}
     \caption{Graphique d'étalonnage de l'ADC de l'inducteur 4 (courbe linéaire)}
     \label{fig:Ind4Lin}
 \end{figure}

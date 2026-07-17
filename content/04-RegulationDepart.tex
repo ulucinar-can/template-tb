@@ -7,7 +7,7 @@ La réalisation du système nécessite une régulation de courant imbriquée dan
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/SchemaBlocRegulationSISO.png}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/SchemaBlocRegulationSISO.png}
     \caption{Schéma bloc de la régulation de courant imbriquée position \cite{Laucella}}
     \label{fig:SchemaBlocRégulation}
 \end{figure}
@@ -18,18 +18,18 @@ Les blocs « Reg i1 » à « Reg i4 » représentent la régulation de courant. 
 
 Les blocs « Reg $\delta$1 » à « Reg $\delta$4 » représentent la régulation de position. Celle-ci reçoit une position en entrée et génère une force en sortie. Ce contrôle est assuré par une régulation par retour d'état (espace d'état).
 
-Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force souhaitée par un électroaimant. L'équation mathématique est développée dans la sous-section \ref{subsec:Fele}.
+Les blocs « méthode inverse » ont pour but de calculer le courant à partir de la force souhaitée par un électroaimant. L'équation mathématique est développée dans la \autoref{subsec:Fele}.
 
 \section{Définition du système}
 
 \subsection{Le système}
 Afin de réaliser une synthèse rigoureuse de la régulation, l'élaboration d'un modèle mathématique de la maquette est nécessaire. Le système est ainsi modélisé à travers plusieurs étapes successives permettant d'aboutir aux équations de comportement. Cette démarche permet d'obtenir une formulation globale définissant l'ensemble du système, sur laquelle s'appuiera la synthèse de la régulation.\\
 
-Le système conserve la même définition que lors des travaux précédents, comme illustré par la figure \ref{fig:BobineRep} :
+Le système conserve la même définition que lors des travaux précédents, comme illustré par la \autoref{fig:BobineRep} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/Bobine.png}
+    \includegraphics[width=0.75\linewidth]{assets/content/04-RegulationDepart/Bobine.png}
     \caption{Représentation de la bobine}
     \label{fig:BobineRep}
 \end{figure}
@@ -88,7 +88,7 @@ Pour rappel, les différentes grandeurs présentes sur la maquette sont synthét
 \end{table}
 
 \subsection{Modélisation d'une inductance}
-Le contrôle du système reposant sur des bobines, il est nécessaire de définir la valeur de leur inductance. Pour ce faire, les paramètres du tableau \ref{tab:param_inducteur_entrefer} sont employés afin d'effectuer ce calcul.\\
+Le contrôle du système reposant sur des bobines, il est nécessaire de définir la valeur de leur inductance. Pour ce faire, les paramètres du \autoref{tab:param_inducteur_entrefer} sont employés afin d'effectuer ce calcul.\\
 
 Afin d'alléger les développements, les hypothèses simplificatrices suivantes ont été formulées :
 \begin{itemize}
@@ -103,40 +103,40 @@ Pour commencer, un schéma magnétique a été établi afin d'obtenir une repré
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{assets/Chap4/SchemaMagnetique.png}
+    \includegraphics[width=0.8\linewidth]{assets/content/04-RegulationDepart/SchemaMagnetique.png}
     \caption{Schéma magnétique}
     \label{fig:SchemaMagnetique}
 \end{figure}
 
-À partir de la figure \ref{fig:SchemaMagnetique}, la perméance totale vue par l'enroulement peut être formulée selon l'équation \ref{eq:PermTot} :
+À partir de la \autoref{fig:SchemaMagnetique}, la perméance totale vue par l'enroulement peut être formulée selon l'\autoref{eq:PermTot} :
 
 \begin{equation}
     \Lambda_{tot} =\frac{1}{2}\cdot \Lambda_{\delta} = \frac{1}{2}\cdot\frac{\mu_0 \cdot A}{\delta} = \frac{\mu_0 \cdot A}{2\cdot\delta}
     \label{eq:PermTot}
 \end{equation}
 
-L'inductance se calcule ensuite en injectant l'équation \ref{eq:PermTot} dans la relation \ref{eq:IndAnal} :
+L'inductance se calcule ensuite en injectant l'\autoref{eq:PermTot} dans l'\autoref{eq:IndAnal} :
 
 \begin{equation}
     L(\delta) = N^2 \cdot \Lambda_{tot} = \frac{1}{2} \cdot N^2 \cdot \Lambda_{\delta} = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta}
     \label{eq:IndAnal}
 \end{equation}
 
-Le système est défini autour d'un point de fonctionnement nominal, correspondant à l'état stable pour une hauteur de lévitation de 1~mm. Dans cette condition, l'entrefer équivaut à l'entrefer nominal, soit $\delta = \delta_n = 2\text{ mm}$. En repartant de l'équation précédente \ref{eq:IndAnal}, l'inductance nominale s'écrit alors :
+Le système est défini autour d'un point de fonctionnement nominal, correspondant à l'état stable pour une hauteur de lévitation de 1~mm. Dans cette condition, l'entrefer équivaut à l'entrefer nominal, soit $\delta = \delta_n = 2\text{ mm}$. En repartant de l'\autoref{eq:IndAnal} précédente, l'inductance nominale s'écrit alors :
 
 \begin{equation}
     L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} = \frac{125^2 \cdot 4\pi \cdot 10^{-7} \cdot 10^{-3}}{2 \cdot 2 \cdot 10^{-3}} = 4.9 \text{ mH}
     \label{eq:IndNom}
 \end{equation}
 
-De cette équation \ref{eq:IndNom}, il est possible d'isoler la partie constante, qui pourra être employée par la suite pour simplifier l'équation \ref{eq:IndAnal} :
+De cette équation \ref{eq:IndNom}, il est possible d'isoler la partie constante, qui pourra être employée par la suite pour simplifier l'\autoref{eq:IndAnal} :
 
 \begin{equation}
     L(\delta_n) = L_n = \frac{N^2 \cdot \mu_0 \cdot A}{2 \cdot \delta_n} \rightarrow L_n \cdot\delta_n = \frac{N^2 \cdot \mu_0 \cdot A}{2}
     \label{eq:Cst}
 \end{equation}
 
-Cette relation \ref{eq:Cst} peut être réintroduite dans l'équation \ref{eq:IndAnal}, ce qui donne :
+Cette relation \ref{eq:Cst} peut être réintroduite dans l'\autoref{eq:IndAnal}, ce qui donne :
 
 $$L(\delta) = \frac{N^2\cdot \mu_0\cdot A}{2}\cdot \frac{1}{\delta}$$
 
@@ -152,39 +152,39 @@ Le comportement dynamique du système reposant sur des bobines, l'équation de l
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{assets/Chap4/SchemaBobine.png}
+    \includegraphics[width=0.5\linewidth]{assets/content/04-RegulationDepart/SchemaBobine.png}
     \caption{Schéma électrique simplifié d'une bobine}
 \end{figure}
 
-La tension totale correspond à la somme des tensions aux bornes de ces composants, définie par l'équation \ref{eq:TensionBobineEtape1} :
+La tension totale correspond à la somme des tensions aux bornes de ces composants, définie par l'\autoref{eq:TensionBobineEtape1} :
 
 \begin{equation}
     U_d(t) = U_R(t) + U_L(t) = R\cdot i(t) + \frac{d\Psi}{dt} = R\cdot i(t) + \frac{d}{dt}[L(\delta)\cdot i(t)]
     \label{eq:TensionBobineEtape1}
 \end{equation}
 
-L'inductance variant en fonction de la position, le développement du terme de dérivation permet d'introduire la vitesse mécanique par substitution dans l'équation \ref{eq:TensionBobineEtape2} :
+L'inductance variant en fonction de la position, le développement du terme de dérivation permet d'introduire la vitesse mécanique par substitution dans l'\autoref{eq:TensionBobineEtape2} :
 
 \begin{equation}
     U_d = R\cdot i + L\cdot \frac{di}{dt} + \frac{dL}{dt} \cdot i = R\cdot i + L\cdot \frac{di}{dt} + \frac{dL}{d\delta}\cdot \frac{d\delta}{dt} \cdot i
     \label{eq:TensionBobineEtape2}
 \end{equation}
 
-Afin de déterminer la dérivée de l'inductance par rapport à la position, l'expression simplifiée \ref{eq:IndSimple} est utilisée. Sa dérivation conduit à l'équation \ref{eq:IndDerive} :
+Afin de déterminer la dérivée de l'inductance par rapport à la position, l'expression simplifiée \ref{eq:IndSimple} est utilisée. Sa dérivation conduit à l'\autoref{eq:IndDerive} :
 
 \begin{equation}
     \frac{dL(\delta)}{d\delta} = -L_n \cdot \frac{\delta_n}{\delta^2}
     \label{eq:IndDerive}
 \end{equation}
 
-En injectant les relations \ref{eq:IndDerive} et \ref{eq:IndSimple} dans l'équation \ref{eq:TensionBobineEtape2}, l'expression \ref{eq:TensionBobineEtape3} est obtenue :
+En injectant les relations \ref{eq:IndDerive} et l'\autoref{eq:IndSimple} dans l'\autoref{eq:TensionBobineEtape2}, l'expression \ref{eq:TensionBobineEtape3} est obtenue :
 
 \begin{equation}
     U_d = R \cdot i + L_n \frac{\delta_n}{\delta} \cdot \frac{di}{dt} - i \cdot L_n \frac{\delta_n}{\delta^2} \cdot \dot{\delta}
     \label{eq:TensionBobineEtape3}
 \end{equation}
 
-Il est alors possible d'isoler la dérivée temporelle du courant afin d'obtenir l'équation d'état \ref{eq:CourDerive} :
+Il est alors possible d'isoler la dérivée temporelle du courant afin d'obtenir l'équation d'état, donnée par l'\autoref{eq:CourDerive} :
 
 \begin{equation}
     \frac{di}{dt} = \frac{U_d - R \cdot i}{L_n} \cdot \frac{\delta}{\delta_n} + \frac{i}{\delta} \cdot \dot{\delta}
@@ -192,7 +192,7 @@ Il est alors possible d'isoler la dérivée temporelle du courant afin d'obtenir
 \end{equation}
 
 \subsection{Équation de Newton}
-L'objectif de ce projet étant d'assurer la lévitation d'une charge mécanique, l'application des lois de la dynamique de Newton est requise. En se basant sur les conventions de la figure \ref{fig:BobineRep}, le principe fondamental de la dynamique s'écrit :
+L'objectif de ce projet étant d'assurer la lévitation d'une charge mécanique, l'application des lois de la dynamique de Newton est requise. En se basant sur les conventions de la \autoref{fig:BobineRep}, le principe fondamental de la dynamique s'écrit :
 
 \begin{equation}
     m \cdot \ddot{\delta} =\sum F = F_p - F_{el} = m \cdot g - F_{el}
@@ -213,7 +213,7 @@ La force électromagnétique se déduit de la dérivée de la coénergie magnét
     \label{eq:Fele}
 \end{equation}
 
-À partir de la relation \ref{eq:Fele}, il est possible d'établir l'expression de la force sous sa forme simplifiée :
+À partir de l'\autoref{eq:Fele}, il est possible d'établir l'expression de la force sous sa forme simplifiée :
 
 \begin{equation}
     F_{el} = \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2} = i^2 \cdot k \cdot \frac{1}{\delta^2}
@@ -226,16 +226,16 @@ Avec la constante $k$ définie par :
     k = \frac{L_n\cdot\delta_n}{2} = \frac{4.9\cdot 10^{-3}\cdot 2\cdot 10^{-3}}{2}=4.9\cdot 10^{-6} \text{ } \text{N}\cdot\text{m}^2/\text{A}^2
 \end{equation}
 
-La méthode inverse, implémentée au sein du microcontrôleur, consiste à isoler le courant requis à partir de l'équation \ref{eq:MethInv1} :
+La méthode inverse, implémentée au sein du microcontrôleur, consiste à isoler le courant requis à partir de l'\autoref{eq:MethInv1} :
 
 \begin{equation}
     i = \sqrt{\frac{F_{el}}{k}} \cdot \delta
     \label{eq:MethInv2}
 \end{equation}
 
-L'équation \ref{eq:MethInv2} sera principalement employée dans le code source ainsi que pour le calcul des différents paramètres lors de l'étape de linéarisation \ref{subsec:lin}.
+L'\autoref{eq:MethInv2} sera principalement employée dans le code source ainsi que pour le calcul des différents paramètres lors de l'étape de linéarisation \ref{subsec:lin}.
 
-L'introduction de la relation \ref{eq:Fele} dans l'équation mécanique \ref{eq:Newton1} conduit à l'expression \ref{eq:Newton2} :
+L'introduction de l'\autoref{eq:Fele} dans l'équation mécanique \ref{eq:Newton1} conduit à l'expression \ref{eq:Newton2} :
 
 \begin{equation}
     m \cdot \ddot{\delta} = m\cdot g - \frac{1}{2} \cdot i^2 \cdot L_n \cdot \frac{\delta_n}{\delta^2}
@@ -251,7 +251,7 @@ Enfin, l'isolation du terme d'accélération permet d'obtenir l'équation diffé
 
 \subsection{Linéarisation des équations}
 \label{subsec:lin}
-Le système présente un comportement fortement non linéaire, comme l'illustrent les équations \ref{eq:CourDerive} et \ref{eq:Accel}. Il est donc nécessaire de linéariser ces expressions afin de permettre le réglage du système. À cette fin, une linéarisation est réalisée par la méthode du développement en série de Taylor.\\
+Le système présente un comportement fortement non linéaire, comme l'illustrent l'\autoref{eq:CourDerive} et l'\autoref{eq:Accel}. Il est donc nécessaire de linéariser ces expressions afin de permettre le réglage du système. À cette fin, une linéarisation est réalisée par la méthode du développement en série de Taylor.\\
 
 Les équations à linéariser sont définies par le système suivant :
 
@@ -282,13 +282,13 @@ $$m\cdot\ddot{\delta} = F_p - F_{el} = 0$$
     F_{el} = F_p = m\cdot g = 4.513 \cdot 9.81 = 44.3 \text{ N}
 \end{equation}
 
-En appliquant la relation \ref{eq:MethInv2} aux grandeurs nominales, le courant nominal est déterminé par :
+En appliquant l'\autoref{eq:MethInv2} aux grandeurs nominales, le courant nominal est déterminé par :
 
 \begin{equation}
     i_n = \sqrt{\frac{F_{el}}{k}}\cdot\delta_n = \sqrt{\frac{44.3}{4.9\cdot 10^{-6}}}\cdot 2\cdot 10^{-3} = 6.01 \text{ A}
 \end{equation}
 
-La tension nominale se déduit de l'équation \ref{eq:TensionBobineEtape2}. La variation de courant et la vitesse mécanique étant nulles, seul le comportement résistif de l'enroulement subsiste. La tension nominale se calcule alors par la loi d'Ohm :
+La tension nominale se déduit de l'\autoref{eq:TensionBobineEtape2}. La variation de courant et la vitesse mécanique étant nulles, seul le comportement résistif de l'enroulement subsiste. La tension nominale se calcule alors par la loi d'Ohm :
 
 \begin{equation}
     U_{d,n} = R\cdot i_n = 0.8 \cdot 6.01 = 4.81 \text{ V}
@@ -342,7 +342,7 @@ Les évaluations des dérivées partielles au point nominal donnent :
     \label{eq:DerivePart5}
 \end{equation}
 
-En substituant les équations \ref{eq:DeltaDef} à \ref{eq:DerivePart5} dans la relation \ref{eq:f1Lin1}, il vient :
+En substituant l'\autoref{eq:DeltaDef} à l'\autoref{eq:DerivePart5} dans l'\autoref{eq:f1Lin1}, il vient :
 
 $$f_1(i, \delta, \dot{\delta}, U_d) \approx
     -\frac{R}{L_n} \cdot (i-i_n)
@@ -402,7 +402,7 @@ Avec :
     \label{eq:DerivePart8}
 \end{equation}
 
-En injectant les expressions \ref{eq:DeltaDef2} à \ref{eq:DerivePart8} dans la relation \ref{eq:f2Lin1}, on obtient :
+En injectant les expressions \ref{eq:DeltaDef2} à l'\autoref{eq:DerivePart8} dans l'\autoref{eq:f2Lin1}, on obtient :
 
 $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
     -\frac{i_n\cdot L_n}{m \cdot\delta_n}\cdot(i-i_n)
@@ -423,11 +423,11 @@ $$    f_2(i, \delta) = \frac{d^2\delta}{dt^2} \approx
 
 \section{La régulation de courant}
 
-La régulation de courant est synthétisée au moyen d'un régulateur PI. Le schéma bloc de la figure \ref{fig:SchemaBlocRegCur} représente cette architecture :
+La régulation de courant est synthétisée au moyen d'un régulateur PI. Le schéma bloc de la \autoref{fig:SchemaBlocRegCur} représente cette architecture :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/RegulCourBloc.png}
+    \includegraphics[width=0.75\linewidth]{assets/content/04-RegulationDepart/RegulCourBloc.png}
     \caption{Schéma bloc de la régulation de courant par un PI}
     \label{fig:SchemaBlocRegCur}
 \end{figure}
@@ -477,7 +477,7 @@ Une simulation a été réalisée par Laucella \cite{Laucella}, prouvant l'effic
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/Chap4/ModélisationDeSimplification.png}
+    \includegraphics[width=0.75\linewidth]{assets/content/04-RegulationDepart/ModelisationDeSimplification.png}
     \caption{Vérification de la simplification de l'accélération \cite{Laucella}}
 \end{figure}
 
@@ -499,7 +499,7 @@ $$    \frac{d^2i}{dt^2} = -\frac{R}{L_n} \cdot \frac{di}{dt} - \frac{i_n}{\delta
     \label{eq:FinalEq1}
 \end{equation}
 
-En appliquant la transformée de Laplace à l'équation \ref{eq:FinalEq1}, la fonction de transfert correspondante est déterminée :
+En appliquant la transformée de Laplace à l'\autoref{eq:FinalEq1}, la fonction de transfert correspondante est déterminée :
 
 $$ s^2\cdot I(s) = -\frac{R}{L_n} \cdot s\cdot I(s) - \frac{i_n^2\cdot L_n}{m \cdot\delta_n^2}\cdot I(s) + \frac{1}{L_n}\cdot s\cdot U_d(s) $$
 
@@ -541,11 +541,11 @@ Avec :
     \end{aligned} \right.
 \end{equation*}
 
-Une comparaison a alors été réalisée par Laucella \cite{Laucella}, donnant ainsi la figure \ref{fig:CompSimpleBrute} :
+Une comparaison a alors été réalisée par Laucella \cite{Laucella}, donnant ainsi la \autoref{fig:CompSimpleBrute} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/CompSimpleEtBrute.png}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/CompSimpleEtBrute.png}
     \caption{Comparaison entre l'équation simplifiée et l'équation brute \cite{Laucella}}
     \label{fig:CompSimpleBrute}
 \end{figure}
@@ -588,11 +588,11 @@ Une fois cette fonction implémentée dans Matlab, le diagramme de Bode peut êt
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Bode.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/Bode.pdf}
     \caption{Diagramme de Bode du système à régler}
 \end{figure}
 
-La fonction de transfert du régulateur est donnée par l'équation \ref{eq:PI} :
+La fonction de transfert du régulateur est donnée par l'\autoref{eq:PI} :
 
 \begin{equation}
     G_{ci} = K_{pi}\cdot\frac{1+s\cdot\tau_{ii}}{s\cdot\tau_{ii}}
@@ -615,25 +615,25 @@ La constante de temps se définit comme le produit de la somme des petites const
     \tau_{ii} = N \cdot\sum\tau_{pct} = N \cdot \left(\tau_{cm} + \tau_{mi}\right) = N \cdot \left(40 + 6.4\right)\cdot 10^{-6} = N \cdot 46.4\cdot 10^{-6}
 \end{equation}
 
-Afin de déterminer une valeur adéquate pour $N$, une analyse paramétrique a été effectuée pour des valeurs de $N$ comprises entre 5 et 15. La bande passante et l'erreur ont été évaluées pour établir un compromis optimal entre la précision statique et la rapidité du système. Les résultats sont observables de la figure \ref{fig:DiffN} à la figure \ref{fig:Erreur} :
+Afin de déterminer une valeur adéquate pour $N$, une analyse paramétrique a été effectuée pour des valeurs de $N$ comprises entre 5 et 15. La bande passante et l'erreur ont été évaluées pour établir un compromis optimal entre la précision statique et la rapidité du système. Les résultats sont observables de la \autoref{fig:DiffN} à la \autoref{fig:Erreur} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/DiffN.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/DiffN.pdf}
     \caption{Réponse fréquentielle du système réglé pour différentes valeurs de $N$}
     \label{fig:DiffN}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/BP.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/BP.pdf}
     \caption{Évolution de la bande passante en fonction de $N$}
     \label{fig:BP}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Error.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/Error.pdf}
     \caption{Évolution de l'erreur en fonction de $N$}
     \label{fig:Erreur}
 \end{figure}
@@ -648,7 +648,7 @@ Le choix de Laucella \cite{Laucella} s'est alors porté sur $N=10$, ce qui condu
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/KpiSearch.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/KpiSearch.pdf}
     \caption{Détermination du gain $K_{pi}$ pour une marge de phase de 45°}
 \end{figure}
 
@@ -658,7 +658,7 @@ La validation du comportement global est effectuée par l'application d'un saut 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Gibf.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/Gibf.pdf}
     \caption{Réponse fréquentielle en boucle fermée}
 \end{figure}
 
@@ -666,17 +666,17 @@ La réponse indicielle de la boucle fermée présente le profil suivant :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/SautLin.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/SautLin.pdf}
     \caption{Réponse indicielle de la régulation de courant}
 \end{figure}
 
 Les performances de la boucle de courant sont ainsi validées.\\
 
-Enfin, une approximation de ce système par un modèle du premier ordre est réalisée afin de simplifier la future synthèse de la régulation de position. La constante de temps équivalente en boucle fermée est évaluée à la pulsation correspondant à un déphasage de -45°, comme l'illustre la figure \ref{fig:BFPI} :
+Enfin, une approximation de ce système par un modèle du premier ordre est réalisée afin de simplifier la future synthèse de la régulation de position. La constante de temps équivalente en boucle fermée est évaluée à la pulsation correspondant à un déphasage de -45°, comme l'illustre la \autoref{fig:BFPI} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/TibfSearch.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/TibfSearch.pdf}
     \caption{Identification de la constante de temps de la boucle fermée}
     \label{fig:BFPI}
 \end{figure}
@@ -688,11 +688,11 @@ La constante de temps de la boucle fermée $\tau_{iBF}$ obtenue est de 78.32~$\m
     \label{eq:GiBF}
 \end{equation}
 
-Cette équation peut alors être tracée afin d'observer son allure, représentée sur la figure \ref{fig:Approx} :
+Cette équation peut alors être tracée afin d'observer son allure, représentée sur la \autoref{fig:Approx} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/Approx.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPI/Approx.pdf}
     \caption{Diagramme de Bode de l'approximation de la boucle fermée}
     \label{fig:Approx}
 \end{figure}
@@ -706,22 +706,22 @@ Pour résumer, les valeurs obtenues sont les suivantes :
 Cette analyse s'avère cependant erronée. Cette erreur est traitée dans la \autoref{subsec:RegPIError}.
 
 \section{La régulation de position}
-La régulation de position est réalisée au moyen d'un retour d'état. Le schéma bloc de cette régulation est défini dans les travaux de Zayadine \cite{Zayadine}, tel que présenté sur la figure \ref{fig:RegPosBloc} :
+La régulation de position est réalisée au moyen d'un retour d'état. Le schéma bloc de cette régulation est défini dans les travaux de Zayadine \cite{Zayadine}, tel que présenté sur la \autoref{fig:RegPosBloc} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/SchemaMethBuler.png}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/SchemaMethBuler.png}
     \caption{Schéma bloc de la régulation de position par méthode d'état \cite{Zayadine}}
     \label{fig:RegPosBloc}
 \end{figure}
 
-Comme l'illustre la figure \ref{fig:RegPosBloc}, quatre paramètres doivent être dimensionnés : le vecteur de gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
+Comme l'illustre la \autoref{fig:RegPosBloc}, quatre paramètres doivent être dimensionnés : le vecteur de gain de retour d'état $k_s^T$, le coefficient $k_w$, le coefficient $k_R$ et le coefficient $k_v$.
 
 Les travaux précédents ont pris la décision de regrouper certains éléments (filtre coupe-bande, filtre de Savitzky-Golay, retard du capteur de position et approximation de la boucle fermée de courant) en un seul bloc représentant le retard. Cette approche se base sur la méthode de H.~Bühler, présentée dans les travaux de Zayadine \cite{Zayadine}. Ce bloc, désigné par $G_{pct}$, est obtenu en sommant les petites constantes de temps de la régulation de position. Cela inclut la constante de temps de la commande de position $\tau_{m\delta}$, la constante de temps de la régulation de courant en boucle fermée $\tau_{iBF}$, le filtre de Savitzky-Golay caractérisé par $\tau_{vf2}$ et le filtre coupe-bande $\tau_{F_C}$. Ces deux filtres sont modélisés comme de simples retards dans le but de simplifier grandement leur influence dans la synthèse de la régulation de position.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBloc.png}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPosBloc.png}
     \caption{Mise en commun des retards}
     \label{fig:MiseCommunRetard}
 \end{figure}
@@ -739,18 +739,18 @@ Les travaux de Yersin \cite{Yersin} permettent d'extraire les valeurs suivantes 
     \tau_{m\delta} = 144.7 \text{ $\mu$s}\quad\tau_{vf2} = 65 \text{ $\mu$s}\quad\tau_{F_C} = 3.98 \text{ ms}
 \end{equation}
 
-En substituant ces valeurs dans l'équation \ref{eq:Gpct1}, l'expression devient :
+En substituant ces valeurs dans l'\autoref{eq:Gpct1}, l'expression devient :
 
 \begin{equation}
     G_{pct} = \frac{1}{1 + s \cdot \left( 78.3 + 144.7 + 65 + 3980 \right)\cdot 10^{-6}} = \frac{1}{1 + s \cdot 4.27\cdot 10^{-3}}
     \label{eq:Gpct1_val}
 \end{equation}
 
-En insérant le bloc $G_{pct}$ dans le schéma bloc, celui-ci se simplifie et est repésenté par la figure \ref{fig:RegPosBlocSimple} :
+En insérant le bloc $G_{pct}$ dans le schéma bloc, celui-ci se simplifie et est repésenté par la \autoref{fig:RegPosBlocSimple} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPosBlocSimple.png}
+    \includegraphics[width=1\linewidth]{assets/content/04-RegulationDepart/RegPosBlocSimple.png}
     \caption{Schéma bloc de la régulation de position simplifiée}
     \label{fig:RegPosBlocSimple}
 \end{figure}
@@ -758,14 +758,14 @@ En insérant le bloc $G_{pct}$ dans le schéma bloc, celui-ci se simplifie et es
 L'établissement de la représentation d'état du système peut alors être abordé.
 
 \subsection{Définition de l'espace d'état}
-L'analyse des schémas blocs (figures \ref{fig:RegPosBloc} à \ref{fig:RegPosBlocSimple}) met en évidence que la dynamique principale est régie par la loi de Newton, formulée dans l'équation \ref{eq:Newton1}. Pour rappel :
+L'analyse des schémas blocs (de la \autoref{fig:RegPosBloc} à la \autoref{fig:RegPosBlocSimple}) met en évidence que la dynamique principale est régie par la loi de Newton, formulée dans l'\autoref{eq:Newton1}. Pour rappel :
 
 \begin{equation}
     m \cdot \ddot{\delta} =\sum F = F_p - F_{el} = m \cdot g - F_{el}
     \tag{\ref{eq:Newton1}}
 \end{equation}
 
-La première étape consiste à définir un vecteur d'état intégrant la position et la vitesse du système, conformément à la figure \ref{fig:RegPosBlocSimple} :
+La première étape consiste à définir un vecteur d'état intégrant la position et la vitesse du système, conformément à la \autoref{fig:RegPosBlocSimple} :
 
 \begin{equation}
     x_s =\left[\begin{matrix} \delta \\ \dot{\delta} \end{matrix}\right]
@@ -793,14 +793,14 @@ Les matrices d'état correspondantes sont :
     A_s = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} \quad B_s = \begin{bmatrix} 0 \\ -\frac{1}{m} \end{bmatrix}\quad B_{sv} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
 \end{equation}
 
-L'équation d'observation de la sortie est définie par l'équation \ref{eq:Sortie1} :
+L'équation d'observation de la sortie est définie par l'\autoref{eq:Sortie1} :
 
 \begin{equation}
     y = C_s \cdot x_s + D_s \cdot F_{el} + D_{sv} \cdot g
     \label{eq:Sortie1}
 \end{equation}
 
-La sortie du système étant exclusivement la position (voir figure \ref{fig:RegPosBlocSimple}), les matrices d'observation s'écrivent :
+La sortie du système étant exclusivement la position (voir la \autoref{fig:RegPosBlocSimple}), les matrices d'observation s'écrivent :
 
 \begin{equation}
     C_s = \begin{bmatrix} 1 & 0 \end{bmatrix} \quad D_s =  0 \quad D_{sv} =  0
@@ -824,7 +824,7 @@ La dynamique de ce vecteur global est décrite par la relation :
     \dot{x} = A \cdot x + B \cdot F_c + B_w \cdot \delta_c + B_v \cdot g
 \end{equation}
 
-Il est nécessaire d'établir les expressions des dérivées de $x_{em}$, $\delta$, $\dot{\delta}$ et $x_r$ en se basant sur le schéma de la figure \ref{fig:RegPosBloc}.\\
+Il est nécessaire d'établir les expressions des dérivées de $x_{em}$, $\delta$, $\dot{\delta}$ et $x_r$ en se basant sur le schéma de la \autoref{fig:RegPosBloc}.\\
 
 La variable $x_{em}$ se déduit de la fonction de transfert $G_{m\delta}$ :
 
@@ -842,7 +842,7 @@ L'état $x_{em}$ correspondant physiquement à $F_{el}$, l'équation de l'accél
     \ddot{\delta} = g - F_{el} \cdot \frac{1}{m} = g - x_{em} \cdot \frac{1}{m}
 \end{equation}
 
-D'après la figure \ref{fig:RegPosBloc}, l'état de l'intégrateur $x_r$ est régi par :
+D'après la \autoref{fig:RegPosBloc}, l'état de l'intégrateur $x_r$ est régi par :
 
 \begin{equation}
     x_r = \frac{1}{s \cdot T_i} \cdot (\delta_c - \delta) \Rightarrow \dot{x}_r = \frac{1}{T_i} \cdot \delta_c - \frac{1}{T_i} \cdot \delta

@@ -25,13 +25,13 @@ Cette omission modifie significativement le comportement du système à régler.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/RegPiCorrigé/BodeGaiFaux.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeGaiFaux.png}
     \caption{Système à régler sans la constante multiplicative $K_{ui}$}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/RegPiCorrigé/BodeGaiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeGaiVrai.png}
     \caption{Système à régler avec la constante multiplicative $K_{ui}$}
 \end{figure}
 
@@ -53,18 +53,18 @@ Une comparaison des paramètres du système synthétisé avec et sans la prise e
     \label{tab:comparatif_kui}
 \end{table}
 
-L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifiée. L'introduction d'une constante n'exerce aucune influence sur la phase du système, son déphasage propre étant nul. Ce comportement est confirmé par les figures \ref{fig:BodeKpiFaux} et \ref{fig:BodeKpiVrai} :
+L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifiée. L'introduction d'une constante n'exerce aucune influence sur la phase du système, son déphasage propre étant nul. Ce comportement est confirmé par la \autoref{fig:BodeKpiFaux} et la \autoref{fig:BodeKpiVrai} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/RegPiCorrigé/BodeKpiFaux.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiFaux.png}
     \caption{Identification du gain $K_{pi}$ sans la constante multiplicative}
     \label{fig:BodeKpiFaux}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/Chap4/RegPI/RegPiCorrigé/BodeKpiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
     \caption{Identification du gain $K_{pi}$ avec la constante multiplicative}
     \label{fig:BodeKpiVrai}
 \end{figure}
