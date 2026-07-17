@@ -5,6 +5,42 @@ Ce chapitre vient traiter les modifications sur la régulation de courant ainsi 
 
 \section{Analyse de la régulation de courant}
 
+\subsection{Changement des valeurs d'inductances}
+La régulation dépend directement de la valeur de l'inductance et de la résistance comme définit dans l'équation du système a régler. Pour rappel, l'équation de $G_{ui}$ est décrite comme tellle :
+
+\begin{equation}
+    G_{ui}(s) = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
+\end{equation}
+
+Avec :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & K_{ui} = \frac{m}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2                     \\
+         & a_1 = \frac{m\cdot R}{L_n^2}\cdot \left(\frac{\delta_n}{i_n} \right)^2                 \\
+         & a_2 = \frac{m}{L_n}\cdot\left(\frac{\delta_n}{i_n^2}\right)^2 = \frac{L_n}{R}\cdot a_1
+    \end{aligned} \right.
+\end{equation*}
+
+En reprenant les résultats obtenues dans la \autoref{}, les choix des inducteurs et de résistances sont les suivantes :
+
+
+
+Dès lors, les huits valeurs d'inductances et de résistances ont été implémenter dans le matlab réaliser par Yersin \cite{Yersin} comme suit :
+
+\begin{minted}{matlab}
+    R1      = 1.172409;                    % résistance de la bobine 1
+    R2      = 1.365961;                    % résistance de la bobine 2
+    R3      = 1.228376;                    % résistance de la bobine 3
+    R4      = 1.336800;                    % résistance de la bobine 4
+    L_n1    = 7.741565e-3;                 % inductance nominale 1
+    L_n2    = 8.647352e-3;                 % inductance nominale 2
+    L_n3    = 7.699234e-3;                 % inductance nominale 3
+    L_n4    = 7.749885e-3;                 % inductance nominale 4
+\end{minted}
+
+
+
 \subsection{Erreur}
 \label{subsec:RegPIError}
 Lors d'une analyse de la régulation de courant, une erreur majeure fut découverte. Le système à régler n'est pas correctement synthétiser. En effet la constante $K_{ui}$ fut oublier d'être multiplier comme le démontre ce code :
@@ -21,12 +57,6 @@ den     = [a2 a1 1];
 Gui     = tf(num,den); % Manque Kui
 \end{minted}
 
-Pour rappel, l'équation de $G_{ui}$ est décrite comme tellle :
-
-\begin{equation}
-    G_{ui}(s) = \frac{I(s)}{U_d(s)} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
-\end{equation}
-
 Cette omission modifie significativement le comportement du système à régler. Les courbes montrent que le gain initial réel débute à environ -40~dB et non à 0~dB :
 
 \begin{figure}[H]
@@ -41,10 +71,7 @@ Cette omission modifie significativement le comportement du système à régler.
     \caption{Système à régler avec la constante multiplicative $K_{ui}$}
 \end{figure}
 
-La suite de l'étude se concentre exclusivement sur le modèle corrigé intégrant la constante $K_{ui}$.\\
-
-
-Une comparaison des paramètres du système synthétisé avec et sans la prise en compte de la constante $K_{ui}$ est présentée ci-dessous.
+Lors de la meme synthèse que précédement (voir \autoref{sec:RegCourPrec}), il est possiblde de réaliser une comparaison des paramètres avec et sans la prise en compte de la constante $K_{ui}$ :
 
 \begin{table}[H]
     \centering
@@ -75,9 +102,27 @@ L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifi
     \label{fig:BodeKpiVrai}
 \end{figure}
 
-Lors de l'implémentation expérimentale, l'introduction de la valeur théorique de 90,96 engendre un plaquage franc de la maquette contre le rail de guidage. Ce phénomène s'explique par le fait que l'étage de puissance a été initialement dimensionné pour le gain inférieur (de l'ordre de 1,89). Avec un gain de 90, une faible erreur statique génère immédiatement une commande en tension saturée. Bien que les limites matérielles du système saturent physiquement la commande à 48~V et 3,5~A, la dynamique excessive requise par ce gain élevé déstabilise le comportement. Les essais physiques mettent en évidence un fonctionnement plus stable pour un gain $K_{pi}$ proche de 1,88.
+Lors de l'implémentation expérimentale, l'introduction de la valeur théorique de 90,96 engendre un plaquage franc de la maquette contre le rail de guidage. Ce phénomène s'explique par le fait que l'étage de puissance a été initialement dimensionné pour le gain inférieur (de l'ordre de 1,89). Avec un gain de 90, une faible erreur statique génère immédiatement une commande en tension saturée. Bien que les limites matérielles du système saturent physiquement la commande à 48~V et 3,5~A, la dynamique excessive requise par ce gain élevé déstabilise le comportement. Les essais physiques mettent en évidence un fonctionnement plus stable pour un gain $K_{pi}$ proche de 1,88. Il est néscessaire de chercher une valeur de $K_{pi}$ fixe convenant au système. Cela aura un impacte dès lors sur l'approximation de la boucle fermé qui n'atteignant jamais la marge de phase désiré sera beaucoup plus lente que prévue.
 
-Il est donc nécessaire d'ajuster expérimentalement ce paramètre dans le code source afin de trouver un compromis offrant une dynamique rapide sans saturer l'actionneur.
+Il a été alors décidé de fixer la valeur de Kpi à 2 pour chaque inducteur. Cette valeur fut prise en essayant de multiple valeur avec le système en marche. Une fois cette valeur définit il est alors néscessaire d'analyser le système en boucle fermé en réalisant un saut indicielle démontré dans la \autoref{fig:SautInd2}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
+    \caption{Saut indicielle avec $K_{pi}$ fixé à 2}
+    \label{fig:SautInd2}
+\end{figure}
+
+Afin de diminuer l'erreur et en se basant sur la \autoref{fig:Erreur}, un $N$ valant 7 fut pris. Avec cette nouvelle valeur, le saut indicielle devient :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
+    \caption{Saut indicielle avec $N$ fixé à 7}
+    \label{fig:SautInd3}
+\end{figure}
+
+L'erreur est bel est bien descendu. Il est dès alors possible de rechercher la nouvelle valeur de $\tau_{iBF}$.
 
 \red{Dire que j'ai choisi N = 7 et Kpi a 2 et donner les résultat de tau\_ibf. J'ai choisi cette valeur en essayant plusieurs valeurs. Dire que forcément le choix donnera un tau\_ibf beaucoup plus}
 
