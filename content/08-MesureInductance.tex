@@ -1,15 +1,66 @@
 \chapter{Mesure des inductances}
 
 \section{Introduction}
+La mesure démontré tente de redéfinir la valeur de l'inductance. Celle-ci considérer comme erroné par les mesures précédente, elle fut mesuréer au moyen d'un RLC-mètre.
 
 \section{Protocole de mesure}
+Afin de réaliser la mesure, les éléments suivant sont néscessaires :
 
+\begin{itemize}
+    \item Des cales de 1mm, 1.5mm,2mm et 3mm. Chaque fois 4 d'entre elle.
+    \item Un RLC-mètre
+\end{itemize}
+
+La mesure se réalise en plaçant les cales entre la partie lévitante et le profilé. Le RLC-mètre vient se brancher directer sur les bornes des inductances.
+
+\red{Important !} Il ne faut surtout pas alimenter la maquette lors de la mesure des inductances. Cela viendrait a endommager l'appareil de mesure.
 
 \section{Mesure des inductances}
+La plage de mesure commence de $20~Hz$ jusqu'à $25~kHz$. Les mesures sont représenté par les figures \ref{fig:MesInd1} à \ref{fig:MesInd4}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/shared/Result_Freyche_Capa.png}
+    \caption{Évolution de la tension de charge des condensateurs selon le rapport de Thomas Freyche \cite{Freyche}}
+    \label{fig:MesInd1}
+\end{figure}
 
 \subsection{Analyse des mesures}
 Il se peut que le noyou ou le rail n'est pas en fer mais d'une autre matière proche ayant une permetiveté du matériaux différent.
 
 \subsection{Choix des inductances et des résistances}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l ccc ccc cc}
+        \toprule
+        \textbf{Entrefer} & \textbf{Rs1}        & \textbf{Ls1}  & \textbf{Rs2}        & \textbf{Ls2}  & \textbf{Rs3}        & \textbf{Ls3}  & \textbf{Rs4}        & \textbf{Ls4}  \\
+        \textbf{[mm]}     & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} \\
+        \midrule
+        0                 & 7.24                & 21.44         & 11.37               & 26.06         & 8.04                & 21.48         & 8.62                & 23.06         \\
+        0.5               & 2.82                & 13.57         & 6.85                & 20.99         & 3.42                & 14.49         & 3.02                & 13.75         \\
+        1                 & 1.71                & 10.12         & 2.58                & 12.86         & 1.82                & 10.15         & 1.76                & 9.96          \\
+        1.5               & 1.34                & 8.60          & 1.68                & 9.99          & 1.39                & 8.49          & 1.45                & 8.62          \\
+        2                 & 1.17                & 7.74          & 1.37                & 8.65          & 1.23                & 7.70          & 1.34                & 7.75          \\
+        3                 & 0.97                & 6.49          & 1.06                & 6.93          & 1.02                & 6.42          & 1.15                & 6.55          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Paramètres électriques en fonction de l'entrefer}
+    \label{tab:mesures_entrefer}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l ccc ccc cc}
+        \toprule
+        \textbf{Entrefer} & \textbf{Rs1}        & \textbf{Ls1}  & \textbf{Rs2}        & \textbf{Ls2}  & \textbf{Rs3}        & \textbf{Ls3}  & \textbf{Rs4}        & \textbf{Ls4}  \\
+        \textbf{[mm]}     & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} & \textbf{($\Omega$)} & \textbf{(mH)} \\
+        \midrule
+        2                 & 1.17                & 7.74          & 1.37                & 8.65          & 1.23                & 7.70          & 1.34                & 7.75          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Valeur retenue pour un entrefer de 2 mm}
+    \label{tab:mesures_2mm}
+\end{table}
 
 \section{Conclusion}
