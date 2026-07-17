@@ -21,6 +21,7 @@ Ce fichier centralise l'ensemble de la logique de commande, particulièrement la
 \end{itemize}
 
 \section{Algorithme du code principal}
+\label{sec:Algo}
 Actuellement, l'algorithme du programme principal respecte l'organigramme suivant :
 
 \begin{figure}[H]
@@ -223,8 +224,8 @@ Les coefficients paramétrés sont les suivants :
 #define B0_B2_6         0.98881627456080789517756
 \end{minted}
 
-\subsection{La fonction \texttt{SendFloatToText}}
-La fonction \texttt{SendFloatToText} est la fonction permettant la transmission des données des positions sur l'interface web. La fonction est la suivante :
+\subsection{La fonction \texttt{SendFloatAsText}}
+La fonction \texttt{SendFloatAsText} est la fonction permettant la transmission des données des positions sur l'interface web. La fonction est la suivante :
 
 \begin{minted}{c}
     void SendFloatAsText(float f0, float f1, float f2, float f3)
@@ -260,4 +261,68 @@ La fonction \texttt{SendFloatToText} est la fonction permettant la transmission 
     }
 \end{minted}
 
-\subsection{Les intéruptions}
+Cette fonction récupère 4 variables puis les envoies a l'esp32 qui s'occupe de l'affichage.
+
+\section{Les intéruptions}
+Le programme possède plusieurs interruptions. La principale s'occupe de réaliser l'algorithme principale celle-ci se dénomme \texttt{adcA1ISR}. Cette interruption correspond donc à l'algorithme de base décrite dans \autoref{sec:Algo}.
+
+Les deux autres interruptions sont employé pour la communication en UART entre la carte d'évaluation et l'ESP32. La transmission est permet comme expliquer avant, d'envoyer les données à l'ESP32. Celle-ci se dércit comme suit :
+
+\begin{minted}{c}
+    // --- UART Transmit (TX) ---
+    __interrupt void INT_mySCI0_TX_ISR(void)
+    {
+        while (SCI_getTxFIFOStatus(SCIA_BASE) < SCI_FIFO_TX16 && txIndex < txLength)
+        {
+            SCI_writeCharBlockingFIFO(SCIA_BASE, txBuffer[txIndex++]);
+        }
+
+        if (txIndex >= txLength)
+        {
+            SCI_disableInterrupt(mySCI0_BASE, SCI_INT_TXFF); // Fin d'envoi
+        }
+
+        SCI_clearOverflowStatus(SCIA_BASE);
+        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_TXFF);
+        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
+    }
+\end{minted}
+
+La réception est principalement employé pour recevoir l'activation ou non du système. La maquette peut être activé à distance depuis l'interface web. L'interruption de la réception est dérite comme suit :
+
+\begin{minted}{c}
+    // --- UART Receive (RX) ---
+    __interrupt void INT_mySCI0_RX_ISR(void)
+    {
+        uint16_t c;
+        int b;
+
+        while (SCI_getRxFIFOStatus(SCIA_BASE) > 0)
+        {
+            c = SCI_readCharBlockingFIFO(SCIA_BASE);
+            if (rxIndex < RX_BUF_LEN) {
+                rxBuffer[rxIndex++] = c;
+            }
+
+            if(c == '\x02'){
+                dataIndex = rxIndex; // Début de trame
+            }
+
+            if(c == '\x03'){ // Fin de trame
+                if(dataIndex > 0 && dataIndex < rxIndex - 1) {
+                    // Utilisation d'une évaluation booléenne directe !
+                    state_PIN = (rxBuffer[dataIndex] == '1');
+                }
+                // Reset du buffer
+                rxIndex = 0;
+                for(b = 0; b < RX_BUF_LEN; b++) {
+                    rxBuffer[b] = 0;
+                }
+            }
+        }
+
+        SCI_clearOverflowStatus(SCIA_BASE);
+        SCI_clearInterruptStatus(SCIA_BASE, SCI_INT_RXFF);
+        Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);
+    }
+\end{minted}
