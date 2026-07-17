@@ -309,7 +309,25 @@ Avec 7 la plaque en bois, 8 la carte principale et 9 les cartes de puissances.
 
 La calibration a été réalisée à une même hauteur en suivant les étapes décrites dans l'\autoref{sec:CalibrationCaptPosManuel}.
 
-Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1.5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2.5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1.5~mm.
+Les mesures ont été réalisées à l'aide de cales de différentes épaisseurs (1~mm, 1.5~mm, 2~mm et 3~mm). Ces éléments permettaient de surélever la partie mobile et, ainsi, de réduire l'entrefer des bobines. Dans les relevés, un entrefer de 3~mm correspond à la position de repos théorique du chariot. Lorsqu'une cale de 2.5~mm est mentionnée, cela correspond à la superposition d'une cale de 1~mm et d'une cale de 1.5~mm. La correspondance cale et entrefer est la suivante :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cc}
+        \toprule
+        \textbf{Calles [mm]} & \textbf{Entrefer [mm]} \\
+        \midrule
+        0                    & 3                      \\
+        1                    & 2                      \\
+        1.5                  & 1.5                    \\
+        2                    & 1                      \\
+        2.5                  & 0.5                    \\
+        3                    & 0                      \\
+        \bottomrule
+    \end{tabular}
+    \caption{Relation entre les calles et l'entrefer}
+    \label{tab:calles_entrefer}
+\end{table}
 
 Les mesures sont réalisé en affichant la valeur de l'adc filtré sur l'interface web.
 
