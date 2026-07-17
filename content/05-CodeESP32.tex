@@ -5,6 +5,7 @@
 Le microcontrôleur ESP32 est chargé de gérer la communication avec le DSP ainsi que d'héberger l'interface web. Cette section détaille les différents éléments logiciels qui le composent.
 
 \section{Mise en place}
+\label{sec:MiseEnPlaceESP}
 \subsection{Configuration de l'Arduino IDE}
 Afin de programmer l'ESP-32, l'Arduino IDE a été employer afin de réaliser cela. Pour une utilisation optimum, les réglages suivants doivent être fait.\\
 
@@ -43,6 +44,8 @@ Une fois cela fait, il faut sélectionné la bonne carte. Celle qui nous intére
   \caption{Étapes à réaliser pour la sélection de la carte}
 \end{figure}
 
+Par la suite il est néscessaire de définir certains points
+
 \begin{enumerate}
   \item ESP32S2 Dev Module
   \item USB CDC On Boot Enable
@@ -65,9 +68,9 @@ Afin de se connecter à l'interface, il est néscessaire de se connecter au WIFI
   \item Lien du site web : 192.168.4.1
 \end{itemize}
 
-Une fois cela réaliser, il est dès alors possible d'intéragir avec le site web.\\
+Une fois cela réalisé, il est dès alors possible d'intéragir avec le site web.\\
 
-Actuellement un problème subsiste avec la connexion à la page web. Il arrive qu'au départ le site charge à l'infinie. Pour palier à cela, la méthode trouvé fut de se déconnecter du réseaux de l'esp puis s'y reconnecter après quelque seconde. Ce problème est cependant à régler.
+% Actuellement un problème subsiste avec la connexion à la page web. Il arrive qu'au départ le site charge à l'infinie. Pour palier à cela, la méthode trouvé fut de se déconnecter du réseaux de l'esp puis s'y reconnecter après quelque seconde. Ce problème est cependant à régler.
 
 \section{Code Arduino}
 Le code Arduino est un programme concis regroupant de nombreuses fonctions dédiées à la communication ainsi qu'à l'affichage de l'interface web.\\
