@@ -46,10 +46,7 @@ La plage de mesure commence de $20~Hz$ jusqu'à $25~kHz$. Les mesures sont repr�
     \label{fig:MesInd4}
 \end{figure}
 
-\subsection{Analyse des mesures}
-Il se peut que le noyou ou le rail n'est pas en fer mais d'une autre matière proche ayant une permetiveté du matériaux différent.
-
-\subsection{Choix des inductances et des résistances}
+Il faut dès a présent choisir une fréquence afin d'y récupérer les valeurs de la bobine. Le résultat souhaité doit se trouver en basse fréquence. Car au vue de la bobine, le courant transmis par PWM est similaire a celui d'une tension DC. Mais il ne faut pas non plus prendre trop bas afin de pas avoir les bruits parasites venant du RLC-mètre. De ce fait, les valeurs a une fréquence de $120~Hz$ fut sélectionné. Ceci donne les valeurs suivantes :
 
 \begin{table}[H]
     \centering
@@ -70,6 +67,13 @@ Il se peut que le noyou ou le rail n'est pas en fer mais d'une autre matière pr
     \label{tab:mesures_entrefer}
 \end{table}
 
+\subsection{Analyse des mesures}
+Comme observé, les inductances sont effectivement plus élevé. Les valeurs observé sont souvent plus proche du double de la valeur théorique de $4.9~mH$.
+
+Ces valeurs peuvent s'expliquer par le fait que la surface de l'entrefer est en réalité bien plus grande que prévue dû au effet de bord du champ magnétique. Les calculs on une nouvelle fois étét réaliser en prenant en compte la reluctance du fer dans le calcul de l'inductance. Cependant ces calculs ne donnèrent pas plus de preuve sur la raison derrière la valeur double.
+
+Il en va que les valeurs de mesures seront dès alors employé pour réaliser la régulation de courant ainsi que pour la méthode inverse. Celle retenues sont dès lors celle du point nominal à 2mm d'entrefer. Ces valeurs sont dès alors représenter dans le \autoref{tab:mesures_2mm}
+
 \begin{table}[H]
     \centering
     \begin{tabular}{l ccc ccc cc}
@@ -85,3 +89,4 @@ Il se peut que le noyou ou le rail n'est pas en fer mais d'une autre matière pr
 \end{table}
 
 \section{Conclusion}
+La mesure fut très interessantes démontrant effectivement que les valeurs d'inductances sont effectivement supérieur a celle calculé. Il sera dès alors possible d'employer ces valeurs afin d'améliorer l'état actuelle de la maquette.
