@@ -16,29 +16,29 @@ La mise en service de la maquette s'effectue selon la procédure séquentielle s
 
 \section{Calibration des capteurs de position}
 \label{sec:CalibrationCaptPosManuel}
-Les capteurs de position disposent d’une calibration appelée « Teach-in ». De plus amples détails sur cette méthode sont présentés dans l’annexe \cite{CaptPosition}.
+Les capteurs de position disposent d’une calibration appelée « Teach-in ». De plus amples détails sur cette méthode sont présentés dans la documentation technique du capteur \cite{CaptPosition}.
 
 Les étapes pour réaliser une calibration selon la méthode « Teach-in » sont les suivantes :
 
 \begin{enumerate}
     \item Presser la touche. La LED rouge s’allume lorsque l’apprentissage du détecteur est encore possible.
 
-    \item Presser la touche pendant 5 secondes jusqu’à ce que la LED rouge commence à clignoter.
+    \item Presser la touche pendant 5~secondes jusqu’à ce que la LED rouge commence à clignoter.
 
     \item Relâcher la touche.
 
-    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0 V, respectivement de 4 mA.
+    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0~V, respectivement de 4~mA.
 
-    \item Presser brièvement la touche. La LED rouge s’allume pendant 3 secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
+    \item Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
 
-    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10 V, respectivement de 20 mA. Presser brièvement la touche. La LED rouge s’allume pendant 3 secondes comme confirmation. Ensuite, elle s’éteint pour clignoter encore une fois brièvement. Le détecteur est alors de nouveau opérationnel.
+    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10~V, respectivement de 20~mA. Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle s’éteint pour clignoter encore une fois brièvement. Le détecteur est alors de nouveau opérationnel.
 \end{enumerate}
 
 La seconde mesure, correspondant à la distance minimale, doit toutefois être réalisée suffisamment rapidement pour permettre au capteur d’enregistrer cette valeur.
 
-Afin de faciliter la procédure de mesure, un programme dédié exclusivement à la régulation à courant constant a été développé. Ce fichier source est disponible dans le dossier \texttt{CourantConstant}(\red{A faire}).
+Afin de faciliter la procédure de mesure, un programme dédié exclusivement à la régulation à courant constant a été développé. Ce fichier source est disponible dans le dossier \texttt{CourantConstant} (\red{A faire}).
 
-L'exécution de ce code permet de plaquer les électroaimants contre les rails de guidage afin d'établir un entrefer nul ($0\text{ mm}$). La séquence d'étalonnage se déroule selon les étapes suivantes :
+L'exécution de ce code permet de plaquer les électroaimants contre les rails de guidage afin d'établir un entrefer nul (0~mm). La séquence d'étalonnage se déroule selon les étapes suivantes :
 
 \begin{enumerate}
     \item L'activation de la régulation s'effectue par une impulsion sur le bouton-poussoir dédié, ce qui déclenche l'allumage d'une diode électroluminescente (LED) témoin.
@@ -71,7 +71,7 @@ Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'
 
     \item Dans la colonne de gauche, naviguer vers \textit{Code Composer Studio > Products}.
 
-    \item Vérifier la liste "Product discovery path". Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
+    \item Vérifier la liste « Product discovery path ». Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
     \item Cliquer sur le bouton \textit{Refresh}.
 
     \item La bibliothèque C2000Ware doit apparaître dans la liste « Discovered products ». Cliquer alors sur \textit{Install}.
@@ -109,17 +109,90 @@ Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est co
           \end{figure}
 \end{enumerate}
 
-Lorsque le programme final est prêt, il faudra à ce moment-là flasher le code dans la mémoire flash afin que le code reste en "stand alone".
+Lorsque le programme final est prêt, celui-ci doit être écrit dans la mémoire flash afin de permettre un fonctionnement autonome (« stand-alone »).
 
 Il est désormais possible d'utiliser CCS pour la programmation du DSP.
 
-\section{Affichage de l'interface WEB}
-Afin de se connecter à l'interface, il est néscessaire de se connecter au WIFI créer par l'ESP-32. Pour cela, les informations suivantes sont néscessaire pour s'y connecter :
+\section{Mise en place de l'ESP32}
+\label{sec:MiseEnPlaceESP}
+\subsection{Configuration de l'Arduino IDE}
+Afin de programmer l'ESP32, l'Arduino IDE a été employé. Pour une utilisation optimale, les réglages suivants doivent être effectués.\\
+
+La bibliothèque « FastLED.h » de Daniel Garcia doit être installée :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{assets/Chap7/Mise en place/LibInstall.png}
+  \caption{Bibliothèque à installer}
+  \label{fig:LibInstall}
+\end{figure}
+
+Par la suite, le compilateur doit être réglé. Pour commencer, la carte adéquate doit être installée. Pour ce faire, il est nécessaire d'installer, dans le « Boards Manager », le paquet d'Espressif Systems concernant l'ESP32 :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{assets/Chap7/Mise en place/BoardInstall.png}
+  \caption{Carte à installer}
+  \label{fig:BoardInstall}
+\end{figure}
+
+Une fois cela fait, la carte adéquate doit être sélectionnée, soit l'ESP32S2 Dev Module :
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{assets/Chap7/Mise en place/BoardSelect1.png}
+    \caption{Première étape}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{assets/Chap7/Mise en place/BoardSelect2.png}
+    \caption{Deuxième étape}
+  \end{subfigure}
+  \caption{Étapes à réaliser pour la sélection de la carte}
+\end{figure}
+
+Par la suite, certaines options doivent être définies dans l'onglet \texttt{Tools}, comme illustré dans la \autoref{fig:ToolsSettings} :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim = 0 40 0 0, clip, width=1\linewidth]{assets/Chap7/Mise en place/ToolsSettings.png}
+  \caption{Paramètres à définir dans l'onglet \texttt{Tools}}
+  \label{fig:ToolsSettings}
+\end{figure}
+
+Voici la liste des points à définir :
+
+\begin{enumerate}
+  \item USB CDC On Boot : Enable
+  \item Erase All Flash Before Sketch Upload : Enable
+  \item CPU Speed : 240~MHz
+  \item Flash Speed : 80~MHz
+  \item Flash Mode : QIO
+  \item Flash Size : 4~MB
+  \item Partition Scheme : Default
+\end{enumerate}
+
+Il est désormais possible de flasher le code dans l'ESP32. Pour ce faire, il est nécessaire de maintenir le bouton « Boot » enfoncé, puis de presser une fois le bouton « Reset ».
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\linewidth]{assets/Chap7/Mise en place/ESP32_Board.png}
+  \caption{Les deux boutons à presser}
+\end{figure}
+
+Une fois cela fait, le code peut être flashé dans l'ESP32. Si une erreur s'affiche dans le terminal de l'Arduino IDE, cela est normal : la procédure a tout de même fonctionné.
+
+\subsection{Connexion à l'interface web}
+Afin d'accéder à l'interface, il est nécessaire de se connecter au réseau Wi-Fi créé par l'ESP32. Les informations de connexion sont les suivantes :
 
 \begin{itemize}
-    \item Nom du wifi : ESP32-S2-WIFI
-    \item Mot de passe : TFE-TB2025-HEIG
-    \item Lien du site web : 192.168.4.1
+  \item Nom du réseau Wi-Fi : ESP32-S2-WIFI
+  \item Mot de passe : TFE-TB2025-HEIG
+  \item Adresse du site web : 192.168.4.1
 \end{itemize}
+
+Une fois cela réalisé, il est possible d'interagir avec le site web.\\
 
 \clearpage
