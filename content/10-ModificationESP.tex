@@ -1,17 +1,57 @@
-\chapter{Modification apportée au hardware}
-
-Hard
-\begin{enumerate}
-    \item Ajout filtre sur pos
-    \item Modif pont div mes pos et cour
-\end{enumerate}
-
-Soft
-\begin{enumerate}
-    \item Machine Etat
-    \item Conversion courant et pos modif par rapport a
-    \item Structure et propeté du code
-    \item correction de la pos
-\end{enumerate}
+\chapter{Modification apportée au programme de l'ESP32}
 
 \section{Introduction}
+Ce chapitre traite des modifications et amélioration apporté a l'interface web. La correction d'un chargement infini et l'ajout de la mesure du courant furent implémenter.
+
+\section{Analyse de l'espace mémoire}
+Le compilateur de l'environnement Arduino permet d'évaluer l'espace mémoire occupé au sein de l'ESP32. L'issue de la compilation fournit les informations suivantes concernant l'allocation mémoire :
+
+\begin{quote}
+  Le croquis utilise 979768 octets (74\,\%) de l'espace de stockage de programmes. Le maximum est de 1310720 octets.
+
+  Les variables globales utilisent 45324 octets (13\,\%) de mémoire dynamique, ce qui laisse 282356 octets pour les variables locales. Le maximum est de 327680 octets.
+\end{quote}
+
+En ce qui concerne la taille des fichiers sources, le code propre à l'ESP32 représente 9,9~ko, tandis que celui définissant l'interface web occupe 10,6~ko.
+
+La majorité de la mémoire est occupé principalement par les librairies lié au WIFI et du serveur web. Il a tout de meme été possible de réaliser les modifications apporté a l'ESP32.
+
+\section{Modifications sur la page web et la communication}
+
+\subsection*{Améliorations de l'Interface Web et de la Communication}
+
+\subsubsection*{1. Résolution du problème de chargement infini (Serveur Web)}
+Le blocage systématique lors de la connexion initiale à la page web a été résolu par deux interventions logicielles majeures sur l'ESP32 :
+\begin{itemize}
+  \item \textbf{Correction des codes de statut HTTP :} Les fonctions de réponse du serveur (via la méthode \texttt{server.send()}) renvoyaient initialement le code \texttt{250}. Ce code n'étant pas un standard de succès HTTP, les navigateurs web restaient en attente d'une confirmation. Ce code a été remplacé par le code standard \texttt{200} (OK), validant ainsi immédiatement la complétion de la requête.
+  \item \textbf{Désengorgement de la boucle principale (\textit{Main Loop}) :} La lecture ininterrompue du buffer série (\texttt{while (MySerial.available() > 0)}) monopolisait les ressources processeur de l'ESP32 en présence d'un flux de données élevé en provenance du DSP. Une limite logicielle a été introduite (\texttt{bytesToRead = 128}) pour forcer le microcontrôleur à sortir de la boucle de lecture matérielle, libérant ainsi du temps de calcul pour le traitement des requêtes clients WiFi (\texttt{server.handleClient()}).
+\end{itemize}
+
+\subsubsection*{2. Intégration de l'affichage des courants}
+Afin de superviser simultanément la position et le courant des quatre inducteurs, la chaîne de communication globale a été restructurée pour transmettre 8 variables flottantes (au lieu de 4) :
+\begin{itemize}
+  \item \textbf{Côté DSP (\texttt{C2000}) :} La taille du buffer d'émission (\texttt{TX\_BUF\_LEN}) a été augmentée de 64 à 128 octets pour éviter les débordements de mémoire. Le prototype et la définition de la fonction \texttt{SendFloatAsText()} ont été modifiés pour accepter 8 arguments, permettant de concaténer et d'envoyer la trame complète en une seule interruption série.
+  \item \textbf{Côté Microcontrôleur WiFi (\texttt{ESP32-S2}) :} Le buffer de réception (\texttt{UART\_BUFFER}) a été proportionnellement agrandi. La fonction de \textit{parsing} (découpage de la trame via \texttt{strtok}) a été ajustée pour extraire itérativement jusqu'à 8 valeurs. Ces données sont ensuite formatées dans le serveur web en injectant de nouvelles balises XML dédiées (\texttt{<curIndX>}).
+  \item \textbf{Côté Client Web (\texttt{HTML/JS}) :} L'interface a été enrichie d'une nouvelle structure en colonne (DOM). Le script JavaScript asynchrone gérant la communication AJAX a été complété pour extraire les données de courant du flux XML, traiter la conversion des virgules en points, et actualiser dynamiquement l'affichage en temps réel.
+\end{itemize}
+
+\subsubsection*{3. Optimisation pour l'affichage mobile (\textit{Responsive Design})}
+Pour pallier le chevauchement et le débordement des éléments graphiques sur des écrans étroits (smartphones), le code CSS de l'interface a été remanié :
+\begin{itemize}
+  \item \textbf{Restructuration de la mise en page :} Implémentation d'une disposition en boîte flexible (\texttt{flex-wrap: wrap}) sur le conteneur principal pour autoriser le retour à la ligne des éléments si nécessaire.
+  \item \textbf{Requêtes multimédias (\textit{Media Queries}) :} Ajout d'une règle d'adaptation conditionnelle (\texttt{@media (max-width: 600px)}). Cette règle réduit dynamiquement l'espacement inter-colonnes (\texttt{gap}), les marges internes (\texttt{padding}), la taille des polices d'écriture (\texttt{font-size}) et la largeur absolue des cellules d'affichage lorsque la résolution horizontale de l'écran est critique.
+\end{itemize}
+
+\subsubsection*{4. Déploiement d'un graphique dynamique (Oscilloscope virtuel)}
+Afin de faciliter l'analyse du comportement transitoire du système de sustentation, un outil de visualisation temporelle a été ajouté à la page web :
+\begin{itemize}
+  \item \textbf{Technologie autonome :} L'ESP32 générant un réseau local sans accès à Internet, l'utilisation de bibliothèques tierces (comme \textit{Chart.js}) était impossible. Le graphique a été entièrement implémenté en utilisant l'élément natif HTML5 \texttt{<canvas>} et un script JavaScript dédié.
+  \item \textbf{Fenêtre glissante et chronométrie :} L'axe temporel (abscisse) utilise l'horloge interne du navigateur (\texttt{Date.now()}) pour garantir un défilement rigoureusement fluide. La zone d'affichage agit comme une fenêtre glissante de 10 secondes synchronisée au clic sur le bouton de démarrage, simulant avec précision le comportement d'un oscilloscope classique.
+\end{itemize}
+
+\subsubsection*{5. Débogage et validation physique de la machine d'états}
+Lors des essais d'intégration, une anomalie a été identifiée grâce à la télémétrie web : bien que la position réponde correctement, le courant restait figé autour de 3A (valeur de pré-décollage), et ce même lorsque l'inducteur entrait en contact physique avec l'aimant.
+\begin{itemize}
+  \item \textbf{Déduction théorique :} Selon la loi de commande implémentée ($i_c = \sqrt{K_{FC} \cdot f_c} \cdot z$), si l'entrefer $z$ devient nul (inducteur collé), le courant de consigne $i_c$ devrait théoriquement s'annuler de manière instantanée.
+  \item \textbf{Correction logicielle :} L'analyse du flux d'exécution a révélé que le DSP restait bloqué indéfiniment dans l'état de préparation au décollage (\texttt{STATE\_1}). La condition de transition exigeait la stabilisation stricte de deux inducteurs simultanément. En isolant la condition pour réaliser les tests sur un seul inducteur, la machine d'états a pu basculer en mode de régulation nominale (\texttt{STATE\_3}), confirmant la justesse de l'hypothèse physique et le bon fonctionnement de l'asservissement en espace d'état.
+\end{itemize}
