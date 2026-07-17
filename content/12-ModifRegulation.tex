@@ -7,7 +7,7 @@ Ce chapitre vient traiter les modifications sur la régulation de courant ainsi 
 
 \subsection{Erreur}
 \label{subsec:RegPIError}
-Une erreur majeure a cependant été identifiée dans les synthèses de régulation de courant antérieures. En effet, la constante $K_{ui}$ a été omise dans le système $G_{ui}$, comme le montre le code suivant :
+Lors d'une analyse de la régulation de courant, une erreur majeure fut découverte. Le système à régler n'est pas correctement synthétiser. En effet la constante $K_{ui}$ fut oublier d'être multiplier comme le démontre ce code :
 
 \begin{minted}{matlab}
 %% Inducteur Linéarisé autour de d_n = 2mm (avec terme en delta_d négliger p.12 journal)
@@ -20,6 +20,12 @@ num     = [1 0];
 den     = [a2 a1 1];
 Gui     = tf(num,den); % Manque Kui
 \end{minted}
+
+Pour rappel, l'équation de $G_{ui}$ est décrite comme tellle :
+
+\begin{equation}
+    G_{ui}(s) = \frac{I(s)}{U_d(s)} = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
+\end{equation}
 
 Cette omission modifie significativement le comportement du système à régler. Les courbes montrent que le gain initial réel débute à environ -40~dB et non à 0~dB :
 

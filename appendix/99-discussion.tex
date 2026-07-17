@@ -1,174 +1,174 @@
-\chapter{Note sur les entretiens avec M. Girardin}
-Cette annexe traite les différents entretien réaliser avec M.Girardin. Différentes notes ont été prise afin d'avoir une trace des conseils données par M. Girardin.
+% \chapter{Note sur les entretiens avec M. Girardin}
+% Cette annexe traite les différents entretien réaliser avec M.Girardin. Différentes notes ont été prise afin d'avoir une trace des conseils données par M. Girardin.
 
 
-\subsection*{18 février 2026}
+% \subsection*{18 février 2026}
 
-\begin{itemize}
-    \item Lecture et compréhension du travail précédement réaliser
+% \begin{itemize}
+%     \item Lecture et compréhension du travail précédement réaliser
 
-    \item Se pencher sur le code pour trouver le problème de l'évitation
+%     \item Se pencher sur le code pour trouver le problème de l'évitation
 
-    \item Réaliser le diagramme d'état
+%     \item Réaliser le diagramme d'état
 
-    \item Regarder ce qui a été fait pour l'interface web local
+%     \item Regarder ce qui a été fait pour l'interface web local
 
-    \item Réaliser une régulation en PID
-\end{itemize}
+%     \item Réaliser une régulation en PID
+% \end{itemize}
 
-\subsection*{25 février 2026}
+% \subsection*{25 février 2026}
 
-\begin{itemize}
-    \item Réaliser un organigramme pour les machines d'états des inducteurs.
+% \begin{itemize}
+%     \item Réaliser un organigramme pour les machines d'états des inducteurs.
 
-    \item Réaliser le Gantt pour avoir une vision globale du projet.
-\end{itemize}
+%     \item Réaliser le Gantt pour avoir une vision globale du projet.
+% \end{itemize}
 
-\subsection*{2 mars 2026}
+% \subsection*{2 mars 2026}
 
-\begin{itemize}
-    \item Vérifier le temps total pris par l'intéruption de la conversions, de la régulation, du PWM et du bouton. Pour cela utiliser l'activation ou l'intéruption d'une LED et de l'oscillo. Faire la démarche avec et sans la communication sans fil.
+% \begin{itemize}
+%     \item Vérifier le temps total pris par l'intéruption de la conversions, de la régulation, du PWM et du bouton. Pour cela utiliser l'activation ou l'intéruption d'une LED et de l'oscillo. Faire la démarche avec et sans la communication sans fil.
 
-    \item Vérifier le temps de chaque procesus (Conversion, régulation, PWM,...).
+%     \item Vérifier le temps de chaque procesus (Conversion, régulation, PWM,...).
 
-    \item Comprendre comment la communication sans fil fonctionne.
+%     \item Comprendre comment la communication sans fil fonctionne.
 
-    \item Vérifier le temps de l'envoie et la réception de la communication sans fil au moyen de la LED.
+%     \item Vérifier le temps de l'envoie et la réception de la communication sans fil au moyen de la LED.
 
-    \item Changer les grands titres du Gantt pour mieux définir les objéctifs à réaliser.
-    \item Choisir un code de couleur pour savoir l'avancé du projet p. ex. rouge pour dire que je suis en retard, bleau pour dire que je suis dans les temps, gris pour le temps que je pense faire.
-\end{itemize}
+%     \item Changer les grands titres du Gantt pour mieux définir les objéctifs à réaliser.
+%     \item Choisir un code de couleur pour savoir l'avancé du projet p. ex. rouge pour dire que je suis en retard, bleau pour dire que je suis dans les temps, gris pour le temps que je pense faire.
+% \end{itemize}
 
-\subsection*{16 mars 2026}
-Pour les vérifications de temps :
-\begin{itemize}
-    \item Vérifier l'interruption totale.
-    \item Vérifier par bloc (ADC, régul et PWM)
-    \item Faire le meme travail mais uniquement pour la régulation de l'avant.
-\end{itemize}
+% \subsection*{16 mars 2026}
+% Pour les vérifications de temps :
+% \begin{itemize}
+%     \item Vérifier l'interruption totale.
+%     \item Vérifier par bloc (ADC, régul et PWM)
+%     \item Faire le meme travail mais uniquement pour la régulation de l'avant.
+% \end{itemize}
 
-\subsection*{17 mars 2026}
-Le décollage à 4 inducteurs est censé se dérouler de la manière suivante :
+% \subsection*{17 mars 2026}
+% Le décollage à 4 inducteurs est censé se dérouler de la manière suivante :
 
-\begin{itemize}
-    \item Etat 1 : On monte le courant des 4 inducteurs à 3 A (pour ne pas partir de zéro).
-    \item Etat 2 : On augmente le courant des inducteurs 1 et 2 avec une rampe (régulation de courant seule).
-    \item Etat 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, on les passe les deux en régulation de position (lévitation de l'avant du véhicule).
-    \item Etat 4 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
-    \item Etat 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, on les passe les deux en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
-\end{itemize}
+% \begin{itemize}
+%     \item Etat 1 : On monte le courant des 4 inducteurs à 3 A (pour ne pas partir de zéro).
+%     \item Etat 2 : On augmente le courant des inducteurs 1 et 2 avec une rampe (régulation de courant seule).
+%     \item Etat 3 : Lorsque l'inducteur 1 ou l'inducteur 2 commence à bouger, on les passe les deux en régulation de position (lévitation de l'avant du véhicule).
+%     \item Etat 4 : On augmente le courant des inducteurs 3 et 4 avec une rampe (régulation de courant seule).
+%     \item Etat 5 : Lorsque l'inducteur 3 ou l'inducteur 4 commence à bouger, on les passe les deux en régulation de position (lévitation de l'arrière du véhicule, l'avant lévite déjà).
+% \end{itemize}
 
-\subsection*{25 mars 2026}
-\begin{itemize}
-    \item Revérifier les conditions de la machine d'état
-    \item Ajouter un état qui permet de gérer l'erreur
-    \item Ajouter un état juste pour augmenter à 3A les inducteurs 3 et 4
-\end{itemize}
+% \subsection*{25 mars 2026}
+% \begin{itemize}
+%     \item Revérifier les conditions de la machine d'état
+%     \item Ajouter un état qui permet de gérer l'erreur
+%     \item Ajouter un état juste pour augmenter à 3A les inducteurs 3 et 4
+% \end{itemize}
 
-\subsection*{31 mars 2026}
-\begin{itemize}
-    \item Revérifier les conditions pour les états 3 et 6
-    \item Ajouter la variable de l'esp32
-\end{itemize}
+% \subsection*{31 mars 2026}
+% \begin{itemize}
+%     \item Revérifier les conditions pour les états 3 et 6
+%     \item Ajouter la variable de l'esp32
+% \end{itemize}
 
-\subsection*{15 avril 2026}
-\begin{itemize}
-    \item Ajouter un filtre IIR et refaire les mesures de positions
-    \item Recalibrer le capteur de l'inducteur 3 (Derrière à gauche)
-\end{itemize}
+% \subsection*{15 avril 2026}
+% \begin{itemize}
+%     \item Ajouter un filtre IIR et refaire les mesures de positions
+%     \item Recalibrer le capteur de l'inducteur 3 (Derrière à gauche)
+% \end{itemize}
 
-\subsection*{15 avril 2026}
-\begin{itemize}
-    \item Changer la force max pour essayer de mieux décoller l'inducteur 1
-    \item Mesurer les courants  des inducteurs à l'aide d'une sonde de courant pour voir s'il donne une bonne force et quelle est la force max si l'on appuie dessus. Mesurer les courants en utilisant le debugger
-    \item Mesurer les alimentations
-    \item Mesurer la sortie directe du capteur
-\end{itemize}
+% \subsection*{15 avril 2026}
+% \begin{itemize}
+%     \item Changer la force max pour essayer de mieux décoller l'inducteur 1
+%     \item Mesurer les courants  des inducteurs à l'aide d'une sonde de courant pour voir s'il donne une bonne force et quelle est la force max si l'on appuie dessus. Mesurer les courants en utilisant le debugger
+%     \item Mesurer les alimentations
+%     \item Mesurer la sortie directe du capteur
+% \end{itemize}
 
-\subsection*{29 avril 2026}
-\begin{itemize}
-    \item Mesure de la maquette par une balance en plaçant une planche en bois et des jenga pour peser la partie bougeante.
-\end{itemize}
+% \subsection*{29 avril 2026}
+% \begin{itemize}
+%     \item Mesure de la maquette par une balance en plaçant une planche en bois et des jenga pour peser la partie bougeante.
+% \end{itemize}
 
-\subsection*{29 avril 2026}
-\begin{itemize}
-    \item Augmenter la consigne de position jusqu'é permettre au régulateur et 1 d'atteindre une position plus intéressante.
-    \item Augmenter l'ordre de la calibration sous excel
-    \item Essayer la méthode des triangles pour prendre en compte les angles lors des la sustentation
-    \item Vérifier la limite de Kpi en l'augmentant gentiment pour trouver la limite
-    \item Vérifier la rigidité statique sur l'inducter 3.
-\end{itemize}
+% \subsection*{29 avril 2026}
+% \begin{itemize}
+%     \item Augmenter la consigne de position jusqu'é permettre au régulateur et 1 d'atteindre une position plus intéressante.
+%     \item Augmenter l'ordre de la calibration sous excel
+%     \item Essayer la méthode des triangles pour prendre en compte les angles lors des la sustentation
+%     \item Vérifier la limite de Kpi en l'augmentant gentiment pour trouver la limite
+%     \item Vérifier la rigidité statique sur l'inducter 3.
+% \end{itemize}
 
-\subsection*{03 juin 2026}
-\begin{itemize}
-    \item Faire un entrefer à 4mm ave la méthode teach in. Puis ajouter un caoutchouc de 1mm. Puis prendre en compte la palge par rapport au mm
-\end{itemize}
+% \subsection*{03 juin 2026}
+% \begin{itemize}
+%     \item Faire un entrefer à 4mm ave la méthode teach in. Puis ajouter un caoutchouc de 1mm. Puis prendre en compte la palge par rapport au mm
+% \end{itemize}
 
-\subsection*{15 juin 2026}
-\begin{itemize}
-    \item Ajouter la mesure de courant sur le site.
-    \item La régulation d'état peux devenir une régulation par PID. Le coefficient $k_w$ et $k_{\delta}$ devenant le même, il a exactement la meme structure qu'un PID. Il est dès alors possible de faire la meme synthèse qu'en mecatro2 pour obtenir les pôles afin de faire le placement de pôles.
-\end{itemize}
+% \subsection*{15 juin 2026}
+% \begin{itemize}
+%     \item Ajouter la mesure de courant sur le site.
+%     \item La régulation d'état peux devenir une régulation par PID. Le coefficient $k_w$ et $k_{\delta}$ devenant le même, il a exactement la meme structure qu'un PID. Il est dès alors possible de faire la meme synthèse qu'en mecatro2 pour obtenir les pôles afin de faire le placement de pôles.
+% \end{itemize}
 
-\subsection*{24 juin 2026}
-Retour sur le rapport
-\begin{itemize}
-    \item PRéciser que c'est la dernière carte qui peut causer problème dans mes hypothèse - supprimer
-    \item Préciser que le chap sur la maquette c'est le départ - ok
-    \item PEtit dessins représentant les dimmensions de l'entrefer - ok
-    \item Préciser le voc pour le dsp sur le shcéma electronique et mettre une photo - ok
-    \item On peut parler du fait que Isoz a fait l'avant dernière carte, ensuite freyche a corriger mais que c'est possible qu'il y a encore des porblèmes d'ou le fait de mes hypothèses sur des problèmes lié a la carte. - ok
-    \item Mentionner la plage qui  est max de l'adc par rapport au conditionneur dans le chap 2 - ok
-    \item DOnner des précisions dans le protocole de service et mieux réaliser le protocole - ok
-    \item PArler de problèmes possible dans la précharge que j'ai rencontré et qu'on peut vérifier la chose en utilisant la sonde d'oscilloscope -ok i think
-    \item Changer l'emplacement de la calibration du capteur - ok
-    \item Bien définir que le chapitre 2 est mon point de départ et ajouter un chapitre des modifs que j'ai réalisé sur la maquette -ok
-    \item Ajouter ce que je veux faire dans l'intro des mesures - ok
-    \item Mieux préciser que je parle de vérifier le circuit précharge et pas des condo - ok
-    \item Pas utiliser le terme régulateur pour les convertisseurs - ok
-    \item Pas bombarder le rapport de tableaux si c'est pas néscessaire. Par exemple les mettres dans l'annexe et dire que ça fonctionne comme avec les mesures de courants - ok
-    \item Bien faire attention au fil rouge entre ce qui est important ou ce qui est juste vérifier - ok
-    \item PRéciser ou je pose mes masses en ajoutant des photo et dire que c'est ajouter par inducteur - ok
-    \item Expliquer mon raisonnement dérière le but de la mesure -ok
-    \item Bien faire la présentation de ce que je mesure sur le courant. Bien expliquer le but Derrière - a revoir
-    \item Expliquer que j'ai réalisé les mesures pour obtenir de la connaissance sur le fonctionnement de la maquette - ok
-    \item Préciser la valeur de l'entrefer par rapport aux cales -  a refaire
-    \item Préciser que c'est la mesure filtré(valeur moyenne) qui est envoyé a l'esp32 qui est alors afficher sur l'interface web. AJouter le code la valeur filtré - ok mais a revoir
-    \item Garder la finalité sur la mesure de positions et mettre en annexe celle de départs pour expliquer mes démarches au débuts. - ok
-    \item Améliorer le graphique qui montre la vue face pour expliquer mes angles. \red{C'est faux}. Faire que c'est une vue de côté coupé juste au milieu - ok
-    \item Pour l'étalonnage de l'adc. Dire que j'améliore la conversion - a revoir
-    \item Mieux apporter les sujets sur des mesures de positions. - ok
-    \item Mettre le signe des erreurs - a faire
-    \item Refaire le schéma de la régulation globale - ok
-    \item changer l'ordre de un courant de consigne en une consigne de courant - ok
-    \item Ajouter le diagramme de bode entre la simplifications et sans la simplification - ok
-    \item Vérifier si on peut réellement faire la simplification - ig idk j'utilise pas ça de tt façon
-    \item Faire la simu pour voir le comportement avec et sans la simplification - ok
-    \item Vérifier que l'erreur du PI est bien mis en 100% - ok
-    \item PAr rapport a ça voir si je peux pas prendre un N beaucoup plus grand - a essayer mais je pense pas
-    \item Pour le capteur de position, mettre ensemble le filtre savitzky. - ok
-    \item Pour le pole minimum faudrait écrire que c'est le pole maximum, cad le meilleur amortissement. - ok
-    \item Pour le PID revoir la manière dont c'est apporter. - a revoir
-    \item A voir si je veux garder juste le PID ou si je part plus loin - ok
-    \item Changer le titre du chapitre 5 en programmtion du DSP - ok
-    \item Pour tout ce qui est du manuel, utiliser de manière plus intéligente. Ne pas surcharger les infos de ces infos qui ne servent pas. -ok
-    \item Rvérifier le H majuscale - ok
-    \item Revoir la raison pour laquelle la fenetre du filtre savitzky - ok
-    \item Changer le titre du filtre IIR en coupe bande - ok
-    \item Pour les mesures de temps, je peux utiliser un trigger voir s'il y a un moment qui dépasse le temps de 20 us. Si l'uart. - pas fait
-    \item Pour la mesure de temps préciser que le flag était retirer pour enlever l'uart et observer le résultat - ok
-    \item Changer le titre du code de l'esp32 en Programmation de l'ESP32
-    \item Améliorer comment je fais mon tableaux des hypothèse. Ptt plus faire comme en physique
-\end{itemize}
+% \subsection*{24 juin 2026}
+% Retour sur le rapport
+% \begin{itemize}
+%     \item PRéciser que c'est la dernière carte qui peut causer problème dans mes hypothèse - supprimer
+%     \item Préciser que le chap sur la maquette c'est le départ - ok
+%     \item PEtit dessins représentant les dimmensions de l'entrefer - ok
+%     \item Préciser le voc pour le dsp sur le shcéma electronique et mettre une photo - ok
+%     \item On peut parler du fait que Isoz a fait l'avant dernière carte, ensuite freyche a corriger mais que c'est possible qu'il y a encore des porblèmes d'ou le fait de mes hypothèses sur des problèmes lié a la carte. - ok
+%     \item Mentionner la plage qui  est max de l'adc par rapport au conditionneur dans le chap 2 - ok
+%     \item DOnner des précisions dans le protocole de service et mieux réaliser le protocole - ok
+%     \item PArler de problèmes possible dans la précharge que j'ai rencontré et qu'on peut vérifier la chose en utilisant la sonde d'oscilloscope -ok i think
+%     \item Changer l'emplacement de la calibration du capteur - ok
+%     \item Bien définir que le chapitre 2 est mon point de départ et ajouter un chapitre des modifs que j'ai réalisé sur la maquette -ok
+%     \item Ajouter ce que je veux faire dans l'intro des mesures - ok
+%     \item Mieux préciser que je parle de vérifier le circuit précharge et pas des condo - ok
+%     \item Pas utiliser le terme régulateur pour les convertisseurs - ok
+%     \item Pas bombarder le rapport de tableaux si c'est pas néscessaire. Par exemple les mettres dans l'annexe et dire que ça fonctionne comme avec les mesures de courants - ok
+%     \item Bien faire attention au fil rouge entre ce qui est important ou ce qui est juste vérifier - ok
+%     \item PRéciser ou je pose mes masses en ajoutant des photo et dire que c'est ajouter par inducteur - ok
+%     \item Expliquer mon raisonnement dérière le but de la mesure -ok
+%     \item Bien faire la présentation de ce que je mesure sur le courant. Bien expliquer le but Derrière - a revoir
+%     \item Expliquer que j'ai réalisé les mesures pour obtenir de la connaissance sur le fonctionnement de la maquette - ok
+%     \item Préciser la valeur de l'entrefer par rapport aux cales -  a refaire
+%     \item Préciser que c'est la mesure filtré(valeur moyenne) qui est envoyé a l'esp32 qui est alors afficher sur l'interface web. AJouter le code la valeur filtré - ok mais a revoir
+%     \item Garder la finalité sur la mesure de positions et mettre en annexe celle de départs pour expliquer mes démarches au débuts. - ok
+%     \item Améliorer le graphique qui montre la vue face pour expliquer mes angles. \red{C'est faux}. Faire que c'est une vue de côté coupé juste au milieu - ok
+%     \item Pour l'étalonnage de l'adc. Dire que j'améliore la conversion - a revoir
+%     \item Mieux apporter les sujets sur des mesures de positions. - ok
+%     \item Mettre le signe des erreurs - a faire
+%     \item Refaire le schéma de la régulation globale - ok
+%     \item changer l'ordre de un courant de consigne en une consigne de courant - ok
+%     \item Ajouter le diagramme de bode entre la simplifications et sans la simplification - ok
+%     \item Vérifier si on peut réellement faire la simplification - ig idk j'utilise pas ça de tt façon
+%     \item Faire la simu pour voir le comportement avec et sans la simplification - ok
+%     \item Vérifier que l'erreur du PI est bien mis en 100% - ok
+%     \item PAr rapport a ça voir si je peux pas prendre un N beaucoup plus grand - a essayer mais je pense pas
+%     \item Pour le capteur de position, mettre ensemble le filtre savitzky. - ok
+%     \item Pour le pole minimum faudrait écrire que c'est le pole maximum, cad le meilleur amortissement. - ok
+%     \item Pour le PID revoir la manière dont c'est apporter. - a revoir
+%     \item A voir si je veux garder juste le PID ou si je part plus loin - ok
+%     \item Changer le titre du chapitre 5 en programmtion du DSP - ok
+%     \item Pour tout ce qui est du manuel, utiliser de manière plus intéligente. Ne pas surcharger les infos de ces infos qui ne servent pas. -ok
+%     \item Rvérifier le H majuscale - ok
+%     \item Revoir la raison pour laquelle la fenetre du filtre savitzky - ok
+%     \item Changer le titre du filtre IIR en coupe bande - ok
+%     \item Pour les mesures de temps, je peux utiliser un trigger voir s'il y a un moment qui dépasse le temps de 20 us. Si l'uart. - pas fait
+%     \item Pour la mesure de temps préciser que le flag était retirer pour enlever l'uart et observer le résultat - ok
+%     \item Changer le titre du code de l'esp32 en Programmation de l'ESP32
+%     \item Améliorer comment je fais mon tableaux des hypothèse. Ptt plus faire comme en physique
+% \end{itemize}
 
-Tips :
-\begin{itemize}
-    \item Ajouter les capacités pour filtrer sur la carte
-    \item Vérfiier la fréquence du coupe bande. Regarder dans le rapport de Laucella sur comment faire cette mesure.
-    \item Voir s'il y a pas un mielleur moyen de réaliser une autre mtéhode de régulation de position (LQR, filtre kalman,...). Pour ptt permettre de gérer tout et n'importe quoi comme par exemple
-    \item Changer la plaque
-    \item Essayer avec les PID
-    \item Ajouter l'alim
-    \item Revérifier pourquoi l'écart est mal calculé
-    \item Essayer de faire varier la consigne de position par inducteur
-\end{itemize}
+% Tips :
+% \begin{itemize}
+%     \item Ajouter les capacités pour filtrer sur la carte
+%     \item Vérfiier la fréquence du coupe bande. Regarder dans le rapport de Laucella sur comment faire cette mesure.
+%     \item Voir s'il y a pas un mielleur moyen de réaliser une autre mtéhode de régulation de position (LQR, filtre kalman,...). Pour ptt permettre de gérer tout et n'importe quoi comme par exemple
+%     \item Changer la plaque
+%     \item Essayer avec les PID
+%     \item Ajouter l'alim
+%     \item Revérifier pourquoi l'écart est mal calculé
+%     \item Essayer de faire varier la consigne de position par inducteur
+% \end{itemize}
