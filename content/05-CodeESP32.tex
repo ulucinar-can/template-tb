@@ -44,10 +44,18 @@ Une fois cela fait, il faut sélectionné la bonne carte. Celle qui nous intére
   \caption{Étapes à réaliser pour la sélection de la carte}
 \end{figure}
 
-Par la suite il est néscessaire de régler certains points
+Par la suite certaines options doivent être définit dans l'onglet \texttt{Tools} comme démontré dans la \autoref{fig:ToolsSettings}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim = 0 40 0 0, clip, width=1\linewidth]{assets/Chap7/Mise en place/ToolsSettings.png}
+  \caption{Paramètres à définir dans l'onglet \texttt{Tools}}
+  \label{fig:ToolsSettings}
+\end{figure}
+
+Voici la liste des points à définir :
 
 \begin{enumerate}
-  \item ESP32S2 Dev Module
   \item USB CDC On Boot Enable
   \item Erase All Flash Before Sketch Upload Enable
   \item cpu speed 240 mhz
@@ -57,9 +65,9 @@ Par la suite il est néscessaire de régler certains points
   \item partition scheme default
 \end{enumerate}
 
+Il est dèsormais possible de flasher le code dans l'esp32. Pour se faire, il est néscessaire d'appuyer et maintenir le bouton "Boot" puis pressé une fois sur le bouton "reset". Une fois fait, le code peut-être flasher dans l'esp32. Si une erreur s'affiche dans le terminal de l'arduino, cela est normal et la procédure a tout de même fonctionner
 
-
-\subsection{Affichage de l'interface WEB}
+\subsection{Connexion à l'interface web}
 Afin de se connecter à l'interface, il est néscessaire de se connecter au WIFI créer par l'ESP-32. Pour cela, les informations suivantes sont néscessaire pour s'y connecter :
 
 \begin{itemize}
