@@ -6,7 +6,7 @@ Cette section vise à venir meusrer différents élement lorsque la maquette est
 \section{Mesure du temps de l'interruption principale}
 L'une des premières hypothèses formulées a été que le code ne respectait pas le temps d'exécution alloué pour l'interruption complète. Il a donc été nécessaire de vérifier la validité des temps de cycle, de mesurer le temps consommé par chaque sous-routine, et de déterminer si l'interruption liée à la communication entre le DSP et l'ESP32 perturbait l'interruption principale.\\
 
-Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
+Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. L'UART fut entièrement déscativé en mettant tout ce qui est en lien avec en commentaire. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
 
 L'analyse temporelle se concentre sur quatre phases de l'interruption : premièrement, l'interruption dans son entièreté ; deuxièmement, le temps consommé par les conversions ADC ; troisièmement, le temps d'exécution de la machine d'états ; et enfin, le temps dédié à la mise à jour des signaux PWM. Les relevés ont été effectués à l'aide d'un oscilloscope en observant les commutations d'une broche de sortie (LED).\\
 
@@ -36,6 +36,7 @@ Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'an
 \subsection{Analyse des résultats}
 Comme l'illustre le tableau \ref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
 
+Il aurait toute fois été plus interessant d'ajouter le trigger sur l'impulsion d'une durée minimum afin de voir si potentiellement l'interruption principale fut interrompue et aurais dès lors causer un problème.
 
 \begin{enumerate}
     \item Mesure courant et pos uniquement
