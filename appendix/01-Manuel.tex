@@ -195,11 +195,11 @@ Afin d'accéder à l'interface, il est nécessaire de se connecter au réseau Wi
 
 Une fois cela réalisé, il est possible d'interagir avec le site web.\\
 
-\section{Mesure des grandeurs de la régulation de positon}
+\section{Mesure des grandeurs de la régulation de position}
 \label{annexe:MethodeMesurePosition}
-Afin de réaliser une lecture et un enregistrement des données issues du programme principale, une fonction et un script python furent réaliser. Ceux-ci se trouve dans le dossier \texttt{MesureSysteme} \red{A faire}.
+Afin de réaliser une lecture et un enregistrement des données issues du programme principal, une fonction et un script Python ont été réalisés. Ceux-ci se trouvent dans le dossier \texttt{MesureSysteme} (\red{A faire}).
 
-La fonction SendFloatAsText fut modifié pour permettre a un envoie plus important de valeurs. Celle-ci fut agrandi a 32 afin de permettre l'envoie de la consigne de position, la position mesurée, l'erreur de positions, la consigne de courant, le courant mesuré, la consigne de force, l'intégrale de la régulation de position et pour finir la vitesse. Voici la fonction résultante est la suivante :
+La fonction \texttt{SendFloatAsText} a été modifiée pour permettre un envoi plus important de valeurs. Celle-ci a été étendue à 32 valeurs afin de permettre l'envoi, pour chaque inducteur, de la consigne de position, de la position mesurée, de l'erreur de position, de la consigne de courant, du courant mesuré, de la consigne de force, de l'intégrale de la régulation de position et, pour finir, de la vitesse. La fonction résultante est la suivante :
 
 \begin{minted}{c}
     void Send32FloatsAsCSV(float v[32])
@@ -287,8 +287,8 @@ L'envoi se réalise comme suit :
 
 Afin de garantir que la communication UART puisse transmettre cette quantité importante de données, le débit a été porté à 921600~bauds.
 
-Les étapes pour réaliser la mesure, il est néscessaire de se munir de relier la carte d'évaluation et l'ordinateur. Une fois-cela fait, il suffit dès lors de lancer le script python, d'enclencher la maquette et réaliser la mesure.
+Pour réaliser la mesure, il est nécessaire de relier la carte d'évaluation à l'ordinateur. Une fois cela fait, il suffit de lancer le script Python, d'enclencher la maquette et de réaliser la mesure.
 
-Une fois terminé, il suffit de suivre les indications dans le terminal pour stopper la mesure. Il sera dès lors possible d'afficher la mesure par inducteur. Un fichier .csv sera dès lors générer et pourra être employer dans un logicielle permettant de traiter les données.
+Une fois la mesure terminée, il suffit de suivre les indications du terminal pour la stopper. Il sera alors possible d'afficher la mesure par inducteur. Un fichier \texttt{.csv} sera également généré et pourra être employé dans un logiciel permettant de traiter les données.
 
 \clearpage
