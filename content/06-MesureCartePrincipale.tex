@@ -1,7 +1,7 @@
 \chapter{Mesure du hardware - Carte principale}
 
 \section{Introduction}
-La mesure de la carte principale permet de vérifier plusieurs des hypothèses émises, telles que :
+La mesure de la carte principale permet de vérifier plusieurs des hypothèses émises dans la \autoref{sec:Hypothese}, telles que :
 
 \begin{itemize}
     \item Une mauvaise calibration globale du système empêche le décollage.
@@ -616,5 +616,12 @@ Les premières mesures effectuées sur l'ensemble des convertisseurs ont donné 
 Les relevés liés aux capteurs de courant et à leurs circuits de conditionnement ont montré des écarts par rapport aux valeurs théoriques calculées. Bien que les valeurs obtenues par la méthode inverse, telle qu'implémentée dans le code, diffèrent légèrement des prédictions, la mesure réelle du courant traversant l'inducteur et celle perçue par le capteur restent très proches. Il est donc possible de conclure que le capteur de courant fonctionne correctement.\\
 
 Concernant les mesures de position, bien qu'elles aient régulièrement fourni des données cohérentes, aucune méthode de correction n'a permis d'optimiser efficacement la régulation. La seule intervention ayant montré un effet bénéfique sur la lévitation a été la calibration par la méthode d'apprentissage (« Teach-In ») des capteurs en fixant mécaniquement les inducteurs à un niveau identique.\\
+
+Ces mesures permettent également de statuer sur plusieurs hypothèses de la \autoref{sec:Hypothese} :
+\begin{itemize}
+    \item L'hypothèse d'une modification de la masse totale est \textbf{confirmée} : la pesée a révélé 18.052~kg au lieu des 13.6~kg considérés jusqu'ici, ce qui fausse les paramètres de la régulation.
+    \item L'hypothèse d'un défaut matériel de la carte principale est \textbf{partiellement confirmée} : une broche mal soudée sur le convertisseur 24~V a été détectée et corrigée, mais le reste de l'électronique fonctionne de manière nominale.
+    \item L'hypothèse d'une mauvaise calibration globale \textbf{reste ouverte} : aucune correction des capteurs de position n'a suffi à rétablir la lévitation, et la découverte de l'ondulation de la plaque de référence oriente les recherches vers la mesure de cette dernière.
+\end{itemize}
 
 En conclusion, l'électronique de la maquette est validée et certifiée fonctionnelle.

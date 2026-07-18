@@ -1,12 +1,18 @@
 \chapter{Mesure du programme en fonctionnement}
 
 \section{Introduction}
-Cette section vise à venir meusrer différents élement lorsque la maquette est en mouvement. Ces mesures viennent directement analyser le comportement physique de la maquette.
+Ce chapitre vise à mesurer différents éléments lorsque la maquette est en fonctionnement. Ces mesures analysent directement le comportement physique de la maquette. Les hypothèses suivantes, formulées dans la \autoref{sec:Hypothese}, sont ainsi traitées :
+
+\begin{enumerate}
+    \item Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation.
+    \item Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption.
+    \item L'erreur n'est pas calculée correctement pour la boucle de régulation de position.
+\end{enumerate}
 
 \section{Mesure du temps de l'interruption principale}
 L'une des premières hypothèses formulées a été que le code ne respectait pas le temps d'exécution alloué pour l'interruption complète. Il a donc été nécessaire de vérifier la validité des temps de cycle, de mesurer le temps consommé par chaque sous-routine, et de déterminer si l'interruption liée à la communication entre le DSP et l'ESP32 perturbait l'interruption principale.\\
 
-Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. L'UART fut entièrement déscativé en mettant tout ce qui est en lien avec en commentaire. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
+Le protocole de mesure a consisté à évaluer le système avec les quatre inducteurs actifs, puis uniquement avec l'avant (inducteurs 1 et 2), et enfin uniquement avec l'arrière (inducteurs 3 et 4). Ces mesures ont été réalisées avec et sans l'activation de l'interruption de la liaison UART afin d'établir une comparaison. L'UART a été entièrement désactivé en mettant en commentaire tout le code s'y rapportant. Pour rappel, la période de l'interruption principale est de 40~$\mu$s.
 
 L'analyse temporelle se concentre sur quatre phases de l'interruption : premièrement, l'interruption dans son entièreté ; deuxièmement, le temps consommé par les conversions ADC ; troisièmement, le temps d'exécution de la machine d'états ; et enfin, le temps dédié à la mise à jour des signaux PWM. Les relevés ont été effectués à l'aide d'un oscilloscope en observant les commutations d'une broche de sortie (LED).\\
 
@@ -36,54 +42,59 @@ Les chronogrammes détaillés des mesures temporelles sont disponibles dans l'\a
 \subsection{Analyse des résultats}
 Comme l'illustre le \autoref{tab:verif_temps_final}, aucun temps d'exécution ne dépasse la période allouée à l'interruption. Une marge temporelle importante reste disponible. L'origine du dysfonctionnement global n'est donc pas liée à une surcharge du processeur, ce qui confirme la viabilité de l'interruption principale et de l'interruption de communication. Celles-ci n'entrent pas en conflit et s'exécutent sans se bloquer mutuellement.
 
-Il aurait toute fois été plus interessant d'ajouter le trigger sur l'impulsion d'une durée minimum afin de voir si potentiellement l'interruption principale fut interrompue et aurais dès lors causer un problème.
+Il aurait toutefois été intéressant de régler le déclenchement (trigger) de l'oscilloscope sur une durée d'impulsion minimale, afin de vérifier si l'interruption principale était ponctuellement interrompue, ce qui aurait pu causer un problème.
 
 \section{Mesure du comportement de la régulation de positions}
-La régulation de position ne donnant pas un résutlat attendue, celle-ci fut dès lors "mesuré". La mesure est en réalité juste une récupération de différentes valeur sur une certaines durée. Cette mesure fut raéliser en employant l'ESP32 comme moyen d'enregistrer un CSV. Afin de transmettre les valeurs désiré, la fonction SendFloatAsText fut employé. Celle-ci fut agrandit pour permettre d'envoyer 10 valeurs. L'esp32 enregistra dès lors ces grandeurs sur une durée de 10s. Ce choix fut réaliser pour ne pas déborder sur la mémoire de l'ESP32. Plus tard, une communication UART fut plus tot réaliser entre la carte d'évaluation et un ordinateur pour ne pas avoir de problème de mémoire.
+La régulation de position ne donnant pas le résultat attendu, celle-ci a été « mesurée ». La mesure consiste en réalité à récupérer différentes valeurs sur une durée déterminée. Elle a été réalisée en employant l'ESP32 comme enregistreur de fichiers CSV. Afin de transmettre les valeurs désirées, la fonction \texttt{SendFloatAsText} a été employée, après avoir été étendue pour permettre l'envoi de 10 valeurs. L'ESP32 a enregistré ces grandeurs sur une durée de 10~s, cette limite ayant été choisie pour ne pas saturer sa mémoire. Par la suite, une communication UART directe entre la carte d'évaluation et un ordinateur a été préférée afin de s'affranchir de cette contrainte de mémoire.
 
-La mesure fut réaliser en activant uniquement l'avant ou l'arrière pour obtenir les résultats dans un etat stable de la maquette. La mesure fut réaliser, dans ces modes, par inducteur. Les mesures sont celle de la consigne de position, la position mesurée, l'erreur de positions, la consigne de force, l'intégrale de la consigne de positions et pour finir l'erreur.
+La mesure a été réalisée en activant uniquement l'avant ou l'arrière afin d'obtenir les résultats dans un état stable de la maquette, puis relevée par inducteur dans chacun de ces modes. Les grandeurs mesurées sont la consigne de position, la position mesurée, l'erreur de position, la consigne de force, l'intégrale de la régulation de position et, pour finir, la vitesse.
 
 \subsection{Mesure}
-Les mesure résultante est présente dans les figures \ref{fig:RegPosInd1} à \ref{fig:RegPosInd4} :
+Les mesures résultantes sont présentées de la \autoref{fig:RegPosInd1} à la \autoref{fig:RegPosInd4} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos1.png}
+    \includegraphics[width=0.8\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos1.png}
     \caption{Évolution de la régulation de position pour l'inducteur 1}
     \label{fig:RegPosInd1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos2.png}
+    \includegraphics[width=0.8\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos2.png}
     \caption{Évolution de la régulation de position pour l'inducteur 2}
     \label{fig:RegPosInd2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos3.png}
+    \includegraphics[width=0.8\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos3.png}
     \caption{Évolution de la régulation de position pour l'inducteur 3}
     \label{fig:RegPosInd3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos4.png}
+    \includegraphics[width=0.8\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos4.png}
     \caption{Évolution de la régulation de position pour l'inducteur 4}
     \label{fig:RegPosInd4}
 \end{figure}
 
-En venant se concentrer uniquement sur les consignes de force, il est possible de s'appercevoir que la consigne de force ne se situe pas vers la valeur théorique de la pensanteur. En effet, lorsque la maquette est en maintien, la force electromagnétique devrait être équivalent a la force de pesanteur. Ici celle-ci doit alors être equivalente à $F_{el} = 4.513\cdot9.81 = 44.3~N$. Hors cela est régulièrement dépassé ou meme inférieur a celle-la. Ceci est observable dans la \autoref{fig:ForceInd}:
+En se concentrant uniquement sur les consignes de force, la \autoref{fig:ForceInd} représente les différentes valeurs supposées être présentes dans le code :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/AnalyseForce.png}
+    \includegraphics[width=0.85\linewidth]{assets/content/07-MesureProgPrinc/AnalyseForce.png}
     \caption{Évolution de la consigne de force par inducteur}
     \label{fig:ForceInd}
 \end{figure}
 
-Il est dès lors possible de réaliser un écart entre la valeur théorique et la moyenn. Ceci donne le \autoref{tab:forces_inducteurs} :
+\subsection{Analyse des résultats}
+En étudiant les différents résultats, certains points sont intéressants à retenir.
+
+Tout d'abord, il est observable que pour l'inducteur 1, le résultat de l'erreur est régulièrement erroné. Celle-ci est annoncée à 0, mais en réalisant le même calcul que celui du code (soit la simple soustraction entre la mesure et la consigne), la trace bleue indique la valeur que devrait réellement posséder l'erreur. Cela peut toutefois s'expliquer par un manque de résolution lors de l'envoi des données. En effet, la position a été multipliée par mille après coup afin d'être affichée en millimètres et non en mètres. Ce comportement n'est cependant pas omniprésent, les autres inducteurs semblant indiquer des valeurs plus justes. Il est également probable que la mesure de l'inducteur 1 comportait une légère erreur à l'envoi.
+
+Le second point à traiter est le résultat de la consigne de force. Il est possible de s'apercevoir que celle-ci ne se situe pas autour de la valeur théorique liée à la pesanteur. En effet, lorsque la maquette est en maintien, la force électromagnétique devrait être équivalente à la force de pesanteur, soit $F_{el} = 4.513\cdot9.81 = 44.3$~N. Or, cette valeur est régulièrement dépassée, ou au contraire non atteinte. L'écart entre la valeur théorique et la moyenne mesurée est présenté dans le \autoref{tab:forces_inducteurs} :
 
 \begin{table}[H]
     \centering
@@ -101,12 +112,13 @@ Il est dès lors possible de réaliser un écart entre la valeur théorique et l
     \label{tab:forces_inducteurs}
 \end{table}
 
-\subsection{Analyse des résultats}
-Lors de l'observation
+Une première explication à ce phénomène est que l'inductance réelle ne correspond pas à celle calculée, mais présente une valeur plus élevée. Cette hypothèse est vérifiée dans le chapitre suivant.
 
+Une seconde explication serait due à une torsion du système entre les inducteurs : l'un s'appuyant sur l'autre, il nécessite alors une force bien plus importante que prévu pour atteindre la consigne de position désirée.
 
-\begin{enumerate}
-    \item Mesure courant et pos uniquement
-    \item Mesure force, erreur etc
-    \item Analyse resultat
-\end{enumerate}
+\section{Conclusion}
+Les mesures ont permis de clarifier plusieurs points et de statuer sur une partie des hypothèses formulées dans la \autoref{sec:Hypothese}.
+
+Tout d'abord, l'hypothèse selon laquelle la communication UART perturbe l'interruption principale est infirmée : aucun effet n'a été observé. L'hypothèse du non-respect des contraintes temporelles est également infirmée, les temps d'exécution mesurés laissant une marge importante par rapport à la période de 40~$\mu$s. Il aurait cependant été préférable de compléter l'analyse en réglant le déclenchement de l'oscilloscope sur une durée d'impulsion minimale, afin de vérifier si l'interruption est réellement arrêtée plus tôt que prévu. Cette piste n'a pas été explorée davantage.
+
+La seconde mesure a mis en évidence des comportements étranges concernant la régulation de position : une erreur transmise incohérente sur l'inducteur 1 et, surtout, des consignes de force s'écartant notablement de la valeur théorique de pesanteur. L'hypothèse d'un calcul d'erreur incorrect dans la boucle de position ne peut donc être ni confirmée ni infirmée à ce stade. Les chapitres suivants poursuivent les recherches nécessaires pour clarifier le phénomène de la force.

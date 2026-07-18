@@ -11,16 +11,16 @@
 
 
 
-La mise en place de Code Composer Studio est disponible dans le manuel \autoref{sec:MiseEnPlace}.
+La mise en place de Code Composer Studio est disponible dans le manuel, à la \autoref{sec:MiseEnPlace}.
 
-\section{Modifications mineur}
+\section{Modifications mineures}
 \subsection{Amélioration du code via l'IA}
 Afin d'optimiser l'appropriation du code source hérité, une première révision syntaxique a été réalisée à l'aide d'outils d'intelligence artificielle. Cette démarche avait pour objectif d'améliorer la structure du programme, d'enrichir les commentaires et d'en accroître la lisibilité globale. Le comportement de la maquette a été rigoureusement contrôlé à la suite de cette restructuration purement formelle. Les résultats obtenus étant strictement identiques à ceux de la version d'origine, il est confirmé que cette intervention n'a introduit aucun dysfonctionnement supplémentaire.
 
 \subsection{Création d'un fichier secondaire .c}
 Ce fichier constitue une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique.
 
-\subsection{Modification des coefficient du coupen bande}
+\subsection{Modification des coefficients du filtre coupe-bande}
 Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
 
 \begin{minted}{c}
@@ -34,15 +34,15 @@ Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs 
 
 \subsection{Modification de l'emplacement du filtre coupe-bande}
 
-Afin d'éviter un retard d'une période de 40 us, le filtre fut placé juste après le calcul de la force. Précédement celui-ci se trouvais avant ce calcul et fut employé pour le calcul de la consigne de courant.
+Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé juste après le calcul de la force. Précédemment, celui-ci se trouvait avant ce calcul et était employé pour le calcul de la consigne de courant.
 
 \section{Machine d'état}
 
-\section{Regulation de courant}
+\section{Régulation de courant}
 
-\section{Regulation de position}
+\section{Régulation de position}
 
-\subsection{Methode inverse}
+\subsection{Méthode inverse}
 
 \section{Modification des conversions}
 

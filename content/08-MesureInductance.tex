@@ -1,7 +1,7 @@
 \chapter{Mesure des inductances}
 
 \section{Introduction}
-La mesure présentée dans ce chapitre vise à redéfinir la valeur de l'inductance. Cette dernière étant considérée comme erronée à la suite des mesures précédentes, une nouvelle détermination a été réalisée au moyen d'un RLC-mètre.
+La mesure présentée dans ce chapitre vise à redéfinir la valeur de l'inductance. Cette dernière étant considérée comme erronée à la suite des mesures précédentes, une nouvelle détermination a été réalisée au moyen d'un RLC-mètre. Cette démarche répond directement à l'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte.
 
 \section{Protocole de mesure}
 Afin de réaliser la mesure, les éléments suivants sont nécessaires :
@@ -89,15 +89,15 @@ Les valeurs mesurées seront par conséquent employées pour la synthèse de la 
 \end{table}
 
 \section{Mesure du comportement du système}
-Une fois les nouvelles valeurs d'inductances déterminer, le comportement du système fut une nouvelle fois analyser afin d'observer la différence. Les modifications suivantes furent employer :
+Une fois les nouvelles valeurs d'inductance déterminées, le comportement du système a été analysé une nouvelle fois afin d'observer la différence. Les modifications suivantes ont été apportées :
 
 \begin{enumerate}
-    \item Implémentation des 4 valeurs d'inductances
-    \item Implémentation de quatres constantes pour le calcul du courant
-    \item Implémentation de quatres force maximum utiliser pour l'antiwindup
+    \item Implémentation des quatre valeurs d'inductance.
+    \item Implémentation de quatre constantes pour le calcul du courant.
+    \item Implémentation de quatre forces maximales utilisées pour l'anti-windup.
 \end{enumerate}
 
-Comparer a la mesure précédente, celle-ci fut réaliser en récupérant les différentes grandeurs en meme temps sur les 4 inducteurs afin d'observer au mieux possible les résultats. Pour se faire une fonction d'envoie de 32 valeurs fut implémenter. Voici la fonction résultante :
+Comparée à la mesure précédente, celle-ci a été réalisée en récupérant les différentes grandeurs simultanément sur les quatre inducteurs afin d'observer au mieux les résultats. Pour ce faire, une fonction d'envoi de 32 valeurs a été implémentée. Voici la fonction résultante :
 
 \begin{minted}{c}
     void Send32FloatsAsCSV(float v[32])
@@ -126,9 +126,9 @@ Comparer a la mesure précédente, celle-ci fut réaliser en récupérant les di
     }
 \end{minted}
 
-La fonction permet dès alors par inducteur de transmettre la consgine de position, la position mesurée, l'erreur de positions, la consgine de courant, le courant mesuré, la force de consigne, l'intégrale de la régulation de position et pour finir la vitesse. La récupération de ces grandeurs permettent dès lors d'avoir une bonne vision du fonctionnement de la régulation de position en fonctionnement. Les valeurs sont récupérer en meme temps chaque 10 ms. Afin de garantir que la communication UART permettent d'envoyer cette quantité importante de données, le bauderate fut changer à 921600 Bauds.
+La fonction permet ainsi de transmettre, pour chaque inducteur, la consigne de position, la position mesurée, l'erreur de position, la consigne de courant, le courant mesuré, la force de consigne, l'intégrale de la régulation de position et, pour finir, la vitesse. La récupération de ces grandeurs offre une bonne vision du fonctionnement de la régulation de position. Les valeurs sont relevées simultanément toutes les 10~ms. Afin de garantir que la communication UART puisse transmettre cette quantité importante de données, le débit a été porté à 921600~bauds.
 
-L'envoie se réalise comme suit :
+L'envoi se réalise comme suit :
 
 \begin{minted}{c}
     /* --------------------------------------------------------------------- *
@@ -185,13 +185,13 @@ L'envoie se réalise comme suit :
     }
 \end{minted}
 
-Celle-ci sont dès lors définit comme suit dans le programme :
+Celles-ci sont dès lors définies comme suit dans le programme :
 
 \begin{minted}{c}
 
 \end{minted}
 
-Une fois-cela implémenter, les résultat suivant furent récupérer de la maquette en fonctionnement présente dans les figures \ref{label} à \ref{label}
+Une fois cela implémenté, les résultats suivants ont été récupérés sur la maquette en fonctionnement. Ils sont présentés de la \autoref{label} à la \autoref{label}.
 
 \section{Conclusion}
-Cette mesure a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. Il sera dès lors possible d'employer ces valeurs afin d'améliorer l'état actuel de la maquette.
+Cette mesure a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc \textbf{confirmée}. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.

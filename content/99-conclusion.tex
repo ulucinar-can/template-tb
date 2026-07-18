@@ -2,7 +2,7 @@
 
 \section{Conclusion sur les hypothèses}
 
-Le tableau ci-dessous dresse le bilan des différentes hypothèses de recherche formulées initialement pour expliquer le problème de lévitation.
+Le tableau ci-dessous dresse le bilan des hypothèses de recherche formulées dans la \autoref{sec:Hypothese} pour expliquer le problème de lévitation.
 
 \begin{table}[htbp]
     \centering
@@ -15,25 +15,31 @@ Le tableau ci-dessous dresse le bilan des différentes hypothèses de recherche 
         \hline
         Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption. & $\times$       \\
         \hline
-        L'ajout récent d'une action intégrale engendre une instabilité du système.                                                                           & $\sim$         \\
+        L'ajout d'une action intégrale sur la régulation de l'inducteur 3 engendre une instabilité du système.                                               & $\sim$         \\
         \hline
         Une mauvaise calibration globale du système empêche le décollage.                                                                                    & $\checkmark$   \\
         \hline
         L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.                      & $\checkmark$   \\
         \hline
-        Une erreur s'est glissée lors de la phase de synthèse des régulateurs.                                                                               & $\checkmark$   \\
+        Une erreur a été introduite lors de la phase de synthèse des régulateurs.                                                                            & $\checkmark$   \\
         \hline
-        La condition de vérification à 99 \% perturbe le comportement de la machine d'état.                                                                  & $-$            \\
+        La condition de transition de l'état 2 à l'état 3 de la machine d'états, basée sur un seuil de position de 99~\%, n'est pas suffisamment robuste.    & $-$            \\
         \hline
         La carte principale présente un défaut matériel.                                                                                                     & $\sim$         \\
         \hline
         Les broches du DSP ne sont pas correctement reliées au reste de la carte principale.                                                                 & $-$            \\
         \hline
+        L'inductance nominale calculée est incorrecte.                                                                                                       & $\checkmark$   \\
+        \hline
+        L'erreur n'est pas calculée correctement pour la boucle de régulation de position.                                                                   & $\sim$         \\
+        \hline
     \end{tabular}
     \vspace{0.3cm}
-    \caption{Bilan de la validation des hypothèses de recherche ($\checkmark$ : Validé, $\times$ : Invalidé, $\sim$ : Partiel/Moyen), $-$ pas essayers}
+    \caption{Bilan de la validation des hypothèses de recherche ($\checkmark$ : validée, $\times$ : invalidée, $\sim$ : partiellement validée, $-$ : non testée)}
     \label{tab:bilan_hypotheses}
 \end{table}
+
+Les hypothèses temporelles (interruptions et communication UART) ont été invalidées par les mesures d'exécution du programme. La modification de la masse totale (18.052~kg au lieu de 13.6~kg) ainsi que l'inductance nominale erronée (environ 7.7~mH à 8.65~mH mesurés contre 4.9~mH calculés) ont été confirmées par les mesures, de même que l'erreur de synthèse de la régulation de courant (omission de la constante $K_{ui}$, \autoref{subsec:RegPIError}). Le défaut matériel de la carte principale n'a été que partiellement confirmé : une broche mal soudée sur le convertisseur 24~V a été corrigée, le reste de l'électronique ayant été validé.
 
 \vfil
 \hspace{8cm}\makeatletter\@author\makeatother\par
