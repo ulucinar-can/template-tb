@@ -97,6 +97,26 @@ Une fois les nouvelles valeurs d'inductance déterminées, le comportement du sy
     \item Implémentation de quatre forces maximales utilisées pour l'anti-windup.
 \end{enumerate}
 
+Cela donne dès lors :
+
+\begin{minted}{c}
+    // Inductance nominal au point nominal
+    #define L_N1            ((float)7.742e-3)
+    #define L_N2            ((float)8.647e-3)
+    #define L_N3            ((float)7.699e-3)
+    #define L_N4            ((float)7.750e-3)
+    ...
+    #define K_FC1            ((float)(2.0/(L_N1*DELTA_N)))
+    #define K_FC2            ((float)(2.0/(L_N2*DELTA_N)))
+    #define K_FC3            ((float)(2.0/(L_N3*DELTA_N)))
+    #define K_FC4            ((float)(2.0/(L_N4*DELTA_N)))
+    ...
+    #define FMAX1           ((float)(0.5*L_N1*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+    #define FMAX2           ((float)(0.5*L_N2*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+    #define FMAX3           ((float)(0.5*L_N3*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+    #define FMAX4           ((float)(0.5*L_N4*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+\end{minted}
+
 Comparée à la mesure précédente, celle-ci a été réalisée en récupérant les différentes grandeurs simultanément sur les quatre inducteurs afin d'observer au mieux les résultats. Pour ce faire, une fonction d'envoi de 32 valeurs a été implémentée. Voici la fonction résultante :
 
 \begin{minted}{c}
