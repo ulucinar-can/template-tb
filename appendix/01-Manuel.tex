@@ -5,13 +5,13 @@
 \label{sec:Protocole}
 La mise en service de la maquette s'effectue selon la procédure séquentielle suivante :
 \begin{enumerate}
-    \item Connecter le système à l'alimentation secteur.
+  \item Connecter le système à l'alimentation secteur.
 
-    \item Patienter quelques secondes afin de permettre la charge complète du circuit de précharge.
+  \item Patienter quelques secondes afin de permettre la charge complète du circuit de précharge.
 
-    \item Actionner l'interrupteur principal d'alimentation.
+  \item Actionner l'interrupteur principal d'alimentation.
 
-    \item Activer la régulation de la maquette au moyen de l'interface web ou en pressant le bouton S2.
+  \item Activer la régulation de la maquette au moyen de l'interface web ou en pressant le bouton S2.
 \end{enumerate}
 
 \section{Calibration des capteurs de position}
@@ -21,17 +21,17 @@ Les capteurs de position disposent d’une calibration appelée « Teach-in ». 
 Les étapes pour réaliser une calibration selon la méthode « Teach-in » sont les suivantes :
 
 \begin{enumerate}
-    \item Presser la touche. La LED rouge s’allume lorsque l’apprentissage du détecteur est encore possible.
+  \item Presser la touche. La LED rouge s’allume lorsque l’apprentissage du détecteur est encore possible.
 
-    \item Presser la touche pendant 5~secondes jusqu’à ce que la LED rouge commence à clignoter.
+  \item Presser la touche pendant 5~secondes jusqu’à ce que la LED rouge commence à clignoter.
 
-    \item Relâcher la touche.
+  \item Relâcher la touche.
 
-    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0~V, respectivement de 4~mA.
+  \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 0~V, respectivement de 4~mA.
 
-    \item Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
+  \item Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle se remet à clignoter de façon régulière.
 
-    \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10~V, respectivement de 20~mA. Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle s’éteint pour clignoter encore une fois brièvement. Le détecteur est alors de nouveau opérationnel.
+  \item Placer l’objet de mesure à la limite de la plage de mesure pour laquelle le détecteur doit afficher une valeur de 10~V, respectivement de 20~mA. Presser brièvement la touche. La LED rouge s’allume pendant 3~secondes comme confirmation. Ensuite, elle s’éteint pour clignoter encore une fois brièvement. Le détecteur est alors de nouveau opérationnel.
 \end{enumerate}
 
 La seconde mesure, correspondant à la distance minimale, doit toutefois être réalisée suffisamment rapidement pour permettre au capteur d’enregistrer cette valeur.
@@ -41,10 +41,10 @@ Afin de faciliter la procédure de mesure, un programme dédié exclusivement à
 L'exécution de ce code permet de plaquer les électroaimants contre les rails de guidage afin d'établir un entrefer nul (0~mm). La séquence d'étalonnage se déroule selon les étapes suivantes :
 
 \begin{enumerate}
-    \item L'activation de la régulation s'effectue par une impulsion sur le bouton-poussoir dédié, ce qui déclenche l'allumage d'une diode électroluminescente (LED) témoin.
-    \item Les inducteurs doivent ensuite être relevés manuellement par leur base jusqu'au contact physique avec le rail. Il est impératif d'assurer le maintien simultané des quatre électroaimants contre la surface métallique afin d'éviter tout basculement angulaire susceptible de fausser la mesure.
-    \item Une fois le contact parfaitement établi, la procédure d'apprentissage (\textit{teach-in}) de la position minimale peut être exécutée conformément aux instructions décrites précédemment.
-    \item Après l'enregistrement de la butée haute (entrefer nul), une seconde impulsion sur le bouton désactive la régulation, provoquant la descente des électroaimants en butée basse. L'enregistrement de la position maximale du transducteur peut alors être finalisé.
+  \item L'activation de la régulation s'effectue par une impulsion sur le bouton-poussoir dédié, ce qui déclenche l'allumage d'une diode électroluminescente (LED) témoin.
+  \item Les inducteurs doivent ensuite être relevés manuellement par leur base jusqu'au contact physique avec le rail. Il est impératif d'assurer le maintien simultané des quatre électroaimants contre la surface métallique afin d'éviter tout basculement angulaire susceptible de fausser la mesure.
+  \item Une fois le contact parfaitement établi, la procédure d'apprentissage (\textit{teach-in}) de la position minimale peut être exécutée conformément aux instructions décrites précédemment.
+  \item Après l'enregistrement de la butée haute (entrefer nul), une seconde impulsion sur le bouton désactive la régulation, provoquant la descente des électroaimants en butée basse. L'enregistrement de la position maximale du transducteur peut alors être finalisé.
 \end{enumerate}
 
 Une fois cette procédure terminée, le capteur est calibré.
@@ -65,48 +65,48 @@ Pour la bibliothèque C2000Ware, la version suivante doit être installée \cite
 Une fois l'installation terminée, il est nécessaire de configurer CCS pour qu'il détecte la bibliothèque. La procédure d'intégration est la suivante :
 
 \begin{enumerate}
-    \item Lancer Code Composer Studio.
+  \item Lancer Code Composer Studio.
 
-    \item Accéder au menu \textit{Window > Preferences}.
+  \item Accéder au menu \textit{Window > Preferences}.
 
-    \item Dans la colonne de gauche, naviguer vers \textit{Code Composer Studio > Products}.
+  \item Dans la colonne de gauche, naviguer vers \textit{Code Composer Studio > Products}.
 
-    \item Vérifier la liste « Product discovery path ». Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
-    \item Cliquer sur le bouton \textit{Refresh}.
+  \item Vérifier la liste « Product discovery path ». Si le dossier \verb|C:\ti| n'y figure pas, cliquer sur \textit{Add...} et le sélectionner.
+  \item Cliquer sur le bouton \textit{Refresh}.
 
-    \item La bibliothèque C2000Ware doit apparaître dans la liste « Discovered products ». Cliquer alors sur \textit{Install}.
+  \item La bibliothèque C2000Ware doit apparaître dans la liste « Discovered products ». Cliquer alors sur \textit{Install}.
 
-    \item Si l'explorateur de fichiers s'ouvre, sélectionner l'emplacement exact du dossier (généralement \verb|C:\ti\c2000\C2000Ware_5_02_00_00|).
+  \item Si l'explorateur de fichiers s'ouvre, sélectionner l'emplacement exact du dossier (généralement \verb|C:\ti\c2000\C2000Ware_5_02_00_00|).
 
-    \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La \autoref{fig:Res_conf_C2000} illustre le résultat attendu.
+  \item Vérifier que le dossier est correctement coché et cliquer sur \textit{Apply and close}. La \autoref{fig:Res_conf_C2000} illustre le résultat attendu.
 
-          \begin{figure}[H]
-              \centering
-              \includegraphics[width=0.75\linewidth]{assets/appendix/01-Manuel/CCS/Resultat_conf_C2000.png}
-              \caption{Résultat de la configuration du C2000}
-              \label{fig:Res_conf_C2000}
-          \end{figure}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.75\linewidth]{assets/appendix/01-Manuel/CCS/Resultat_conf_C2000.png}
+          \caption{Résultat de la configuration du C2000}
+          \label{fig:Res_conf_C2000}
+        \end{figure}
 
-    \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
+  \item Une fois la configuration terminée, cliquer sur le bouton \textit{Build} pour appliquer les changements.
 \end{enumerate}
 
 Enfin, il est impératif de vérifier que le niveau d'optimisation de CCS est correctement établi en suivant ces étapes :
 
 \begin{enumerate}
-    \item Effectuer un clic droit sur le projet.
+  \item Effectuer un clic droit sur le projet.
 
-    \item Sélectionner \textit{Properties}.
+  \item Sélectionner \textit{Properties}.
 
-    \item Dérouler l'onglet \textit{Build > C2000 Compiler > Optimization}.
+  \item Dérouler l'onglet \textit{Build > C2000 Compiler > Optimization}.
 
-    \item Appliquer les paramètres tels qu'illustrés dans la fenêtre suivante :
+  \item Appliquer les paramètres tels qu'illustrés dans la fenêtre suivante :
 
-          \begin{figure}[H]
-              \centering
-              \includegraphics[width=0.75\linewidth]{assets/appendix/01-Manuel/CCS/CCS_Opti_Windows.png}
-              \caption{Configuration des paramètres d'optimisation}
-              \label{fig:Res_conf_Opti}
-          \end{figure}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=0.75\linewidth]{assets/appendix/01-Manuel/CCS/CCS_Opti_Windows.png}
+          \caption{Configuration des paramètres d'optimisation}
+          \label{fig:Res_conf_Opti}
+        \end{figure}
 \end{enumerate}
 
 Lorsque le programme final est prêt, celui-ci doit être écrit dans la mémoire flash afin de permettre un fonctionnement autonome (« stand-alone »).
@@ -194,5 +194,101 @@ Afin d'accéder à l'interface, il est nécessaire de se connecter au réseau Wi
 \end{itemize}
 
 Une fois cela réalisé, il est possible d'interagir avec le site web.\\
+
+\section{Mesure des grandeurs de la régulation de positon}
+\label{annexe:MethodeMesurePosition}
+Afin de réaliser une lecture et un enregistrement des données issues du programme principale, une fonction et un script python furent réaliser. Ceux-ci se trouve dans le dossier \texttt{MesureSysteme} \red{A faire}.
+
+La fonction SendFloatAsText fut modifié pour permettre a un envoie plus important de valeurs. Celle-ci fut agrandi a 32 afin de permettre l'envoie de la consigne de position, la position mesurée, l'erreur de positions, la consigne de courant, le courant mesuré, la consigne de force, l'intégrale de la régulation de position et pour finir la vitesse. Voici la fonction résultante est la suivante :
+
+\begin{minted}{c}
+    void Send32FloatsAsCSV(float v[32])
+    {
+        char str[TX_BUF_LEN];
+        int i = 0, j = 0, k = 0;
+
+        // Ajoute les 31 premières valeurs suivies d'une virgule
+        for(k = 0; k < 31; k++) {
+            i += ftoa(v[k], &str[i], 4);
+            str[i++] = ',';
+        }
+
+        // Ajoute la 32ème valeur sans virgule, suivie d'un retour à la ligne
+        i += ftoa(v[31], &str[i], 4);
+        str[i++] = '\n';
+
+        // Copie dans le buffer UART
+        for (j = 0; j < i && j < TX_BUF_LEN; j++) {
+            txBuffer[j] = (uint8_t)str[j];
+        }
+        txLength = i;
+        txIndex = 0;
+
+        SCI_enableInterrupt(SCIA_BASE, SCI_INT_TXFF);
+    }
+\end{minted}
+
+L'envoi se réalise comme suit :
+
+\begin{minted}{c}
+    /* --------------------------------------------------------------------- *
+     * 3. COMMUNICATION (TELEMETRIE A 921600 BAUDS)
+     * --------------------------------------------------------------------- */
+    UartCounter++;
+    if (UartCounter >= 250) // Envoi à 10 ms
+    {
+        UartCounter = 0;
+
+        float telemetry[32];
+
+        // --- Inducteur 1 ---
+        telemetry[0] = Position_c1 * 1000.0f;
+        telemetry[1] = Position1 * 1000.0f;
+        telemetry[2] = ep1 * 1000.0f;
+        telemetry[3] = ic1;
+        telemetry[4] = Current1;
+        telemetry[5] = fc1;
+        telemetry[6] = xr1;
+        telemetry[7] = v1;
+
+        // --- Inducteur 2 ---
+        telemetry[8] = Position_c2 * 1000.0f;
+        telemetry[9] = Position2 * 1000.0f;
+        telemetry[10] = ep2 * 1000.0f;
+        telemetry[11] = ic2;
+        telemetry[12] = Current2;
+        telemetry[13] = fc2;
+        telemetry[14] = xr2;
+        telemetry[15] = v2;
+
+        // --- Inducteur 3 ---
+        telemetry[16] = Position_c3 * 1000.0f;
+        telemetry[17] = Position3 * 1000.0f;
+        telemetry[18] = ep3 * 1000.0f;
+        telemetry[19] = ic3;
+        telemetry[20] = Current3;
+        telemetry[21] = fc3;
+        telemetry[22] = xr3;
+        telemetry[23] = v3;
+
+        // --- Inducteur 4 ---
+        telemetry[24] = Position_c4 * 1000.0f;
+        telemetry[25] = Position4 * 1000.0f;
+        telemetry[26] = ep4 * 1000.0f;
+        telemetry[27] = ic4;
+        telemetry[28] = Current4;
+        telemetry[29] = fc4;
+        telemetry[30] = xr4;
+        telemetry[31] = v4;
+
+        Send32FloatsAsCSV(telemetry);
+    }
+\end{minted}
+
+Afin de garantir que la communication UART puisse transmettre cette quantité importante de données, le débit a été porté à 921600~bauds.
+
+Les étapes pour réaliser la mesure, il est néscessaire de se munir de relier la carte d'évaluation et l'ordinateur. Une fois-cela fait, il suffit dès lors de lancer le script python, d'enclencher la maquette et réaliser la mesure.
+
+Une fois terminé, il suffit de suivre les indications dans le terminal pour stopper la mesure. Il sera dès lors possible d'afficher la mesure par inducteur. Un fichier .csv sera dès lors générer et pourra être employer dans un logicielle permettant de traiter les données.
 
 \clearpage
