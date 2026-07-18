@@ -39,105 +39,70 @@ Comme l'illustre le \autoref{tab:verif_temps_final}, aucun temps d'exécution ne
 Il aurait toute fois été plus interessant d'ajouter le trigger sur l'impulsion d'une durée minimum afin de voir si potentiellement l'interruption principale fut interrompue et aurais dès lors causer un problème.
 
 \section{Mesure du comportement de la régulation de positions}
+La régulation de position ne donnant pas un résutlat attendue, celle-ci fut dès lors "mesuré". La mesure est en réalité juste une récupération de différentes valeur sur une certaines durée. Cette mesure fut raéliser en employant l'ESP32 comme moyen d'enregistrer un CSV. Afin de transmettre les valeurs désiré, la fonction SendFloatAsText fut employé. Celle-ci fut agrandit pour permettre d'envoyer 10 valeurs. L'esp32 enregistra dès lors ces grandeurs sur une durée de 10s. Ce choix fut réaliser pour ne pas déborder sur la mémoire de l'ESP32. Plus tard, une communication UART fut plus tot réaliser entre la carte d'évaluation et un ordinateur pour ne pas avoir de problème de mémoire.
 
-\red{Créer un protocole de mesure a mettre dans le manuel}
-Le comportement de la régulation de position n'atteignant pas les résultats voulues, celle-ci fut mesurer au moyen de la fonction SendFloatAsText et un script python.
-
-La fonction SendFloatAsText fut modidifier afin de permettre l'envoie de 32 valeurs au lieux de 4. Voici la fonction résultante :
-
-\begin{minted}{c}
-    void Send32FloatsAsCSV(float v[32])
-    {
-        char str[TX_BUF_LEN];
-        int i = 0, j = 0, k = 0;
-
-        // Ajoute les 31 premières valeurs suivies d'une virgule
-        for(k = 0; k < 31; k++) {
-            i += ftoa(v[k], &str[i], 4);
-            str[i++] = ',';
-        }
-
-        // Ajoute la 32ème valeur sans virgule, suivie d'un retour à la ligne
-        i += ftoa(v[31], &str[i], 4);
-        str[i++] = '\n';
-
-        // Copie dans le buffer UART
-        for (j = 0; j < i && j < TX_BUF_LEN; j++) {
-            txBuffer[j] = (uint8_t)str[j];
-        }
-        txLength = i;
-        txIndex = 0;
-
-        SCI_enableInterrupt(SCIA_BASE, SCI_INT_TXFF);
-    }
-\end{minted}
-
-La fonction permet dès alors par inducteur de transmettre la consgine de position, la position mesurée, l'erreur de positions, la consgine de courant, le courant mesuré, la force de consigne, l'intégrale de la régulation de position et pour finir la vitesse. La récupération de ces grandeurs permettent dès lors d'avoir une bonne vision du fonctionnement de la régulation de position en fonctionnement. Les valeurs sont récupérer en meme temps chaque 10 ms. Afin de garantir que la communication UART permettent d'envoyer cette quantité importante de données, le bauderate fut changer à 921600 Bauds.
-
-L'envoie se réalise comme suit :
-
-\begin{minted}{c}
-    /* --------------------------------------------------------------------- *
-     * 3. COMMUNICATION (TELEMETRIE A 921600 BAUDS)
-     * --------------------------------------------------------------------- */
-    UartCounter++;
-    if (UartCounter >= 250) // Envoi à 10 ms
-    {
-        UartCounter = 0;
-
-        float telemetry[32];
-
-        // --- Inducteur 1 ---
-        telemetry[0] = Position_c1 * 1000.0f;
-        telemetry[1] = Position1 * 1000.0f;
-        telemetry[2] = ep1 * 1000.0f;
-        telemetry[3] = ic1;
-        telemetry[4] = Current1;
-        telemetry[5] = fc1;
-        telemetry[6] = xr1;
-        telemetry[7] = v1;
-
-        // --- Inducteur 2 ---
-        telemetry[8] = Position_c2 * 1000.0f;
-        telemetry[9] = Position2 * 1000.0f;
-        telemetry[10] = ep2 * 1000.0f;
-        telemetry[11] = ic2;
-        telemetry[12] = Current2;
-        telemetry[13] = fc2;
-        telemetry[14] = xr2;
-        telemetry[15] = v2;
-
-        // --- Inducteur 3 ---
-        telemetry[16] = Position_c3 * 1000.0f;
-        telemetry[17] = Position3 * 1000.0f;
-        telemetry[18] = ep3 * 1000.0f;
-        telemetry[19] = ic3;
-        telemetry[20] = Current3;
-        telemetry[21] = fc3;
-        telemetry[22] = xr3;
-        telemetry[23] = v3;
-
-        // --- Inducteur 4 ---
-        telemetry[24] = Position_c4 * 1000.0f;
-        telemetry[25] = Position4 * 1000.0f;
-        telemetry[26] = ep4 * 1000.0f;
-        telemetry[27] = ic4;
-        telemetry[28] = Current4;
-        telemetry[29] = fc4;
-        telemetry[30] = xr4;
-        telemetry[31] = v4;
-
-        Send32FloatsAsCSV(telemetry);
-    }
-\end{minted}
-
-Le résultat de cette récupération est présente deans les figures \ref{} à \ref{} :
-
-
+La mesure fut réaliser en activant uniquement l'avant ou l'arrière pour obtenir les résultats dans un etat stable de la maquette. La mesure fut réaliser, dans ces modes, par inducteur. Les mesures sont celle de la consigne de position, la position mesurée, l'erreur de positions, la consigne de force, l'intégrale de la consigne de positions et pour finir l'erreur.
 
 \subsection{Mesure}
+Les mesure résultante est présente dans les figures \ref{fig:RegPosInd1} à \ref{fig:RegPosInd4} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos1.png}
+    \caption{Évolution de la régulation de position pour l'inducteur 1}
+    \label{fig:RegPosInd1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos2.png}
+    \caption{Évolution de la régulation de position pour l'inducteur 2}
+    \label{fig:RegPosInd2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos3.png}
+    \caption{Évolution de la régulation de position pour l'inducteur 3}
+    \label{fig:RegPosInd3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/MesRegPos4.png}
+    \caption{Évolution de la régulation de position pour l'inducteur 4}
+    \label{fig:RegPosInd4}
+\end{figure}
+
+En venant se concentrer uniquement sur les consignes de force, il est possible de s'appercevoir que la consigne de force ne se situe pas vers la valeur théorique de la pensanteur. En effet, lorsque la maquette est en maintien, la force electromagnétique devrait être équivalent a la force de pesanteur. Ici celle-ci doit alors être equivalente à $F_{el} = 4.513\cdot9.81 = 44.3~N$. Hors cela est régulièrement dépassé ou meme inférieur a celle-la. Ceci est observable dans la \autoref{fig:ForceInd}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/07-MesureProgPrinc/AnalyseForce.png}
+    \caption{Évolution de la consigne de force par inducteur}
+    \label{fig:ForceInd}
+\end{figure}
+
+Il est dès lors possible de réaliser un écart entre la valeur théorique et la moyenn. Ceci donne le \autoref{tab:forces_inducteurs} :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l cccc}
+        \toprule
+        \textbf{Inducteur} & \textbf{Moyenne [N]} & \textbf{$F_p$ théorique [N]} & \textbf{Écart [N]} & \textbf{Écart [\%]} \\
+        \midrule
+        Inducteur 1        & 63.44                & 44.27                        & 19.17              & 43.29               \\
+        Inducteur 2        & 40.63                & 44.27                        & -3.64              & -8.23               \\
+        Inducteur 3        & 52.68                & 44.27                        & 8.41               & 18.99               \\
+        Inducteur 4        & 54.43                & 44.27                        & 10.16              & 22.95               \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparaison des forces moyennes et théoriques par inducteur}
+    \label{tab:forces_inducteurs}
+\end{table}
 
 \subsection{Analyse des résultats}
+Lors de l'observation
 
 
 \begin{enumerate}
