@@ -20,28 +20,28 @@ La plage de mesure s'étend de 20~Hz à 25~kHz. Les mesures sont représentées 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\linewidth]{assets/content/08-MesureInductance/MesInd1.png}
+    \includegraphics[width=0.85\linewidth]{assets/content/09-MesureInductance/MesInd1.png}
     \caption{Mesure sur l'inducteur 1}
     \label{fig:MesInd1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{assets/content/08-MesureInductance/MesInd2.png}
+    \includegraphics[width=0.9\linewidth]{assets/content/09-MesureInductance/MesInd2.png}
     \caption{Mesure sur l'inducteur 2}
     \label{fig:MesInd2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{assets/content/08-MesureInductance/MesInd3.png}
+    \includegraphics[width=0.9\linewidth]{assets/content/09-MesureInductance/MesInd3.png}
     \caption{Mesure sur l'inducteur 3}
     \label{fig:MesInd3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{assets/content/08-MesureInductance/MesInd4.png}
+    \includegraphics[width=0.9\linewidth]{assets/content/09-MesureInductance/MesInd4.png}
     \caption{Mesure sur l'inducteur 4}
     \label{fig:MesInd4}
 \end{figure}
@@ -100,27 +100,32 @@ Une fois les nouvelles valeurs d'inductance déterminées, le comportement du sy
 Cela donne dès lors :
 
 \begin{minted}{c}
-    // Inductance nominal au point nominal
-    #define L_N1            ((float)7.742e-3)
-    #define L_N2            ((float)8.647e-3)
-    #define L_N3            ((float)7.699e-3)
-    #define L_N4            ((float)7.750e-3)
-    ...
-    #define K_FC1            ((float)(2.0/(L_N1*DELTA_N)))
-    #define K_FC2            ((float)(2.0/(L_N2*DELTA_N)))
-    #define K_FC3            ((float)(2.0/(L_N3*DELTA_N)))
-    #define K_FC4            ((float)(2.0/(L_N4*DELTA_N)))
-    ...
-    #define FMAX1           ((float)(0.5*L_N1*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
-    #define FMAX2           ((float)(0.5*L_N2*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
-    #define FMAX3           ((float)(0.5*L_N3*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
-    #define FMAX4           ((float)(0.5*L_N4*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+// Inductance nominal au point nominal
+#define L_N1            ((float)7.742e-3)
+#define L_N2            ((float)8.647e-3)
+#define L_N3            ((float)7.699e-3)
+#define L_N4            ((float)7.750e-3)
+...
+#define K_FC1            ((float)(2.0/(L_N1*DELTA_N)))
+#define K_FC2            ((float)(2.0/(L_N2*DELTA_N)))
+#define K_FC3            ((float)(2.0/(L_N3*DELTA_N)))
+#define K_FC4            ((float)(2.0/(L_N4*DELTA_N)))
+...
+#define FMAX1           ((float)(0.5*L_N1*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+#define FMAX2           ((float)(0.5*L_N2*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+#define FMAX3           ((float)(0.5*L_N3*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
+#define FMAX4           ((float)(0.5*L_N4*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
 \end{minted}
 
 La mesure se raélise en se basant sur la méthode détailler dans \autoref{annexe:MethodeMesurePosition}.
 
-Les résultat se présente comme suit :
+La mesure étant réaliser sur une période bien plus longue, la mesure complète sera disponible dans l'\autoref{label}.Les résultat présent ici se concentreront sur 10 sec comme suit :
 
+
+Une fois cela réaliser, il est possible de réaliser une analyse sur les forces comme suit :
+
+
+Il est possible de réaliser les écarts présent dans le \autoref{}
 
 \section{Conclusion}
 Cette mesure a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc \textbf{confirmée}. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.
