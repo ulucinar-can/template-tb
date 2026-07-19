@@ -176,5 +176,14 @@ Il est possible de réaliser les écarts présent dans le \autoref{tab:forces_in
     \label{tab:forces_inducteurs_v2}
 \end{table}
 
+\section{Analyse des résultats}
+Comme constaté une, la force mesuré varie encore une fois de celle suppossée théorique. En fonctionnement complet (4 inducteurs), il est possible de constater que le système oscille enormément. cel revient sur l'une des explications précédentes. Les inducteurs agissent l'un sur l'autre empechant chacun d'obtenir une stabilité.
+
+La régulation de position sera dès lors modifier afin de ne pas réaliser une régulation par inducteur (sysrème en SISO) mais réaliser une régulation de position dans l'espace (système en MIMO).
+
+La composante intégrale de l'inducteur 3 déscends en pente, cela est dû au fait que sont intrégale a été retirer.
+
 \section{Conclusion}
-Cette mesure a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc \textbf{confirmée}. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.
+La mesure de l'inductance a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc \textbf{confirmée}. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.
+
+La seconde mesure indique une nouvelle fois une instabilité de la régulation de position. Une approche différente sera traiter pour réaliser la régulation puisque celle-ci montre ses limites.
