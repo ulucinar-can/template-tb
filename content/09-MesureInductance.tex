@@ -97,7 +97,7 @@ Une fois les nouvelles valeurs d'inductance déterminées, le comportement du sy
     \item Implémentation de quatre forces maximales utilisées pour l'anti-windup.
 \end{enumerate}
 
-Cela donne dès lors :
+Cela donne dès lors les définitions suivantes :
 
 \begin{minted}{c}
 // Inductance nominal au point nominal
@@ -117,39 +117,39 @@ Cela donne dès lors :
 #define FMAX4           ((float)(0.5*L_N4*DELTA_N*(IMAX/DELTA_0)*(IMAX/DELTA_0)))
 \end{minted}
 
-La mesure se raélise en se basant sur la méthode détailler dans \autoref{annexe:MethodeMesurePosition}.
+La mesure se réalise en se basant sur la méthode détaillée dans l'\autoref{annexe:MethodeMesurePosition}.
 
-La mesure étant réaliser sur une période bien plus longue, la mesure complète sera disponible dans l'\autoref{annexe:MesureComplete}. Les résultat présent ici se concentreront sur 10 sec comme présente sur les figures \ref{fig:AnalyseInd1} à \ref{fig:AnalyseInd4} :
+La mesure étant réalisée sur une période bien plus longue, la mesure complète est disponible dans l'\autoref{annexe:MesureComplete}. Les résultats présentés ici se concentrent sur une fenêtre de 10~s, comme illustré de la \autoref{fig:AnalyseInd1} à la \autoref{fig:AnalyseInd4} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/09-MesureInductance/AnalyseInd1.png}
-    \caption{Mesure sur 10 sec de la régulation de position sur l'inducteur 1}
+    \caption{Mesure sur 10~s de la régulation de position sur l'inducteur 1}
     \label{fig:AnalyseInd1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/09-MesureInductance/AnalyseInd2.png}
-    \caption{Mesure sur 10 sec de la régulation de position sur l'inducteur 2}
+    \caption{Mesure sur 10~s de la régulation de position sur l'inducteur 2}
     \label{fig:AnalyseInd2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/09-MesureInductance/AnalyseInd3.png}
-    \caption{Mesure sur 10 sec de la régulation de position sur l'inducteur 3}
+    \caption{Mesure sur 10~s de la régulation de position sur l'inducteur 3}
     \label{fig:AnalyseInd3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/09-MesureInductance/AnalyseInd4.png}
-    \caption{Mesure sur 10 sec de la régulation de position sur l'inducteur 4}
+    \caption{Mesure sur 10~s de la régulation de position sur l'inducteur 4}
     \label{fig:AnalyseInd4}
 \end{figure}
 
-Une fois cela réaliser, il est possible de réaliser une analyse sur les forces comme dans la \autoref{fig:AnalyseForce} :
+Une fois cela fait, il est possible de réaliser une analyse des forces, comme dans la \autoref{fig:AnalyseForce} :
 
 \begin{figure}[H]
     \centering
@@ -158,7 +158,7 @@ Une fois cela réaliser, il est possible de réaliser une analyse sur les forces
     \label{fig:AnalyseForce}
 \end{figure}
 
-Il est possible de réaliser les écarts présent dans le \autoref{tab:forces_inducteurs_v2}
+Il est alors possible de calculer les écarts présentés dans le \autoref{tab:forces_inducteurs_v2} :
 
 \begin{table}[H]
     \centering
@@ -177,13 +177,13 @@ Il est possible de réaliser les écarts présent dans le \autoref{tab:forces_in
 \end{table}
 
 \section{Analyse des résultats}
-Comme constaté une, la force mesuré varie encore une fois de celle suppossée théorique. En fonctionnement complet (4 inducteurs), il est possible de constater que le système oscille enormément. cel revient sur l'une des explications précédentes. Les inducteurs agissent l'un sur l'autre empechant chacun d'obtenir une stabilité.
+Comme constaté une nouvelle fois, la force mesurée s'écarte encore de la valeur théorique supposée. En fonctionnement complet (quatre inducteurs), il est possible de constater que le système oscille énormément. Cela rejoint l'une des explications précédentes : les inducteurs agissent l'un sur l'autre, empêchant chacun d'obtenir une stabilité.
 
-La régulation de position sera dès lors modifier afin de ne pas réaliser une régulation par inducteur (sysrème en SISO) mais réaliser une régulation de position dans l'espace (système en MIMO).
+La régulation de position sera dès lors modifiée afin de ne plus réaliser une régulation par inducteur (système en SISO), mais une régulation de position dans l'espace (système en MIMO).
 
-La composante intégrale de l'inducteur 3 déscends en pente, cela est dû au fait que sont intrégale a été retirer.
+La composante intégrale de l'inducteur 3 présente une pente descendante ; cela est dû au fait que son action intégrale a été retirée.
 
 \section{Conclusion}
-La mesure de l'inductance a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc \textbf{confirmée}. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.
+La mesure de l'inductance a démontré que les valeurs d'inductance sont effectivement supérieures à celle calculée. L'hypothèse de la \autoref{sec:Hypothese} selon laquelle l'inductance nominale calculée est incorrecte est donc confirmée. Il sera dès lors possible d'employer ces valeurs mesurées afin d'améliorer l'état actuel de la maquette, notamment pour la synthèse de la régulation de courant et la méthode inverse.
 
-La seconde mesure indique une nouvelle fois une instabilité de la régulation de position. Une approche différente sera traiter pour réaliser la régulation puisque celle-ci montre ses limites.
+La seconde mesure indique une nouvelle fois une instabilité de la régulation de position. Une approche différente sera dès lors adoptée pour réaliser la régulation, celle-ci montrant ses limites.
