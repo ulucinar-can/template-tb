@@ -89,12 +89,7 @@ En se concentrant uniquement sur les consignes de force, la \autoref{fig:ForceIn
     \label{fig:ForceInd}
 \end{figure}
 
-\subsection{Analyse des résultats}
-En étudiant les différents résultats, certains points sont intéressants à retenir.
-
-Tout d'abord, il est observable que pour l'inducteur 1, le résultat de l'erreur est régulièrement erroné. Celle-ci est annoncée à 0, mais en réalisant le même calcul que celui du code (soit la simple soustraction entre la mesure et la consigne), la trace bleue indique la valeur que devrait réellement posséder l'erreur. Cela peut toutefois s'expliquer par un manque de résolution lors de l'envoi des données. En effet, la position a été multipliée par mille après coup afin d'être affichée en millimètres et non en mètres. Ce comportement n'est cependant pas omniprésent, les autres inducteurs semblant indiquer des valeurs plus justes. Il est également probable que la mesure de l'inducteur 1 comportait une légère erreur à l'envoi.
-
-Le second point à traiter est le résultat de la consigne de force. Il est possible de s'apercevoir que celle-ci ne se situe pas autour de la valeur théorique liée à la pesanteur. En effet, lorsque la maquette est en maintien, la force électromagnétique devrait être équivalente à la force de pesanteur, soit $F_{el} = 4.513\cdot9.81 = 44.3$~N. Or, cette valeur est régulièrement dépassée, ou au contraire non atteinte. L'écart entre la valeur théorique et la moyenne mesurée est présenté dans le \autoref{tab:forces_inducteurs} :
+Il est dès lors possible de calculer les écarts présententre la valeur théorique supposé et la valeur récupérer dans le code :
 
 \begin{table}[H]
     \centering
@@ -111,6 +106,13 @@ Le second point à traiter est le résultat de la consigne de force. Il est poss
     \caption{Comparaison des forces moyennes et théoriques par inducteur}
     \label{tab:forces_inducteurs}
 \end{table}
+
+\subsection{Analyse des résultats}
+En étudiant les différents résultats, certains points sont intéressants à retenir.
+
+Tout d'abord, il est observable que pour l'inducteur 1, le résultat de l'erreur est régulièrement erroné. Celle-ci est annoncée à 0, mais en réalisant le même calcul que celui du code (soit la simple soustraction entre la mesure et la consigne), la trace bleue indique la valeur que devrait réellement posséder l'erreur. Cela peut toutefois s'expliquer par un manque de résolution lors de l'envoi des données. En effet, la position a été multipliée par mille après coup afin d'être affichée en millimètres et non en mètres. Ce comportement n'est cependant pas omniprésent, les autres inducteurs semblant indiquer des valeurs plus justes. Il est également probable que la mesure de l'inducteur 1 comportait une légère erreur à l'envoi.
+
+Le second point à traiter est le résultat de la consigne de force. En analysant les résultat présent dans le \autoref{tab:forces_inducteurs}, il est possible de s'apercevoir que celle-ci ne se situe pas autour de la valeur théorique liée à la pesanteur. En effet, lorsque la maquette est en maintien, la force électromagnétique devrait être équivalente à la force de pesanteur, soit $F_{el} = 4.513\cdot9.81 = 44.3$~N. Or, cette valeur est régulièrement dépassée, ou au contraire non atteinte. L'écart entre la valeur théorique et la moyenne mesurée est présenté dans le \autoref{tab:forces_inducteurs} :
 
 Une première explication à ce phénomène est que l'inductance réelle ne correspond pas à celle calculée, mais présente une valeur plus élevée. Cette hypothèse est vérifiée dans le chapitre suivant.
 
