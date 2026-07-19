@@ -195,9 +195,22 @@ Afin d'accéder à l'interface, il est nécessaire de se connecter au réseau Wi
 
 Une fois cela réalisé, il est possible d'interagir avec le site web.\\
 
+\section{Activée la liaison UART via l'USB}
+\label{annexe:LiaisonUSB}
+La carte d'évaluation peut communiquer en UART avec un ordinateur. Pour se faire, un switch doit être enclencher sur celle-ci comme présenter sur la \autoref{fig:USBUART}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[trim = 0 40 0 0, clip, width=1\linewidth]{assets/appendix/01-Manuel/ArduinoIDE/ToolsSettings.png}
+  \caption{Activation du switch de communication USB}
+  \label{fig:USBUART}
+\end{figure}
+
 \section{Mesure des grandeurs de la régulation de position}
 \label{annexe:MethodeMesurePosition}
 Afin de réaliser une lecture et un enregistrement des données issues du programme principal, une fonction et un script Python ont été réalisés. Ceux-ci se trouvent dans le dossier \texttt{MesureSysteme} (\red{A faire}).
+
+Il est néscessaire d'activer la liaison de communication via le câble USB (Voir \autoref{annexe:LiaisonUSB}).
 
 La fonction \texttt{SendFloatAsText} a été modifiée pour permettre un envoi plus important de valeurs. Celle-ci a été étendue à 32 valeurs afin de permettre l'envoi, pour chaque inducteur, de la consigne de position, de la position mesurée, de l'erreur de position, de la consigne de courant, du courant mesuré, de la consigne de force, de l'intégrale de la régulation de position et, pour finir, de la vitesse. La fonction résultante est la suivante :
 
@@ -290,5 +303,17 @@ Afin de garantir que la communication UART puisse transmettre cette quantité im
 Pour réaliser la mesure, il est nécessaire de relier la carte d'évaluation à l'ordinateur. Une fois cela fait, il suffit de lancer le script Python, d'enclencher la maquette et de réaliser la mesure.
 
 Une fois la mesure terminée, il suffit de suivre les indications du terminal pour la stopper. Il sera alors possible d'afficher la mesure par inducteur. Un fichier \texttt{.csv} sera également généré et pourra être employé dans un logiciel permettant de traiter les données.
+
+\section{Protocole du mapping de la plaque}
+\label{annexe:Mapping}
+Pour réaliser un mappin de la plaque, l'usage d'un code de mesure et un script python furent réaliser. Ceux-ci se trouve dans le dossier \texttt{Mapping}. \red{A faire}
+
+Le code emploie simplement la fonction déjà réaliser \texttt{SendFloatAsText} en envoyant les 4 valeurs de positions filtré.
+
+Il est néscessaire d'activer la liaison de communication via le câble USB (Voir \autoref{annexe:LiaisonUSB}).
+
+Il suffit dès lors de compiler le code dans la carte d'évaluation et lancer le script python. Une fois-cela fait, il suffit dès lors de suivre les informations du scriptes.
+
+Une fois la mesure terminer, un fichier CSV est sauvegarder.
 
 \clearpage
