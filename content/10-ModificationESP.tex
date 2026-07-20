@@ -21,15 +21,144 @@ La page web actuel, permettais depuis le travail de bachelor précédent d'affic
 
 Une volonté d'afficher le courant fut désirer ce qui fut dès lors implémenter.
 
-\section{Correction du chargement infinie}
+\subsection{Correction du chargement infinie}
 Lors de la connexion a l'interface utilisateur, il arrivait que celle-ci présente un chargement infini.
 
 Suite a des recherches, la raison fut trouver dans les fonctions de réponse du serveur, s'appelant \texttt{server.send()}. La réponse renvoyaies initialement le code 250. En se basant sur les références de statut conseiller pour le HTTP \cite{HTTPStatut}, celle-ci n'est pas un standard employer pour indiquer un succès d'une page web. La page WEB ne sait donc pas comment interpreter cette valeur et il arrive qu'elle l'accepte ou non. Dès lors elle fut changer par une valeur mieux connue des serveurs web étant la valeur de 200 qui indique un simple \texttt{OK}.
 
-\section{Ajout de la mesure du courant}
+\subsection{Ajout de la mesure du courant}
+Suite a la demande de Monsieur Girardin, la mesure de courant fut ajouter sur l'interface WEB.
 
+Pour commencer il fallu modifier la fonction SendFloatAsText afin qu'elle puisse accepter 8 valeurs. Tout d'abord il est néscessaire de modifier la taille du buffer de la transmission \texttt{TX\_BUF\_LEN} en la modifiant de 64 à 128. Il faut ajouter également 4 nouvelle variable  dans les parenthèses de la fonction \texttt{SendFloatAsText}. Les modifications donne dès lors :
 
-\section{Optimisation de l'affichage mobile}
+\begin{minted}{c}
+#define TX_BUF_LEN 128
+...
+void SendFloatAsText(float f0, float f1, float f2, float f3, float f4, float f5, float f6, float f7)
+{
+    char str[TX_BUF_LEN];
+    int i = 0, j = 0;
+
+    str[i++] = '\x02'; // start bit
+
+    i += ftoa(f0, &str[i], 3); str[i++] = ',';
+    i += ftoa(f1, &str[i], 3); str[i++] = ',';
+    i += ftoa(f2, &str[i], 3); str[i++] = ',';
+    i += ftoa(f3, &str[i], 3); str[i++] = ',';
+    i += ftoa(f4, &str[i], 3); str[i++] = ',';
+    i += ftoa(f5, &str[i], 3); str[i++] = ',';
+    i += ftoa(f6, &str[i], 3); str[i++] = ',';
+    i += ftoa(f7, &str[i], 3);
+
+    str[i++] = '\x03'; // stop bit
+
+    for (j = 0; j < i && j < TX_BUF_LEN; j++) {
+        txBuffer[j] = (uint8_t)str[j];
+    }
+    txLength = i;
+    txIndex = 0;
+
+    SCI_enableInterrupt(SCIA_BASE, SCI_INT_TXFF);
+}
+\end{minted}
+
+Il faut également modifier le code du côté de l'ESP32 afin qu'il puisse accepter plus de valeurs.
+
+Tout d'abbord, il faut augmenter la taille du buffer dédié a la ocmmunciation UART. Ceci se réalise en changeant la constante \texttt{UART\_BUFFER} de 64 à 128.
+
+Ensuite, lorsque la trame est entièrement reçu, il faut augmenter la valeur max de la boucle \texttt{while(...)} gérant la conversion des données à 8.
+
+Pour terminer, il faut que l'interface WEB puisse trouver les valeurs de courants. Des nouvelles balises XML furent dès lors créer afin d'indiquer a l'interface WEB les valeurs du courants. Celle-ci sont déclaré comme \texttt{<curIndX>} ou X représente un numéro allant de 1 à 4 selon l'inducteur.
+
+Ceci donne alors les codes suivants :
+
+\begin{minted}{cpp}
+  #define UART_BUFFER 128
+  ...
+    // Traitement des données une fois toute la trame reçue
+  if (RxIndex > 0) {
+    // Ajout d'un caractère de fin
+    buffer[RxIndex] = '\0';
+
+    // Vérification de la forme de la trame
+    if (buffer[0] == 0x02 && buffer[RxIndex - 1] == 0x03) {
+      char* token = strtok(&buffer[1], ",");  // Découpe la chaîne après '\x02' et avant la première virgule de séparation
+      int i = 0;
+
+      // Conversion des token en floats
+      while (token != NULL && i < 8) {
+      floatValues[i++] = atof(token);
+      token = strtok(NULL, ",");
+      }
+
+      // Afficher les floats reçus (facultatif)
+      // Serial.print("Valeurs reçues : ");
+      // for (int i = 0; i < 4; i++) {
+      //   Serial.print(floatValues[i]);
+      //   Serial.print(" ");
+      // }
+      // Serial.println();
+
+      // Mise à jour des valeurs de position pour la page web
+      updateValues();
+
+      // Réinitialiser l'index du buffer après traitement
+      RxIndex = 0;
+    }
+    // Si la trame ne commence pas par \x02 ou ne se termine pas par \x03, ignorer
+    else {
+      Serial.println("Trame invalide");
+      RxIndex = 0;
+    }
+  }
+  ...
+    // send the inductor currents
+  sprintf(buf, "<curInd1>%f</curInd1>\n", cur_ind1);
+  strcat(XML, buf);
+  sprintf(buf, "<curInd2>%f</curInd2>\n", cur_ind2);
+  strcat(XML, buf);
+  sprintf(buf, "<curInd3>%f</curInd3>\n", cur_ind3);
+  strcat(XML, buf);
+  sprintf(buf, "<curInd4>%f</curInd4>\n", cur_ind4);
+  strcat(XML, buf);
+\end{minted}
+
+\noindent
+\begin{minipage}[c]{0.55\textwidth}
+    Pour finir, l'interface WEB fut modifiée pour afficher les nouvelles valeurs.
+
+    Pour commencer, il fallu ajouter une troisième collones sur l'interface web. Cette nouvelle colonnes est dédiée a l'affichage du courant. Cela est gérer par la partie HTML de l'interface WEB.
+
+    Il également nécessaire de récupérerles valeurs. Ceci est réaliser par la partie JavaScript de l'interface web. C'est ici que l'usage des balises XML est employé permettant de correctement indiqué l'emplacement des valeurs du courant.
+
+    L'interface fut également modifiée pour avoir une taille variable selon la taille de l'écran.
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.4\textwidth}
+    \centering
+    \includegraphics[trim = 0 10cm 0 8cm, clip, width=\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.jpeg}
+    \captionof{figure}{Interface WEB avec l'ajout du courant}
+\end{minipage}
+
+Ceci-donne alors :
+
+\begin{minted}{html}
+      // Extraction des 8 valeurs (Pos 1..4 et Cur 1..4)
+      var v_p1 = extractVal("valInd1");
+      var v_p2 = extractVal("valInd2");
+      var v_p3 = extractVal("valInd3");
+      var v_p4 = extractVal("valInd4");
+
+      var v_c1 = extractVal("curInd1");
+      var v_c2 = extractVal("curInd2");
+      var v_c3 = extractVal("curInd3");
+      var v_c4 = extractVal("curInd4");
+\end{minted}
+
+Ceci permet dès lors d'obtenir l'interface présente à droite. Il fallu cependant optimiser l'affichage pour les téléphone protable. Ceci-fut réaliser
+
+\subsection{Filtrage des données}
+
 
 \subsection*{Améliorations de l'Interface Web et de la Communication}
 
