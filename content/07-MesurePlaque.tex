@@ -1,7 +1,7 @@
 \chapter{Mesure de la plaque}
 
 \section{Introduction}
-La meusre de positions présentant des effet étrange lors de la réalisation d'un etalonnage sur la mesure de positions. En effet, en repprennant simplement juste les valeurs se sisutant à gauche, au centre et à droite pour un entrefer de 1mm, il est possible d'obtenir les tracé de la \autoref{fig:MapEtal} :
+La mesure de position présente des effets étranges lors de la réalisation d'un étalonnage. En effet, en reprenant simplement les valeurs se situant à gauche, au centre et à droite pour un entrefer de 1~mm, il est possible d'obtenir les tracés de la \autoref{fig:MapEtal} :
 
 \begin{figure}[H]
     \centering
@@ -10,18 +10,18 @@ La meusre de positions présentant des effet étrange lors de la réalisation d'
     \label{fig:MapEtal}
 \end{figure}
 
-Bien que la valeur ne doit pas forcément être à 1 mm d'entrefer, bien que cela serait idéal, il est cependant déjà constatable qu'il y a un autre problème. Les courbe de gauche, de centre et de droite devrait être en principe casiment superposé. Bie que proche, ce n'est pas le cas avec de faible variation. Un effet de creux est également présent.
+Bien que la valeur ne doive pas forcément être exactement à 1~mm d'entrefer, ce qui serait pourtant idéal, il est cependant déjà constatable qu'un autre problème existe. Les courbes de gauche, de centre et de droite devraient en principe être quasiment superposées. Bien que proches, elles ne le sont pas, avec de faibles variations. Un effet de creux est également présent.
 
-La mesure réaliser dans ce chapitre a dès lors pour but de quantifier ce creux.
+La mesure réalisée dans ce chapitre a dès lors pour but de quantifier ce creux.
 
 \section{Mesure de la plaque d'origine}
-La mesure sera réaliser en suivant le protocole de mesure présent dans l'\autoref{annexe:Mapping}.
+La mesure a été réalisée en suivant le protocole de mesure présenté dans l'\autoref{annexe:Mapping}.
 
-Afin de ne pas surcharcher le rapport, les mesures présentes dans ce chapitre se concentrerons sur les mesures réaliser avec les inducteurs se situant au centre de l'entrefer. Les autres mesures sont disponible dans l'\autoref{annexe:MapAutre}
+Afin de ne pas surcharger le rapport, les mesures présentées dans ce chapitre se concentrent sur celles réalisées avec les inducteurs se situant au centre de l'entrefer. Les autres mesures sont disponibles dans l'\autoref{annexe:MapAutre}.
 
-De plus, les mesures furent réaliser en mettant les capteurs de positons a leur état d'usine pour ne pas être limité par les plages de la méthode teach-in.
+De plus, les mesures ont été réalisées en plaçant les capteurs de position à leur état d'usine, afin de ne pas être limité par les plages de la méthode teach-in.
 
-Les mesures fortement bruités, un filtre a moyenne glissante fut employé pour représenter au mieux la surface de la plaque.
+Les mesures étant fortement bruitées, un filtre à moyenne glissante a été employé pour représenter au mieux la surface de la plaque.
 
 \subsection{Mesure}
 La mesure obtenue est présente dans la \autoref{fig:MapCentre} :
@@ -33,7 +33,7 @@ La mesure obtenue est présente dans la \autoref{fig:MapCentre} :
     \label{fig:MapCentre}
 \end{figure}
 
-Il est possible de récupérer les valeurs min et max possible sur les courbes donnant le \autoref{tab:mesures_centrers} :
+Il est possible de récupérer les valeurs minimales et maximales sur les courbes, donnant le \autoref{tab:mesures_centrer} :
 
 \begin{table}[H]
     \centering
@@ -54,21 +54,21 @@ Il est possible de récupérer les valeurs min et max possible sur les courbes d
 \end{table}
 
 \subsection{Analyse des mesures}
-Comme observé, la plaque présente bien des creux important pour une référence de positions. La maquette doit léviter sur quelque milimètre, il n'est pas tolérable d'avoir des creux pouvant varier de presque un demi-milimètre.
+Comme observé, la plaque présente des creux importants pour une référence de position. La maquette devant léviter sur quelques millimètres, il n'est pas tolérable d'avoir des creux pouvant varier de presque un demi-millimètre.
 
-De plus, le programme perçoit la valeur non filtré créant dès lors des ecart bien plus important.
+De plus, le programme perçoit la valeur non filtrée, ce qui crée des écarts bien plus importants.
 
-Il est certains que les valeurs min et max ne sont pas côte à côte, mais pour une référence, celle-ci est de loin erroné.
+Il est certain que les valeurs minimales et maximales ne sont pas côte à côte, mais en tant que référence, celle-ci est largement erronée.
 
 \section{Changement de plaque}
-Suite a la mesure, il était clair que la plaque devait être changer afin d'avoir une meilleur référence pour la mesure de positions. D'après Michel Demierre, Docteur en capteur, la surface optimum pour les capteurs actuel est une surface balnche et matte. Suite à plusieurs essais de différentes plaque, une plaque en composite d'aluminium fut dès lors choisie. La surface est blanch  et relativement matte.
+Suite à la mesure, il était clair que la plaque devait être changée afin d'obtenir une meilleure référence pour la mesure de position. D'après Michel Demierre, docteur spécialisé en capteurs, la surface optimale pour les capteurs actuels est une surface blanche et mate. Après plusieurs essais avec différentes plaques, une plaque en composite d'aluminium a été retenue. Sa surface est blanche et relativement mate.
 
-La nouvelle plaque se trouve phyisquement plus haut que la précédente. Un offset fut dès lors appliqué afin d'avoir une référence similaire permettant une meilleur compraison des plaques.
+La nouvelle plaque se trouve physiquement plus haut que la précédente. Un offset a dès lors été appliqué afin d'obtenir une référence similaire, permettant une meilleure comparaison des plaques.
 
-La mesure de la nouvelle plaque fut réaliser également suite a des changement hardware en ajoutant un filtre RC et également en changeant le circuit de conditionnement (Voir \autoref{sec:ModifCondPos} et \autoref{sec:FiltreRC}).
+La mesure de la nouvelle plaque a également été réalisée à la suite de changements matériels, à savoir l'ajout d'un filtre RC et la modification du circuit de conditionnement (voir \autoref{sec:ModifCondPos} et \autoref{sec:FiltreRC}).
 
 \subsection{Mesure}
-La mesure avec la nouvelle plaque est donnée par la \autoref{label}
+La mesure avec la nouvelle plaque est donnée par la \autoref{fig:MapNouvellePlaque} :
 
 \begin{figure}[H]
     \centering
@@ -77,7 +77,7 @@ La mesure avec la nouvelle plaque est donnée par la \autoref{label}
     \label{fig:MapNouvellePlaque}
 \end{figure}
 
-Il est également possible de récupérer les valeurs min et max présente avec la nouvelle plaque observable dans le \autoref{tab:mesures_centrer_alu} :
+Il est également possible de récupérer les valeurs minimales et maximales obtenues avec la nouvelle plaque, observables dans le \autoref{tab:mesures_centrer_alu} :
 
 \begin{table}[H]
     \centering
@@ -97,46 +97,46 @@ Il est également possible de récupérer les valeurs min et max présente avec 
     \label{tab:mesures_centrer_alu}
 \end{table}
 
-Les mesures comparatives sont présentes dans les figures \ref{fig:CompPos1} à \ref{fig:CompPos4} :
+Les mesures comparatives sont présentées de la \autoref{fig:CompPos1} à la \autoref{fig:CompPos4} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/07-MesurePlaque/CompPos1.png}
-    \caption{Mapping comparative entre l'ancienne et la nouvelle plaque sur l'inducteur 1}
+    \caption{Mapping comparatif entre l'ancienne et la nouvelle plaque sur l'inducteur 1}
     \label{fig:CompPos1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/07-MesurePlaque/CompPos2.png}
-    \caption{Mapping comparative entre l'ancienne et la nouvelle plaque sur l'inducteur 2}
+    \caption{Mapping comparatif entre l'ancienne et la nouvelle plaque sur l'inducteur 2}
     \label{fig:CompPos2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/07-MesurePlaque/CompPos3.png}
-    \caption{Mapping comparative entre l'ancienne et la nouvelle plaque sur l'inducteur 3}
+    \caption{Mapping comparatif entre l'ancienne et la nouvelle plaque sur l'inducteur 3}
     \label{fig:CompPos3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/07-MesurePlaque/CompPos4.png}
-    \caption{Mapping comparative entre l'ancienne et la nouvelle plaque sur l'inducteur 4}
+    \caption{Mapping comparatif entre l'ancienne et la nouvelle plaque sur l'inducteur 4}
     \label{fig:CompPos4}
 \end{figure}
 
 \subsection{Analyse des mesures}
-La nouvelle plaque présente des résultats bien meilleur que l'ancienne plaque.
+La nouvelle plaque présente des résultats bien meilleurs que l'ancienne plaque.
 
-Tout d'abord en observant les ecart entre le min et le max sur la valeur brute de sortie, les écarts se montre dans l'ordre du dixieme de milimètre. Une situation bien meilleur que la mesure précedente.
+Tout d'abord, en observant l'écart entre le minimum et le maximum sur la valeur brute de sortie, les écarts se situent dans l'ordre du dixième de millimètre, une situation bien meilleure que lors de la mesure précédente.
 
-En comparant les tracés, les variations présentes sont bien inférieur aux mesure avec la laque précédente. Le seul inducteur présentant une forte variation étant sur l'inducteur 2. Cependant une nouvelle fois en regardant les ecarts entre le min et le max de l'inducteur 2 il est observable que l'écart de celui-ci reste bien bas et serait plus dû a un effet de l'axe y présent pour l'inducteur 2 qui reste la mesure la plus propre sur l'ancienne plaque.
+En comparant les tracés, les variations présentes sont bien inférieures à celles mesurées avec la plaque précédente. Le seul inducteur présentant une forte variation est l'inducteur 2. Cependant, en observant à nouveau les écarts entre le minimum et le maximum de l'inducteur 2, il est observable que cet écart reste bien faible ; il serait plutôt dû à un effet de l'axe y, déjà présent pour l'inducteur 2, qui restait pourtant la mesure la plus propre sur l'ancienne plaque.
 
 \section{Conclusion}
-La mesure a permis d'observer que la plaque précédente portait des grands problèmes. Celle-ci étant ondulé et meme visible a l'oeuil nu.
+La mesure a permis d'observer que la plaque précédente présentait un problème important : celle-ci était ondulée, et ce, de manière visible à l'œil nu.
 
-La plaque fut changer et donne des résultats bien plus propre que précédement.
+La plaque a été changée et donne des résultats bien plus propres qu'auparavant.
 
-La mesure de se chapitre se porte dès alors très concluente.
+La mesure de ce chapitre se révèle donc très concluante.
