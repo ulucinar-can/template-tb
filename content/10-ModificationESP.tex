@@ -16,16 +16,29 @@ En ce qui concerne la taille des fichiers sources, le code propre à l'ESP32 rep
 
 La majorité de la mémoire est occupé principalement par les librairies lié au WIFI et du serveur web. Il a tout de meme été possible de réaliser les modifications apporté a l'ESP32.
 
-\section{Modifications sur la page web et la communication}
+\section{Modifications et correction sur la page web et la communication}
+La page web actuel, permettais depuis le travail de bachelor précédent d'afficher des tracés de la positions. Cependant des problèmes de connections a l'interface WEB subsiste.
+
+Une volonté d'afficher le courant fut désirer ce qui fut dès lors implémenter.
+
+\section{Correction du chargement infinie}
+Lors de la connexion a l'interface utilisateur, il arrivait que celle-ci présente un chargement infini.
+
+Suite a des recherches, la raison fut trouver dans les fonctions de réponse du serveur, s'appelant \texttt{server.send()}. La réponse renvoyaies initialement le code 250. En se basant sur les références de statut conseiller pour le HTTP \cite{HTTPStatut}, celle-ci n'est pas un standard employer pour indiquer un succès d'une page web. La page WEB ne sait donc pas comment interpreter cette valeur et il arrive qu'elle l'accepte ou non. Dès lors elle fut changer par une valeur mieux connue des serveurs web étant la valeur de 200 qui indique un simple \texttt{OK}.
+
+\section{Ajout de la mesure du courant}
+
+
+\section{Optimisation de l'affichage mobile}
 
 \subsection*{Améliorations de l'Interface Web et de la Communication}
 
-\subsubsection*{1. Résolution du problème de chargement infini (Serveur Web)}
-Le blocage systématique lors de la connexion initiale à la page web a été résolu par deux interventions logicielles majeures sur l'ESP32 :
-\begin{itemize}
-  \item \textbf{Correction des codes de statut HTTP :} Les fonctions de réponse du serveur (via la méthode \texttt{server.send()}) renvoyaient initialement le code \texttt{250}. Ce code n'étant pas un standard de succès HTTP, les navigateurs web restaient en attente d'une confirmation. Ce code a été remplacé par le code standard \texttt{200} (OK), validant ainsi immédiatement la complétion de la requête.
-  \item \textbf{Désengorgement de la boucle principale (\textit{Main Loop}) :} La lecture ininterrompue du buffer série (\texttt{while (MySerial.available() > 0)}) monopolisait les ressources processeur de l'ESP32 en présence d'un flux de données élevé en provenance du DSP. Une limite logicielle a été introduite (\texttt{bytesToRead = 128}) pour forcer le microcontrôleur à sortir de la boucle de lecture matérielle, libérant ainsi du temps de calcul pour le traitement des requêtes clients WiFi (\texttt{server.handleClient()}).
-\end{itemize}
+% \subsubsection*{1. Résolution du problème de chargement infini (Serveur Web)}
+% Le blocage systématique lors de la connexion initiale à la page web a été résolu par deux interventions logicielles majeures sur l'ESP32 :
+% \begin{itemize}
+%   \item \textbf{Correction des codes de statut HTTP :} Les fonctions de réponse du serveur (via la méthode \texttt{server.send()}) renvoyaient initialement le code \texttt{250}. Ce code n'étant pas un standard de succès HTTP, les navigateurs web restaient en attente d'une confirmation. Ce code a été remplacé par le code standard \texttt{200} (OK), validant ainsi immédiatement la complétion de la requête.
+%   \item \textbf{Désengorgement de la boucle principale (\textit{Main Loop}) :} La lecture ininterrompue du buffer série (\texttt{while (MySerial.available() > 0)}) monopolisait les ressources processeur de l'ESP32 en présence d'un flux de données élevé en provenance du DSP. Une limite logicielle a été introduite (\texttt{bytesToRead = 128}) pour forcer le microcontrôleur à sortir de la boucle de lecture matérielle, libérant ainsi du temps de calcul pour le traitement des requêtes clients WiFi (\texttt{server.handleClient()}).
+% \end{itemize}
 
 \subsubsection*{2. Intégration de l'affichage des courants}
 Afin de superviser simultanément la position et le courant des quatre inducteurs, la chaîne de communication globale a été restructurée pour transmettre 8 variables flottantes (au lieu de 4) :
