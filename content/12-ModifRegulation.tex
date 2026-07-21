@@ -133,7 +133,36 @@ Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle défini
 \end{equation}
 
 \section{Régulation de positions}
-La régulation de positions jusqu'à maintenant dépendait 
+La régulation SISO présentée précédemment considère chaque inducteur comme un
+système totalement indépendant : chaque boucle mesure son propre entrefer et
+calcule sa propre force, sans jamais tenir compte des trois autres. Or, les
+quatre inducteurs portent une seule et même plaque rigide. Lorsque
+l'inducteur~1 augmente sa force, il ne soulève pas uniquement son coin : il
+fait pivoter l'ensemble de la plaque, ce qui modifie également les entrefers
+des inducteurs~2, 3 et~4. Les quatre boucles SISO se perturbent donc
+mutuellement en permanence, chacune corrigeant des mouvements provoqués par
+les autres.
+
+L'idée de la régulation MIMO est donc renverser le point de vue : au lieu de
+réguler quatre entrefers indépendants, on régule directement les mouvements de la plaque. Une plaque rigide qui ne peut se déplacer que
+verticalement possède exactement trois mouvements possibles, appelés
+modes :
+
+\begin{itemize}
+    \item Le pompage : la plaque monte ou descend en restant horizontale (translation verticale) ;
+    \item Le tangage : la plaque pivote autour de son axe $Y$, l'avant descend pendant que l'arrière monte (ou inversement) ;
+    \item Le roulis : la plaque pivote autour de son axe $X$, le côté gauche descend pendant que le côté droit monte (ou inversement).
+\end{itemize}
+
+Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
+
+\subsection{Géométrie de la plaque}
+Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Celle-ci se trouve tout simple au centre de celle-la :
+
+
 
 \subsection{Information}
 Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour l'aide de génération de script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+
+\subsection{Définition de la position des inducteur}
+Pour commencer, il est néscessaire de définir ou se situe chaque inducteur dans l'espace. Pour cela, le centre de gravité fut dès lors fixé au point milieu de la plaque
