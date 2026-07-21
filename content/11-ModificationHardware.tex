@@ -6,50 +6,157 @@ Ce chapitre a pour but d'apporter les informations conecernant les différentes 
 Celui-ci reçu une modification au niveau de ses circuits de conditionnements afin de travailler sur l'entiereté de la plage porposé par l'ADC.
 
 Des filtres RC furent également ajouter sur la sortie des conditionneurs de positions.
+
 \section{Modification sur les conditionneurs de courant}
 Les conditionneurs de courant n'exploitant pas la plage entière ceux-ci furent modifier. Actuellement les ponts diviseurs donne les gains présent dans la \autoref{fig:GainCondCour}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \includegraphics[width=1\linewidth]{assets/content/11-ModificationHardware/GainCondCour.png}
     \caption{Gain du conditionneur de courant}
     \label{fig:GainCondCour}
 \end{figure}
 
-La première partie du conditionnement fut laisser telle quelle et le gain de la seconde partie fut unqiment travailler dessus.
+La première partie du conditionnement fut laisser telle quelle et le gain du soustracteur fut modifier.
 
 \subsection{Calcul du pont diviseur}
+En reprennant uniquement le montage soustracteur, il es possible de tracé le schéma repésenter par la \autoref{label}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/11-ModificationHardware/SchémaGainCour.png}
+    \caption{Schéma du montage soustracteur}
+    \label{fig:GainCondCour}
+\end{figure}
 
+Afin de simplifier les calculs, la symétire $\frac{R2}{R1} = \frac{R11}{R4}$ sera gardé. Cela permet d'avoir l'équation suivante issue d'un montage soustracteur :
+
+\begin{equation}
+    U2B,OUT = \frac{R_2}{R_1}\cdot(U1A,OUT - 0.5)
+\end{equation}
+
+La plage de tension de sortie de U1A va de 0.5V à 3.5V et la tension voulue en sortie est de 3.3V. Il est alors possible d'isoler la fraction $\frac{R_2}{R_1}$ pour obtenir le rapport de celui-ci :
+
+\begin{equation}
+    \frac{R_2}{R_1} = \frac{U2B,OUT}{U1A,OUT - 0.5}
+    = \frac{3.3}{3.5 - 0.5} = \frac{3.3}{3} = 1.1
+\end{equation}
+
+En gardant la résistance R1 à $1~k\Omega$, il est dès alors possible d'obtenir la valeur de la résistance suivante :
+
+\begin{equation}
+    R_2 = 1.1\cdot R_1 = 1.1~k\Omega
+\end{equation}
+
+Le meme principe s'applique a la branche inférieur en gardant $R_4$ à $1~k\Omega$. En suivant les valeurs émises par la série E24, les résitances sont dès alors :
+
+\begin{equation}
+    R_1 = R_11 = 1~k\Omega
+    \quad
+    R_2 = R_4 = 1.1~k\Omega
+\end{equation}
+
+Les résitances a modifiées sont alors $R_2\_1$ à $R_2\_4$ et $R_11\_1$ à $R_11\_4$.
+
+Ce changement permet d'avoir la plage entière de l'ADC avec donc la valeur max non pus 3723 mais 4095.
+
+\subsection{Equation de conversion}
+La plage étant maintenant enitère, il est possible de modifier la valeur de conversion du courant. En repartant de l'\autoref{eq:conv_courant} et la nouvelle valeur max de l'adc, il est possible de réecrire la nouvelle équation de conversion \ref{eq:NewCurConv} :
+
+\begin{equation}
+    I = \text{ADC} \cdot \frac{30 - (-30)}{4095} - 30 = 0.01465 \cdot \text{ADC} - 30~[\text{A}]
+    \label{eq:NewCurConv}
+\end{equation}
+
+Celle-ci sera dès lors implémenter dans le code.
+
+\subsection{Vérification de la mesure de positions}
+\red{Faire la mesure en mettant une constante de courant genre a 2A et juste mesuré entre l'entrée et la sortie via un ampèremètre}
+
+\subsection{Analyse des résultats}
 
 \section{Modification sur les conditionneurs de positions}
 \label{sec:ModifCondPos}
+Il est possible de retracer le circuit en se concentrant uniquement sur le pont diviseur représenter dans la \autoref{fig:GainCondPos} :
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/11-ModificationHardware/GainCondPos.png}
+    \caption{Gain du conditionneur de positions}
+    \label{fig:GainCondPos}
+\end{figure}
 
 \subsection{Calcul du pont diviseur}
+Le calcul est très simple. Puisque le capteur varie de 0 à 10V et que la sortie doit être de 3.3V, le gain sera dès lors :
 
+\begin{equation}
+    \frac{R_2}{R_1 + R_2} = \frac{U_{\text{out,p}}}{U_{\text{in,p}}} = \frac{3.3}{10} = 0.33
+\end{equation}
 
+Il suffit alors d'isoler l'une des résistance comme suit :
 
-\subsection{Vérification de la mesure de positions}
-\red{A faire - a supprimer si oublier}
+\begin{align}
+    0.33\,R_1 + 0.33\,R_2 = R_2 \\
+    0.33\,R_1 = R_2 - 0.33\,R_2 = 0.67\,R_2
+    R_1 = \frac{0.67}{0.33}\,R_2 \simeq 2.03\,R_2
+\end{align}
+
+En gardant la valeur de $R_2$ à $\SI{1.2}{\kilo\ohm}$, la valeur de $R_1$ est de :
+
+\begin{equation}
+    R_1 = 2.03 \cdot 1.2 = \SI{2.44}{\kilo\ohm}
+\end{equation}
+
+LEs résistances a modifier sont alors les résistances $R_1\_1$ à $R_1\_4$.
+
+Ce changement permet également d'obtenir la plage complète avec la valeur max de l'ADC a 4095 au lieux de 3723.
+
+\subsection{Equation de conversion}
+En reprenant l'\autoref{eq:conv_position} et en y modifiant la valeur max de l'ADC, l'equation de conversiond devient alors :
+
+\begin{equation}
+    \text{Position} = \text{ADC} \cdot \frac{3 \cdot 10^{-3} - 0}{4095} = 7.326 \cdot 10^{-7} \cdot \text{ADC}~[\text{m}]
+\end{equation}
+
+\subsection{Vérification par la mesure de positions}
+Il est possible de réaliser une vérification du nouveau conditionneur de positions. En reprenant simplement l'entrée et la sortie du continneur par inducteur, il est possible de faire le rapport de ces 2 grandeurs afin de vérifier si le gain est bien de 0.33. Ceci est observable dans le \autoref{tab:gain_conditionnement} :
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l cccc}
+        \toprule
+                                     & \textbf{Inducteur 1} & \textbf{Inducteur 2} & \textbf{Inducteur 3} & \textbf{Inducteur 4} \\
+        \midrule
+        \textbf{Capteur [V]}         & 6.09                 & 5.89                 & 6.15                 & 6.09                 \\
+        \textbf{Conditionnement [V]} & 2.025                & 1.968                & 2.057                & 2.03                 \\
+        \textbf{Gain}                & 0.332                & 0.334                & 0.334                & 0.333                \\
+        \bottomrule
+    \end{tabular}
+    \caption{Mesure des tensions du circuit de conditionnement}
+    \label{tab:gain_conditionnement}
+\end{table}
 
 \subsection{Analyse des résultats}
+Le circuit de conditionnement donne bien le résultat désirer en donnant des valeur se situant alors toujours aux aléantours de 0.33.
 
 \section{Ajout de filtres sur les mesures de positions}
 \label{sec:FiltreRC}
+La mesure sur la position etant très bruité, un filtre RC fut ajouter. En se basant sur les travaux de Freyche \cite{Freyche}, il est possible de constater qu'un emplacer pour réaliser celui a été créer. Il suffit donc d'ajouter le condensateur proposé sur la schématique.
 
-\subsection{Mesure avec et sans les filtres}
+Une vérification peux-être réaliser. Tout d'abord la bande passante du capteur est a 1.1 kHz. Le filtre RC doit alors être un filtre antialiasing permettant de filtrer correctement cette bande passante. Le choix proposé est une résistance déjà soudée de 4.3 $k\Omega$ et de 33 nF. La constante de temps de ces composant est alors donnée par l'équation :
 
-\subsection{Analyse des résultats}
+\begin{equation}
+    \tau_{RC} = R\cdot C = 4.3\cdot10^3 \cdot 33\cdot10^{-9} = 141.9~\text{$\mu$s}
+\end{equation}
+
+La pulsation est simplement l'inverse de la constante de temps, ce qui permet alors d'obtenir la fréquence de coupure pour savoir si le filtre est correctement dimensionné pour la bande passante du capteur de positon :
+
+\begin{equation}
+    f_0 = \frac{\omega_0}{2\pi} = \frac{1}{\tau_{RC}\cdot2\pi} = \frac{1}{141.9\cdot10^{-6}\cdot2\pi} = 1'121.6 Hz
+\end{equation}
+
+Ceci confirme le bon choix du filtre RC.
+
+Les mesures précédente de la plaque ont permis d'observer une réponse des capteur beaucoup plus propre et bien moins bruité confirmant alors le bon fonctionnement du filtre.
 
 
-
-Hard
-\begin{enumerate}
-    \item Ajout filtre sur pos
-    \item Modif pont div mes pos et cour
-    \item Faire des vérifs (cour et pos)
-\end{enumerate}
-
-\section{Introduction}
