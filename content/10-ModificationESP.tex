@@ -125,75 +125,104 @@ Ceci donne alors les codes suivants :
 
 \noindent
 \begin{minipage}[c]{0.55\textwidth}
-    Pour finir, l'interface WEB fut modifiée pour afficher les nouvelles valeurs.
 
-    Pour commencer, il fallu ajouter une troisième collones sur l'interface web. Cette nouvelle colonnes est dédiée a l'affichage du courant. Cela est gérer par la partie HTML de l'interface WEB.
-
-    Il également nécessaire de récupérerles valeurs. Ceci est réaliser par la partie JavaScript de l'interface web. C'est ici que l'usage des balises XML est employé permettant de correctement indiqué l'emplacement des valeurs du courant.
-
-    L'interface fut également modifiée pour avoir une taille variable selon la taille de l'écran.
+  Le résultat est présent s
 \end{minipage}%
 \hfill
 \begin{minipage}[c]{0.4\textwidth}
-    \centering
-    \includegraphics[trim = 0 10cm 0 8cm, clip, width=\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.jpeg}
-    \captionof{figure}{Interface WEB avec l'ajout du courant}
+  \centering
+  \includegraphics[trim = 0 10cm 0 8cm, clip, width=\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.jpeg}
+  \captionof{figure}{Interface WEB avec l'ajout du courant}
 \end{minipage}
 
-Ceci-donne alors :
+Pour commencer, il fallu ajouter une troisième collones sur l'interface web. Cette nouvelle colonnes est dédiée a l'affichage du courant. La valeur du courant est dès lors récupérer via la balise XML placer précédement dans le code arduino :
 
 \begin{minted}{html}
-      // Extraction des 8 valeurs (Pos 1..4 et Cur 1..4)
-      var v_p1 = extractVal("valInd1");
-      var v_p2 = extractVal("valInd2");
-      var v_p3 = extractVal("valInd3");
-      var v_p4 = extractVal("valInd4");
+<div class="inducteurs-colonnes">
+  <div class="bloc-colonne">
+    <div class="entete">Data</div>
+    <div class="valeur" style="border:none; font-weight:bold;">Pos 1</div>
+    <div class="valeur" style="border:none; font-weight:bold;">Pos 2</div>
+    <div class="valeur" style="border:none; font-weight:bold;">Pos 3</div>
+    <div class="valeur" style="border:none; font-weight:bold;">Pos 4</div>
+  </div>
+  <div class="bloc-colonne">
+    <div class="entete">Position [mm]</div>
+    <div class="valeur" id="valInd1">0.000</div>
+    <div class="valeur" id="valInd2">0.000</div>
+    <div class="valeur" id="valInd3">0.000</div>
+    <div class="valeur" id="valInd4">0.000</div>
+  </div>
+  // Nouvelle colonne pour le courant
+  <div class="bloc-colonne">
+    <div class="entete">Courant [A]</div>
+    <div class="valeur" id="curInd1">0.000</div>
+    <div class="valeur" id="curInd2">0.000</div>
+    <div class="valeur" id="curInd3">0.000</div>
+    <div class="valeur" id="curInd4">0.000</div>
+  </div>
+</div>
+  ...
+  // Extraction des 8 valeurs (Pos 1..4 et Cur 1..4)
+  var v_p1 = extractVal("valInd1");
+  var v_p2 = extractVal("valInd2");
+  var v_p3 = extractVal("valInd3");
+  var v_p4 = extractVal("valInd4");
 
-      var v_c1 = extractVal("curInd1");
-      var v_c2 = extractVal("curInd2");
-      var v_c3 = extractVal("curInd3");
-      var v_c4 = extractVal("curInd4");
+  var v_c1 = extractVal("curInd1");
+  var v_c2 = extractVal("curInd2");
+  var v_c3 = extractVal("curInd3");
+  var v_c4 = extractVal("curInd4");
+
+  // Mise à jour de l'affichage HTML
+  document.getElementById("valInd1").innerHTML = v_p1.toFixed(3);
+  document.getElementById("valInd2").innerHTML = v_p2.toFixed(3);
+  document.getElementById("valInd3").innerHTML = v_p3.toFixed(3);
+  document.getElementById("valInd4").innerHTML = v_p4.toFixed(3);
+
+  document.getElementById("curInd1").innerHTML = v_c1.toFixed(3);
+  document.getElementById("curInd2").innerHTML = v_c2.toFixed(3);
+  document.getElementById("curInd3").innerHTML = v_c3.toFixed(3);
+  document.getElementById("curInd4").innerHTML = v_c4.toFixed(3);
 \end{minted}
 
-Ceci permet dès lors d'obtenir l'interface présente à droite. Il fallu cependant optimiser l'affichage pour les téléphone protable. Ceci-fut réaliser
+L'interface fut également modifiée pour avoir une taille variable selon la taille de l'écran. Tout d'abord celle-ci vérifie la taille actuelle de l'écran. Si celle-ci est inférieur a 600px, alors l'interface pass a un affichage plus petit. De plus si l'écran s'avère réellement trop petite alors le principe d'un flex-warp est employé. Celui-ci vient tout simplement réaliser un retour  a la ligne du texte dans les collones. Cela est alors réalisé comme suit :
+
+\begin{minted}{html}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  ...
+  /* Responsive (Téléphone) */
+  @media (max-width: 600px) {
+    .inducteurs-colonnes { gap: 15px; }
+    .entete { font-size: 14px; }
+    .valeur { font-size: 14px; width: 50px; padding: 4px; }
+    .button { font-size: 24px; padding: 10px 20px; }
+  }
+\end{minted}
 
 \subsection{Filtrage des données}
+Les données affiché changeant très rapidement et régulirèmenet, des valeurs filtrés furent dès lors envoyer. Ceci fut réaliser via un filtre d'ordre 1 Cela se fait très simplement au niveau du programme principale comme suit :
 
+\begin{minted}{c}
+  Pos1_filt = (0.001 * Position1) + (0.999 * Pos1_filt);
+  Pos2_filt = (0.001 * Position2) + (0.999 * Pos2_filt);
+  Pos3_filt = (0.001 * Position3) + (0.999 * Pos3_filt);
+  Pos4_filt = (0.001 * Position4) + (0.999 * Pos4_filt);
 
-\subsection*{Améliorations de l'Interface Web et de la Communication}
+  Cur1_filt = (0.0001f * Current1) + (0.9999f * Cur1_filt);
+  Cur2_filt = (0.0001f * Current2) + (0.9999f * Cur2_filt);
+  Cur3_filt = (0.0001f * Current3) + (0.9999f * Cur3_filt);
+  Cur4_filt = (0.0001f * Current4) + (0.9999f * Cur4_filt);
+\end{minted}
 
-% \subsubsection*{1. Résolution du problème de chargement infini (Serveur Web)}
-% Le blocage systématique lors de la connexion initiale à la page web a été résolu par deux interventions logicielles majeures sur l'ESP32 :
-% \begin{itemize}
-%   \item \textbf{Correction des codes de statut HTTP :} Les fonctions de réponse du serveur (via la méthode \texttt{server.send()}) renvoyaient initialement le code \texttt{250}. Ce code n'étant pas un standard de succès HTTP, les navigateurs web restaient en attente d'une confirmation. Ce code a été remplacé par le code standard \texttt{200} (OK), validant ainsi immédiatement la complétion de la requête.
-%   \item \textbf{Désengorgement de la boucle principale (\textit{Main Loop}) :} La lecture ininterrompue du buffer série (\texttt{while (MySerial.available() > 0)}) monopolisait les ressources processeur de l'ESP32 en présence d'un flux de données élevé en provenance du DSP. Une limite logicielle a été introduite (\texttt{bytesToRead = 128}) pour forcer le microcontrôleur à sortir de la boucle de lecture matérielle, libérant ainsi du temps de calcul pour le traitement des requêtes clients WiFi (\texttt{server.handleClient()}).
-% \end{itemize}
+Ceux-ci sont dès lors employé pour l'envoie des données :
 
-\subsubsection*{2. Intégration de l'affichage des courants}
-Afin de superviser simultanément la position et le courant des quatre inducteurs, la chaîne de communication globale a été restructurée pour transmettre 8 variables flottantes (au lieu de 4) :
-\begin{itemize}
-  \item \textbf{Côté DSP (\texttt{C2000}) :} La taille du buffer d'émission (\texttt{TX\_BUF\_LEN}) a été augmentée de 64 à 128 octets pour éviter les débordements de mémoire. Le prototype et la définition de la fonction \texttt{SendFloatAsText()} ont été modifiés pour accepter 8 arguments, permettant de concaténer et d'envoyer la trame complète en une seule interruption série.
-  \item \textbf{Côté Microcontrôleur WiFi (\texttt{ESP32-S2}) :} Le buffer de réception (\texttt{UART\_BUFFER}) a été proportionnellement agrandi. La fonction de \textit{parsing} (découpage de la trame via \texttt{strtok}) a été ajustée pour extraire itérativement jusqu'à 8 valeurs. Ces données sont ensuite formatées dans le serveur web en injectant de nouvelles balises XML dédiées (\texttt{<curIndX>}).
-  \item \textbf{Côté Client Web (\texttt{HTML/JS}) :} L'interface a été enrichie d'une nouvelle structure en colonne (DOM). Le script JavaScript asynchrone gérant la communication AJAX a été complété pour extraire les données de courant du flux XML, traiter la conversion des virgules en points, et actualiser dynamiquement l'affichage en temps réel.
-\end{itemize}
+\begin{minted}{c}
+  UartCounter++;
+  if (UartCounter >= 250)
+  {
+      UartCounter = 0;
 
-\subsubsection*{3. Optimisation pour l'affichage mobile (\textit{Responsive Design})}
-Pour pallier le chevauchement et le débordement des éléments graphiques sur des écrans étroits (smartphones), le code CSS de l'interface a été remanié :
-\begin{itemize}
-  \item \textbf{Restructuration de la mise en page :} Implémentation d'une disposition en boîte flexible (\texttt{flex-wrap: wrap}) sur le conteneur principal pour autoriser le retour à la ligne des éléments si nécessaire.
-  \item \textbf{Requêtes multimédias (\textit{Media Queries}) :} Ajout d'une règle d'adaptation conditionnelle (\texttt{@media (max-width: 600px)}). Cette règle réduit dynamiquement l'espacement inter-colonnes (\texttt{gap}), les marges internes (\texttt{padding}), la taille des polices d'écriture (\texttt{font-size}) et la largeur absolue des cellules d'affichage lorsque la résolution horizontale de l'écran est critique.
-\end{itemize}
-
-\subsubsection*{4. Déploiement d'un graphique dynamique (Oscilloscope virtuel)}
-Afin de faciliter l'analyse du comportement transitoire du système de sustentation, un outil de visualisation temporelle a été ajouté à la page web :
-\begin{itemize}
-  \item \textbf{Technologie autonome :} L'ESP32 générant un réseau local sans accès à Internet, l'utilisation de bibliothèques tierces (comme \textit{Chart.js}) était impossible. Le graphique a été entièrement implémenté en utilisant l'élément natif HTML5 \texttt{<canvas>} et un script JavaScript dédié.
-  \item \textbf{Fenêtre glissante et chronométrie :} L'axe temporel (abscisse) utilise l'horloge interne du navigateur (\texttt{Date.now()}) pour garantir un défilement rigoureusement fluide. La zone d'affichage agit comme une fenêtre glissante de 10 secondes synchronisée au clic sur le bouton de démarrage, simulant avec précision le comportement d'un oscilloscope classique.
-\end{itemize}
-
-\subsubsection*{5. Débogage et validation physique de la machine d'états}
-Lors des essais d'intégration, une anomalie a été identifiée grâce à la télémétrie web : bien que la position réponde correctement, le courant restait figé autour de 3A (valeur de pré-décollage), et ce même lorsque l'inducteur entrait en contact physique avec l'aimant.
-\begin{itemize}
-  \item \textbf{Déduction théorique :} Selon la loi de commande implémentée ($i_c = \sqrt{K_{FC} \cdot f_c} \cdot z$), si l'entrefer $z$ devient nul (inducteur collé), le courant de consigne $i_c$ devrait théoriquement s'annuler de manière instantanée.
-  \item \textbf{Correction logicielle :} L'analyse du flux d'exécution a révélé que le DSP restait bloqué indéfiniment dans l'état de préparation au décollage (\texttt{STATE\_1}). La condition de transition exigeait la stabilisation stricte de deux inducteurs simultanément. En isolant la condition pour réaliser les tests sur un seul inducteur, la machine d'états a pu basculer en mode de régulation nominale (\texttt{STATE\_3}), confirmant la justesse de l'hypothèse physique et le bon fonctionnement de l'asservissement en espace d'état.
-\end{itemize}
+      SendFloatAsText(Pos1_filt*1000, Pos2_filt*1000, Pos3_filt*1000, Pos4_filt*1000, Cur1_filt, Cur2_filt, Cur3_filt, Cur4_filt);
+  }
+\end{minted}
