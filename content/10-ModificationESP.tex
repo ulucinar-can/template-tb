@@ -1,7 +1,7 @@
 \chapter{Modification apportée au programme de l'ESP32}
 
 \section{Introduction}
-Ce chapitre traite des modifications et amélioration apporté a l'interface web. La correction d'un chargement infini et l'ajout de la mesure du courant furent implémenter.
+Ce chapitre traite des modifications et améliorations apportées à l'interface web. La correction d'un chargement infini et l'ajout de la mesure du courant ont été implémentés.
 
 \section{Analyse de l'espace mémoire}
 Le compilateur de l'environnement Arduino permet d'évaluer l'espace mémoire occupé au sein de l'ESP32. L'issue de la compilation fournit les informations suivantes concernant l'allocation mémoire :
@@ -14,22 +14,22 @@ Le compilateur de l'environnement Arduino permet d'évaluer l'espace mémoire oc
 
 En ce qui concerne la taille des fichiers sources, le code propre à l'ESP32 représente 9,9~ko, tandis que celui définissant l'interface web occupe 10,6~ko.
 
-La majorité de la mémoire est occupé principalement par les librairies lié au WIFI et du serveur web. Il a tout de meme été possible de réaliser les modifications apporté a l'ESP32.
+La majorité de la mémoire est occupée principalement par les bibliothèques liées au Wi-Fi et au serveur web. Il a tout de même été possible de réaliser les modifications apportées à l'ESP32.
 
-\section{Modifications et correction sur la page web et la communication}
-La page web actuel, permettais depuis le travail de bachelor précédent d'afficher des tracés de la positions. Cependant des problèmes de connections a l'interface WEB subsiste.
+\section{Modifications et corrections sur la page web et la communication}
+La page web actuelle permettait, depuis le travail de bachelor précédent, d'afficher des tracés de la position. Cependant, des problèmes de connexion à l'interface web subsistaient.
 
-Une volonté d'afficher le courant fut désirer ce qui fut dès lors implémenter.
+Une volonté d'afficher le courant a été exprimée, ce qui a dès lors été implémenté.
 
-\subsection{Correction du chargement infinie}
-Lors de la connexion a l'interface utilisateur, il arrivait que celle-ci présente un chargement infini.
+\subsection{Correction du chargement infini}
+Lors de la connexion à l'interface utilisateur, il arrivait que celle-ci présente un chargement infini.
 
-Suite a des recherches, la raison fut trouver dans les fonctions de réponse du serveur, s'appelant \texttt{server.send()}. La réponse renvoyaies initialement le code 250. En se basant sur les références de statut conseiller pour le HTTP \cite{HTTPStatut}, celle-ci n'est pas un standard employer pour indiquer un succès d'une page web. La page WEB ne sait donc pas comment interpreter cette valeur et il arrive qu'elle l'accepte ou non. Dès lors elle fut changer par une valeur mieux connue des serveurs web étant la valeur de 200 qui indique un simple \texttt{OK}.
+À la suite de recherches, la raison a été trouvée dans les fonctions de réponse du serveur, à savoir \texttt{server.send()}. La réponse renvoyait initialement le code 250. En se basant sur les références de statut recommandées pour le protocole HTTP \cite{HTTPStatut}, ce code ne constitue pas un standard employé pour indiquer le succès d'une requête. La page web ne sait donc pas comment interpréter cette valeur, et il arrive qu'elle l'accepte ou non selon les cas. Dès lors, ce code a été remplacé par une valeur mieux connue des serveurs web, à savoir 200, qui indique un simple \texttt{OK}.
 
 \subsection{Ajout de la mesure du courant}
-Suite a la demande de Monsieur Girardin, la mesure de courant fut ajouter sur l'interface WEB.
+À la demande de Monsieur Girardin, la mesure de courant a été ajoutée sur l'interface web.
 
-Pour commencer il fallu modifier la fonction SendFloatAsText afin qu'elle puisse accepter 8 valeurs. Tout d'abord il est néscessaire de modifier la taille du buffer de la transmission \texttt{TX\_BUF\_LEN} en la modifiant de 64 à 128. Il faut ajouter également 4 nouvelle variable  dans les parenthèses de la fonction \texttt{SendFloatAsText}. Les modifications donne dès lors :
+Pour commencer, il a fallu modifier la fonction \texttt{SendFloatAsText} afin qu'elle puisse accepter 8 valeurs. Il a d'abord été nécessaire de modifier la taille du buffer de transmission \texttt{TX\_BUF\_LEN} en la faisant passer de 64 à 128. Quatre nouvelles variables ont également été ajoutées aux paramètres de la fonction \texttt{SendFloatAsText}. Les modifications donnent dès lors :
 
 \begin{minted}{c}
 #define TX_BUF_LEN 128
@@ -62,13 +62,13 @@ void SendFloatAsText(float f0, float f1, float f2, float f3, float f4, float f5,
 }
 \end{minted}
 
-Il faut également modifier le code du côté de l'ESP32 afin qu'il puisse accepter plus de valeurs.
+Le code du côté de l'ESP32 doit également être modifié afin qu'il puisse accepter davantage de valeurs.
 
-Tout d'abbord, il faut augmenter la taille du buffer dédié a la ocmmunciation UART. Ceci se réalise en changeant la constante \texttt{UART\_BUFFER} de 64 à 128.
+Tout d'abord, il faut augmenter la taille du buffer dédié à la communication UART. Ceci se réalise en faisant passer la constante \texttt{UART\_BUFFER} de 64 à 128.
 
-Ensuite, lorsque la trame est entièrement reçu, il faut augmenter la valeur max de la boucle \texttt{while(...)} gérant la conversion des données à 8.
+Ensuite, lorsque la trame est entièrement reçue, il faut porter à 8 la valeur maximale de la boucle \texttt{while(...)} gérant la conversion des données.
 
-Pour terminer, il faut que l'interface WEB puisse trouver les valeurs de courants. Des nouvelles balises XML furent dès lors créer afin d'indiquer a l'interface WEB les valeurs du courants. Celle-ci sont déclaré comme \texttt{<curIndX>} ou X représente un numéro allant de 1 à 4 selon l'inducteur.
+Pour terminer, il faut que l'interface web puisse retrouver les valeurs de courant. De nouvelles balises XML ont dès lors été créées afin d'indiquer à l'interface web les valeurs de courant. Celles-ci sont déclarées sous la forme \texttt{<curIndX>}, où X représente un numéro allant de 1 à 4 selon l'inducteur.
 
 Ceci donne alors les codes suivants :
 
@@ -126,16 +126,16 @@ Ceci donne alors les codes suivants :
 \noindent
 \begin{minipage}[c]{0.55\textwidth}
 
-  Le résultat est présent s
+  Le résultat est présenté ci-contre.
 \end{minipage}%
 \hfill
 \begin{minipage}[c]{0.4\textwidth}
   \centering
   \includegraphics[trim = 0 10cm 0 8cm, clip, width=\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.jpeg}
-  \captionof{figure}{Interface WEB avec l'ajout du courant}
+  \captionof{figure}{Interface web avec l'ajout du courant}
 \end{minipage}
 
-Pour commencer, il fallu ajouter une troisième collones sur l'interface web. Cette nouvelle colonnes est dédiée a l'affichage du courant. La valeur du courant est dès lors récupérer via la balise XML placer précédement dans le code arduino :
+Pour commencer, il a fallu ajouter une troisième colonne à l'interface web. Cette nouvelle colonne est dédiée à l'affichage du courant. La valeur du courant est dès lors récupérée via la balise XML placée précédemment dans le code Arduino :
 
 \begin{minted}{html}
 <div class="inducteurs-colonnes">
@@ -186,7 +186,7 @@ Pour commencer, il fallu ajouter une troisième collones sur l'interface web. Ce
   document.getElementById("curInd4").innerHTML = v_c4.toFixed(3);
 \end{minted}
 
-L'interface fut également modifiée pour avoir une taille variable selon la taille de l'écran. Tout d'abord celle-ci vérifie la taille actuelle de l'écran. Si celle-ci est inférieur a 600px, alors l'interface pass a un affichage plus petit. De plus si l'écran s'avère réellement trop petite alors le principe d'un flex-warp est employé. Celui-ci vient tout simplement réaliser un retour  a la ligne du texte dans les collones. Cela est alors réalisé comme suit :
+L'interface a également été modifiée afin d'avoir une taille variable selon celle de l'écran. Celle-ci vérifie d'abord la taille actuelle de l'écran. Si cette dernière est inférieure à 600~px, l'interface bascule alors vers un affichage plus compact. De plus, si l'écran s'avère réellement trop petit, le principe d'un retour à la ligne flexible (\textit{flex-wrap}) est employé. Celui-ci vient simplement réaliser un retour à la ligne des colonnes, les superposant ainsi. Cela est réalisé comme suit :
 
 \begin{minted}{html}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -201,7 +201,7 @@ L'interface fut également modifiée pour avoir une taille variable selon la tai
 \end{minted}
 
 \subsection{Filtrage des données}
-Les données affiché changeant très rapidement et régulirèmenet, des valeurs filtrés furent dès lors envoyer. Ceci fut réaliser via un filtre d'ordre 1 Cela se fait très simplement au niveau du programme principale comme suit :
+Les données affichées changeant très rapidement et régulièrement, des valeurs filtrées ont dès lors été envoyées. Ceci a été réalisé au moyen d'un filtre du premier ordre. Cela se fait très simplement au niveau du programme principal, comme suit :
 
 \begin{minted}{c}
   Pos1_filt = (0.001 * Position1) + (0.999 * Pos1_filt);
@@ -215,7 +215,7 @@ Les données affiché changeant très rapidement et régulirèmenet, des valeurs
   Cur4_filt = (0.0001f * Current4) + (0.9999f * Cur4_filt);
 \end{minted}
 
-Ceux-ci sont dès lors employé pour l'envoie des données :
+Ceux-ci sont dès lors employés pour l'envoi des données :
 
 \begin{minted}{c}
   UartCounter++;
