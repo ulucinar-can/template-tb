@@ -123,18 +123,6 @@ Ceci donne alors les codes suivants :
   strcat(XML, buf);
 \end{minted}
 
-\noindent
-\begin{minipage}[c]{0.55\textwidth}
-
-  Le résultat est présenté ci-contre.
-\end{minipage}%
-\hfill
-\begin{minipage}[c]{0.4\textwidth}
-  \centering
-  \includegraphics[trim = 0 10cm 0 8cm, clip, width=\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.jpeg}
-  \captionof{figure}{Interface web avec l'ajout du courant}
-\end{minipage}
-
 Pour commencer, il a fallu ajouter une troisième colonne à l'interface web. Cette nouvelle colonne est dédiée à l'affichage du courant. La valeur du courant est dès lors récupérée via la balise XML placée précédemment dans le code Arduino :
 
 \begin{minted}{html}
@@ -162,7 +150,9 @@ Pour commencer, il a fallu ajouter une troisième colonne à l'interface web. Ce
     <div class="valeur" id="curInd4">0.000</div>
   </div>
 </div>
-  ...
+\end{minted}
+
+\begin{minted}{javascript}
   // Extraction des 8 valeurs (Pos 1..4 et Cur 1..4)
   var v_p1 = extractVal("valInd1");
   var v_p2 = extractVal("valInd2");
@@ -190,7 +180,9 @@ L'interface a également été modifiée afin d'avoir une taille variable selon 
 
 \begin{minted}{html}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  ...
+\end{minted}
+
+\begin{minted}{css}
   /* Responsive (Téléphone) */
   @media (max-width: 600px) {
     .inducteurs-colonnes { gap: 15px; }
@@ -226,3 +218,13 @@ Ceux-ci sont dès lors employés pour l'envoi des données :
       SendFloatAsText(Pos1_filt*1000, Pos2_filt*1000, Pos3_filt*1000, Pos4_filt*1000, Cur1_filt, Cur2_filt, Cur3_filt, Cur4_filt);
   }
 \end{minted}
+
+\subsection{Résultat final}
+Le résultat final de cela est démontré dans la \autoref{fig:InterfaceFinal} :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{assets/content/10-ModificationESP/InterfaceWeb.png}
+  \caption{Interface utilisateur final}
+  \label{fig:InterfaceFinal}
+\end{figure}
