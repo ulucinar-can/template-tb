@@ -6,7 +6,7 @@ Ce chapitre traite les modifications apportées à la régulation de courant ain
 \section{Analyse de la régulation de courant}
 
 \subsection{Changement des valeurs d'inductances}
-La régulation dépend directement de la valeur de l'inductance et de la résistance comme défini dans l'équation du système à régler. Pour rappel, l'équation de $G_{ui}$ est décrite comme telle :
+Suite a la découverte des nouvelles valeurs d'inductances, il est néscessaire de les inclures dans le système a régler. Ceux-ci apparaissent principalement dans l'équation du système $G_{ui}$. Pour rappel, le système $G_{ui}$ est décrit comme telle :
 
 \begin{equation}
     G_{ui}(s) = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
@@ -22,11 +22,7 @@ Avec :
     \end{aligned} \right.
 \end{equation*}
 
-En reprenant les résultats obtenus dans le \autoref{tab:mesures_2mm}, les choix des inductances et des résistances sont les suivants :
-
-
-
-Dès lors, les huit valeurs d'inductance et de résistance ont été implémentées dans le script MATLAB réalisé par Yersin \cite{Yersin} comme suit :
+En reprenant les résultats obtenus dans le \autoref{tab:mesures_2mm}, il est possible de les intégrer dans le script Matlab réalisé par Yersin \cite{Yersin} comme suit :
 
 \begin{minted}{matlab}
     R1      = 1.172409;                    % résistance de la bobine 1
@@ -38,8 +34,6 @@ Dès lors, les huit valeurs d'inductance et de résistance ont été implément�
     L_n3    = 7.699234e-3;                 % inductance nominale 3
     L_n4    = 7.749885e-3;                 % inductance nominale 4
 \end{minted}
-
-
 
 \subsection{Erreur}
 \label{subsec:RegPIError}
@@ -108,25 +102,38 @@ Il a alors été décidé de fixer la valeur de $K_{pi}$ à 2 pour chaque induct
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
-    \caption{Saut indiciel avec $K_{pi}$ fixé à 2}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/SautInd1.pdf}
+    \caption{Saut indiciel avec $K_{pi}$ fixé à 2 pour l'inducteur 1}
     \label{fig:SautInd2}
 \end{figure}
+
+L'erreur donnée pour l'inducteur 1 est de 1.84\%.
 
 Afin de diminuer l'erreur et en se basant sur la \autoref{fig:Erreur}, un $N$ valant 7 a été retenu. Avec cette nouvelle valeur, le saut indiciel devient :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/SautInd2.pdf}
     \caption{Saut indiciel avec $N$ fixé à 7}
     \label{fig:SautInd3}
 \end{figure}
 
-L'erreur a bel et bien diminué. Il est dès lors possible de rechercher la nouvelle valeur de $\tau_{iBF}$.
+L'erreur donnée pour l'inducteur 1 est de 1.29\%.
 
-\red{Dire que j'ai choisi N = 7 et Kpi a 2 et donner les résultat de tau\_ibf. J'ai choisi cette valeur en essayant plusieurs valeurs. Dire que forcément le choix donnera un tau\_ibf beaucoup plus}
+L'erreur a bel et bien diminué. Il est dès lors possible de rechercher la nouvelle valeur de $\tau_{iBF}$. Pour cela, le script tourna plusieurs fois afin de déterminer la valeur de cette constante de temps. Ceci donna alors les valeurs suivantes par inductance :
 
-\subsection{Choix de N et de Kpi}
+\begin{equation*}
+    \tau_{iBF1} = 1.60 \text{ms}\quad \tau_{iBF2} = 1.68 \text{ms} \quad \tau_{iBF3} = 1.60 \text{ms} \quad \tau_{iBF4} = 1.60 \text{ms}
+\end{equation*}
 
-\section{Définition du système}
+Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle définit pour une marge de phase a 45°. Dès lors une valeur moyenne sera employer pour la synthèse de la régulation de position puisque les 4 valeurs sont proches l'une de l'autre donnant alors :
 
+\begin{equation}
+    \tau_{iBF,moy} = 1.62 \text{ms}
+\end{equation}
+
+\section{Régulation de positions}
+La régulation de positions jusqu'à maintenant dépendait 
+
+\subsection{Information}
+Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour l'aide de génération de script permettant d'obtenir les coefficient pour réaliser la régulation de position.

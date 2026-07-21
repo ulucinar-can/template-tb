@@ -13,7 +13,7 @@ Les conditionneurs de courant n'exploitant pas la plage entière, ceux-ci ont é
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/11-ModificationHardware/GainCondCour.png}
-    \caption{Gain du conditionneur de courant}
+    \caption{Gain du conditionneur de courant \cite{Freyche}}
     \label{fig:GainCondCour}
 \end{figure}
 
@@ -82,7 +82,7 @@ Il est possible de retracer le circuit en se concentrant uniquement sur le pont 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{assets/content/11-ModificationHardware/GainCondPos.png}
-    \caption{Gain du conditionneur de position}
+    \caption{Gain du conditionneur de position \cite{Freyche}}
     \label{fig:GainCondPos}
 \end{figure}
 
@@ -105,9 +105,9 @@ Le calcul est très simple. Puisque le capteur varie de 0 à 10~V et que la sort
 Il suffit alors d'isoler l'une des résistances comme suit :
 
 \begin{align}
-    0.33\,R_{13} + 0.33\,R_{19} & = R_{19}                                      \\
-    0.33\,R_{13}              & = R_{19} - 0.33\,R_{19} = 0.67\,R_{19}            \\
-    R_{13}                    & = \frac{0.67}{0.33}\,R_{19} \simeq 2.03\,R_{19}
+    0.33\,R_{13} + 0.33\,R_{19} & = R_{19}                                        \\
+    0.33\,R_{13}                & = R_{19} - 0.33\,R_{19} = 0.67\,R_{19}          \\
+    R_{13}                      & = \frac{0.67}{0.33}\,R_{19} \simeq 2.03\,R_{19}
 \end{align}
 
 En gardant la valeur de $R_{19}$ à $\SI{1.2}{\kilo\ohm}$, la valeur de $R_{13}$ est de :
@@ -150,7 +150,13 @@ Le circuit de conditionnement donne bien le résultat désiré, les valeurs obte
 
 \section{Ajout de filtres sur les mesures de position}
 \label{sec:FiltreRC}
-La mesure de position étant très bruitée, un filtre RC a été ajouté. En se basant sur les travaux de Freyche \cite{Freyche}, il est possible de constater qu'un emplacement pour réaliser celui-ci avait été créé. Il suffit donc d'ajouter le condensateur proposé sur la schématique.
+La mesure de position étant très bruitée, un filtre RC a été ajouté. En se basant sur les travaux de Freyche \cite{Freyche}, il est possible de constater qu'un emplacement pour réaliser celui-ci avait été créé. Il suffit donc d'ajouter le condensateur proposé de la schématique :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/content/11-ModificationHardware/FiltreRC.png}
+    \caption{Filtre RC proposé dans la schématique \cite{Freyche}}
+\end{figure}
 
 Une vérification peut être réalisée. Tout d'abord, la bande passante du capteur est de 1.1~kHz. Le filtre RC doit alors être un filtre antialiasing permettant de filtrer correctement cette bande passante. Le choix proposé est une résistance déjà soudée de 4.3~$k\Omega$ et un condensateur de 33~nF. La constante de temps de ces composants est alors donnée par l'équation :
 
