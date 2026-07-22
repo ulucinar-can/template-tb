@@ -146,9 +146,9 @@ L'idée de la régulation MIMO est donc d'au lieu de réguler quatre entrefers i
 Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
 
 \subsection{Information}
-Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour de l'aide afin de générer un script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+Par manque de temps, l'intelligence artificielle fut employer pour de l'aide afin de générer un script permettant d'obtenir les coefficient pour réaliser la régulation de position.
 
-\subsection{Définition du de la géométrie du sytème}
+\subsection{Définition du de la géométrie}
 Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Il sera émis que celle-ci se trouve au centre de la plaque :
 
 \begin{figure}[H]
@@ -432,13 +432,253 @@ Puis en mettant en évidence les facteurs communs, il est finalement possible d'
 Ces trois relations s'interprètent directement. L'entrefer moyen
 $\bar\delta$ correspond à la moyenne arithmétique des quatre mesures. Le tangage $\theta$ se déduit de l'écart entre la moyenne des inducteurs avant ($\delta_1$, $\delta_2$) et celle des inducteurs arrière ($\delta_3$, $\delta_4$), rapporté à leur écartement. Le roulis $\varphi$ s'obtient de la même manière entre les inducteurs gauche et droite.
 
-La reconstruction de la position ne nécessite donc, en temps réel, que trois sommes pondérées : aucune inversion matricielle n'est réalisée par le système de commande.
+La reconstruction de la position ne nécessite donc, en temps réel, que trois sommes pondérées. Aucune inversion matricielle n'est réalisée par le système de commande.
+
+\subsection{Définition du système}
+La géométrie de la maquette étant définie, il est encore néscessaire de définir les equations physiques de celle-ci. Précédemment la loi émises était simplement celle de Newton. Cependant cette fois-ci, elle devra être définit pour un coprs rigide complet. Newton vient exprimer la translation et Euler \cite{Euler} vient exprimer les rotations.\\
+
+La loi de Newton s'écrit comme précédement mais pour le corps rigide complet :
+
+\begin{equation}
+    m_{tot} \cdot \ddot{\bar\delta} = \sum F
+    = F_p - \sum_{i=1}^{4} F_i
+    = m_{tot} \cdot g - \sum_{i=1}^{4} F_i .
+    \label{eq:newton-mimo}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $m_{tot}$ : la masse totale de la partie lévitante $18.052$ [kg]
+    \item $F_i$ : la force d'attraction de l'inducteur $i$ [N]
+\end{itemize}
+
+Les rotations sont dès lors calculer en employer la loi d'Euler :
+
+\begin{equation}
+    J \cdot \ddot{\alpha} = \sum T
+\end{equation}
+
+Avec :
+
+\begin{itemize}
+    \item $J$ : L'inertie [$kg\cdot m^2$]
+    \item $\ddot{\alpha}$ : L'accélération angulaire [$rad/s^2$]
+    \item $T$ : Le couple [$N\cdot m$]
+\end{itemize}
+
+Le système présente deux inerties distinctes, une autour de l'axe $X$
+(roulis) et une autour de l'axe $Y$ (tangage). La maquette possédant deux plans de symétrie perpendiculaires, ces deux axes sont les axes principaux d'inertie. Les deux rotations sont donc découplées et peuvent être traitées séparément.
+
+Le couple autour de l'axe $Y$ créé par un inducteur se calcule à partir de la force verticale $F_i$ qu'il exerce et de son bras de levier $x_i$, c'est-à-dire sa distance par rapport au centre de gravité. Le couple autour de l'axe $X$ s'exprime de la même façon, à partir de la distance $y_i$. La force de pesanteur, appliquée au centre de gravité, possède un bras de levier nul et ne crée donc aucun couple. D'ou sont absence dans les calcules de couples.
+
+Le signe négatif provient de la convention adoptée sur les entrefers. Un angle $\theta$ positif correspond à un accroissement des entrefers du côté des $x$ positifs, c'est-à-dire à un abaissement de ce côté de la plaque. Or une force $F_i$ positive attire la plaque vers le haut et referme l'entrefer correspondant. Elle tend donc à faire diminuer $\theta$. Il en va de même pour le roulis. La loi d'Euler s'écrit dès lors :
+
+\begin{equation}
+    J_Y \cdot \ddot\theta = -\sum_{i=1}^{4} x_i\cdot F_i
+    \qquad
+    J_X \cdot \ddot\varphi = -\sum_{i=1}^{4} y_i\cdot F_i
+    \label{eq:euler-mimo}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $J_Y$ : le moment d'inertie de tangage [$kg\cdot m^2$]
+    \item $J_X$ : le moment d'inertie de roulis [$kg\cdot m^2$]
+    \item $x_i\cdot F_i$, $y_i\cdot F_i$ : les couples créés par la force $F_i$ [$N\cdot m$]
+\end{itemize}
+
+
+Les equations de Newton et d'Euler font apparaitre naturellement 3 combinaisons des quatres forces : La force totale, le couple de tangage et le couple de roulis. Pour travailler avec les deux lois simultanément, il est néscessaire de passer à un système d'effort modaux. Pour simplifier la chose, un vecteur $U$ les regroupant est définit telle quelle  :
+
+\begin{equation}
+    \boldsymbol{U} = E\,\boldsymbol{F}
+    = \begin{pmatrix}
+        \sum_i F_i          \\[3pt]
+        \sum_i x_i\cdot F_i \\[3pt]
+        \sum_i y_i\cdot F_i
+    \end{pmatrix},
+    \qquad
+    E = G^{\mathsf T}
+    = \begin{pmatrix}
+        1       & 1       & 1       & 1       \\
+        +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
+        +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
+    \end{pmatrix}
+    \label{eq:efforts-modaux}
+\end{equation}
+
+Le modèle dynamique établi précédemment se compose de trois équations,
+une par degré de liberté :
+
+\begin{equation*}
+    \left\{
+    \begin{aligned}
+        m\,\ddot{\bar\delta} & = m g - \sum_{i=1}^{4} F_i  \\[4pt]
+        J_Y\,\ddot\theta     & = - \sum_{i=1}^{4} x_i\,F_i \\[4pt]
+        J_X\,\ddot\varphi    & = - \sum_{i=1}^{4} y_i\,F_i
+    \end{aligned}
+    \right.
+\end{equation*}
+
+Les quatre forces $F_i$ n'interviennent jamais individuellement dans ces équations : elles n'apparaissent qu'à travers trois combinaisons linéaires précises. Le mouvement de la partie en lévitation ne dépend donc pas des quatre forces prises séparément, mais uniquement de ces trois grandeurs.
+
+Ces trois combinaisons sont appelées efforts modaux, chacune étant
+associée à l'un des trois modes de mouvement :
+
+\begin{equation*}
+    U_1 = \sum_{i=1}^{4} F_i
+    \qquad
+    U_2 = \sum_{i=1}^{4} x_i\cdot F_i
+    \qquad
+    U_3 = \sum_{i=1}^{4} y_i\cdot F_i
+\end{equation*}
+
+Le terme effort est employé car ces grandeurs ne sont pas de même nature : $U_1$ est une force [N] pilotant le pompage, tandis que $U_2$ et $U_3$ sont des couples [N\,m] pilotant respectivement le tangage et le roulis.
+
+Les équations du mouvement prennent alors une forme condensée, où chaque degré de liberté est piloté par un unique effort :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+        m\,\ddot{\bar\delta} & = m g - U_1 \\
+        J_Y\,\ddot\theta     & = - U_2     \\
+        J_X\,\ddot\varphi    & = - U_3
+    \end{aligned}
+    \right.
+\end{equation}
+
+Ces trois combinaisons étant linéaires en $\boldsymbol{F}$, elles
+s'expriment sous forme d'un produit matriciel. Il suffit pour cela de
+relever les coefficients de chaque force dans chacune des trois relations :
+
+\begin{equation*}
+    \begin{aligned}
+        U_1 & = 1 \cdot F_1 + 1 \cdot F_2 + 1 \cdot F_3 + 1 \cdot F_4 \\
+        U_2 & = x_1 F_1 + x_2 F_2 + x_3 F_3 + x_4 F_4                 \\
+        U_3 & = y_1 F_1 + y_2 F_2 + y_3 F_3 + y_4 F_4
+    \end{aligned}
+\end{equation*}
+
+Chaque ligne fournit une ligne de la matrice recherchée :
+
+\begin{equation}
+    \boldsymbol{U} = E\,\boldsymbol{F}
+    \qquad \text{avec} \qquad
+    \boldsymbol{U} = \begin{pmatrix} U_1 \\ U_2 \\ U_3 \end{pmatrix}
+    \quad
+    \boldsymbol{F} = \begin{pmatrix} F_1 \\ F_2 \\ F_3 \\ F_4 \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+    E = \begin{pmatrix}
+        1   & 1   & 1   & 1   \\
+        x_1 & x_2 & x_3 & x_4 \\
+        y_1 & y_2 & y_3 & y_4
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1       & 1       & 1       & 1       \\
+        +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
+        +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
+    \end{pmatrix}
+\end{equation}
+
+La comparaison avec la matrice géométrique $G^{\mathsf T}$ montre que les lignes de $E$ correspondent exactement aux colonnes de $G^{\mathsf T}$ :
+
+\begin{equation}
+    E = G^{\mathsf T}
+\end{equation}
+
+La dernière étape consiste a travailler avec les trois equations sous une forme identique. A l'équilibre, la force totale du système compense enitèrement celle de pesanteur. Les couples sont dès lors nul. L'écart de l'effort se définit alors comme :
+
+\begin{equation}
+    \boldsymbol{u} = \boldsymbol{U} - \boldsymbol{U}_{stat}
+    \qquad
+    \boldsymbol{U}_{stat} =
+    \begin{pmatrix} m_{tot}\,g \\ 0 \\ 0 \end{pmatrix}.
+\end{equation}
+
+Avec $U_{stat}$ étant le vecteur $U$ lors du maintien.
+
+En introduisant cet écart dans les équations de Newton et d'Euler, le terme de pesanteur disparaît.
+
+Pour le pompage, la première composante de $\boldsymbol{U}_{stat}$ compense exactement le poids :
+
+\begin{equation*}
+    m_{tot}\,\ddot{\bar\delta}
+    = m_{tot}\,g - U_1
+    = m_{tot}\,g - \bigl(u_1 + m_{tot}\,g\bigr)
+    = -\,u_1
+\end{equation*}
+
+Pour le tangage et le roulis, les composantes correspondantes de
+$\boldsymbol{U}_{stat}$ étant nulles, l'écart se confond avec l'effort
+lui-même :
+
+\begin{equation*}
+    J_Y\,\ddot\theta = -\,U_2 = -\,u_2
+    \qquad
+    J_X\,\ddot\varphi = -\,U_3 = -\,u_3
+\end{equation*}
+
+Les trois équations prennent alors exactement la même forme :
+
+\begin{equation}
+    \boxed{\ I_j \cdot \ddot q_j = -\,u_j\ }
+    \qquad j \in \{Z,\ T,\ R\}
+    \label{eq:mode-dyn}
+\end{equation}
+
+Avec :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccc}
+        \toprule
+        \textbf{Mode} & $j$ & $q_j$        & $I_j$     \\
+        \midrule
+        Pompage       & $Z$ & $\bar\delta$ & $m_{tot}$ \\
+        Tangage       & $T$ & $\theta$     & $J_Y$     \\
+        Roulis        & $R$ & $\varphi$    & $J_X$     \\
+        \bottomrule
+    \end{tabular}
+    \caption{Correspondance entre les trois modes, leur coordonnée et leur
+        inertie.}
+    \label{tab:modes}
+\end{table}
+
+Le système est dès lors définit. Cependant 2 inconues persistent encore. L'inertie de l'axe X et l'inertie de l'axe Y. Ceux-ci vont dès lors être calculer.
 
 \subsection{Calcule des inerties}
+Les inerties peuvent être calculer en utilisant la méthode du pendule bifilaire. C'est une méthode classique de mesure de moment d'inertie. Le corps à mesurer est suspendu par deux fils verticaux parallèles de longueur $L_{fil}$, écartés d'une distance $D$, puis mis en légère oscillation de rotation autour de l'axe vertical passant au milieu des deux fils. Lorsque le corps tourne d'un petit angle, les fils s'inclinent et le corps remonte légèrement, la pesanteur crée alors un couple de rappel qui le ramène vers sa position d'équilibre, exactement comme la gravité ramène un pendule ordinaire vers la verticale. Le corp oscille donc à une période $T$ qui dépend de son inertie. Plus l'inertie est grande, plus l'oscillation est lente. L'equation définissant ce principe est donné par l'\autoref{eq:bifilaire} :
+
+\begin{equation}
+    \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }
+
+    \qquad b = \frac{D}{2}.
+    \label{eq:bifilaire}
+\end{equation}
+
+Avec :
+
+\begin{itemize}
+    \item $m$ : la masse du corps suspendu, ici $m_{tot} = 18{,}052$[kg]
+    \item $b$ : le demi-écartement des fils [m]
+    \item $T$ : la période d'oscillation [s]
+    \item $L_{fil}$ : la longueur des fils, ici $1.23$ [m]
+\end{itemize}
+
+Les fils étant attaché au pieds de la maquette lorsque celle-ci furent mesuré, les distances $D$ par axe sont disponible dans la \autoref{fig:VueDessus}. Celle-ci sont dès lors pour la distance en X de 385 mm ($D_X = 0.385$) et pour la distance en Y de 260 mm ($D_Y = 0.260$).
+
+La grandeurs manquette est celle de l'oscillation. C'est justement elle qui va être mesuré lorsque la maquette sera suspendue vérticalement par axe.
+
+Pour se faire, il faut se munir de l'équipement qui suit :
+
+de 2 cables. Plus les câbles sont long, plus la mesure est fiable.
 
 \subsection{Définition de l'espace d'état}
 
 
+\section{Observateur sur la vitesse}
 
 \section{Conclusion}
 
