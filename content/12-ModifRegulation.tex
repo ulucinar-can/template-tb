@@ -55,13 +55,13 @@ Cette omission modifie significativement le comportement du système à régler.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeGaiFaux.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/BodeKpiFaux.png}
     \caption{Système à régler sans la constante multiplicative $K_{ui}$}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeGaiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/BodeGaiVrai.png}
     \caption{Système à régler avec la constante multiplicative $K_{ui}$}
 \end{figure}
 
@@ -84,14 +84,14 @@ L'analyse de ces données montre que seule la valeur du gain $K_{pi}$ est modifi
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiFaux.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/BodeKpiFaux.png}
     \caption{Identification du gain $K_{pi}$ sans la constante multiplicative}
     \label{fig:BodeKpiFaux}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/BodeKpiVrai.png}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/BodeKpiVrai.png}
     \caption{Identification du gain $K_{pi}$ avec la constante multiplicative}
     \label{fig:BodeKpiVrai}
 \end{figure}
@@ -102,7 +102,7 @@ Il a alors été décidé de fixer la valeur de $K_{pi}$ à 2 pour chaque induct
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/SautInd1.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/SautInd1.pdf}
     \caption{Saut indiciel avec $K_{pi}$ fixé à 2 pour l'inducteur 1}
     \label{fig:SautInd2}
 \end{figure}
@@ -113,7 +113,7 @@ Afin de diminuer l'erreur et en se basant sur la \autoref{fig:Erreur}, un $N$ va
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/SautInd2.pdf}
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegCour/SautInd2.pdf}
     \caption{Saut indiciel avec $N$ fixé à 7}
     \label{fig:SautInd3}
 \end{figure}
@@ -156,13 +156,13 @@ modes :
 
 Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
 
+\subsection{Information}
+Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour l'aide de génération de script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+
 \subsection{Géométrie de la plaque}
 Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Celle-ci se trouve tout simple au centre de celle-la :
 
 
 
-\subsection{Information}
-Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour l'aide de génération de script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+Les positions des inducteurs par rapport au centre de gravité sont donné comme suit :
 
-\subsection{Définition de la position des inducteur}
-Pour commencer, il est néscessaire de définir ou se situe chaque inducteur dans l'espace. Pour cela, le centre de gravité fut dès lors fixé au point milieu de la plaque
