@@ -322,29 +322,59 @@ Une fois la mesure terminée, un fichier \texttt{.csv} est sauvegardé.
 La méthode bifilaire permet de calculer l'inertie d'un objet à partir de l'équation suivante :
 
 \begin{equation}
-    \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }
+  \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }
 
-    \qquad b = \frac{D}{2}.
-    \label{eq:bifilaire}
+  \qquad b = \frac{D}{2}.
+  \label{eq:bifilaireManuel}
 \end{equation}
 
 Avec :
 
 \begin{itemize}
-    \item $m$ : la masse du corps suspendu, ici $m_{tot} = 18{,}052$[kg]
-    \item $b$ : le demi-écartement des fils [m]
-    \item $T$ : la période d'oscillation [s]
-    \item $L_{fil}$ : la longueur des fils, ici $1.23$ [m]
+  \item $m$ : la masse du corps suspendu, ici $m_{tot} = 18.052$~[kg]
+  \item $b$ : le demi-écartement des fils [m]
+  \item $T$ : la période d'oscillation [s]
+  \item $L_{fil}$ : la longueur des fils, ici $1.23$~[m]
 \end{itemize}
 
-Pour réaliser la mesure, il est dès lors néscessaire de se munir de l'équipement suivant :
+Pour réaliser la mesure, il est dès lors nécessaire de se munir de l'équipement suivant :
 
 \begin{itemize}
-  \item Se munir de 2 câbles de même longueur. Plus les câbles sont long, plus la mesure est juste.
+  \item Se munir de deux câbles de même longueur. Plus les câbles sont longs, plus la mesure est précise.
   \item Une tige permettant d'y accrocher les 2 câbles.
   \item Un palan pneumatique (Disponible dans une salle proche de l'atelier mécanique)
+  \item Une seconde personne pour de l'aide
+  \item Un sticker pour agir comme point de repérage dans la vidéo
+  \item Un téléphone pour filmer l'oscillation
+  \item (Optionnel) Un trépied pour garder le téléphone stable durant la mesure
 \end{itemize}
 
-Il est néscessaire de retirer l'avant de la maquette afin de retirer la partie lévitante du socle. 
+Il est nécessaire de retirer l'avant de la maquette afin d'en extraire la partie lévitante du socle. Une fois cela fait, il faut se déplacer jusqu'au palan pneumatique.
+
+Une fois sur place, il suffit d'accrocher les câbles aux pieds de la partie lévitante. L'autre extrémité des câbles doit être accrochée à la tige, elle-même enfilée dans le crochet du palan. Il est cependant nécessaire de tenir la tige tout au long de la mesure.
+
+Par la suite, il faut monter la maquette dans les airs tout en tenant fermement la tige. Une fois la maquette suffisamment élevée, il faut réajuster les câbles afin que l'axe mesuré soit bien perpendiculaire au sol. La mesure se réalise en filmant simplement la maquette : une fois la vidéo lancée, il suffit de faire tourner légèrement la maquette, puis de la lâcher et de la laisser osciller doucement.
+
+Il suffit dès à présent de répéter la mesure sur les autres axes.
+
+Dès que la vidéo est récupérée, le logiciel Tracker \cite{Tracker} est employé pour déterminer l'oscillation. Il suffit de sélectionner une portion du clip et de placer une masse ponctuelle, comme suit :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{assets/appendix/01-Manuel/MassePonctuelle.png}
+  \caption{Ajout d'une nouvelle masse ponctuelle}
+  \label{fig:AjoutMasse}
+\end{figure}
+
+Une fois cela fait, il suffit de cliquer sur le point de référence dans la vidéo en maintenant Ctrl+Shift. Le logiciel suit ce point de manière automatique. L'oscillation s'affiche alors dans la partie de droite, comme présenté dans la \autoref{fig:AffichageOscillation} :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{assets/appendix/01-Manuel/Oscillation.png}
+  \caption{Affichage de l'oscillation}
+  \label{fig:AffichageOscillation}
+\end{figure}
+
+L'oscillation étant déterminée, il est alors possible de l'utiliser dans les calculs d'inertie.
 
 \clearpage
