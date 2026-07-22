@@ -133,20 +133,9 @@ Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle défini
 \end{equation}
 
 \section{Régulation de positions}
-La régulation SISO présentée précédemment considère chaque inducteur comme un
-système totalement indépendant : chaque boucle mesure son propre entrefer et
-calcule sa propre force, sans jamais tenir compte des trois autres. Or, les
-quatre inducteurs portent une seule et même plaque rigide. Lorsque
-l'inducteur~1 augmente sa force, il ne soulève pas uniquement son coin : il
-fait pivoter l'ensemble de la plaque, ce qui modifie également les entrefers
-des inducteurs~2, 3 et~4. Les quatre boucles SISO se perturbent donc
-mutuellement en permanence, chacune corrigeant des mouvements provoqués par
-les autres.
+La régulation SISO présentée précédemment considère chaque inducteur comme un système totalement indépendant : chaque boucle mesure son propre entrefer et calcule sa propre force, sans jamais tenir compte des trois autres. Or, les quatre inducteurs portent une seule et même plaque rigide. Lorsque l'inducteur~1 augmente sa force, il ne soulève pas uniquement son coin : il fait pivoter l'ensemble de la plaque, ce qui modifie également les entrefers des inducteurs~2, 3 et~4. Les quatre boucles SISO se perturbent donc mutuellement en permanence, chacune corrigeant des mouvements provoqués par les autres.
 
-L'idée de la régulation MIMO est donc renverser le point de vue : au lieu de
-réguler quatre entrefers indépendants, on régule directement les mouvements de la plaque. Une plaque rigide qui ne peut se déplacer que
-verticalement possède exactement trois mouvements possibles, appelés
-modes :
+L'idée de la régulation MIMO est donc d'au lieu de réguler quatre entrefers indépendants, on régule directement les mouvements de la plaque. Une plaque rigide qui ne peut se déplacer que verticalement possède exactement trois mouvements possibles, appelés modes :
 
 \begin{itemize}
     \item Le pompage : la plaque monte ou descend en restant horizontale (translation verticale) ;
@@ -157,12 +146,296 @@ modes :
 Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
 
 \subsection{Information}
-Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour l'aide de génération de script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+Par manque de temps et de connaissance dans la réalisation d'un LQI, l'intelligence artificielle fut employer pour de l'aide afin de générer un script permettant d'obtenir les coefficient pour réaliser la régulation de position.
 
-\subsection{Géométrie de la plaque}
-Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Celle-ci se trouve tout simple au centre de celle-la :
+\subsection{Définition du de la géométrie du sytème}
+Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Il sera émis que celle-ci se trouve au centre de la plaque :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/12-ModifRegulation/RegPos/VueDessus.png}
+    \caption{Vue de dessus avec le système d'axe}
+    \label{fig:VueDessus}
+\end{figure}
+
+Avec 1 les cartes de puissances, 2 les profilés en aluminium, 3 la carte principales et 4 la plaque en bois.
+
+Les cotes présente sur la \autoref{fig:VueDessus} représente l'écart entre les 2 pieds. La distance entre deux inducteurs sur l'axe X est de 280 mm et de 260 mm sur l'axe Y.
+
+La positions des inducteurs par rapport au centre de gravité est dès lors donné par le \autoref{tab:geom-inducteurs} :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{clcc}
+        \toprule
+        \textbf{Inducteur} & \textbf{Position} & \textbf{$x_i$ [m]} & \textbf{$y_i$ [m]} \\
+        \midrule
+        1                  & avant-gauche      & $+0.140$           & $+0.130$           \\
+        2                  & avant-droit       & $+0.140$           & $-0.130$           \\
+        3                  & arrière-gauche    & $-0.140$           & $+0.130$           \\
+        4                  & arrière-droit     & $-0.140$           & $-0.130$           \\
+        \bottomrule
+    \end{tabular}
+    \caption{Positions des inducteurs par rapport au centre de gravité}
+    \label{tab:geom-inducteurs}
+\end{table}
+
+Avec $i$ le numéro de l'inducteur.
+
+La position de la plaque sera décrite par 3 grandeurs :
+
+\begin{itemize}
+    \item $\bar\delta$ : l'entrefer moyen [m], qui représente le pompage pour tous les inducteurs
+    \item $\theta$ : l'angle de tangage [rad]
+    \item $\varphi$ : l'angle de roulis [rad]
+\end{itemize}
+
+Comme pour la régulation précédente, lorsque la partie lévitante monte alors l'entrefer diminue.
+
+Considérons maintenant l'inducteur $i$ situé à une distance $x_i$ et $y_i$. Lors que la plaque se déplacent d'un angle de tangage $\theta$, le coin situé en $x_i$ se déplace verticalement de $x_i\cdot\sin(\theta)$. Puisque les déplacement verticaux sont très petit, les angles seront également très petit. De ce fait l'appoximation que $\sin(theta)\approx\theta$ sera émise. Cela fait que le déplacement sera dès lors simplement $x_i\cdot\theta$.
+
+Le meme principe s'applique pour le roulis avec la distance $y_i$.
+
+La position de l'entrefer est donc calculé en réalisant la somme de trois élément :
+
+\begin{equation}
+    \delta_i = \bar\delta + x_i\cdot\theta + y_i\cdot\varphi
+\end{equation}
+
+Avec $\delta_i$ la position donné par inducteur.
+
+Les equations par inducteur seront dès lors :
+
+\begin{equation*}
+    \left\{ \begin{aligned}
+         & \delta_1 = \bar\delta + x_1\cdot\theta + y_1\cdot\varphi = \bar\delta + 0.14\cdot\theta + 0.13\cdot\varphi \\
+         & \delta_2 = \bar\delta + x_2\cdot\theta + y_2\cdot\varphi = \bar\delta + 0.14\cdot\theta - 0.13\cdot\varphi \\
+         & \delta_3 = \bar\delta + x_3\cdot\theta + y_3\cdot\varphi = \bar\delta - 0.14\cdot\theta + 0.13\cdot\varphi \\
+         & \delta_4 = \bar\delta + x_4\cdot\theta + y_4\cdot\varphi = \bar\delta - 0.14\cdot\theta - 0.13\cdot\varphi
+    \end{aligned} \right.
+\end{equation*}
+
+Il est dès lors bien plus simple et pratique d'employer des matrices pour la suite. Celle-ci seront alors :
+
+\begin{equation}
+    \vec{\delta} = G\cdot \vec{q}
+\end{equation}
+
+Avec :
+
+\begin{equation}
+    \vec{\delta}=\begin{pmatrix}
+        \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4
+    \end{pmatrix} \quad G =   \begin{pmatrix}
+        1 & x_1 & y_1 \\
+        1 & x_2 & y_2 \\
+        1 & x_3 & y_3 \\
+        1 & x_4 & y_4
+    \end{pmatrix} =   \begin{pmatrix}
+        1 & +0{,}14 & +0{,}13 \\
+        1 & +0{,}14 & -0{,}13 \\
+        1 & -0{,}14 & +0{,}13 \\
+        1 & -0{,}14 & -0{,}13
+    \end{pmatrix}\quad
+    \vec{q} = \begin{pmatrix}
+        \bar\delta \\ \theta \\ \varphi
+    \end{pmatrix}
+\end{equation}
+
+La matrice $G$ est décrite principalement par la géométrie de la maquette. Les inconnues sont celles exprimées par le vecteur $\vec{q}$.
+
+Cependant, le système comporte davantage d'équations que d'inconnues : 4 équations pour 3 inconnues ($\bar\delta$, $\theta$, $\varphi$). En l'absence de bruit et de défaut géométrique, la rigidité de la plaque garantirait une solution exacte ; en pratique, le bruit de mesure et les imperfections de la maquette font qu'aucun $\vec{q}$ ne satisfait exactement les quatre équations simultanément.
+
+La méthode employée lorsqu'un système est surdéterminé est celle des moindres carrés \cite{MoindreCarre}. Elle consiste à retenir la valeur de l'inconnue qui minimise l'erreur commise sur l'ensemble des mesures. Elle s'applique à tout système linéaire de la forme :
+
+\begin{equation}
+    A\vec{x} = \vec{b}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $\vec{b}$ : le vecteur des grandeurs mesurées
+    \item $A$ : une matrice à coefficients constants
+    \item $\vec{x}$ : le vecteur des inconnues
+\end{itemize}
+
+Le système étudié étant sous cette forme, l'erreur commise se représente par le vecteur résidu :
+
+\begin{equation}
+    \vec{r} = \vec{\delta} - G\vec{q}
+\end{equation}
+
+On retient alors le vecteur $\vec{q}$ qui minimise la norme de ce
+résidu, ou de façon équivalente son carré :
+
+\begin{equation}
+    \bigl\lVert \vec{r} \bigr\rVert^{2}
+    = \bigl\lVert \vec{\delta} - G\vec{q} \bigr\rVert^{2}
+    = \sum_{i=1}^{4} \bigl(\delta_i - (G\vec{q})_i\bigr)^{2}
+\end{equation}
+
+Cette norme est minimale si et seulement si $\vec{q}$ satisfait les équations normales :
+
+\begin{equation}
+    (G^{\mathsf T}G)\,\vec{q} = G^{\mathsf T}\vec{\delta}
+\end{equation}
+
+La matrice $G$ étant rectangulaire ($4\times3$), elle n'admet pas d'inverse. En revanche, ses colonnes étant linéairement indépendantes, la matrice $G^{\mathsf T}G$ est carrée ($3\times3$) et inversible. Il est dès lors possible d'isoler $\vec{q}$ :
+
+\begin{equation}
+    \vec{q} = (G^{\mathsf T}G)^{-1} G^{\mathsf T} \vec{\delta}
+    = T\,\vec{\delta}
+    \qquad \text{avec} \qquad
+    T = (G^{\mathsf T}G)^{-1} G^{\mathsf T}
+\end{equation}
+
+La matrice $T$ est la pseudo-inverse de Moore--Penrose \cite{Pseudoinverse} de $G$. Ses coefficients ne dépendant que de la géométrie de la maquette, elle peut dès lors être calculé. Le produit $G^{\mathsf T}G$ s'écrit de façon générale :
+
+\begin{equation}
+    G^{\mathsf T}G
+    = \begin{pmatrix}
+        4          & \sum_i x_i     & \sum_i y_i     \\[4pt]
+        \sum_i x_i & \sum_i x_i^{2} & \sum_i x_i y_i \\[4pt]
+        \sum_i y_i & \sum_i x_i y_i & \sum_i y_i^{2}
+    \end{pmatrix}
+\end{equation}
+
+Les inducteurs étant disposés symétriquement par rapport au centre de gravité, chaque coordonnée apparaît deux fois avec le signe $+$ et deux fois avec le signe $-$. Les sommes croisées sont donc nulles :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+         & \sum_i x_i     = +0{,}14 + 0{,}14 - 0{,}14 - 0{,}14 = 0         \\
+         & \sum_i y_i     = +0{,}13 - 0{,}13 + 0{,}13 - 0{,}13 = 0         \\
+         & \sum_i x_i y_i = +0{,}0182 - 0{,}0182 - 0{,}0182 + 0{,}0182 = 0
+    \end{aligned}
+    \right.
+\end{equation}
+
+Les termes diagonaux valent :
+
+\begin{equation}
+    \sum_i x_i^{2} = 4x^{2} = 0{,}0784
+    \qquad\text{et}\qquad
+    \sum_i y_i^{2} = 4y^{2} = 0{,}0676
+\end{equation}
+
+Le produit $G^{\mathsf T}G$ est par conséquent diagonal :
+
+\begin{equation}
+    G^{\mathsf T}G
+    = \begin{pmatrix}
+        4 & 0      & 0      \\
+        0 & 4x^{2} & 0      \\
+        0 & 0      & 4y^{2}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        4 & 0        & 0        \\
+        0 & 0{,}0784 & 0        \\
+        0 & 0        & 0{,}0676
+    \end{pmatrix}
+\end{equation}
+
+Son inversion se réduit alors à l'inversion de chacun de ses termes
+diagonaux :
+
+\begin{equation}
+    \bigl(G^{\mathsf T}G\bigr)^{-1}
+    = \begin{pmatrix}
+        \tfrac{1}{4} & 0                 & 0                 \\[2pt]
+        0            & \tfrac{1}{4x^{2}} & 0                 \\[2pt]
+        0            & 0                 & \tfrac{1}{4y^{2}}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0{,}25 & 0       & 0       \\
+        0      & 12{,}76 & 0       \\
+        0      & 0       & 14{,}79
+    \end{pmatrix}
+\end{equation}
+
+La transposée de $G$ vaut :
+
+\begin{equation}
+    G^{\mathsf T}
+    = \begin{pmatrix}
+        1  & 1  & 1  & 1  \\
+        +x & +x & -x & -x \\
+        +y & -y & +y & -y
+    \end{pmatrix}
+    = \begin{pmatrix}
+        1       & 1       & 1       & 1       \\
+        +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
+        +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
+    \end{pmatrix}
+\end{equation}
+
+Le produit des deux donne finalement :
+
+\begin{equation}
+    T = \bigl(G^{\mathsf T}G\bigr)^{-1} G^{\mathsf T}
+    = \begin{pmatrix}
+        \tfrac{1}{4}  & \tfrac{1}{4}   & \tfrac{1}{4}   & \tfrac{1}{4}   \\[4pt]
+        \tfrac{1}{4x} & \tfrac{1}{4x}  & -\tfrac{1}{4x} & -\tfrac{1}{4x} \\[4pt]
+        \tfrac{1}{4y} & -\tfrac{1}{4y} & \tfrac{1}{4y}  & -\tfrac{1}{4y}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0{,}25  & 0{,}25   & 0{,}25   & 0{,}25   \\
+        1{,}786 & 1{,}786  & -1{,}786 & -1{,}786 \\
+        1{,}923 & -1{,}923 & 1{,}923  & -1{,}923
+    \end{pmatrix}
+\end{equation}
+
+Le vecteur de position se reconstruit à partir des quatre entrefers
+mesurés par le produit $\vec{q} = T\vec{\delta}$, soit :
+
+\begin{equation}
+    \begin{pmatrix} \bar\delta \\ \theta \\ \varphi \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \tfrac{1}{4}  & \tfrac{1}{4}   & \tfrac{1}{4}   & \tfrac{1}{4}   \\[4pt]
+        \tfrac{1}{4x} & \tfrac{1}{4x}  & -\tfrac{1}{4x} & -\tfrac{1}{4x} \\[4pt]
+        \tfrac{1}{4y} & -\tfrac{1}{4y} & \tfrac{1}{4y}  & -\tfrac{1}{4y}
+    \end{pmatrix}
+    \cdot
+    \begin{pmatrix} \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4 \end{pmatrix}
+\end{equation}
+
+En effectuant le produit ligne par ligne, il est possible d'obtenir les quations par inconnues suivante :
+
+\begin{equation*}
+    \left\{
+    \begin{aligned}
+        \bar\delta & = \tfrac{1}{4}\delta_1 + \tfrac{1}{4}\delta_2
+        + \tfrac{1}{4}\delta_3 + \tfrac{1}{4}\delta_4                \\[4pt]
+        \theta     & = \tfrac{1}{4x}\delta_1 + \tfrac{1}{4x}\delta_2
+        - \tfrac{1}{4x}\delta_3 - \tfrac{1}{4x}\delta_4              \\[4pt]
+        \varphi    & = \tfrac{1}{4y}\delta_1 - \tfrac{1}{4y}\delta_2
+        + \tfrac{1}{4y}\delta_3 - \tfrac{1}{4y}\delta_4
+    \end{aligned}
+    \right.
+\end{equation*}
+
+Puis en mettant en évidence les facteurs communs, il est finalement possible d'obtenir les equations finaux :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+        \bar\delta & = \frac{\delta_1 + \delta_2 + \delta_3 + \delta_4}{4}  \\[6pt]
+        \theta     & = \frac{\delta_1 + \delta_2 - \delta_3 - \delta_4}{4x}
+        = \frac{\delta_1 + \delta_2 - \delta_3 - \delta_4}{0{,}56}          \\[6pt]
+        \varphi    & = \frac{\delta_1 - \delta_2 + \delta_3 - \delta_4}{4y}
+        = \frac{\delta_1 - \delta_2 + \delta_3 - \delta_4}{0{,}52}
+    \end{aligned}
+    \right.
+\end{equation}
 
 
 
-Les positions des inducteurs par rapport au centre de gravité sont donné comme suit :
+\subsection{Calcule des inerties}
+
+\subsection{Définition de l'espace d'état}
+
+
+
+\section{Conclusion}
 
