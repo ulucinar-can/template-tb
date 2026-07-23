@@ -647,22 +647,19 @@ Les trois équations prennent alors exactement la même forme :
 \end{equation}
 
 Avec :
+\begin{itemize}
+    \item $j$ : l'indice du mode considéré
+    \item $q_j$ : la coordonnée du mode
+    \item $I_j$ : l'inertie associée au mode
+    \item $u_j$ : l'effort appliqué sur ce mode
+\end{itemize}
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{cccc}
-        \toprule
-        \textbf{Mode} & $j$ & $q_j$        & $I_j$     \\
-        \midrule
-        Pompage       & $Z$ & $\bar\delta$ & $m_{tot}$ \\
-        Tangage       & $T$ & $\theta$     & $J_Y$     \\
-        Roulis        & $R$ & $\varphi$    & $J_X$     \\
-        \bottomrule
-    \end{tabular}
-    \caption{Correspondance entre les trois modes, leur coordonnée et leur
-        inertie.}
-    \label{tab:modes}
-\end{table}
+Les trois modes se déclinent alors comme suit :
+\begin{itemize}
+    \item Pompage ($j = Z$) : $q_Z = \bar\delta$ et $I_Z = m_{tot}$ [kg]
+    \item Tangage ($j = T$) : $q_T = \theta$ et $I_T = J_Y$ [kg\,m$^2$]
+    \item Roulis ($j = R$) : $q_R = \varphi$ et $I_R = J_X$ [kg\,m$^2$]
+\end{itemize}
 
 Le système est dès lors définit. Cependant 2 inconues persistent encore. L'inertie de l'axe X et l'inertie de l'axe Y. Ceux-ci vont dès lors être calculer.
 
@@ -712,8 +709,6 @@ Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser 
 
 \begin{table}[H]
     \centering
-    \caption{Moments d'inertie mesurés par pendule bifilaire ($L_{fil} = 1{,}23\,\mathrm{m}$, $m = m_{tot} = 18{,}052\,\mathrm{kg}$).}
-    \label{tab:inerties}
     \begin{tabular}{lccc}
         \toprule
         \textbf{Axe}    & \textbf{$D$ [m]} & \textbf{$T$ [s]} & \textbf{$J$ [kg\,m$^2$]} \\
@@ -722,21 +717,128 @@ Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser 
         Tangage ($J_Y$) & $0{,}278$        & $3{,}833$        & $1{,}035$                \\
         \bottomrule
     \end{tabular}
+    \caption{Moments d'inertie mesurés par pendule bifilaire ($L_{fil} = 1{,}23\,\mathrm{m}$, $m = m_{tot} = 18{,}052\,\mathrm{kg}$).}
+    \label{tab:inerties}
 \end{table}
 
 \subsection{Modèle de la synthèse}
-L'effort $u_j$ déterminé précédement, est le cas parfait. La maquette demande cette effort et la fournit directement. Cependant tous les retards ne sont pas pris en compte. Comme précédement, les différents élement (Filtre coupe-bande, approximation de la boucle fermée de courant, capteurs et filre RC) seront pris en compte dans la régulation. Le filtre Savitzky fut enelver pour plustot employer un observateur sur la vitesse. Cela a pour but de supprimer un élement retardant la boucle de position et de ne pas faire exploser le bruit de la mesure.
+L'effort $u_j$ déterminé précédemment correspond au cas idéal, où
+l'actionneur fournirait instantanément l'effort demandé par le régulateur. En réalité, l'effort produit met un certain temps à rejoindre sa consigne.
+Plutôt que de modéliser chaque élément de la chaîne séparément, ce qui
+alourdirait considérablement le modèle, l'ensemble est approximé par un
+unique système du premier ordre. Les retards introduits par le filtre
+coupe-bande, la boucle fermée de courant, les capteurs et le filtre RC
+sont ainsi cumulés dans une constante de temps équivalente
+$\tau_{act}$. Ce comportement se traduit par l'équation différentielle
+suivante :
 
-Pour inclure ces élement,
+\begin{equation}
+    \dot u_j = \frac{u_{c,j} - u_j}{\tau_{act}}
+    \label{eq:actionneur}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $u_{c,j}$ : l'effort demandé par le régulateur (la consigne) [N]
+          ou [N\,m] ;
+    \item $u_j$ : l'effort réellement appliqué sur la plaque ;
+    \item $\tau_{act}$ : la constante de temps équivalente de la chaîne [s].
+\end{itemize}
+
+Cette relation traduit le fait que l'effort réel « court après » la consigne. Plus l'écart est important, plus il est rattrapé rapidement. Aux fréquences utiles, les déphasages introduits par les différents éléments s'additionnent ; la constante de temps équivalente est donc obtenue en sommant les contributions individuelles, présentées dans le \autoref{tab:tau-act} :
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcl}
+        \toprule
+        \makecell[l]{\textbf{Élément}                                                                                                           \\ \textbf{traversé}} & \makecell[c]{\textbf{Constante} \\ \textbf{de temps}} & \textbf{Origine} \\
+        \midrule
+        Boucle de courant fermée $\tau_{i,BF}$              & $1{,}30\,\mathrm{ms}$          & mesurée par inducteur ($K_{p,i} = 2$)            \\
+        Filtre coupe-bande $75\,\mathrm{Hz}$ $\tau_{notch}$ & $3{,}98\,\mathrm{ms}$          & retard de groupe en basse fréquence              \\
+        Filtre RC d'entrée $\tau_{RC}$                      & $0{,}14\,\mathrm{ms}$          & $4{,}3\,\mathrm{k\Omega} \times 33\,\mathrm{nF}$ \\
+        Capteur de position $\tau_{mes}$                    & $0{,}14\,\mathrm{ms}$          & bande passante de $1{,}1\,\mathrm{kHz}$          \\
+        \midrule
+        \textbf{Total} $\tau_{act}$                         & $\mathbf{5{,}56\,\mathrm{ms}}$ &                                                  \\
+        \bottomrule
+    \end{tabular}
+    \caption{Contributions à la constante de temps de l'actionneur équivalent.}
+    \label{tab:tau-act}
+\end{table}
+
+Le filtre de Savitzky--Golay, employé dans la version SISO pour estimer la vitesse par dérivation de la position, a été supprimé au profit d'un observateur (section~\ref{subsec:observateur}). Ce choix retire un élément retardant de la boucle de position tout en évitant l'amplification du bruit de mesure inhérente à une dérivation numérique.
+
+Une action intégrale est également nécessaire afin de réduire l'erreur de position. L'état intégral accumule donc l'écart entre la consigne de position et la position réelle :
+
+\begin{equation}
+    \dot\varepsilon_j = q_{ref,j} - q_j
+    \label{eq:integrateur}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $\varepsilon_j$ : l'état intégral du mode $j$
+    \item $q_{ref,j}$ : la consigne de position du mode $j$
+    \item $q_j$ : la position réelle du mode $j$
+\end{itemize}
+
+Il est maintenant possible de réécrire le vecteur d'état comme suit :
+
+\begin{equation}
+    \boldsymbol{x}_j =
+    \begin{pmatrix} q_j \\ \dot q_j \\ u_j \\ \varepsilon_j \end{pmatrix}
+\end{equation}
+
+Avec :
+\begin{itemize}
+    \item $q_j$ : la position du mode $j$ ($\bar\delta$, $\theta$ ou $\varphi$)
+    \item $\dot q_j$ : la vitesse du mode $j$ (estimée par l'observateur)
+    \item $u_j$ : l'effort réellement appliqué, dont la dynamique est donnée par l'équation
+    \item $\varepsilon_j$ : l'état intégral
+\end{itemize}
+
+Le modèle s'écrit donc :
+
+\begin{equation}
+    \dot x_j = A\,x_j + B\,u_{c,j},
+\end{equation}
+
+Il suffit alors de résoudre pour chaque dérivée en se basant sur les lois physiques écrites précédement. Ceci donne alors :
+
+\begin{equation}
+    \left\{
+    \begin{aligned}
+         & \dot q_j = 0\cdot q_j + 1\cdot \dot q_j + 0\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                                   \\
+         & \ddot q_j = 0\cdot q_j + 0\cdot \dot q_j - \frac{1}{I_j}\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                      \\
+         & \dot u_j = 0\cdot q_j + 0\cdot\dot q_j +  -\frac{1}{\tau_{act}}\,u_j + 0\cdot \varepsilon_j + \frac{1}{\tau_{act}}\cdot u_{c,j} \\
+         & \dot\varepsilon_j = -q_j + 0\cdot \dot q_j + 0\cdot u_j + 0\cdot \varepsilon_j + 0\cdot u_{c,j}
+    \end{aligned}
+    \right.
+\end{equation}
+
+Il est dès lors possible d'obtenir les matrices A et B comme suit :
+
+\begin{equation}
+    A =
+    \begin{pmatrix}
+        0  & 1 & 0             & 0 \\
+        0  & 0 & -1/I_j        & 0 \\
+        0  & 0 & -1/\tau_{act} & 0 \\
+        -1 & 0 & 0             & 0
+    \end{pmatrix},
+    \qquad
+    B =
+    \begin{pmatrix} 0\\ 0\\ 1/\tau_{act}\\ 0 \end{pmatrix}.
+    \label{eq:modele-etat}
+\end{equation}
 
 \subsection{Synthèse du régulateur}
-
+Le modèles d'état étant connue, il est maintenant possible de passer à la synthèse de sa régulation.
 
 \subsection{Placement de pôles}
 
 
 \subsection{Observateur sur la vitesse}
-
+\label{subsec:observateur}
 
 \subsection{Répartition des forces}
 
