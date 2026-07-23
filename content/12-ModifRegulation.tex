@@ -440,7 +440,7 @@ En regroupant les facteurs communs, les relations finales sont :
 Ces relations sont simples à interpréter. L'entrefer moyen $\bar\delta$ est la moyenne des quatre mesures. Le tangage $\theta$ vient de l'écart entre les inducteurs avant et arrière, rapporté à leur écartement. Le roulis $\varphi$ s'obtient de même entre la gauche et la droite. La reconstruction ne demande donc que trois sommes pondérées en temps réel, sans aucune inversion de matrice.
 
 \subsection{Définition du système}
-La géométrie étant définie, il reste à établir les équations physiques. La régulation précédente n'utilisait que la loi de Newton. Cette fois, le corps rigide complet est considéré : Newton exprime la translation et Euler \cite{Euler} exprime les rotations.
+La géométrie étant définie, il reste à établir les équations physiques. La régulation précédente n'utilisait que la loi de Newton. Cette fois, le corps rigide complet est considéré. Newton exprime la translation et Euler \cite{Euler} exprime les rotations.
 
 La loi de Newton s'écrit comme précédemment, mais pour le corps complet :
 
@@ -1036,3 +1036,10 @@ Sans saturation, ces efforts recalculés valent les efforts demandés. Tout éca
 La tolérance $tol_j$ vaut $2\,\%$ de l'effort statique du mode. Un seuil nul gèlerait l'intégrateur au moindre bruit numérique. Dès qu'une saturation empêche de réaliser l'effort d'un mode, l'intégrateur de ce mode est gelé et cesse d'accumuler une erreur qu'il ne peut pas corriger. Le gel est appliqué mode par mode : si seul le tangage est bridé, le pompage et le roulis continuent normalement.
 
 \section{Conclusion}
+La modification de la régulation occupe une part importante de la recherche des problèmes.
+
+La régulation de courant a été analysée une nouvelle fois. Cette analyse a révélé des erreurs présentes depuis plusieurs travaux de bachelor et a permis d'identifier le retard réel employé pour l'approximation de la boucle fermée de courant.
+
+La régulation de position est la partie la plus importante de ce travail de bachelor. Jusqu'ici, la plupart des travaux s'étaient concentrés sur une régulation SISO. L'idée d'une régulation MIMO avait souvent été évoquée comme une meilleure approche, mais n'avait jamais été explorée.
+
+Le résultat obtenu s'approche d'un comportement satisfaisant, mais la synthèse n'a pas été étudiée assez longtemps pour être pleinement optimisée. L'intelligence artificielle a été employée pour gagner du temps sur la mise en place, ce qui a laissé moins de place à l'approfondissement. La méthode retenue, un placement de pôles, n'est pas la plus robuste. De bons pôles ont été trouvés, mais leur choix reste largement empirique. Une synthèse de type LQR par équation de Riccati \cite{Riccati} serait plus adaptée, les gains découlant alors de la minimisation d'un critère de coût plutôt que d'un choix manuel des pôles. Cette régulation mérite donc d'être reprise et approfondie.
