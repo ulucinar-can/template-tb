@@ -723,14 +723,7 @@ Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser 
 
 \subsection{Modèle de la synthèse}
 L'effort $u_j$ déterminé précédemment correspond au cas idéal, où
-l'actionneur fournirait instantanément l'effort demandé par le régulateur. En réalité, l'effort produit met un certain temps à rejoindre sa consigne.
-Plutôt que de modéliser chaque élément de la chaîne séparément, ce qui
-alourdirait considérablement le modèle, l'ensemble est approximé par un
-unique système du premier ordre. Les retards introduits par le filtre
-coupe-bande, la boucle fermée de courant, les capteurs et le filtre RC
-sont ainsi cumulés dans une constante de temps équivalente
-$\tau_{act}$. Ce comportement se traduit par l'équation différentielle
-suivante :
+l'actionneur fournirait instantanément l'effort demandé par le régulateur. En réalité, l'effort produit met un certain temps à rejoindre sa consigne. Plutôt que de modéliser chaque élément de la chaîne séparément, ce qui alourdirait considérablement le modèle, l'ensemble est approximé par un unique système du premier ordre. Les retards introduits par le filtre coupe-bande, la boucle fermée de courant, les capteurs et le filtre RC sont ainsi cumulés dans une constante de temps équivalente $\tau_{act}$. Ce comportement se traduit par l'équation différentielle suivante :
 
 \begin{equation}
     \dot u_j = \frac{u_{c,j} - u_j}{\tau_{act}}
@@ -755,7 +748,7 @@ Cette relation traduit le fait que l'effort réel « court après » la consigne
         \midrule
         Boucle de courant fermée $\tau_{i,BF}$              & $1{,}30\,\mathrm{ms}$          & mesurée par inducteur ($K_{p,i} = 2$)            \\
         Filtre coupe-bande $75\,\mathrm{Hz}$ $\tau_{notch}$ & $3{,}98\,\mathrm{ms}$          & retard de groupe en basse fréquence              \\
-        Filtre RC d'entrée $\tau_{RC}$                      & $0{,}14\,\mathrm{ms}$          & $4{,}3\,\mathrm{k\Omega} \times 33\,\mathrm{nF}$ \\
+        Filtre RC d'entrée $\tau_{RC}$                      & $0{,}14\,\mathrm{ms}$          & $4{,}3\,\mathrm{k}\Omega \times 33\,\mathrm{nF}$ \\
         Capteur de position $\tau_{mes}$                    & $0{,}14\,\mathrm{ms}$          & bande passante de $1{,}1\,\mathrm{kHz}$          \\
         \midrule
         \textbf{Total} $\tau_{act}$                         & $\mathbf{5{,}56\,\mathrm{ms}}$ &                                                  \\
@@ -792,7 +785,7 @@ Avec :
 \begin{itemize}
     \item $q_j$ : la position du mode $j$ ($\bar\delta$, $\theta$ ou $\varphi$)
     \item $\dot q_j$ : la vitesse du mode $j$ (estimée par l'observateur)
-    \item $u_j$ : l'effort réellement appliqué, dont la dynamique est donnée par l'équation
+    \item $u_j$ : l'effort réellement appliqué
     \item $\varepsilon_j$ : l'état intégral
 \end{itemize}
 
@@ -802,18 +795,20 @@ Le modèle s'écrit donc :
     \dot x_j = A\,x_j + B\,u_{c,j},
 \end{equation}
 
-Il suffit alors de résoudre pour chaque dérivée en se basant sur les lois physiques écrites précédement. Ceci donne alors :
+Chaque dérivée est alors exprimée en fonction des états et de la commande, à partir des lois physiques établies précédemment :
 
 \begin{equation}
     \left\{
     \begin{aligned}
-         & \dot q_j = 0\cdot q_j + 1\cdot \dot q_j + 0\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                                   \\
-         & \ddot q_j = 0\cdot q_j + 0\cdot \dot q_j - \frac{1}{I_j}\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                      \\
-         & \dot u_j = 0\cdot q_j + 0\cdot\dot q_j +  -\frac{1}{\tau_{act}}\,u_j + 0\cdot \varepsilon_j + \frac{1}{\tau_{act}}\cdot u_{c,j} \\
+         & \dot q_j = 0\cdot q_j + 1\cdot \dot q_j + 0\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                                \\
+         & \ddot q_j = 0\cdot q_j + 0\cdot \dot q_j - \frac{1}{I_j}\cdot u_j + 0\cdot \varepsilon_j + 0 \cdot u_{c,j}                   \\
+         & \dot u_j = 0\cdot q_j + 0\cdot\dot q_j -\frac{1}{\tau_{act}}\,u_j + 0\cdot \varepsilon_j + \frac{1}{\tau_{act}}\cdot u_{c,j} \\
          & \dot\varepsilon_j = -q_j + 0\cdot \dot q_j + 0\cdot u_j + 0\cdot \varepsilon_j + 0\cdot u_{c,j}
     \end{aligned}
     \right.
 \end{equation}
+
+Le modèle étant écrit en écarts autour du point d'équilibre, la référence $q_{ref,j}$ $q_{ref,j}$est prise nulle dans l'équation de l'écart.
 
 Il est dès lors possible d'obtenir les matrices A et B comme suit :
 
@@ -831,8 +826,56 @@ Il est dès lors possible d'obtenir les matrices A et B comme suit :
     \label{eq:modele-etat}
 \end{equation}
 
+Il est cependant néscessaire de passer ces matrices en matrices discrète puisque la régulation sera implémenter dans la carte d'évaluation qui ne travaille pas en continue. Le modèle discret est alors dicté par l'équation suivante :
+
+\begin{equation}
+    x_j[k+1] = A_d\,x_j[k] + B_d\,u_{c,j}[k].
+\end{equation}
+
+La fréquence de travail de la carte d'évaluation est de 25kHz. C'est notre fréquence d'échantillonage donnant ainsi la période d'échantillonage $h$ de $40~\mu\mathrm{s}$. Les matrices se convertissent simplement par les relations suivantes :
+
+\begin{equation}
+    A_d = e^{A h}
+    \qquad
+    B_d = \int_0^h e^{A\sigma}\,\mathrm d\sigma \cdot B,
+    \label{eq:discretisation}
+\end{equation}
+
+Pour calculer ces composantes en discret, le script python le réalise en utilisant la méthode c2d comme suit :
+
+\begin{minted}{python}
+def c2d(A, B, h):
+    n = A.shape[0]; m = B.shape[1]
+    Maug = np.zeros((n + m, n + m)); Maug[:n, :n] = A; Maug[:n, n:] = B
+    Md = expm(Maug * h)
+    return Md[:n, :n], Md[:n, n:]
+\end{minted}
+
+Cette fonction sera appelé plusieurs fois dans le script python calculant les coefficient du retour d'état.
+
 \subsection{Synthèse du régulateur}
-Le modèles d'état étant connue, il est maintenant possible de passer à la synthèse de sa régulation.
+Le modèles d'état étant connue, il est maintenant possible de passer à la synthèse de sa régulation. La loi de commande implémentée pour chaque mode $j \in \{Z,\ T,\ R\}$ est un retour d'état avec action intégrale :
+
+\begin{equation}
+    \boxed{\
+        u_{c,j} = Q_j \cdot \bigl(q_j - q_{ref,j}\bigr)
+        + Q_{D,j} \cdot \hat v_j
+        - E_{PS,j} \cdot \varepsilon_j
+        \ }
+    \label{eq:loi-commande}
+\end{equation}
+Avec :
+\begin{itemize}
+    \item $Q_j$ : le gain sur l'erreur de position (action proportionnelle)
+    \item $Q_{D,j}$ : le gain sur la vitesse estimée $\hat v_j$ (action d'amortissement)
+    \item $EPS_{j}$ : le gain sur l'intégrale de l'erreur $\varepsilon_j$ (action intégrale)
+\end{itemize}
+
+La consigne de position désirée est donc un entrefer de 2mm ($delta_n$) avec aucun tangage et aucun roulis :
+
+\begin{equation}
+    {q}_{cible} = (\delta_n,\ 0,\ 0)
+\end{equation}
 
 \subsection{Placement de pôles}
 
