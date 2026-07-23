@@ -851,39 +851,237 @@ def c2d(A, B, h):
     return Md[:n, :n], Md[:n, n:]
 \end{minted}
 
-Cette fonction sera appelé plusieurs fois dans le script python calculant les coefficient du retour d'état.
+Cette fonction évalue l'exponentielle d'une matrice augmentée construite à
+partir de $A$ et $B$. Le développement en série de cette exponentielle fait
+apparaître $A_d$ dans le bloc supérieur gauche et $B_d$ dans le bloc
+supérieur droit, ce qui permet d'obtenir les deux matrices discrètes en une
+seule opération, sans avoir à inverser $A$, ce qui serait ici impossible,
+la matrice $A$ étant singulière.
 
-\subsection{Synthèse du régulateur}
-Le modèles d'état étant connue, il est maintenant possible de passer à la synthèse de sa régulation. La loi de commande implémentée pour chaque mode $j \in \{Z,\ T,\ R\}$ est un retour d'état avec action intégrale :
+La fonction commence tout simplement par récupérer dans $n$ le nombre
+d'états de la matrice $A$ et dans $m$ le nombre d'entrées de la matrice $B$.
+Elle vient ensuite construire une matrice carrée de taille $n+m$ remplie de
+zéros, dans laquelle on vient placer la matrice $A$ en haut à gauche et la
+matrice $B$ en haut à droite. La partie inférieure reste donc entièrement
+nulle :
+
+\begin{equation}
+    M =
+    \begin{pmatrix}
+        A & B \\
+        0 & 0
+    \end{pmatrix}
+\end{equation}
+
+L'exponentielle de cette matrice est ensuite calculée par la fonction \texttt{expm} de la bibliothèque SciPy, après multiplication par la période d'échantillonnage $h$. Il ne reste alors plus qu'à extraire les deux blocs qui nous intéressent. Le bloc supérieur gauche donne $A_d$ et le bloc supérieur droit donne $B_d$. Le bloc inférieur droit, qui vaut la matrice identité, n'est quant à lui pas utilisé.
+
+Cette fonction sera appelée à trois reprises dans le script Python : une première fois pour le modèle de synthèse du retour d'état, une deuxième pour le modèle de l'observateur et une dernière pour le modèle simulé servant à la vérification.
+
+\subsection{Synthèse du retour d'état}
+Le modèle d'état étant établi, il est maintenant possible de passer à la synthèse du retour d'état. En boucle ouverte, la commande $u_{c,j}$ est une entrée libre.
+
+\begin{equation}
+    \dot{\boldsymbol x}_j = A\,\boldsymbol x_j + B\,u_{c,j}
+\end{equation}
+
+Fermer la boucle consiste à calculer cette commande à partir de l'état lui-même. Le retour d'état retenu est linéaire : chaque composante de l'état est pondérée par un gain, puis les contributions sont sommées.
+
+\begin{equation}
+    u_{c,j} = -K\,\boldsymbol x_j
+    \qquad \text{avec} \qquad
+    K = \begin{pmatrix} K_1 & K_2 & K_3 & K_4 \end{pmatrix}
+    \label{eq:Changementucj}
+\end{equation}
+
+En reportant cette expression dans le modèle, la commande $u_{c,j}$
+disparaît et le système devient autonome :
+
+\begin{equation}
+    \dot{\boldsymbol x}_j = A\,\boldsymbol x_j + B\,(-K\boldsymbol x_j)
+    = (A - BK)\,\boldsymbol x_j
+\end{equation}
+
+Le produit $BK$ vaut :
+
+\begin{equation}
+    BK = \begin{pmatrix} 0 \\ 0 \\ 1/\tau_{act} \\ 0 \end{pmatrix}
+    \begin{pmatrix} K_1 & K_2 & K_3 & K_4 \end{pmatrix}
+    = \begin{pmatrix}
+        0              & 0              & 0              & 0 \\
+        0              & 0              & 0              & 0 \\
+        K_1/\tau_{act} & K_2/\tau_{act} & K_3/\tau_{act}
+                       & K_4/\tau_{act}                      \\
+        0              & 0              & 0              & 0
+    \end{pmatrix}
+\end{equation}
+
+La matrice de boucle fermée s'écrit dès lors :
+
+\begin{equation}
+    A - BK = \begin{pmatrix}
+        0               & 1                            & 0               & 0 \\
+        0               & 0                            & -1/I_j          & 0 \\
+        -K_1/\tau_{act} & -K_2/\tau_{act}
+                        & -\dfrac{1 + K_3}{\tau_{act}} & -K_4/\tau_{act}     \\
+        -1              & 0                            & 0               & 0
+    \end{pmatrix}
+    \label{eq:ABK}
+\end{equation}
+
+En reprenant l'\autoref{eq:Changementucj}, la loi de commande se développe comme suit :
+
+\begin{equation}
+    u_{c,j} = -K\,\boldsymbol x_j
+    = -K_1\,q_j - K_2\,\dot q_j - K_3\,u_j - K_4\,\varepsilon_j
+\end{equation}
+
+Deux adaptations sont apportées lors de l'implémentation. D'une part, le modèle de synthèse ayant été écrit en écarts autour du point d'équilibre, la référence est restituée. Le terme de position porte sur $q_j - q_{ref,j}$. D'autre part, la vitesse n'étant pas mesurée, elle est remplacée par son estimation $\hat v_j$ fournie par l'observateur (\autoref{subsec:observateur}). Le gain $K_3$, portant sur l'état d'effort $u_j$, n'a quant à lui pas été implémenté. La loi retenue s'écrit finalement :
 
 \begin{equation}
     \boxed{\
         u_{c,j} = Q_j \cdot \bigl(q_j - q_{ref,j}\bigr)
         + Q_{D,j} \cdot \hat v_j
-        - E_{PS,j} \cdot \varepsilon_j
+        - \mathrm{EPS}_j \cdot \varepsilon_j
         \ }
     \label{eq:loi-commande}
 \end{equation}
+
 Avec :
 \begin{itemize}
-    \item $Q_j$ : le gain sur l'erreur de position (action proportionnelle)
-    \item $Q_{D,j}$ : le gain sur la vitesse estimée $\hat v_j$ (action d'amortissement)
-    \item $EPS_{j}$ : le gain sur l'intégrale de l'erreur $\varepsilon_j$ (action intégrale)
+    \item $Q_j = -K_1$ : le gain sur l'erreur de position (action
+          proportionnelle) ;
+    \item $Q_{D,j} = -K_2$ : le gain sur la vitesse estimée $\hat v_j$
+          (action d'amortissement) ;
+    \item $\mathrm{EPS}_j = K_4$ : le gain sur l'état intégral
+          $\varepsilon_j$ (action intégrale).
 \end{itemize}
 
-La consigne de position désirée est donc un entrefer de 2mm ($delta_n$) avec aucun tangage et aucun roulis :
-
+La référence $q_{ref,j}$ n'est pas appliquée en échelon, ce qui exigerait des efforts brusques, mais lissée par un filtre du premier ordre de constante $\tau_{ref} = 0{,}3\,\mathrm{s}$ :
 \begin{equation}
-    {q}_{cible} = (\delta_n,\ 0,\ 0)
+    q_{ref,j}[k+1] = q_{ref,j}[k]
+    + \frac{h}{\tau_{ref}}\bigl(q_{cible,j} - q_{ref,j}[k]\bigr),
+    \qquad
+    \boldsymbol{q}_{cible} = (\delta_n,\ 0,\ 0),
+    \label{eq:lissage-ref}
 \end{equation}
+la cible étant la plaque horizontale ($\theta = \varphi = 0$) à l'entrefer nominal $\delta_n = 2\,\mathrm{mm}$.
+
+Ces trois gains sont positifs, les composantes $K_1$ et $K_2$ étant négatives et $K_4$ positive. Cette nomenclature reprend celle du script de synthèse et de l'implémentation dans le code.
+
+Le choix de ne pas implémenter le gain $K_3$ mérite une justification. Son rôle se lit directement dans la matrice de boucle fermée (\autoref{eq:ABK}). $K_3$ n'intervient que dans le terme $-(1+K_3)/\tau_{act}$, c'est-à-dire qu'il déplace le pôle de l'actionneur équivalent de $-1/\tau_{act} \approx -180\,\mathrm{rad/s}$ à $-(1+K_3)/\tau_{act} \approx -275\,\mathrm{rad/s}$ (avec $K_3 = 0{,}53$ pour le mode de pompage). Ce terme constitue ainsi une boucle interne qui accélère  artificiellement l'actionneur, et c'est elle qui permettrait d'atteindre exactement les quatre pôles spécifiés.
+
+Les conséquences de cette simplification sur les pôles effectifs de la boucle fermée sont quantifiées à la section~\ref{subsec:placement}.
 
 \subsection{Placement de pôles}
+\label{subsec:placement}
 
+Bien que le code emploie le terme de LQI, une précision méthodologique s'impose. La structure du régulateur est effectivement celle d'un LQI avec un retour d'état, une action intégrale et un observateur. En revanche, les gains ne sont pas obtenus par minimisation d'un critère quadratique, ce qui correspondrait à la résolution d'une équation de Riccati \cite{Riccati}, mais par placement de pôles :
+
+\begin{equation}
+    \operatorname{eig}\bigl(A_d - B_d\,K\bigr) = z_k = e^{p_k \cdot h}.
+    \label{eq:placement}
+\end{equation}
+
+Le principe consiste à choisir d'abord le comportement souhaité en boucle fermée, puis à en déduire le gain qui le produit. Le choix des pôles repose sur l'analyse suivante. Le système en boucle ouverte est instable. Les trois pôles rapides de la boucle fermée doivent donc être suffisamment rapides pour dominer cette instabilité. Les accélérer davantage amplifierait le bruit de mesure et saturerait les inducteurs. Le quatrième pôle, associé à l'action intégrale, est placé nettement plus lentement. Les valeurs retenues, affinées par les essais successifs, sont les suivantes :
+
+\begin{equation}
+    p_k = \bigl\{-80,\ -85,\ -90,\ -20\bigr\}\ \mathrm{rad/s}
+\end{equation}
+
+Ces pôles constituent l'entrée du calcul. Le gain $K$ qui les impose est obtenu par la fonction suivante du script de synthèse :
+
+\begin{minted}{python}
+def design_lqi_place(inertia, tau_act, poles):
+    A = np.array([[0, 1, 0, 0],
+                  [0, 0, -1.0/inertia, 0],
+                  [0, 0, -1.0/tau_act, 0],
+                  [-1, 0, 0, 0]])
+    B = np.array([[0], [0], [1.0/tau_act], [0]])
+    Ad, Bd = c2d(A, B, H)
+    poles_disc = np.exp(np.array(poles) * H)
+    K = place_poles(Ad, Bd, poles_disc).gain_matrix.flatten()
+    return K
+\end{minted}
+
+La fonction construit les matrices $A$ et $B$ du mode considéré, les discrétise, convertit les pôles continus en pôles discrets par $z_k = e^{p_k h}$, puis résout le problème de placement. C'est également ici qu'est calculé le gain $K_3$, bien qu'il ne soit pas implémenté dans la
+loi de commande.
+
+Les pôles ci-dessus sont donc obtenus en supposant $K_3$ implémenté. La conséquence de son absence a été quantifiée en recalculant les valeurs propres de $A_d - B_d K$ avec $K_3 = 0$. Les pôles effectifs valent alors $-65 \pm 124j$ et $-24{,}4 \pm 4{,}9j\ \mathrm{rad/s}$, au lieu des quatre pôles spécifiés. Ils sont complexes conjugués là où la synthèse en spécifiait quatre réels. La réponse de la boucle fermée est donc oscillante alors qu'elle était prévue apériodique, ce que confirment les oscillations observées lors des essais. Elle reste néanmoins stable, l'ensemble des pôles ayant une partie réelle négative.
+
+L'implémentation de ce terme constituerait la première piste d'amélioration du régulateur. L'estimation $\hat u_j$ étant déjà calculée par l'observateur, son ajout ne demande qu'une multiplication supplémentaire par interruption. Une comparaison expérimentale entre les deux versions permettrait de déterminer si l'écart entre pôles spécifiés et pôles effectifs a une incidence mesurable sur le comportement en vol.
 
 \subsection{Observateur sur la vitesse}
 \label{subsec:observateur}
+La vitesse étant une grandeur inconnue, celle-ci simplement jusqu'ici dérivée de la positions en employant le filtre Savitzky. Cependant ce filtre vient multiplier les bruit de la mesure et donc indirectement venir parasiter le reste. De plus celui-ci prends un temps de calcul qui ralentit donc la régulation.
+
+Il fut dès lors décidé de passer à un observateur, qui estime la position, la vitesse et l'effort à partir de la seule position mesurée. Son principe repose sur deux mécanismes. L'observateur reproduit d'abord le modèle du système et en extrapole l'évolution, ce qui lui fournit une prédiction de l'état au pas suivant. Cette prédiction dériverait toutefois de la réalité au fil du temps. Elle est donc corrigée à chaque pas par l'écart entre la position mesurée et la position prédite, pondéré par un gain $L$ :
+
+\begin{equation}
+    \hat{\boldsymbol x}[k+1] = A_d\,\hat{\boldsymbol x}[k] + B_d\,u_{c,j}[k] + L\bigl(y_j[k] - C\,\hat{\boldsymbol x}[k]\bigr)
+\end{equation}
+
+Il est pour cela nécessaire de compléter la représentation d'état par son équation de sortie, qui décrit la grandeur effectivement mesurée. L'observateur ne portant que sur trois états, l'état intégral $\varepsilon_j$ étant calculé directement par le régulateur, le vecteur d'état considéré ici se réduit à $(q_j,\ \dot q_j,\ u_j)$ :
+
+\begin{equation}
+    y_j = C\,\boldsymbol x_j + D\,u_{c,j} \qquad \text{avec} \qquad C = \begin{pmatrix} 1 & 0 & 0 \end{pmatrix} \qquad D = 0
+\end{equation}
+
+La matrice $C$ traduit le fait que seule la position $q_j$ du mode est accessible à la mesure, reconstruite à partir des quatre entrefers par la matrice $T$. La matrice $D$ est nulle car la sortie ne dépends pas de l'entrée.
+
+L'observateur reproduit le modèle du système et en réalise une l'évolution. Celui-ci agit donc comme un moyen de prédire l'état au pas suivant. Pour être sûr que la prédiction tienne la route, celle-ci est vérifié en calculant l'écart entre la position mesurée et la position prédite multiplier par un gain $L$ :
+
+\begin{equation}
+    \hat{\boldsymbol x}[k+1] = A_d\,\hat{\boldsymbol x}[k]
+    + B_d\,u_{c,j}[k]
+    + L\bigl(y_j[k] - C\,\hat{\boldsymbol x}[k]\bigr)
+\end{equation}
+
+Il suffit maintenant de déterminer le gain $L$. Pour cela, l'erreur d'estimation est définie comme l'écart entre l'état réel et l'état estimé :
+
+\begin{equation}
+    \boldsymbol\epsilon[k] = \boldsymbol x[k] - \hat{\boldsymbol x}[k]
+\end{equation}
+
+En soustrayant l'équation de l'observateur de celle du système, le terme d'entrée $B_d u_{c,j}$ s'élimine et il ne subsiste que :
+
+\begin{equation}
+    \boldsymbol\epsilon[k+1] = \bigl(A_d - L\,C\bigr)\,\boldsymbol\epsilon[k]
+    \label{eq:erreur-obs}
+\end{equation}
+
+L'erreur évolue donc de manière autonome, gouvernée par la seule matrice $A_d - L C$. Il suffit que ses valeurs propres soient suffisamment rapides pour que l'estimation rejoigne la réalité, quelles que soient les conditions initiales. Le problème est identique à celui du retour d'état, avec $L$ à la place de $K$.
+
+Une matrice et sa transposée possédant les mêmes valeurs propres, la relation se réécrit sous la forme $\operatorname{eig}(A_d - L C) = \operatorname{eig}(A_d^{\mathsf T} - C^{\mathsf T} L^{\mathsf T})$. Le membre de droite prend exactement la forme $A - BK$ du retour d'état. Le même algorithme de placement peut donc être employé, appliqué au système transposé, ce que réalise le script de synthèse.
+
+Les pôles retenus pour l'observateur sont $-700$, $-760$ et $-820\,\mathrm{rad/s}$. Ils sont environ neuf fois plus rapides que ceux du régulateur, de sorte que l'estimation converge bien avant que la commande n'agisse. Dans le cas contraire, le régulateur travaillerait sur un état erroné. Les accélérer davantage amplifierait le bruit du capteur, l'écart mesuré étant directement répercuté sur les estimations.
 
 \subsection{Répartition des forces}
+Le dernier point à traiter concerne la répartition des forces. Dans la régulation SISO précédente, la force à produire par chaque inducteur était directement disponible en sortie du régulateur et pouvait être employée telle quelle par la méthode inverse. Ici, la régulation ne fournit que les trois efforts modaux $\boldsymbol u_c$. Il est donc nécessaire de redescendre de ces trois grandeurs vers les quatre forces à commander.
+
+Le problème est cette fois l'inverse de celui rencontré lors de la reconstruction de position. La matrice $E$ étant de dimension $3\times4$, le système est sous-déterminé : trois équations pour quatre inconnues. Il n'admet donc pas une solution unique mais une infinité de répartitions produisant exactement les mêmes efforts. Un critère supplémentaire est nécessaire pour en retenir une.
+
+Pour palier à cela, le critère retenu est celui de la norme minimale. Parmi toutes les répartitions produisant exactement les efforts demandés, on conserve celle dont la somme des carrés des forces est la plus faible, c'est-à-dire celle qui sollicite le moins les inducteurs. La solution de ce problème est à nouveau donnée par une pseudo-inverse, cette fois à droite :
+
+\begin{equation}
+    \boldsymbol F_\Delta = W\,\boldsymbol u_c \qquad \text{avec} \qquad W = E^{\mathsf T}\bigl(E\,E^{\mathsf T}\bigr)^{-1}
+    \label{eq:W-def}
+\end{equation}
+
+La matrice $E$ étant la transposée de $G$, cette expression se simplifie et ne fait à nouveau intervenir que la géométrie de la maquette :
+
+\begin{equation}
+    W = G\,\bigl(G^{\mathsf T}G\bigr)^{-1}
+\end{equation}
+
+Le produit $G^{\mathsf T}G$ ayant déjà été calculé lors de la reconstruction de position, où sa forme diagonale avait été mise en évidence, son inversion reste immédiate. La ligne $i$ de $G$ valant $(1,\ x_i,\ y_i)$, chaque force s'écrit alors explicitement :
+
+\begin{equation}
+    \boxed{\ F_{c,i} = F_{stat,i} + \frac{u_Z}{4} + \frac{x_i}{\sum_k x_k^2}\,u_T + \frac{y_i}{\sum_k y_k^2}\,u_R \ }
+    \label{eq:allocation-explicite}
+\end{equation}
+
+La lecture physique est directe. Le quart de l'effort de pompage est envoyé sur chaque inducteur. Un couple de tangage est réalisé en ajoutant de la force à l'avant et en en retirant autant à l'arrière, et un couple de roulis fonctionne de même entre la gauche et la droite. Comme pour la reconstruction de position, l'allocation ne demande que quelques additions pondérées et aucune inversion matricielle en temps réel.
+
+
 
 \section{Conclusion}
-
