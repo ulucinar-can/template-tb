@@ -1,4 +1,4 @@
-\chapter{Modification apportée au software (DSP)}
+\chapter{Modification apportée au programme principale (DSP)}
 
 \begin{enumerate}
     \item Machine Etat
@@ -8,7 +8,7 @@
 \end{enumerate}
 
 \section{Introduction}
-
+Suite au différentes modification réaliser sur le hardware ainsi que sur la régulation, le programme principale reçu dès lors d'importante modification. Ce chapitre vient traiter ces différences.
 
 La mise en place de Code Composer Studio est disponible dans le manuel, à la \autoref{sec:MiseEnPlace}.
 
@@ -17,7 +17,7 @@ La mise en place de Code Composer Studio est disponible dans le manuel, à la \a
 Afin d'optimiser l'appropriation du code source hérité, une première révision syntaxique a été réalisée à l'aide d'outils d'intelligence artificielle. Cette démarche avait pour objectif d'améliorer la structure du programme, d'enrichir les commentaires et d'en accroître la lisibilité globale. Le comportement de la maquette a été rigoureusement contrôlé à la suite de cette restructuration purement formelle. Les résultats obtenus étant strictement identiques à ceux de la version d'origine, il est confirmé que cette intervention n'a introduit aucun dysfonctionnement supplémentaire.
 
 \subsection{Création d'un fichier secondaire .c}
-Ce fichier constitue une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique.
+Ce fichier constitue une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique. Celle-i vient donc abriter les nombreuses fonctions du code.
 
 \subsection{Modification des coefficients du filtre coupe-bande}
 Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
@@ -32,10 +32,10 @@ Toutefois, lors de l'analyse du code source hérité, il a été constaté que c
 Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
 
 \subsection{Modification de l'emplacement du filtre coupe-bande}
-
 Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé juste après le calcul de la force. Précédemment, celui-ci se trouvait avant ce calcul et était employé pour le calcul de la consigne de courant.
 
 \section{Machine d'état}
+Une machine d'état fut réaliser. Celui-ci doit pouvoir permettre de raéliser la régulation de position et de courant. Mais certaines étapes doivent être respecté afin de réussi cela.
 
 \section{Régulation de position}
 \subsection{Ajout des observateur}

@@ -142,32 +142,32 @@ Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle défini
 \end{equation}
 
 \section{Régulation de positions}
-La régulation SISO présentée précédemment considère chaque inducteur comme un système totalement indépendant : chaque boucle mesure son propre entrefer et calcule sa propre force, sans jamais tenir compte des trois autres. Or, les quatre inducteurs portent une seule et même plaque rigide. Lorsque l'inducteur~1 augmente sa force, il ne soulève pas uniquement son coin : il fait pivoter l'ensemble de la plaque, ce qui modifie également les entrefers des inducteurs~2, 3 et~4. Les quatre boucles SISO se perturbent donc mutuellement en permanence, chacune corrigeant des mouvements provoqués par les autres.
+La régulation SISO précédente traite chaque inducteur comme un système indépendant. Chaque boucle mesure son propre entrefer et calcule sa propre force sans tenir compte des trois autres. Or les quatre inducteurs portent la même plaque rigide. Lorsque l'inducteur 1 augmente sa force, il ne lève pas uniquement son coin mais fait pivoter toute la plaque, ce qui modifie aussi les entrefers des inducteurs 2, 3 et 4. Les quatre boucles se perturbent donc en permanence.
 
-L'idée de la régulation MIMO est donc d'au lieu de réguler quatre entrefers indépendants, on régule directement les mouvements de la plaque. Une plaque rigide qui ne peut se déplacer que verticalement possède exactement trois mouvements possibles, appelés modes :
+L'idée de la régulation MIMO est de ne plus réguler quatre entrefers indépendants mais directement les mouvements de la plaque. Une plaque rigide qui ne se déplace que verticalement possède trois mouvements possibles, appelés modes :
 
 \begin{itemize}
-    \item Le pompage : la plaque monte ou descend en restant horizontale (translation verticale) ;
-    \item Le tangage : la plaque pivote autour de son axe $Y$, l'avant descend pendant que l'arrière monte (ou inversement) ;
-    \item Le roulis : la plaque pivote autour de son axe $X$, le côté gauche descend pendant que le côté droit monte (ou inversement).
+    \item Le pompage : la plaque monte ou descend en restant horizontale.
+    \item Le tangage : la plaque pivote autour de son axe $Y$, l'avant descend pendant que l'arrière monte (ou inversement).
+    \item Le roulis : la plaque pivote autour de son axe $X$, la gauche descend pendant que la droite monte (ou inversement).
 \end{itemize}
 
-Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
+Les déplacements horizontaux et la rotation autour de l'axe vertical ne sont pas régulés. De légers mouvements restent possibles dans ces directions, mais aucun capteur ne permet d'y connaître la position. Ces degrés de liberté sont de toute façon bloqués par le guidage mécanique.
 
-La régulation de position va dès lors suivre les principes présent dans la \autoref{fig:NewSchemaBlocPos} :
+La régulation de position suit dès lors le principe de la \autoref{fig:NewSchemaBlocPos} :
 
 \begin{figure}[H]
     \centering
     \includesvg[width=1\linewidth]{assets/content/12-ModifRegulation/RegPos/SchemaBloc}
-    \caption{Principe de la régulation MIMO employé}
+    \caption{Principe de la régulation MIMO}
     \label{fig:NewSchemaBlocPos}
 \end{figure}
 
-\subsection{Information}
-Par manque de temps, l'intelligence artificielle fut employer pour de l'aide afin de générer un script permettant d'obtenir les coefficient pour réaliser la régulation de position.
+\subsection{Remarque}
+Par manque de temps, l'intelligence artificielle a été employée pour générer le script calculant les coefficients de la régulation de position.
 
-\subsection{Définition du de la géométrie}
-Afin de réaliser la nouvelle régulation de position, il est néscessaire de définir le centre de gravitié de la partie en lévitation. Il sera émis que celle-ci se trouve au centre de la plaque :
+\subsection{Définition de la géométrie}
+La nouvelle régulation nécessite de définir le centre de gravité de la partie lévitante. Il est supposé au centre de la plaque :
 
 \begin{figure}[H]
     \centering
@@ -176,11 +176,11 @@ Afin de réaliser la nouvelle régulation de position, il est néscessaire de d�
     \label{fig:VueDessus}
 \end{figure}
 
-Avec 1 les cartes de puissances, 2 les profilés en aluminium, 3 la carte principales et 4 la plaque en bois.
+Le repère 1 désigne les cartes de puissance, 2 les profilés en aluminium, 3 la carte principale et 4 la plaque en bois.
 
-Les cotes présente sur la \autoref{fig:VueDessus} représente l'écart entre les 2 pieds. La distance entre deux inducteurs sur l'axe X est de 280 mm et de 260 mm sur l'axe Y.
+Les cotes de la \autoref{fig:VueDessus} donnent l'écart entre les pieds. La distance entre deux inducteurs est de 280~mm sur l'axe X et de 260~mm sur l'axe Y.
 
-La positions des inducteurs par rapport au centre de gravité est dès lors donné par le \autoref{tab:geom-inducteurs} :
+La position des inducteurs par rapport au centre de gravité est donnée par le \autoref{tab:geom-inducteurs}, où $i$ désigne le numéro de l'inducteur :
 
 \begin{table}[H]
     \centering
@@ -198,31 +198,27 @@ La positions des inducteurs par rapport au centre de gravité est dès lors donn
     \label{tab:geom-inducteurs}
 \end{table}
 
-Avec $i$ le numéro de l'inducteur.
-
-La position de la plaque sera décrite par 3 grandeurs :
+La position de la plaque est décrite par trois grandeurs :
 
 \begin{itemize}
-    \item $\bar\delta$ : l'entrefer moyen [m], qui représente le pompage pour tous les inducteurs
+    \item $\bar\delta$ : l'entrefer moyen (pompage) [m]
     \item $\theta$ : l'angle de tangage [rad]
     \item $\varphi$ : l'angle de roulis [rad]
 \end{itemize}
 
-Comme pour la régulation précédente, lorsque la partie lévitante monte alors l'entrefer diminue.
+Comme précédemment, l'entrefer diminue lorsque la partie lévitante monte.
 
-Considérons maintenant l'inducteur $i$ situé à une distance $x_i$ et $y_i$. Lors que la plaque se déplacent d'un angle de tangage $\theta$, le coin situé en $x_i$ se déplace verticalement de $x_i\cdot\sin(\theta)$. Puisque les déplacement verticaux sont très petit, les angles seront également très petit. De ce fait l'appoximation que $\sin(theta)\approx\theta$ sera émise. Cela fait que le déplacement sera dès lors simplement $x_i\cdot\theta$.
+Considérons l'inducteur $i$ situé aux distances $x_i$ et $y_i$. Lorsque la plaque tourne d'un angle de tangage $\theta$, le coin en $x_i$ se déplace verticalement de $x_i\cdot\sin(\theta)$. Les angles restant très petits, l'approximation $\sin(\theta)\approx\theta$ est admise. Le déplacement vaut alors simplement $x_i\cdot\theta$.
 
-Le meme principe s'applique pour le roulis avec la distance $y_i$.
+Le même principe s'applique au roulis avec la distance $y_i$.
 
-La position de l'entrefer est donc calculé en réalisant la somme de trois élément :
+L'entrefer de l'inducteur $i$ est donc la somme de trois termes :
 
 \begin{equation}
     \delta_i = \bar\delta + x_i\cdot\theta + y_i\cdot\varphi
 \end{equation}
 
-Avec $\delta_i$ la position donné par inducteur.
-
-Les equations par inducteur seront dès lors :
+Appliquée aux quatre inducteurs, cette relation donne :
 
 \begin{equation*}
     \left\{ \begin{aligned}
@@ -233,58 +229,52 @@ Les equations par inducteur seront dès lors :
     \end{aligned} \right.
 \end{equation*}
 
-Il est dès lors bien plus simple et pratique d'employer des matrices pour la suite. Celle-ci seront alors :
+Sous forme matricielle, ce système s'écrit :
 
 \begin{equation}
     \vec{\delta} = G\cdot \vec{q}
 \end{equation}
 
-Avec :
+avec :
 
 \begin{equation}
-    \vec{\delta}=\begin{pmatrix}
+    \vec{\delta}=\begin{bmatrix}
         \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4
-    \end{pmatrix} \quad G =   \begin{pmatrix}
+    \end{bmatrix} \quad G = \begin{bmatrix}
         1 & x_1 & y_1 \\
         1 & x_2 & y_2 \\
         1 & x_3 & y_3 \\
         1 & x_4 & y_4
-    \end{pmatrix} =   \begin{pmatrix}
+    \end{bmatrix} = \begin{bmatrix}
         1 & +0{,}14 & +0{,}13 \\
         1 & +0{,}14 & -0{,}13 \\
         1 & -0{,}14 & +0{,}13 \\
         1 & -0{,}14 & -0{,}13
-    \end{pmatrix}\quad
-    \vec{q} = \begin{pmatrix}
+    \end{bmatrix}\quad
+    \vec{q} = \begin{bmatrix}
         \bar\delta \\ \theta \\ \varphi
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
-La matrice $G$ est décrite principalement par la géométrie de la maquette. Les inconnues sont celles exprimées par le vecteur $\vec{q}$.
+La matrice $G$ ne dépend que de la géométrie de la maquette. Le vecteur $\vec{q}$ regroupe les inconnues.
 
-Cependant, le système comporte davantage d'équations que d'inconnues : 4 équations pour 3 inconnues ($\bar\delta$, $\theta$, $\varphi$). En l'absence de bruit et de défaut géométrique, la rigidité de la plaque garantirait une solution exacte ; en pratique, le bruit de mesure et les imperfections de la maquette font qu'aucun $\vec{q}$ ne satisfait exactement les quatre équations simultanément.
+Le système compte quatre équations pour trois inconnues. La plaque étant rigide, une solution exacte existerait sans bruit ni défaut géométrique. En pratique, le bruit de mesure et les imperfections de la maquette font qu'aucun $\vec{q}$ ne satisfait exactement les quatre équations.
 
-La méthode employée lorsqu'un système est surdéterminé est celle des moindres carrés \cite{MoindreCarre}. Elle consiste à retenir la valeur de l'inconnue qui minimise l'erreur commise sur l'ensemble des mesures. Elle s'applique à tout système linéaire de la forme :
+La méthode des moindres carrés \cite{MoindreCarre} est employée pour ce type de système surdéterminé. Elle retient l'inconnue qui minimise l'erreur sur l'ensemble des mesures. Elle s'applique à tout système linéaire de la forme :
 
 \begin{equation}
     A\vec{x} = \vec{b}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $\vec{b}$ : le vecteur des grandeurs mesurées
-    \item $A$ : une matrice à coefficients constants
-    \item $\vec{x}$ : le vecteur des inconnues
-\end{itemize}
+avec $\vec{b}$ le vecteur des mesures, $A$ une matrice constante et $\vec{x}$ le vecteur des inconnues.
 
-Le système étudié étant sous cette forme, l'erreur commise se représente par le vecteur résidu :
+Dans notre cas, l'erreur est donnée par le vecteur résidu :
 
 \begin{equation}
     \vec{r} = \vec{\delta} - G\vec{q}
 \end{equation}
 
-On retient alors le vecteur $\vec{q}$ qui minimise la norme de ce
-résidu, ou de façon équivalente son carré :
+Le vecteur $\vec{q}$ retenu minimise la norme de ce résidu, ou son carré :
 
 \begin{equation}
     \bigl\lVert \vec{r} \bigr\rVert^{2}
@@ -298,7 +288,7 @@ Cette norme est minimale si et seulement si $\vec{q}$ satisfait les équations n
     (G^{\mathsf T}G)\,\vec{q} = G^{\mathsf T}\vec{\delta}
 \end{equation}
 
-La matrice $G$ étant rectangulaire ($4\times3$), elle n'admet pas d'inverse. En revanche, ses colonnes étant linéairement indépendantes, la matrice $G^{\mathsf T}G$ est carrée ($3\times3$) et inversible. Il est dès lors possible d'isoler $\vec{q}$ :
+La matrice $G$ est rectangulaire ($4\times3$) et n'admet pas d'inverse. Ses colonnes étant indépendantes, le produit $G^{\mathsf T}G$ est carré ($3\times3$) et inversible. Il est alors possible d'isoler $\vec{q}$ :
 
 \begin{equation}
     \vec{q} = (G^{\mathsf T}G)^{-1} G^{\mathsf T} \vec{\delta}
@@ -307,15 +297,15 @@ La matrice $G$ étant rectangulaire ($4\times3$), elle n'admet pas d'inverse. En
     T = (G^{\mathsf T}G)^{-1} G^{\mathsf T}
 \end{equation}
 
-La matrice $T$ est la pseudo-inverse de Moore--Penrose \cite{Pseudoinverse} de $G$. Ses coefficients ne dépendant que de la géométrie de la maquette, elle peut dès lors être calculé. Le produit $G^{\mathsf T}G$ s'écrit de façon générale :
+La matrice $T$ est la pseudo-inverse de Moore--Penrose \cite{Pseudoinverse} de $G$. Ses coefficients ne dépendent que de la géométrie, elle peut donc être calculée une fois pour toutes. Le produit $G^{\mathsf T}G$ s'écrit :
 
 \begin{equation}
     G^{\mathsf T}G
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         4          & \sum_i x_i     & \sum_i y_i     \\[4pt]
         \sum_i x_i & \sum_i x_i^{2} & \sum_i x_i y_i \\[4pt]
         \sum_i y_i & \sum_i x_i y_i & \sum_i y_i^{2}
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 Les inducteurs étant disposés symétriquement par rapport au centre de gravité, chaque coordonnée apparaît deux fois avec le signe $+$ et deux fois avec le signe $-$. Les sommes croisées sont donc nulles :
@@ -342,16 +332,16 @@ Le produit $G^{\mathsf T}G$ est par conséquent diagonal :
 
 \begin{equation}
     G^{\mathsf T}G
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         4 & 0      & 0      \\
         0 & 4x^{2} & 0      \\
         0 & 0      & 4y^{2}
-    \end{pmatrix}
-    = \begin{pmatrix}
+    \end{bmatrix}
+    = \begin{bmatrix}
         4 & 0        & 0        \\
         0 & 0{,}0784 & 0        \\
         0 & 0        & 0{,}0676
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 Son inversion se réduit alors à l'inversion de chacun de ses termes
@@ -359,63 +349,63 @@ diagonaux :
 
 \begin{equation}
     \bigl(G^{\mathsf T}G\bigr)^{-1}
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         \tfrac{1}{4} & 0                 & 0                 \\[2pt]
         0            & \tfrac{1}{4x^{2}} & 0                 \\[2pt]
         0            & 0                 & \tfrac{1}{4y^{2}}
-    \end{pmatrix}
-    = \begin{pmatrix}
+    \end{bmatrix}
+    = \begin{bmatrix}
         0{,}25 & 0       & 0       \\
         0      & 12{,}76 & 0       \\
         0      & 0       & 14{,}79
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 La transposée de $G$ vaut :
 
 \begin{equation}
     G^{\mathsf T}
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         1  & 1  & 1  & 1  \\
         +x & +x & -x & -x \\
         +y & -y & +y & -y
-    \end{pmatrix}
-    = \begin{pmatrix}
+    \end{bmatrix}
+    = \begin{bmatrix}
         1       & 1       & 1       & 1       \\
         +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
         +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 Le produit des deux donne finalement :
 
 \begin{equation}
     T = \bigl(G^{\mathsf T}G\bigr)^{-1} G^{\mathsf T}
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         \tfrac{1}{4}  & \tfrac{1}{4}   & \tfrac{1}{4}   & \tfrac{1}{4}   \\[4pt]
         \tfrac{1}{4x} & \tfrac{1}{4x}  & -\tfrac{1}{4x} & -\tfrac{1}{4x} \\[4pt]
         \tfrac{1}{4y} & -\tfrac{1}{4y} & \tfrac{1}{4y}  & -\tfrac{1}{4y}
-    \end{pmatrix}
-    = \begin{pmatrix}
+    \end{bmatrix}
+    = \begin{bmatrix}
         0{,}25  & 0{,}25   & 0{,}25   & 0{,}25   \\
         1{,}786 & 1{,}786  & -1{,}786 & -1{,}786 \\
         1{,}923 & -1{,}923 & 1{,}923  & -1{,}923
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 Le vecteur de position se reconstruit à partir des quatre entrefers
 mesurés par le produit $\vec{q} = T\vec{\delta}$, soit :
 
 \begin{equation}
-    \begin{pmatrix} \bar\delta \\ \theta \\ \varphi \end{pmatrix}
+    \begin{bmatrix} \bar\delta \\ \theta \\ \varphi \end{bmatrix}
     =
-    \begin{pmatrix}
+    \begin{bmatrix}
         \tfrac{1}{4}  & \tfrac{1}{4}   & \tfrac{1}{4}   & \tfrac{1}{4}   \\[4pt]
         \tfrac{1}{4x} & \tfrac{1}{4x}  & -\tfrac{1}{4x} & -\tfrac{1}{4x} \\[4pt]
         \tfrac{1}{4y} & -\tfrac{1}{4y} & \tfrac{1}{4y}  & -\tfrac{1}{4y}
-    \end{pmatrix}
+    \end{bmatrix}
     \cdot
-    \begin{pmatrix} \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4 \end{pmatrix}
+    \begin{bmatrix} \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4 \end{bmatrix}
 \end{equation}
 
 En effectuant le produit ligne par ligne, il est possible d'obtenir les quations par inconnues suivante :
@@ -473,7 +463,7 @@ Avec :
 Les rotations sont dès lors calculer en employer la loi d'Euler :
 
 \begin{equation}
-    J \cdot \ddot{\alpha} = \sum T
+    J \cdot \ddot{\alpha} = \sum M
 \end{equation}
 
 Avec :
@@ -481,7 +471,7 @@ Avec :
 \begin{itemize}
     \item $J$ : L'inertie [$kg\cdot m^2$]
     \item $\ddot{\alpha}$ : L'accélération angulaire [$rad/s^2$]
-    \item $T$ : Le couple [$N\cdot m$]
+    \item $M$ : Le couple [$N\cdot m$]
 \end{itemize}
 
 Le système présente deux inerties distinctes, une autour de l'axe $X$
@@ -510,18 +500,11 @@ Les equations de Newton et d'Euler font apparaitre naturellement 3 combinaisons 
 
 \begin{equation}
     \boldsymbol{U} = E\,\boldsymbol{F}
-    = \begin{pmatrix}
+    = \begin{bmatrix}
         \sum_i F_i          \\[3pt]
         \sum_i x_i\cdot F_i \\[3pt]
         \sum_i y_i\cdot F_i
-    \end{pmatrix},
-    \qquad
-    E = G^{\mathsf T}
-    = \begin{pmatrix}
-        1       & 1       & 1       & 1       \\
-        +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
-        +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
-    \end{pmatrix}
+    \end{bmatrix}
     \label{eq:efforts-modaux}
 \end{equation}
 
@@ -582,25 +565,25 @@ Chaque ligne fournit une ligne de la matrice recherchée :
 \begin{equation}
     \boldsymbol{U} = E\,\boldsymbol{F}
     \qquad \text{avec} \qquad
-    \boldsymbol{U} = \begin{pmatrix} U_1 \\ U_2 \\ U_3 \end{pmatrix}
+    \boldsymbol{U} = \begin{bmatrix} U_1 \\ U_2 \\ U_3 \end{bmatrix}
     \quad
-    \boldsymbol{F} = \begin{pmatrix} F_1 \\ F_2 \\ F_3 \\ F_4 \end{pmatrix}
+    \boldsymbol{F} = \begin{bmatrix} F_1 \\ F_2 \\ F_3 \\ F_4 \end{bmatrix}
 \end{equation}
 
 \begin{equation}
-    E = \begin{pmatrix}
+    E = \begin{bmatrix}
         1   & 1   & 1   & 1   \\
         x_1 & x_2 & x_3 & x_4 \\
         y_1 & y_2 & y_3 & y_4
-    \end{pmatrix}
-    = \begin{pmatrix}
+    \end{bmatrix}
+    = \begin{bmatrix}
         1       & 1       & 1       & 1       \\
         +0{,}14 & +0{,}14 & -0{,}14 & -0{,}14 \\
         +0{,}13 & -0{,}13 & +0{,}13 & -0{,}13
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
-La comparaison avec la matrice géométrique $G^{\mathsf T}$ montre que les lignes de $E$ correspondent exactement aux colonnes de $G^{\mathsf T}$ :
+La comparaison avec la matrice géométrique montre que les lignes de $E$ sont exactement les colonnes de $G$, autrement dit :
 
 \begin{equation}
     E = G^{\mathsf T}
@@ -612,10 +595,10 @@ La dernière étape consiste a travailler avec les trois equations sous une form
     \boldsymbol{u} = \boldsymbol{U} - \boldsymbol{U}_{stat}
     \qquad
     \boldsymbol{U}_{stat} =
-    \begin{pmatrix} m_{tot}\,g \\ 0 \\ 0 \end{pmatrix}.
+    \begin{bmatrix} m_{tot}\,g \\ 0 \\ 0 \end{bmatrix}.
 \end{equation}
 
-Avec $U_{stat}$ étant le vecteur $U$ lors du maintien.
+Avec $\boldsymbol{U}_{stat}$ le vecteur des efforts lors du maintien. Sa première composante vaut ici $m_{tot}\,g = 177$~N, la valeur théorique du poids. À l'implémentation, cette compensation est appliquée avec le facteur correctif $K_{FF}$ introduit plus loin (\autoref{eq:feedforward}), ce qui ramène la composante de pompage à $m_{tot}\,g / K_{FF} = 154$~N.
 
 En introduisant cet écart dans les équations de Newton et d'Euler, le terme de pesanteur disparaît.
 
@@ -641,7 +624,7 @@ lui-même :
 Les trois équations prennent alors exactement la même forme :
 
 \begin{equation}
-    \boxed{\ I_j \cdot \ddot q_j = -\,u_j\ }
+    I_j \cdot \ddot q_j = -\,u_j
     \qquad j \in \{Z,\ T,\ R\}
     \label{eq:mode-dyn}
 \end{equation}
@@ -667,7 +650,8 @@ Le système est dès lors définit. Cependant 2 inconues persistent encore. L'in
 Les inerties peuvent être calculer en utilisant la méthode du pendule bifilaire. C'est une méthode classique de mesure de moment d'inertie. Le corps à mesurer est suspendu par deux fils verticaux parallèles de longueur $L_{fil}$, écartés d'une distance $D$, puis mis en légère oscillation de rotation autour de l'axe vertical passant au milieu des deux fils. Lorsque le corps tourne d'un petit angle, les fils s'inclinent et le corps remonte légèrement, la pesanteur crée alors un couple de rappel qui le ramène vers sa position d'équilibre, exactement comme la gravité ramène un pendule ordinaire vers la verticale. Le corp oscille donc à une période $T$ qui dépend de son inertie. Plus l'inertie est grande, plus l'oscillation est lente. L'equation définissant ce principe est donné par l'\autoref{eq:bifilaire} :
 
 \begin{equation}
-    \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }\qquad b = \frac{D}{2}.
+    J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}
+    \qquad b = \frac{D}{2}.
     \label{eq:bifilaire}
 \end{equation}
 
@@ -680,7 +664,7 @@ Avec :
     \item $L_{fil}$ : la longueur des fils, ici $1.23$ [m]
 \end{itemize}
 
-Les fils étant attaché au pieds de la maquette lorsque celle-ci furent mesuré, les distances $D$ par axe sont disponible dans la \autoref{fig:VueDessus}. Celle-ci sont dès lors pour la distance en X de 385 mm ($D_X = 0.385$) et pour la distance en Y de 260 mm ($D_Y = 0.260$).
+Les fils sont attachés aux pieds de la maquette lors de la mesure. Les distances $D$ par axe sont disponibles dans la \autoref{fig:VueDessus}. La distance en X vaut 385~mm ($D_X = 0{,}385$) et la distance en Y vaut 260~mm ($D_Y = 0{,}260$).
 
 La mesure est réaliser en suivant les étapes décrites dans l'\autoref{annexe:MesBifilaire}.
 
@@ -702,7 +686,7 @@ En employant l'\autoref{eq:bifilaire}, l'\autoref{eq:Oscillation} et les valeurs
 \begin{equation}
     J_Y = \frac{18.052 \cdot 9.81 \cdot 0.13^2 \cdot 3.833^2}
     {4\pi^2 \cdot 1.23}
-    = 1.035\ \mathrm{kg\,m^2}.
+    = 0{,}906\ \mathrm{kg\,m^2}.
 \end{equation}
 
 Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser pour synthétisé le système à régler :
@@ -714,12 +698,21 @@ Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser 
         \textbf{Axe}    & \textbf{$D$ [m]} & \textbf{$T$ [s]} & \textbf{$J$ [kg\,m$^2$]} \\
         \midrule
         Roulis ($J_X$)  & $0{,}385$        & $2{,}267$        & $0{,}695$                \\
-        Tangage ($J_Y$) & $0{,}278$        & $3{,}833$        & $1{,}035$                \\
+        Tangage ($J_Y$) & $0{,}260$        & $3{,}833$        & $0{,}906$                \\
         \bottomrule
     \end{tabular}
     \caption{Moments d'inertie mesurés par pendule bifilaire ($L_{fil} = 1{,}23\,\mathrm{m}$, $m = m_{tot} = 18{,}052\,\mathrm{kg}$).}
     \label{tab:inerties}
 \end{table}
+
+Ces deux inerties ne sont pas employées telles quelles pour la synthèse. Le tangage et le roulis étant deux rotations de même nature, une inertie de synthèse commune leur est attribuée. Elle est prise comme la moyenne géométrique des deux valeurs mesurées, puis corrigée par un facteur $K_{SYN} = 1{,}15$ identifié lors des essais en vol :
+
+\begin{equation}
+    J_{syn} = \frac{\sqrt{J_X \cdot J_Y}}{K_{SYN}} = \frac{\sqrt{0{,}695 \cdot 0{,}906}}{1{,}15} = 0{,}690\ \mathrm{kg\,m^2}
+    \label{eq:jsyn}
+\end{equation}
+
+De la même manière, le pompage emploie l'inertie corrigée $M_{syn} = m_{tot}/K_{SYN} = 15{,}70$~kg. C'est bien $J_{syn}$ et $M_{syn}$ qui remplacent $I_j$ dans le modèle. Le tangage et le roulis partageant la même inertie de synthèse, leurs gains seront par conséquent identiques.
 
 \subsection{Modèle de la synthèse}
 L'effort $u_j$ déterminé précédemment correspond au cas idéal, où
@@ -778,7 +771,7 @@ Il est maintenant possible de réécrire le vecteur d'état comme suit :
 
 \begin{equation}
     \boldsymbol{x}_j =
-    \begin{pmatrix} q_j \\ \dot q_j \\ u_j \\ \varepsilon_j \end{pmatrix}
+    \begin{bmatrix} q_j \\ \dot q_j \\ u_j \\ \varepsilon_j \end{bmatrix}
 \end{equation}
 
 Avec :
@@ -814,15 +807,15 @@ Il est dès lors possible d'obtenir les matrices A et B comme suit :
 
 \begin{equation}
     A =
-    \begin{pmatrix}
+    \begin{bmatrix}
         0  & 1 & 0             & 0 \\
         0  & 0 & -1/I_j        & 0 \\
         0  & 0 & -1/\tau_{act} & 0 \\
         -1 & 0 & 0             & 0
-    \end{pmatrix},
+    \end{bmatrix},
     \qquad
     B =
-    \begin{pmatrix} 0\\ 0\\ 1/\tau_{act}\\ 0 \end{pmatrix}.
+    \begin{bmatrix} 0\\ 0\\ 1/\tau_{act}\\ 0 \end{bmatrix}.
     \label{eq:modele-etat}
 \end{equation}
 
@@ -851,26 +844,16 @@ def c2d(A, B, h):
     return Md[:n, :n], Md[:n, n:]
 \end{minted}
 
-Cette fonction évalue l'exponentielle d'une matrice augmentée construite à
-partir de $A$ et $B$. Le développement en série de cette exponentielle fait
-apparaître $A_d$ dans le bloc supérieur gauche et $B_d$ dans le bloc
-supérieur droit, ce qui permet d'obtenir les deux matrices discrètes en une
-seule opération, sans avoir à inverser $A$, ce qui serait ici impossible,
-la matrice $A$ étant singulière.
+Cette fonction évalue l'exponentielle d'une matrice augmentée construite à partir de $A$ et $B$. Le développement en série de cette exponentielle fait apparaître $A_d$ dans le bloc supérieur gauche et $B_d$ dans le bloc supérieur droit, ce qui permet d'obtenir les deux matrices discrètes en une seule opération, sans avoir à inverser $A$, ce qui serait ici impossible, la matrice $A$ étant singulière.
 
-La fonction commence tout simplement par récupérer dans $n$ le nombre
-d'états de la matrice $A$ et dans $m$ le nombre d'entrées de la matrice $B$.
-Elle vient ensuite construire une matrice carrée de taille $n+m$ remplie de
-zéros, dans laquelle on vient placer la matrice $A$ en haut à gauche et la
-matrice $B$ en haut à droite. La partie inférieure reste donc entièrement
-nulle :
+La fonction commence tout simplement par récupérer dans $n$ le nombre d'états de la matrice $A$ et dans $m$ le nombre d'entrées de la matrice $B$. Elle vient ensuite construire une matrice carrée de taille $n+m$ remplie de zéros, dans laquelle on vient placer la matrice $A$ en haut à gauche et la matrice $B$ en haut à droite. La partie inférieure reste donc entièrement nulle :
 
 \begin{equation}
     M =
-    \begin{pmatrix}
+    \begin{bmatrix}
         A & B \\
         0 & 0
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 L'exponentielle de cette matrice est ensuite calculée par la fonction \texttt{expm} de la bibliothèque SciPy, après multiplication par la période d'échantillonnage $h$. Il ne reste alors plus qu'à extraire les deux blocs qui nous intéressent. Le bloc supérieur gauche donne $A_d$ et le bloc supérieur droit donne $B_d$. Le bloc inférieur droit, qui vaut la matrice identité, n'est quant à lui pas utilisé.
@@ -889,7 +872,7 @@ Fermer la boucle consiste à calculer cette commande à partir de l'état lui-m�
 \begin{equation}
     u_{c,j} = -K\,\boldsymbol x_j
     \qquad \text{avec} \qquad
-    K = \begin{pmatrix} K_1 & K_2 & K_3 & K_4 \end{pmatrix}
+    K = \begin{bmatrix} K_1 & K_2 & K_3 & K_4 \end{bmatrix}
     \label{eq:Changementucj}
 \end{equation}
 
@@ -904,27 +887,27 @@ disparaît et le système devient autonome :
 Le produit $BK$ vaut :
 
 \begin{equation}
-    BK = \begin{pmatrix} 0 \\ 0 \\ 1/\tau_{act} \\ 0 \end{pmatrix}
-    \begin{pmatrix} K_1 & K_2 & K_3 & K_4 \end{pmatrix}
-    = \begin{pmatrix}
+    BK = \begin{bmatrix} 0 \\ 0 \\ 1/\tau_{act} \\ 0 \end{bmatrix}
+    \begin{bmatrix} K_1 & K_2 & K_3 & K_4 \end{bmatrix}
+    = \begin{bmatrix}
         0              & 0              & 0              & 0 \\
         0              & 0              & 0              & 0 \\
         K_1/\tau_{act} & K_2/\tau_{act} & K_3/\tau_{act}
                        & K_4/\tau_{act}                      \\
         0              & 0              & 0              & 0
-    \end{pmatrix}
+    \end{bmatrix}
 \end{equation}
 
 La matrice de boucle fermée s'écrit dès lors :
 
 \begin{equation}
-    A - BK = \begin{pmatrix}
+    A - BK = \begin{bmatrix}
         0               & 1                            & 0               & 0 \\
         0               & 0                            & -1/I_j          & 0 \\
         -K_1/\tau_{act} & -K_2/\tau_{act}
                         & -\dfrac{1 + K_3}{\tau_{act}} & -K_4/\tau_{act}     \\
         -1              & 0                            & 0               & 0
-    \end{pmatrix}
+    \end{bmatrix}
     \label{eq:ABK}
 \end{equation}
 
@@ -938,11 +921,10 @@ En reprenant l'\autoref{eq:Changementucj}, la loi de commande se développe comm
 Deux adaptations sont apportées lors de l'implémentation. D'une part, le modèle de synthèse ayant été écrit en écarts autour du point d'équilibre, la référence est restituée. Le terme de position porte sur $q_j - q_{ref,j}$. D'autre part, la vitesse n'étant pas mesurée, elle est remplacée par son estimation $\hat v_j$ fournie par l'observateur (\autoref{subsec:observateur}). Le gain $K_3$, portant sur l'état d'effort $u_j$, n'a quant à lui pas été implémenté. La loi retenue s'écrit finalement :
 
 \begin{equation}
-    \boxed{\
+    \
         u_{c,j} = Q_j \cdot \bigl(q_j - q_{ref,j}\bigr)
         + Q_{D,j} \cdot \hat v_j
         - \mathrm{EPS}_j \cdot \varepsilon_j
-        \ }
     \label{eq:loi-commande}
 \end{equation}
 
@@ -1006,7 +988,7 @@ def design_lqi_place(inertia, tau_act, poles):
 La fonction construit les matrices $A$ et $B$ du mode considéré, les discrétise, convertit les pôles continus en pôles discrets par $z_k = e^{p_k h}$, puis résout le problème de placement. C'est également ici qu'est calculé le gain $K_3$, bien qu'il ne soit pas implémenté dans la
 loi de commande.
 
-Les pôles ci-dessus sont donc obtenus en supposant $K_3$ implémenté. La conséquence de son absence a été quantifiée en recalculant les valeurs propres de $A_d - B_d K$ avec $K_3 = 0$. Les pôles effectifs valent alors $-65 \pm 124j$ et $-24{,}4 \pm 4{,}9j\ \mathrm{rad/s}$, au lieu des quatre pôles spécifiés. Ils sont complexes conjugués là où la synthèse en spécifiait quatre réels. La réponse de la boucle fermée est donc oscillante alors qu'elle était prévue apériodique, ce que confirment les oscillations observées lors des essais. Elle reste néanmoins stable, l'ensemble des pôles ayant une partie réelle négative.
+Les pôles ci-dessus sont donc obtenus en supposant $K_3$ implémenté. La conséquence de son absence a été quantifiée en recalculant les valeurs propres de $A_d - B_d K$ avec $K_3 = 0$. Les pôles effectifs valent alors $-65 \pm 124j$ et $-24{,}4 \pm 4{,}9j\ \mathrm{rad/s}$, au lieu des quatre pôles spécifiés. Ils sont complexes conjugués là où la synthèse en spécifiait quatre réels. La réponse de la boucle fermée est donc oscillante alors qu'elle était prévue apériodique, ce qui est cohérent avec le caractère oscillant observé lors des essais. Elle reste néanmoins stable, l'ensemble des pôles ayant une partie réelle négative.
 
 L'implémentation de ce terme constituerait la première piste d'amélioration du régulateur. L'estimation $\hat u_j$ étant déjà calculée par l'observateur, son ajout ne demande qu'une multiplication supplémentaire par interruption. Une comparaison expérimentale entre les deux versions permettrait de déterminer si l'écart entre pôles spécifiés et pôles effectifs a une incidence mesurable sur le comportement en vol.
 
@@ -1023,29 +1005,23 @@ Il fut dès lors décidé de passer à un observateur, qui estime la position, l
 Il est pour cela nécessaire de compléter la représentation d'état par son équation de sortie, qui décrit la grandeur effectivement mesurée. L'observateur ne portant que sur trois états, l'état intégral $\varepsilon_j$ étant calculé directement par le régulateur, le vecteur d'état considéré ici se réduit à $(q_j,\ \dot q_j,\ u_j)$ :
 
 \begin{equation}
-    y_j = C\,\boldsymbol x_j + D\,u_{c,j} \qquad \text{avec} \qquad C = \begin{pmatrix} 1 & 0 & 0 \end{pmatrix} \qquad D = 0
+    y_j = C\,\boldsymbol x_j + D\,u_{c,j} \qquad \text{avec} \qquad C = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \qquad D = 0
 \end{equation}
 
-La matrice $C$ traduit le fait que seule la position $q_j$ du mode est accessible à la mesure, reconstruite à partir des quatre entrefers par la matrice $T$. La matrice $D$ est nulle car la sortie ne dépends pas de l'entrée.
+La matrice $C$ traduit le fait que seule la position $q_j$ du mode est accessible à la mesure, reconstruite à partir des quatre entrefers par la matrice $T$. La matrice $D$ est nulle car la sortie ne dépend pas de l'entrée.
 
-L'observateur reproduit le modèle du système et en réalise une l'évolution. Celui-ci agit donc comme un moyen de prédire l'état au pas suivant. Pour être sûr que la prédiction tienne la route, celle-ci est vérifié en calculant l'écart entre la position mesurée et la position prédite multiplier par un gain $L$ :
+Dans l'implémentation, l'entrée $u_{c,j}$ de l'observateur est remplacée par l'effort réellement appliqué, recalculé après écrêtage et filtrage coupe-bande. L'observateur subit ainsi la même excitation que la plaque, ce qui est la condition de validité de l'équation d'erreur ci-dessous.
 
-\begin{equation}
-    \hat{\boldsymbol x}[k+1] = A_d\,\hat{\boldsymbol x}[k]
-    + B_d\,u_{c,j}[k]
-    + L\bigl(y_j[k] - C\,\hat{\boldsymbol x}[k]\bigr)
-\end{equation}
-
-Il suffit maintenant de déterminer le gain $L$. Pour cela, l'erreur d'estimation est définie comme l'écart entre l'état réel et l'état estimé :
+Il reste à déterminer le gain $L$. Pour cela, l'erreur d'estimation est définie comme l'écart entre l'état réel et l'état estimé :
 
 \begin{equation}
-    \boldsymbol\epsilon[k] = \boldsymbol x[k] - \hat{\boldsymbol x}[k]
+    \boldsymbol e_{obs}[k] = \boldsymbol x[k] - \hat{\boldsymbol x}[k]
 \end{equation}
 
 En soustrayant l'équation de l'observateur de celle du système, le terme d'entrée $B_d u_{c,j}$ s'élimine et il ne subsiste que :
 
 \begin{equation}
-    \boldsymbol\epsilon[k+1] = \bigl(A_d - L\,C\bigr)\,\boldsymbol\epsilon[k]
+    \boldsymbol e_{obs}[k+1] = \bigl(A_d - L\,C\bigr)\,\boldsymbol e_{obs}[k]
     \label{eq:erreur-obs}
 \end{equation}
 
@@ -1076,12 +1052,62 @@ La matrice $E$ étant la transposée de $G$, cette expression se simplifie et ne
 Le produit $G^{\mathsf T}G$ ayant déjà été calculé lors de la reconstruction de position, où sa forme diagonale avait été mise en évidence, son inversion reste immédiate. La ligne $i$ de $G$ valant $(1,\ x_i,\ y_i)$, chaque force s'écrit alors explicitement :
 
 \begin{equation}
-    \boxed{\ F_{c,i} = F_{stat,i} + \frac{u_Z}{4} + \frac{x_i}{\sum_k x_k^2}\,u_T + \frac{y_i}{\sum_k y_k^2}\,u_R \ }
+    F_{c,i} = F_{stat,i} + \frac{u_Z}{4} + \frac{x_i}{\sum_k x_k^2}\,u_T + \frac{y_i}{\sum_k y_k^2}\,u_R
     \label{eq:allocation-explicite}
 \end{equation}
 
 La lecture physique est directe. Le quart de l'effort de pompage est envoyé sur chaque inducteur. Un couple de tangage est réalisé en ajoutant de la force à l'avant et en en retirant autant à l'arrière, et un couple de roulis fonctionne de même entre la gauche et la droite. Comme pour la reconstruction de position, l'allocation ne demande que quelques additions pondérées et aucune inversion matricielle en temps réel.
 
+La différence entre les quatre actionneurs et les trois efforts contrôlés correspond à un degré de liberté supplémentaire. La combinaison de forces :
 
+\begin{equation}
+    \boldsymbol F_{tor} \propto (+1,\ -1,\ -1,\ +1)^{\mathsf T}
+\end{equation}
+
+Cela fait tirer davantage les inducteurs d'une diagonale tout en relâchant ceux de l'autre. Les trois sommes correspondantes étant nulles, elle ne produit ni force totale, ni couple de tangage, ni couple de roulis. La plaque étant supposée rigide, elle ne peut donc engendrer aucun mouvement et tendrait uniquement à la tordre.
+
+Ce mode se retrouve du côté des mesures sous la forme de la contrainte $\delta_1 - \delta_2 - \delta_3 + \delta_4 = 0$, également satisfaite pour toute plaque rigide. Il s'agit du même degré de liberté, inobservable par les capteurs et incontrôlable par la commande.
+
+La répartition à norme minimale présente ici un avantage supplémentaire. Par construction, elle n'injecte aucune composante selon ce mode. La commande ne peut donc pas solliciter la torsion de la plaque, ce qui écarte le risque d'exciter un éventuel mode de flexion structurel absent du modèle. Cette propriété n'est toutefois garantie qu'en l'absence de saturation, l'écrêtage des forces étant appliqué individuellement à chaque inducteur.
+
+\subsection{Compensation du poids}
+
+Le terme $F_{stat,i}$ de l'équation~\eqref{eq:allocation-explicite} compense le poids de la plaque en anticipation, de sorte que les régulateurs ne travaillent qu'en écarts autour de l'équilibre. C'est cette compensation qui justifie la mise en écarts du modèle établie précédemment.
+
+\begin{equation}
+    F_{stat,i} = \frac{m_{tot} \cdot g}{4 \cdot K_{FF}} = \frac{18{,}052 \cdot 9{,}81}{4 \cdot 1{,}15} = 38{,}5\ \mathrm{N}
+    \label{eq:feedforward}
+\end{equation}
+
+Le facteur correctif $K_{FF} = 1{,}15$ provient de l'identification en vol du gain réel de la chaîne de force. L'écart résiduel entre le poids compensé et le poids réel est absorbé par l'action intégrale du mode de pompage.
+
+\subsection{Saturations et anti-windup}
+\label{sec:anti-windup}
+
+Chaque force de consigne doit respecter les limites physiques de l'actionneur. Un électro-aimant ne pouvant qu'attirer, une force négative est impossible, d'où $F_{c,i} \geq 0$. Le courant maximal admissible $I_{max} = 12\,\mathrm{A}$ limite par ailleurs la force au pire cas d'entrefer, chariot posé à $\delta_0 = 3\,\mathrm{mm}$ :
+
+\begin{equation}
+    F_{max,i} = \frac{1}{2} \cdot L_{n,i} \cdot \delta_n \cdot \left(\frac{I_{max}}{\delta_0}\right)^{2} \approx 124\ \mathrm{N}
+    \label{eq:fmax}
+\end{equation}
+
+Toute consigne sortant de l'intervalle $[0,\ F_{max,i}]$ est écrêtée à la borne correspondante.
+
+Ces saturations exposent les intégrateurs au phénomène de windup. Tant que la force demandée n'est pas réalisable, l'erreur persiste et l'intégrateur continue d'accumuler sans effet sur la plaque. Lorsque la situation se rétablit, la valeur accumulée maintient une commande erronée le temps de se résorber, ce qui provoque un dépassement important.
+
+La protection retenue est une intégration conditionnelle appliquée au niveau modal. En SISO, chaque régulateur disposait directement de sa propre force et pouvait comparer sa commande à la valeur saturée. Ici, le régulateur travaille sur des efforts modaux alors que l'écrêtage porte sur les quatre forces individuelles. Les efforts réellement réalisables sont donc recalculés à partir des forces saturées :
+
+\begin{equation}
+    \boldsymbol u_{sat} = E\,\boldsymbol F_{sat} - \boldsymbol U_{stat}
+\end{equation}
+
+En l'absence de saturation, ces efforts recalculés coïncident exactement avec les efforts demandés. Tout écart non nul traduit donc l'action de l'écrêtage. L'intégrateur du mode $j$ n'est alors incrémenté que si l'effort demandé est effectivement réalisé :
+
+\begin{equation}
+    \bigl|u_{c,j} - u_{sat,j}\bigr| < tol_j \quad\Longrightarrow\quad \varepsilon_j[k\!+\!1] = \varepsilon_j[k] + h \cdot \bigl(q_{ref,j} - q_j[k]\bigr)
+    \label{eq:integration-cond}
+\end{equation}
+
+La tolérance $tol_j$ est fixée à $2\,\%$ de l'effort statique ramené au mode considéré. Un seuil strictement nul gèlerait en effet l'intégrateur au moindre bruit numérique. Dès qu'une saturation empêche de réaliser l'effort demandé sur un mode, l'intégrateur de ce mode est gelé et cesse d'accumuler une erreur qu'il ne peut de toute façon pas corriger. Le gel est appliqué mode par mode : si seul le tangage est bridé, les intégrateurs de pompage et de roulis continuent de fonctionner normalement.
 
 \section{Conclusion}
