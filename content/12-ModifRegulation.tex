@@ -1,7 +1,16 @@
 \chapter{Modification de la régulation}
 
 \section{Introduction}
-Ce chapitre traite les modifications apportées à la régulation de courant ainsi que la nouvelle régulation de position réalisées au cours de ce travail de bachelor. La régulation de position en Single Input Single Output (SISO) n'ayant pas fait ses preuves, une régulation en Multiple Input Multiple Output (MIMO) a été envisagée et réalisée. Les détails de cette méthode sont décrits dans les sections à venir. Ce chapitre permet également de statuer sur l'hypothèse de la \autoref{sec:Hypothese} concernant une erreur introduite lors de la phase de synthèse des régulateurs (\autoref{subsec:RegPIError}).
+Ce chapitre traite les modifications apportées à la régulation de courant ainsi que la nouvelle régulation de position réalisées au cours de ce travail de bachelor. Le schéma bloc décrivant le nouveau système est présenté dans l'\autoref{fig:SchemaBlocTot}:
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=1\linewidth]{assets/content/12-ModifRegulation/SchemaRegTot}
+    \caption{Principe de la régulation de position-courant employé}
+    \label{fig:SchemaBlocTot}
+\end{figure}
+
+La régulation de position en Single Input Single Output (SISO) n'ayant pas fait ses preuves, une régulation en Multiple Input Multiple Output (MIMO) a été envisagée et réalisée. Les détails de cette méthode sont décrits dans les sections à venir. Ce chapitre permet également de statuer sur l'hypothèse de la \autoref{sec:Hypothese} concernant une erreur introduite lors de la phase de synthèse des régulateurs (\autoref{subsec:RegPIError}).
 
 \section{Analyse de la régulation de courant}
 
@@ -144,6 +153,15 @@ L'idée de la régulation MIMO est donc d'au lieu de réguler quatre entrefers i
 \end{itemize}
 
 Les déplacements horizontaux ainsi que la rotation autour de l'axe vertical ne seront pas pris en compte pour la régulation. Il est possibl d'avoir de léger mouvement dans ces partie la mais il n'y aucun moyen de réellement savoir la position dans ce degré la. Cette partie la est également bloqués par le guidage mécanique.
+
+La régulation de position va dès lors suivre les principes présent dans la \autoref{fig:NewSchemaBlocPos} :
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=1\linewidth]{assets/content/12-ModifRegulation/RegPos/SchemaBloc}
+    \caption{Principe de la régulation MIMO employé}
+    \label{fig:NewSchemaBlocPos}
+\end{figure}
 
 \subsection{Information}
 Par manque de temps, l'intelligence artificielle fut employer pour de l'aide afin de générer un script permettant d'obtenir les coefficient pour réaliser la régulation de position.
@@ -652,9 +670,7 @@ Le système est dès lors définit. Cependant 2 inconues persistent encore. L'in
 Les inerties peuvent être calculer en utilisant la méthode du pendule bifilaire. C'est une méthode classique de mesure de moment d'inertie. Le corps à mesurer est suspendu par deux fils verticaux parallèles de longueur $L_{fil}$, écartés d'une distance $D$, puis mis en légère oscillation de rotation autour de l'axe vertical passant au milieu des deux fils. Lorsque le corps tourne d'un petit angle, les fils s'inclinent et le corps remonte légèrement, la pesanteur crée alors un couple de rappel qui le ramène vers sa position d'équilibre, exactement comme la gravité ramène un pendule ordinaire vers la verticale. Le corp oscille donc à une période $T$ qui dépend de son inertie. Plus l'inertie est grande, plus l'oscillation est lente. L'equation définissant ce principe est donné par l'\autoref{eq:bifilaire} :
 
 \begin{equation}
-    \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }
-
-    \qquad b = \frac{D}{2}.
+    \boxed{\ J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}\ }\qquad b = \frac{D}{2}.
     \label{eq:bifilaire}
 \end{equation}
 
@@ -669,16 +685,60 @@ Avec :
 
 Les fils étant attaché au pieds de la maquette lorsque celle-ci furent mesuré, les distances $D$ par axe sont disponible dans la \autoref{fig:VueDessus}. Celle-ci sont dès lors pour la distance en X de 385 mm ($D_X = 0.385$) et pour la distance en Y de 260 mm ($D_Y = 0.260$).
 
-La grandeurs manquette est celle de l'oscillation. C'est justement elle qui va être mesuré lorsque la maquette sera suspendue vérticalement par axe.
+La mesure est réaliser en suivant les étapes décrites dans l'\autoref{annexe:MesBifilaire}.
 
-Pour se faire, il faut se munir de l'équipement qui suit :
+Une fois les mesures réaliser, les oscillations suivantes sont retrouvé :
 
-de 2 cables. Plus les câbles sont long, plus la mesure est fiable.
+\begin{equation}
+    T_X = 2.267~s \qquad T_Y = 3.833~s
+    \label{eq:Oscillation}
+\end{equation}
 
-\subsection{Définition de l'espace d'état}
+En employant l'\autoref{eq:bifilaire}, l'\autoref{eq:Oscillation} et les valeurs des distances ($D_X$ et $D_Y$), il est alors possible d'obtenir les valeurs d'inertie suivantes :
+
+\begin{equation}
+    J_X = \frac{18.052 \cdot 9.81 \cdot 0.1925^2 \cdot 2.267^2}
+    {4\pi^2 \cdot 1.23}
+    = 0{,}695\ \mathrm{kg\,m^2}.
+\end{equation}
+
+\begin{equation}
+    J_Y = \frac{18.052 \cdot 9.81 \cdot 0.13^2 \cdot 3.833^2}
+    {4\pi^2 \cdot 1.23}
+    = 1.035\ \mathrm{kg\,m^2}.
+\end{equation}
+
+Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser pour synthétisé le système à régler :
+
+\begin{table}[H]
+    \centering
+    \caption{Moments d'inertie mesurés par pendule bifilaire ($L_{fil} = 1{,}23\,\mathrm{m}$, $m = m_{tot} = 18{,}052\,\mathrm{kg}$).}
+    \label{tab:inerties}
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Axe}    & \textbf{$D$ [m]} & \textbf{$T$ [s]} & \textbf{$J$ [kg\,m$^2$]} \\
+        \midrule
+        Roulis ($J_X$)  & $0{,}385$        & $2{,}267$        & $0{,}695$                \\
+        Tangage ($J_Y$) & $0{,}278$        & $3{,}833$        & $1{,}035$                \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Modèle de la synthèse}
+L'effort $u_j$ déterminé précédement, est le cas parfait. La maquette demande cette effort et la fournit directement. Cependant tous les retards ne sont pas pris en compte. Comme précédement, les différents élement (Filtre coupe-bande, approximation de la boucle fermée de courant, capteurs et filre RC) seront pris en compte dans la régulation. Le filtre Savitzky fut enelver pour plustot employer un observateur sur la vitesse. Cela a pour but de supprimer un élement retardant la boucle de position et de ne pas faire exploser le bruit de la mesure.
+
+Pour inclure ces élement,
+
+\subsection{Synthèse du régulateur}
 
 
-\section{Observateur sur la vitesse}
+\subsection{Placement de pôles}
+
+
+\subsection{Observateur sur la vitesse}
+
+
+\subsection{Répartition des forces}
 
 \section{Conclusion}
 
