@@ -408,7 +408,7 @@ mesurés par le produit $\vec{q} = T\vec{\delta}$, soit :
     \begin{bmatrix} \delta_1 \\ \delta_2 \\ \delta_3 \\ \delta_4 \end{bmatrix}
 \end{equation}
 
-En effectuant le produit ligne par ligne, il est possible d'obtenir les quations par inconnues suivante :
+Le produit ligne par ligne donne une expression par inconnue :
 
 \begin{equation*}
     \left\{
@@ -423,7 +423,7 @@ En effectuant le produit ligne par ligne, il est possible d'obtenir les quations
     \right.
 \end{equation*}
 
-Puis en mettant en évidence les facteurs communs, il est finalement possible d'obtenir les equations finaux :
+En regroupant les facteurs communs, les relations finales sont :
 
 \begin{equation}
     \left\{
@@ -437,49 +437,35 @@ Puis en mettant en évidence les facteurs communs, il est finalement possible d'
     \right.
 \end{equation}
 
-Ces trois relations s'interprètent directement. L'entrefer moyen
-$\bar\delta$ correspond à la moyenne arithmétique des quatre mesures. Le tangage $\theta$ se déduit de l'écart entre la moyenne des inducteurs avant ($\delta_1$, $\delta_2$) et celle des inducteurs arrière ($\delta_3$, $\delta_4$), rapporté à leur écartement. Le roulis $\varphi$ s'obtient de la même manière entre les inducteurs gauche et droite.
-
-La reconstruction de la position ne nécessite donc, en temps réel, que trois sommes pondérées. Aucune inversion matricielle n'est réalisée par le système de commande.
+Ces relations sont simples à interpréter. L'entrefer moyen $\bar\delta$ est la moyenne des quatre mesures. Le tangage $\theta$ vient de l'écart entre les inducteurs avant et arrière, rapporté à leur écartement. Le roulis $\varphi$ s'obtient de même entre la gauche et la droite. La reconstruction ne demande donc que trois sommes pondérées en temps réel, sans aucune inversion de matrice.
 
 \subsection{Définition du système}
-La géométrie de la maquette étant définie, il est encore néscessaire de définir les equations physiques de celle-ci. Précédemment la loi émises était simplement celle de Newton. Cependant cette fois-ci, elle devra être définit pour un coprs rigide complet. Newton vient exprimer la translation et Euler \cite{Euler} vient exprimer les rotations.\\
+La géométrie étant définie, il reste à établir les équations physiques. La régulation précédente n'utilisait que la loi de Newton. Cette fois, le corps rigide complet est considéré : Newton exprime la translation et Euler \cite{Euler} exprime les rotations.
 
-La loi de Newton s'écrit comme précédement mais pour le corps rigide complet :
+La loi de Newton s'écrit comme précédemment, mais pour le corps complet :
 
 \begin{equation}
     m_{tot} \cdot \ddot{\bar\delta} = \sum F
     = F_p - \sum_{i=1}^{4} F_i
-    = m_{tot} \cdot g - \sum_{i=1}^{4} F_i .
+    = m_{tot} \cdot g - \sum_{i=1}^{4} F_i
     \label{eq:newton-mimo}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $m_{tot}$ : la masse totale de la partie lévitante $18.052$ [kg]
-    \item $F_i$ : la force d'attraction de l'inducteur $i$ [N]
-\end{itemize}
+avec $m_{tot} = 18{,}052$~kg la masse de la partie lévitante et $F_i$ la force d'attraction de l'inducteur $i$ [N].
 
-Les rotations sont dès lors calculer en employer la loi d'Euler :
+Les rotations sont données par la loi d'Euler :
 
 \begin{equation}
     J \cdot \ddot{\alpha} = \sum M
 \end{equation}
 
-Avec :
+avec $J$ l'inertie [kg\,m$^2$], $\ddot{\alpha}$ l'accélération angulaire [rad/s$^2$] et $M$ le couple [N\,m].
 
-\begin{itemize}
-    \item $J$ : L'inertie [$kg\cdot m^2$]
-    \item $\ddot{\alpha}$ : L'accélération angulaire [$rad/s^2$]
-    \item $M$ : Le couple [$N\cdot m$]
-\end{itemize}
+Le système présente deux inerties, une autour de l'axe $X$ (roulis) et une autour de l'axe $Y$ (tangage). La maquette ayant deux plans de symétrie perpendiculaires, ces axes sont les axes principaux d'inertie. Les deux rotations sont donc découplées et traitées séparément.
 
-Le système présente deux inerties distinctes, une autour de l'axe $X$
-(roulis) et une autour de l'axe $Y$ (tangage). La maquette possédant deux plans de symétrie perpendiculaires, ces deux axes sont les axes principaux d'inertie. Les deux rotations sont donc découplées et peuvent être traitées séparément.
+Le couple autour de l'axe $Y$ créé par un inducteur vaut sa force $F_i$ multipliée par son bras de levier $x_i$. Le couple autour de l'axe $X$ s'écrit de même avec $y_i$. La pesanteur s'applique au centre de gravité, son bras de levier est nul : elle ne crée aucun couple et n'apparaît donc pas ici.
 
-Le couple autour de l'axe $Y$ créé par un inducteur se calcule à partir de la force verticale $F_i$ qu'il exerce et de son bras de levier $x_i$, c'est-à-dire sa distance par rapport au centre de gravité. Le couple autour de l'axe $X$ s'exprime de la même façon, à partir de la distance $y_i$. La force de pesanteur, appliquée au centre de gravité, possède un bras de levier nul et ne crée donc aucun couple. D'ou sont absence dans les calcules de couples.
-
-Le signe négatif provient de la convention adoptée sur les entrefers. Un angle $\theta$ positif correspond à un accroissement des entrefers du côté des $x$ positifs, c'est-à-dire à un abaissement de ce côté de la plaque. Or une force $F_i$ positive attire la plaque vers le haut et referme l'entrefer correspondant. Elle tend donc à faire diminuer $\theta$. Il en va de même pour le roulis. La loi d'Euler s'écrit dès lors :
+Le signe négatif vient de la convention sur les entrefers. Un tangage $\theta$ positif augmente les entrefers du côté des $x$ positifs, donc abaisse ce côté de la plaque. Or une force $F_i$ positive attire la plaque vers le haut et referme l'entrefer : elle fait diminuer $\theta$. Le roulis suit la même logique. La loi d'Euler s'écrit donc :
 
 \begin{equation}
     J_Y \cdot \ddot\theta = -\sum_{i=1}^{4} x_i\cdot F_i
@@ -488,15 +474,9 @@ Le signe négatif provient de la convention adoptée sur les entrefers. Un angle
     \label{eq:euler-mimo}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $J_Y$ : le moment d'inertie de tangage [$kg\cdot m^2$]
-    \item $J_X$ : le moment d'inertie de roulis [$kg\cdot m^2$]
-    \item $x_i\cdot F_i$, $y_i\cdot F_i$ : les couples créés par la force $F_i$ [$N\cdot m$]
-\end{itemize}
+avec $J_Y$ le moment d'inertie de tangage et $J_X$ celui de roulis [kg\,m$^2$].
 
-
-Les equations de Newton et d'Euler font apparaitre naturellement 3 combinaisons des quatres forces : La force totale, le couple de tangage et le couple de roulis. Pour travailler avec les deux lois simultanément, il est néscessaire de passer à un système d'effort modaux. Pour simplifier la chose, un vecteur $U$ les regroupant est définit telle quelle  :
+Newton et Euler font apparaître trois combinaisons des quatre forces : la force totale, le couple de tangage et le couple de roulis. Pour traiter les deux lois ensemble, ces combinaisons sont regroupées dans un vecteur d'efforts modaux $\boldsymbol U$ :
 
 \begin{equation}
     \boldsymbol{U} = E\,\boldsymbol{F}
@@ -534,9 +514,9 @@ associée à l'un des trois modes de mouvement :
     U_3 = \sum_{i=1}^{4} y_i\cdot F_i
 \end{equation*}
 
-Le terme effort est employé car ces grandeurs ne sont pas de même nature : $U_1$ est une force [N] pilotant le pompage, tandis que $U_2$ et $U_3$ sont des couples [N\,m] pilotant respectivement le tangage et le roulis.
+Le terme effort est employé car ces grandeurs sont de natures différentes : $U_1$ est une force [N] qui pilote le pompage, $U_2$ et $U_3$ sont des couples [N\,m] qui pilotent le tangage et le roulis.
 
-Les équations du mouvement prennent alors une forme condensée, où chaque degré de liberté est piloté par un unique effort :
+Les équations du mouvement deviennent alors, chaque degré de liberté étant piloté par un seul effort :
 
 \begin{equation}
     \left\{
@@ -548,9 +528,7 @@ Les équations du mouvement prennent alors une forme condensée, où chaque degr
     \right.
 \end{equation}
 
-Ces trois combinaisons étant linéaires en $\boldsymbol{F}$, elles
-s'expriment sous forme d'un produit matriciel. Il suffit pour cela de
-relever les coefficients de chaque force dans chacune des trois relations :
+Ces combinaisons sont linéaires en $\boldsymbol{F}$ et s'écrivent donc sous forme matricielle. En relevant les coefficients de chaque force :
 
 \begin{equation*}
     \begin{aligned}
@@ -560,7 +538,7 @@ relever les coefficients de chaque force dans chacune des trois relations :
     \end{aligned}
 \end{equation*}
 
-Chaque ligne fournit une ligne de la matrice recherchée :
+Chaque ligne donne une ligne de la matrice $E$ :
 
 \begin{equation}
     \boldsymbol{U} = E\,\boldsymbol{F}
@@ -583,26 +561,24 @@ Chaque ligne fournit une ligne de la matrice recherchée :
     \end{bmatrix}
 \end{equation}
 
-La comparaison avec la matrice géométrique montre que les lignes de $E$ sont exactement les colonnes de $G$, autrement dit :
+Les lignes de $E$ sont exactement les colonnes de $G$. Autrement dit :
 
 \begin{equation}
     E = G^{\mathsf T}
 \end{equation}
 
-La dernière étape consiste a travailler avec les trois equations sous une forme identique. A l'équilibre, la force totale du système compense enitèrement celle de pesanteur. Les couples sont dès lors nul. L'écart de l'effort se définit alors comme :
+La dernière étape met les trois équations sous une forme identique. À l'équilibre, la force totale compense la pesanteur et les couples sont nuls. L'écart d'effort est défini comme :
 
 \begin{equation}
     \boldsymbol{u} = \boldsymbol{U} - \boldsymbol{U}_{stat}
     \qquad
     \boldsymbol{U}_{stat} =
-    \begin{bmatrix} m_{tot}\,g \\ 0 \\ 0 \end{bmatrix}.
+    \begin{bmatrix} m_{tot}\,g \\ 0 \\ 0 \end{bmatrix}
 \end{equation}
 
 Avec $\boldsymbol{U}_{stat}$ le vecteur des efforts lors du maintien. Sa première composante vaut ici $m_{tot}\,g = 177$~N, la valeur théorique du poids. À l'implémentation, cette compensation est appliquée avec le facteur correctif $K_{FF}$ introduit plus loin (\autoref{eq:feedforward}), ce qui ramène la composante de pompage à $m_{tot}\,g / K_{FF} = 154$~N.
 
-En introduisant cet écart dans les équations de Newton et d'Euler, le terme de pesanteur disparaît.
-
-Pour le pompage, la première composante de $\boldsymbol{U}_{stat}$ compense exactement le poids :
+En introduisant cet écart dans Newton et Euler, le terme de pesanteur disparaît. Pour le pompage, la première composante de $\boldsymbol{U}_{stat}$ compense exactement le poids :
 
 \begin{equation*}
     m_{tot}\,\ddot{\bar\delta}
@@ -611,9 +587,7 @@ Pour le pompage, la première composante de $\boldsymbol{U}_{stat}$ compense exa
     = -\,u_1
 \end{equation*}
 
-Pour le tangage et le roulis, les composantes correspondantes de
-$\boldsymbol{U}_{stat}$ étant nulles, l'écart se confond avec l'effort
-lui-même :
+Pour le tangage et le roulis, les composantes de $\boldsymbol{U}_{stat}$ sont nulles : l'écart se confond avec l'effort.
 
 \begin{equation*}
     J_Y\,\ddot\theta = -\,U_2 = -\,u_2
@@ -629,25 +603,17 @@ Les trois équations prennent alors exactement la même forme :
     \label{eq:mode-dyn}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $j$ : l'indice du mode considéré
-    \item $q_j$ : la coordonnée du mode
-    \item $I_j$ : l'inertie associée au mode
-    \item $u_j$ : l'effort appliqué sur ce mode
-\end{itemize}
-
-Les trois modes se déclinent alors comme suit :
+avec $j$ l'indice du mode, $q_j$ sa coordonnée, $I_j$ son inertie et $u_j$ son effort. Les trois modes sont :
 \begin{itemize}
     \item Pompage ($j = Z$) : $q_Z = \bar\delta$ et $I_Z = m_{tot}$ [kg]
     \item Tangage ($j = T$) : $q_T = \theta$ et $I_T = J_Y$ [kg\,m$^2$]
     \item Roulis ($j = R$) : $q_R = \varphi$ et $I_R = J_X$ [kg\,m$^2$]
 \end{itemize}
 
-Le système est dès lors définit. Cependant 2 inconues persistent encore. L'inertie de l'axe X et l'inertie de l'axe Y. Ceux-ci vont dès lors être calculer.
+Le système est défini. Il reste deux inconnues : les inerties $J_X$ et $J_Y$. Elles sont calculées ci-dessous.
 
-\subsection{Calcule des inerties}
-Les inerties peuvent être calculer en utilisant la méthode du pendule bifilaire. C'est une méthode classique de mesure de moment d'inertie. Le corps à mesurer est suspendu par deux fils verticaux parallèles de longueur $L_{fil}$, écartés d'une distance $D$, puis mis en légère oscillation de rotation autour de l'axe vertical passant au milieu des deux fils. Lorsque le corps tourne d'un petit angle, les fils s'inclinent et le corps remonte légèrement, la pesanteur crée alors un couple de rappel qui le ramène vers sa position d'équilibre, exactement comme la gravité ramène un pendule ordinaire vers la verticale. Le corp oscille donc à une période $T$ qui dépend de son inertie. Plus l'inertie est grande, plus l'oscillation est lente. L'equation définissant ce principe est donné par l'\autoref{eq:bifilaire} :
+\subsection{Calcul des inerties}
+Les inerties sont mesurées par la méthode du pendule bifilaire. Le corps est suspendu par deux fils parallèles de longueur $L_{fil}$, écartés d'une distance $D$, puis mis en légère oscillation autour de l'axe vertical. Lorsqu'il tourne d'un petit angle, les fils s'inclinent, le corps remonte, et la pesanteur crée un couple de rappel qui le ramène à l'équilibre. Le corps oscille alors à une période $T$ qui dépend de son inertie : plus l'inertie est grande, plus l'oscillation est lente. Le principe est donné par l'\autoref{eq:bifilaire} :
 
 \begin{equation}
     J = \frac{m \cdot g \cdot b^2 \cdot T^2}{4\pi^2 \cdot L_{fil}}
@@ -655,14 +621,7 @@ Les inerties peuvent être calculer en utilisant la méthode du pendule bifilair
     \label{eq:bifilaire}
 \end{equation}
 
-Avec :
-
-\begin{itemize}
-    \item $m$ : la masse du corps suspendu, ici $m_{tot} = 18{,}052$[kg]
-    \item $b$ : le demi-écartement des fils [m]
-    \item $T$ : la période d'oscillation [s]
-    \item $L_{fil}$ : la longueur des fils, ici $1.23$ [m]
-\end{itemize}
+avec $m = m_{tot} = 18{,}052$~kg la masse suspendue, $b$ le demi-écartement des fils [m], $T$ la période d'oscillation [s] et $L_{fil} = 1{,}23$~m la longueur des fils.
 
 Les fils sont attachés aux pieds de la maquette lors de la mesure. Les distances $D$ par axe sont disponibles dans la \autoref{fig:VueDessus}. La distance en X vaut 385~mm ($D_X = 0{,}385$) et la distance en Y vaut 260~mm ($D_Y = 0{,}260$).
 
@@ -689,7 +648,7 @@ En employant l'\autoref{eq:bifilaire}, l'\autoref{eq:Oscillation} et les valeurs
     = 0{,}906\ \mathrm{kg\,m^2}.
 \end{equation}
 
-Pour résumer, les valeurs suivantes sont obtenues et seront dès lors utiliser pour synthétisé le système à régler :
+Les valeurs obtenues sont résumées dans le \autoref{tab:inerties} :
 
 \begin{table}[H]
     \centering
@@ -715,23 +674,14 @@ Ces deux inerties ne sont pas employées telles quelles pour la synthèse. Le ta
 De la même manière, le pompage emploie l'inertie corrigée $M_{syn} = m_{tot}/K_{SYN} = 15{,}70$~kg. C'est bien $J_{syn}$ et $M_{syn}$ qui remplacent $I_j$ dans le modèle. Le tangage et le roulis partageant la même inertie de synthèse, leurs gains seront par conséquent identiques.
 
 \subsection{Modèle de la synthèse}
-L'effort $u_j$ déterminé précédemment correspond au cas idéal, où
-l'actionneur fournirait instantanément l'effort demandé par le régulateur. En réalité, l'effort produit met un certain temps à rejoindre sa consigne. Plutôt que de modéliser chaque élément de la chaîne séparément, ce qui alourdirait considérablement le modèle, l'ensemble est approximé par un unique système du premier ordre. Les retards introduits par le filtre coupe-bande, la boucle fermée de courant, les capteurs et le filtre RC sont ainsi cumulés dans une constante de temps équivalente $\tau_{act}$. Ce comportement se traduit par l'équation différentielle suivante :
+L'effort $u_j$ précédent correspond au cas idéal où l'actionneur fournirait instantanément l'effort demandé. En réalité, l'effort met un certain temps à rejoindre sa consigne. Plutôt que de modéliser chaque élément de la chaîne, l'ensemble est approximé par un système du premier ordre. Les retards du filtre coupe-bande, de la boucle de courant, des capteurs et du filtre RC sont cumulés dans une constante de temps équivalente $\tau_{act}$ :
 
 \begin{equation}
     \dot u_j = \frac{u_{c,j} - u_j}{\tau_{act}}
     \label{eq:actionneur}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $u_{c,j}$ : l'effort demandé par le régulateur (la consigne) [N]
-          ou [N\,m] ;
-    \item $u_j$ : l'effort réellement appliqué sur la plaque ;
-    \item $\tau_{act}$ : la constante de temps équivalente de la chaîne [s].
-\end{itemize}
-
-Cette relation traduit le fait que l'effort réel « court après » la consigne. Plus l'écart est important, plus il est rattrapé rapidement. Aux fréquences utiles, les déphasages introduits par les différents éléments s'additionnent ; la constante de temps équivalente est donc obtenue en sommant les contributions individuelles, présentées dans le \autoref{tab:tau-act} :
+avec $u_{c,j}$ l'effort demandé (la consigne) et $u_j$ l'effort réellement appliqué. L'effort réel court après la consigne : plus l'écart est grand, plus il est rattrapé vite. Les retards des différents éléments s'additionnent, donc $\tau_{act}$ est la somme de leurs contributions, données dans le \autoref{tab:tau-act} :
 
 \begin{table}[H]
     \centering
@@ -751,44 +701,31 @@ Cette relation traduit le fait que l'effort réel « court après » la consigne
     \label{tab:tau-act}
 \end{table}
 
-Le filtre de Savitzky--Golay, employé dans la version SISO pour estimer la vitesse par dérivation de la position, a été supprimé au profit d'un observateur (section~\ref{subsec:observateur}). Ce choix retire un élément retardant de la boucle de position tout en évitant l'amplification du bruit de mesure inhérente à une dérivation numérique.
+Le filtre de Savitzky--Golay, employé en SISO pour estimer la vitesse par dérivation, a été remplacé par un observateur (\autoref{subsec:observateur}). Cela retire un retard de la boucle et évite l'amplification du bruit propre à une dérivation numérique.
 
-Une action intégrale est également nécessaire afin de réduire l'erreur de position. L'état intégral accumule donc l'écart entre la consigne de position et la position réelle :
+Une action intégrale est ajoutée pour réduire l'erreur de position. L'état intégral accumule l'écart entre la consigne et la position réelle :
 
 \begin{equation}
     \dot\varepsilon_j = q_{ref,j} - q_j
     \label{eq:integrateur}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $\varepsilon_j$ : l'état intégral du mode $j$
-    \item $q_{ref,j}$ : la consigne de position du mode $j$
-    \item $q_j$ : la position réelle du mode $j$
-\end{itemize}
+avec $\varepsilon_j$ l'état intégral, $q_{ref,j}$ la consigne et $q_j$ la position réelle du mode $j$.
 
-Il est maintenant possible de réécrire le vecteur d'état comme suit :
+Le vecteur d'état s'écrit alors :
 
 \begin{equation}
     \boldsymbol{x}_j =
     \begin{bmatrix} q_j \\ \dot q_j \\ u_j \\ \varepsilon_j \end{bmatrix}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $q_j$ : la position du mode $j$ ($\bar\delta$, $\theta$ ou $\varphi$)
-    \item $\dot q_j$ : la vitesse du mode $j$ (estimée par l'observateur)
-    \item $u_j$ : l'effort réellement appliqué
-    \item $\varepsilon_j$ : l'état intégral
-\end{itemize}
-
-Le modèle s'écrit donc :
+avec $q_j$ la position (estimée par l'observateur pour $\dot q_j$), $u_j$ l'effort appliqué et $\varepsilon_j$ l'état intégral. Le modèle s'écrit :
 
 \begin{equation}
-    \dot x_j = A\,x_j + B\,u_{c,j},
+    \dot x_j = A\,x_j + B\,u_{c,j}
 \end{equation}
 
-Chaque dérivée est alors exprimée en fonction des états et de la commande, à partir des lois physiques établies précédemment :
+Chaque dérivée est exprimée en fonction des états et de la commande, à partir des lois physiques :
 
 \begin{equation}
     \left\{
@@ -812,29 +749,29 @@ Il est dès lors possible d'obtenir les matrices A et B comme suit :
         0  & 0 & -1/I_j        & 0 \\
         0  & 0 & -1/\tau_{act} & 0 \\
         -1 & 0 & 0             & 0
-    \end{bmatrix},
+    \end{bmatrix}
     \qquad
     B =
-    \begin{bmatrix} 0\\ 0\\ 1/\tau_{act}\\ 0 \end{bmatrix}.
+    \begin{bmatrix} 0\\ 0\\ 1/\tau_{act}\\ 0 \end{bmatrix}
     \label{eq:modele-etat}
 \end{equation}
 
-Il est cependant néscessaire de passer ces matrices en matrices discrète puisque la régulation sera implémenter dans la carte d'évaluation qui ne travaille pas en continue. Le modèle discret est alors dicté par l'équation suivante :
+Ces matrices doivent être discrétisées, la régulation étant implémentée dans la carte d'évaluation qui ne travaille pas en continu. Le modèle discret s'écrit :
 
 \begin{equation}
-    x_j[k+1] = A_d\,x_j[k] + B_d\,u_{c,j}[k].
+    x_j[k+1] = A_d\,x_j[k] + B_d\,u_{c,j}[k]
 \end{equation}
 
-La fréquence de travail de la carte d'évaluation est de 25kHz. C'est notre fréquence d'échantillonage donnant ainsi la période d'échantillonage $h$ de $40~\mu\mathrm{s}$. Les matrices se convertissent simplement par les relations suivantes :
+La carte travaille à 25~kHz, ce qui donne une période d'échantillonnage $h = 40~\mu\mathrm{s}$. Les matrices discrètes s'obtiennent par :
 
 \begin{equation}
     A_d = e^{A h}
     \qquad
-    B_d = \int_0^h e^{A\sigma}\,\mathrm d\sigma \cdot B,
+    B_d = \int_0^h e^{A\sigma}\,\mathrm d\sigma \cdot B
     \label{eq:discretisation}
 \end{equation}
 
-Pour calculer ces composantes en discret, le script python le réalise en utilisant la méthode c2d comme suit :
+Le script Python les calcule par la méthode \texttt{c2d} suivante :
 
 \begin{minted}{python}
 def c2d(A, B, h):
@@ -844,9 +781,7 @@ def c2d(A, B, h):
     return Md[:n, :n], Md[:n, n:]
 \end{minted}
 
-Cette fonction évalue l'exponentielle d'une matrice augmentée construite à partir de $A$ et $B$. Le développement en série de cette exponentielle fait apparaître $A_d$ dans le bloc supérieur gauche et $B_d$ dans le bloc supérieur droit, ce qui permet d'obtenir les deux matrices discrètes en une seule opération, sans avoir à inverser $A$, ce qui serait ici impossible, la matrice $A$ étant singulière.
-
-La fonction commence tout simplement par récupérer dans $n$ le nombre d'états de la matrice $A$ et dans $m$ le nombre d'entrées de la matrice $B$. Elle vient ensuite construire une matrice carrée de taille $n+m$ remplie de zéros, dans laquelle on vient placer la matrice $A$ en haut à gauche et la matrice $B$ en haut à droite. La partie inférieure reste donc entièrement nulle :
+La fonction évalue l'exponentielle d'une matrice augmentée formée à partir de $A$ et $B$. Ce calcul fait apparaître $A_d$ et $B_d$ directement, sans inverser $A$, ce qui serait impossible ici car $A$ est singulière. La matrice augmentée place $A$ en haut à gauche et $B$ en haut à droite, la partie inférieure restant nulle :
 
 \begin{equation}
     M =
@@ -856,18 +791,18 @@ La fonction commence tout simplement par récupérer dans $n$ le nombre d'états
     \end{bmatrix}
 \end{equation}
 
-L'exponentielle de cette matrice est ensuite calculée par la fonction \texttt{expm} de la bibliothèque SciPy, après multiplication par la période d'échantillonnage $h$. Il ne reste alors plus qu'à extraire les deux blocs qui nous intéressent. Le bloc supérieur gauche donne $A_d$ et le bloc supérieur droit donne $B_d$. Le bloc inférieur droit, qui vaut la matrice identité, n'est quant à lui pas utilisé.
+L'exponentielle est calculée par \texttt{expm} de SciPy après multiplication par $h$. Le bloc supérieur gauche donne $A_d$ et le bloc supérieur droit $B_d$.
 
-Cette fonction sera appelée à trois reprises dans le script Python : une première fois pour le modèle de synthèse du retour d'état, une deuxième pour le modèle de l'observateur et une dernière pour le modèle simulé servant à la vérification.
+Cette fonction est appelée trois fois : pour le modèle du retour d'état, pour celui de l'observateur et pour le modèle simulé de vérification.
 
 \subsection{Synthèse du retour d'état}
-Le modèle d'état étant établi, il est maintenant possible de passer à la synthèse du retour d'état. En boucle ouverte, la commande $u_{c,j}$ est une entrée libre.
+Le modèle d'état étant établi, la synthèse du retour d'état peut commencer. En boucle ouverte, la commande $u_{c,j}$ est libre :
 
 \begin{equation}
     \dot{\boldsymbol x}_j = A\,\boldsymbol x_j + B\,u_{c,j}
 \end{equation}
 
-Fermer la boucle consiste à calculer cette commande à partir de l'état lui-même. Le retour d'état retenu est linéaire : chaque composante de l'état est pondérée par un gain, puis les contributions sont sommées.
+Fermer la boucle consiste à calculer cette commande à partir de l'état. Le retour retenu est linéaire : chaque composante de l'état est pondérée par un gain.
 
 \begin{equation}
     u_{c,j} = -K\,\boldsymbol x_j
@@ -876,8 +811,7 @@ Fermer la boucle consiste à calculer cette commande à partir de l'état lui-m�
     \label{eq:Changementucj}
 \end{equation}
 
-En reportant cette expression dans le modèle, la commande $u_{c,j}$
-disparaît et le système devient autonome :
+En reportant cette expression dans le modèle, la commande disparaît et le système devient autonome :
 
 \begin{equation}
     \dot{\boldsymbol x}_j = A\,\boldsymbol x_j + B\,(-K\boldsymbol x_j)
@@ -911,66 +845,57 @@ La matrice de boucle fermée s'écrit dès lors :
     \label{eq:ABK}
 \end{equation}
 
-En reprenant l'\autoref{eq:Changementucj}, la loi de commande se développe comme suit :
+En développant l'\autoref{eq:Changementucj}, la loi de commande devient :
 
 \begin{equation}
     u_{c,j} = -K\,\boldsymbol x_j
     = -K_1\,q_j - K_2\,\dot q_j - K_3\,u_j - K_4\,\varepsilon_j
 \end{equation}
 
-Deux adaptations sont apportées lors de l'implémentation. D'une part, le modèle de synthèse ayant été écrit en écarts autour du point d'équilibre, la référence est restituée. Le terme de position porte sur $q_j - q_{ref,j}$. D'autre part, la vitesse n'étant pas mesurée, elle est remplacée par son estimation $\hat v_j$ fournie par l'observateur (\autoref{subsec:observateur}). Le gain $K_3$, portant sur l'état d'effort $u_j$, n'a quant à lui pas été implémenté. La loi retenue s'écrit finalement :
+Deux adaptations sont faites à l'implémentation. Le modèle étant écrit en écarts, la référence est réintroduite : le terme de position porte sur $q_j - q_{ref,j}$. La vitesse n'étant pas mesurée, elle est remplacée par son estimation $\hat v_j$ de l'observateur (\autoref{subsec:observateur}). Le gain $K_3$, sur l'effort $u_j$, n'a pas été implémenté. La loi retenue est :
 
 \begin{equation}
-    \
-        u_{c,j} = Q_j \cdot \bigl(q_j - q_{ref,j}\bigr)
-        + Q_{D,j} \cdot \hat v_j
-        - \mathrm{EPS}_j \cdot \varepsilon_j
+    u_{c,j} = Q_j \cdot \bigl(q_j - q_{ref,j}\bigr)
+    + Q_{D,j} \cdot \hat v_j
+    - \mathrm{EPS}_j \cdot \varepsilon_j
     \label{eq:loi-commande}
 \end{equation}
 
-Avec :
-\begin{itemize}
-    \item $Q_j = -K_1$ : le gain sur l'erreur de position (action
-          proportionnelle) ;
-    \item $Q_{D,j} = -K_2$ : le gain sur la vitesse estimée $\hat v_j$
-          (action d'amortissement) ;
-    \item $\mathrm{EPS}_j = K_4$ : le gain sur l'état intégral
-          $\varepsilon_j$ (action intégrale).
-\end{itemize}
+avec $Q_j = -K_1$ le gain sur l'erreur de position (proportionnelle), $Q_{D,j} = -K_2$ le gain sur la vitesse estimée (amortissement) et $\mathrm{EPS}_j = K_4$ le gain sur l'état intégral (action intégrale).
 
-La référence $q_{ref,j}$ n'est pas appliquée en échelon, ce qui exigerait des efforts brusques, mais lissée par un filtre du premier ordre de constante $\tau_{ref} = 0{,}3\,\mathrm{s}$ :
+La référence $q_{ref,j}$ n'est pas appliquée en échelon, ce qui demanderait des efforts brusques, mais lissée par un filtre du premier ordre de constante $\tau_{ref} = 0{,}3$~s :
 \begin{equation}
     q_{ref,j}[k+1] = q_{ref,j}[k]
     + \frac{h}{\tau_{ref}}\bigl(q_{cible,j} - q_{ref,j}[k]\bigr),
     \qquad
-    \boldsymbol{q}_{cible} = (\delta_n,\ 0,\ 0),
+    \boldsymbol{q}_{cible} = (\delta_n,\ 0,\ 0)
     \label{eq:lissage-ref}
 \end{equation}
-la cible étant la plaque horizontale ($\theta = \varphi = 0$) à l'entrefer nominal $\delta_n = 2\,\mathrm{mm}$.
+la cible étant la plaque horizontale ($\theta = \varphi = 0$) à l'entrefer nominal $\delta_n = 2$~mm.
 
-Ces trois gains sont positifs, les composantes $K_1$ et $K_2$ étant négatives et $K_4$ positive. Cette nomenclature reprend celle du script de synthèse et de l'implémentation dans le code.
+Ces trois gains sont positifs ($K_1$ et $K_2$ étant négatifs, $K_4$ positif). Cette nomenclature reprend celle du script et du code.
 
-Le choix de ne pas implémenter le gain $K_3$ mérite une justification. Son rôle se lit directement dans la matrice de boucle fermée (\autoref{eq:ABK}). $K_3$ n'intervient que dans le terme $-(1+K_3)/\tau_{act}$, c'est-à-dire qu'il déplace le pôle de l'actionneur équivalent de $-1/\tau_{act} \approx -180\,\mathrm{rad/s}$ à $-(1+K_3)/\tau_{act} \approx -275\,\mathrm{rad/s}$ (avec $K_3 = 0{,}53$ pour le mode de pompage). Ce terme constitue ainsi une boucle interne qui accélère  artificiellement l'actionneur, et c'est elle qui permettrait d'atteindre exactement les quatre pôles spécifiés.
+Le gain $K_3$ non implémenté mérite une justification. Dans la matrice de boucle fermée (\autoref{eq:ABK}), il n'apparaît que dans le terme $-(1+K_3)/\tau_{act}$. Il déplace donc le pôle de l'actionneur de $-1/\tau_{act} \approx -180$~rad/s à $-(1+K_3)/\tau_{act} \approx -275$~rad/s (avec $K_3 = 0{,}53$ pour le pompage). Ce terme est une boucle interne qui accélère l'actionneur, et c'est elle qui permettrait d'atteindre exactement les quatre pôles visés.
 
-Les conséquences de cette simplification sur les pôles effectifs de la boucle fermée sont quantifiées à la section~\ref{subsec:placement}.
+Les conséquences de cette simplification sur les pôles effectifs sont quantifiées à la \autoref{subsec:placement}.
 
 \subsection{Placement de pôles}
 \label{subsec:placement}
 
-Bien que le code emploie le terme de LQI, une précision méthodologique s'impose. La structure du régulateur est effectivement celle d'un LQI avec un retour d'état, une action intégrale et un observateur. En revanche, les gains ne sont pas obtenus par minimisation d'un critère quadratique, ce qui correspondrait à la résolution d'une équation de Riccati \cite{Riccati}, mais par placement de pôles :
+Le code emploie le terme LQI, ce qui mérite une précision. La structure est bien celle d'un LQI : retour d'état, action intégrale et observateur. En revanche, les gains ne sont pas obtenus par minimisation d'un critère quadratique (équation de Riccati \cite{Riccati}) mais par placement de pôles :
 
 \begin{equation}
-    \operatorname{eig}\bigl(A_d - B_d\,K\bigr) = z_k = e^{p_k \cdot h}.
+    \operatorname{eig}\bigl(A_d - B_d\,K\bigr) = z_k = e^{p_k \cdot h}
     \label{eq:placement}
 \end{equation}
 
-Le principe consiste à choisir d'abord le comportement souhaité en boucle fermée, puis à en déduire le gain qui le produit. Le choix des pôles repose sur l'analyse suivante. Le système en boucle ouverte est instable. Les trois pôles rapides de la boucle fermée doivent donc être suffisamment rapides pour dominer cette instabilité. Les accélérer davantage amplifierait le bruit de mesure et saturerait les inducteurs. Le quatrième pôle, associé à l'action intégrale, est placé nettement plus lentement. Les valeurs retenues, affinées par les essais successifs, sont les suivantes :
+Le principe est de choisir le comportement souhaité en boucle fermée, puis d'en déduire le gain. Le système en boucle ouverte étant instable, les trois pôles rapides doivent l'être assez pour dominer l'instabilité, sans l'être trop pour ne pas amplifier le bruit ni saturer les inducteurs. Le quatrième pôle, associé à l'action intégrale, est placé nettement plus lentement. Les valeurs retenues, affinées par les essais, sont :
 
 \begin{equation}
     p_k = \bigl\{-80,\ -85,\ -90,\ -20\bigr\}\ \mathrm{rad/s}
 \end{equation}
 
-Ces pôles constituent l'entrée du calcul. Le gain $K$ qui les impose est obtenu par la fonction suivante du script de synthèse :
+Ces pôles sont l'entrée du calcul. Le gain $K$ qui les impose est obtenu par la fonction suivante :
 
 \begin{minted}{python}
 def design_lqi_place(inertia, tau_act, poles):
@@ -994,120 +919,120 @@ L'implémentation de ce terme constituerait la première piste d'amélioration d
 
 \subsection{Observateur sur la vitesse}
 \label{subsec:observateur}
-La vitesse étant une grandeur inconnue, celle-ci simplement jusqu'ici dérivée de la positions en employant le filtre Savitzky. Cependant ce filtre vient multiplier les bruit de la mesure et donc indirectement venir parasiter le reste. De plus celui-ci prends un temps de calcul qui ralentit donc la régulation.
+La vitesse n'est pas mesurée. Jusqu'ici, elle était dérivée de la position par le filtre de Savitzky. Ce filtre amplifie toutefois le bruit de mesure et coûte du temps de calcul, ce qui ralentit la régulation.
 
-Il fut dès lors décidé de passer à un observateur, qui estime la position, la vitesse et l'effort à partir de la seule position mesurée. Son principe repose sur deux mécanismes. L'observateur reproduit d'abord le modèle du système et en extrapole l'évolution, ce qui lui fournit une prédiction de l'état au pas suivant. Cette prédiction dériverait toutefois de la réalité au fil du temps. Elle est donc corrigée à chaque pas par l'écart entre la position mesurée et la position prédite, pondéré par un gain $L$ :
+Un observateur a donc été retenu. Il estime la position, la vitesse et l'effort à partir de la seule position mesurée. Il reproduit le modèle du système pour prédire l'état au pas suivant, puis corrige cette prédiction par l'écart entre la position mesurée et la position prédite, pondéré par un gain $L$ :
 
 \begin{equation}
     \hat{\boldsymbol x}[k+1] = A_d\,\hat{\boldsymbol x}[k] + B_d\,u_{c,j}[k] + L\bigl(y_j[k] - C\,\hat{\boldsymbol x}[k]\bigr)
 \end{equation}
 
-Il est pour cela nécessaire de compléter la représentation d'état par son équation de sortie, qui décrit la grandeur effectivement mesurée. L'observateur ne portant que sur trois états, l'état intégral $\varepsilon_j$ étant calculé directement par le régulateur, le vecteur d'état considéré ici se réduit à $(q_j,\ \dot q_j,\ u_j)$ :
+L'équation de sortie décrit la grandeur mesurée. L'état intégral $\varepsilon_j$ étant calculé par le régulateur, l'observateur ne porte que sur les trois états $(q_j,\ \dot q_j,\ u_j)$ :
 
 \begin{equation}
     y_j = C\,\boldsymbol x_j + D\,u_{c,j} \qquad \text{avec} \qquad C = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \qquad D = 0
 \end{equation}
 
-La matrice $C$ traduit le fait que seule la position $q_j$ du mode est accessible à la mesure, reconstruite à partir des quatre entrefers par la matrice $T$. La matrice $D$ est nulle car la sortie ne dépend pas de l'entrée.
+La matrice $C$ indique que seule la position $q_j$ est mesurée, reconstruite à partir des quatre entrefers par $T$. La matrice $D$ est nulle car la sortie ne dépend pas de l'entrée.
 
 Dans l'implémentation, l'entrée $u_{c,j}$ de l'observateur est remplacée par l'effort réellement appliqué, recalculé après écrêtage et filtrage coupe-bande. L'observateur subit ainsi la même excitation que la plaque, ce qui est la condition de validité de l'équation d'erreur ci-dessous.
 
-Il reste à déterminer le gain $L$. Pour cela, l'erreur d'estimation est définie comme l'écart entre l'état réel et l'état estimé :
+Il reste à déterminer le gain $L$. L'erreur d'estimation est l'écart entre l'état réel et l'état estimé :
 
 \begin{equation}
     \boldsymbol e_{obs}[k] = \boldsymbol x[k] - \hat{\boldsymbol x}[k]
 \end{equation}
 
-En soustrayant l'équation de l'observateur de celle du système, le terme d'entrée $B_d u_{c,j}$ s'élimine et il ne subsiste que :
+En soustrayant l'équation de l'observateur de celle du système, le terme d'entrée $B_d u_{c,j}$ s'élimine :
 
 \begin{equation}
     \boldsymbol e_{obs}[k+1] = \bigl(A_d - L\,C\bigr)\,\boldsymbol e_{obs}[k]
     \label{eq:erreur-obs}
 \end{equation}
 
-L'erreur évolue donc de manière autonome, gouvernée par la seule matrice $A_d - L C$. Il suffit que ses valeurs propres soient suffisamment rapides pour que l'estimation rejoigne la réalité, quelles que soient les conditions initiales. Le problème est identique à celui du retour d'état, avec $L$ à la place de $K$.
+L'erreur évolue seule, gouvernée par $A_d - L C$. Il suffit que ses valeurs propres soient assez rapides pour que l'estimation rejoigne la réalité. Le problème est identique à celui du retour d'état, avec $L$ à la place de $K$.
 
-Une matrice et sa transposée possédant les mêmes valeurs propres, la relation se réécrit sous la forme $\operatorname{eig}(A_d - L C) = \operatorname{eig}(A_d^{\mathsf T} - C^{\mathsf T} L^{\mathsf T})$. Le membre de droite prend exactement la forme $A - BK$ du retour d'état. Le même algorithme de placement peut donc être employé, appliqué au système transposé, ce que réalise le script de synthèse.
+Une matrice et sa transposée ont les mêmes valeurs propres, donc $\operatorname{eig}(A_d - L C) = \operatorname{eig}(A_d^{\mathsf T} - C^{\mathsf T} L^{\mathsf T})$. Le membre de droite a la forme $A - BK$ du retour d'état. Le même algorithme de placement est donc appliqué au système transposé.
 
-Les pôles retenus pour l'observateur sont $-700$, $-760$ et $-820\,\mathrm{rad/s}$. Ils sont environ neuf fois plus rapides que ceux du régulateur, de sorte que l'estimation converge bien avant que la commande n'agisse. Dans le cas contraire, le régulateur travaillerait sur un état erroné. Les accélérer davantage amplifierait le bruit du capteur, l'écart mesuré étant directement répercuté sur les estimations.
+Les pôles de l'observateur sont $-700$, $-760$ et $-820$~rad/s. Ils sont environ neuf fois plus rapides que ceux du régulateur, pour que l'estimation converge avant que la commande n'agisse. Les accélérer davantage amplifierait le bruit du capteur.
 
 \subsection{Répartition des forces}
-Le dernier point à traiter concerne la répartition des forces. Dans la régulation SISO précédente, la force à produire par chaque inducteur était directement disponible en sortie du régulateur et pouvait être employée telle quelle par la méthode inverse. Ici, la régulation ne fournit que les trois efforts modaux $\boldsymbol u_c$. Il est donc nécessaire de redescendre de ces trois grandeurs vers les quatre forces à commander.
+Le dernier point est la répartition des forces. En SISO, la force de chaque inducteur sortait directement du régulateur et servait telle quelle à la méthode inverse. Ici, la régulation ne fournit que les trois efforts modaux $\boldsymbol u_c$. Il faut donc redescendre de ces trois grandeurs vers les quatre forces à commander.
 
-Le problème est cette fois l'inverse de celui rencontré lors de la reconstruction de position. La matrice $E$ étant de dimension $3\times4$, le système est sous-déterminé : trois équations pour quatre inconnues. Il n'admet donc pas une solution unique mais une infinité de répartitions produisant exactement les mêmes efforts. Un critère supplémentaire est nécessaire pour en retenir une.
+Le problème est l'inverse de la reconstruction de position. La matrice $E$ étant de dimension $3\times4$, le système est sous-déterminé : trois équations pour quatre inconnues. Il existe donc une infinité de répartitions donnant les mêmes efforts. Un critère est nécessaire pour en retenir une.
 
-Pour palier à cela, le critère retenu est celui de la norme minimale. Parmi toutes les répartitions produisant exactement les efforts demandés, on conserve celle dont la somme des carrés des forces est la plus faible, c'est-à-dire celle qui sollicite le moins les inducteurs. La solution de ce problème est à nouveau donnée par une pseudo-inverse, cette fois à droite :
+Le critère retenu est celui de la norme minimale : parmi les répartitions donnant les efforts demandés, on garde celle dont la somme des carrés des forces est la plus faible, donc celle qui sollicite le moins les inducteurs. La solution est à nouveau une pseudo-inverse, cette fois à droite :
 
 \begin{equation}
     \boldsymbol F_\Delta = W\,\boldsymbol u_c \qquad \text{avec} \qquad W = E^{\mathsf T}\bigl(E\,E^{\mathsf T}\bigr)^{-1}
     \label{eq:W-def}
 \end{equation}
 
-La matrice $E$ étant la transposée de $G$, cette expression se simplifie et ne fait à nouveau intervenir que la géométrie de la maquette :
+La matrice $E$ étant la transposée de $G$, l'expression se simplifie et ne dépend que de la géométrie :
 
 \begin{equation}
     W = G\,\bigl(G^{\mathsf T}G\bigr)^{-1}
 \end{equation}
 
-Le produit $G^{\mathsf T}G$ ayant déjà été calculé lors de la reconstruction de position, où sa forme diagonale avait été mise en évidence, son inversion reste immédiate. La ligne $i$ de $G$ valant $(1,\ x_i,\ y_i)$, chaque force s'écrit alors explicitement :
+Le produit $G^{\mathsf T}G$ ayant déjà été calculé et diagonalisé lors de la reconstruction, son inversion est immédiate. La ligne $i$ de $G$ valant $(1,\ x_i,\ y_i)$, chaque force s'écrit :
 
 \begin{equation}
     F_{c,i} = F_{stat,i} + \frac{u_Z}{4} + \frac{x_i}{\sum_k x_k^2}\,u_T + \frac{y_i}{\sum_k y_k^2}\,u_R
     \label{eq:allocation-explicite}
 \end{equation}
 
-La lecture physique est directe. Le quart de l'effort de pompage est envoyé sur chaque inducteur. Un couple de tangage est réalisé en ajoutant de la force à l'avant et en en retirant autant à l'arrière, et un couple de roulis fonctionne de même entre la gauche et la droite. Comme pour la reconstruction de position, l'allocation ne demande que quelques additions pondérées et aucune inversion matricielle en temps réel.
+L'interprétation est simple. Le quart de l'effort de pompage va sur chaque inducteur. Le couple de tangage ajoute de la force à l'avant et en retire autant à l'arrière, le couple de roulis fait de même entre la gauche et la droite. Comme pour la reconstruction, l'allocation ne demande que quelques additions pondérées, sans inversion de matrice en temps réel.
 
-La différence entre les quatre actionneurs et les trois efforts contrôlés correspond à un degré de liberté supplémentaire. La combinaison de forces :
+La différence entre les quatre actionneurs et les trois efforts contrôlés laisse un degré de liberté supplémentaire, la combinaison de forces :
 
 \begin{equation}
     \boldsymbol F_{tor} \propto (+1,\ -1,\ -1,\ +1)^{\mathsf T}
 \end{equation}
 
-Cela fait tirer davantage les inducteurs d'une diagonale tout en relâchant ceux de l'autre. Les trois sommes correspondantes étant nulles, elle ne produit ni force totale, ni couple de tangage, ni couple de roulis. La plaque étant supposée rigide, elle ne peut donc engendrer aucun mouvement et tendrait uniquement à la tordre.
+Elle tire davantage sur une diagonale et relâche l'autre. Ses trois sommes étant nulles, elle ne produit ni force totale, ni couple de tangage, ni couple de roulis. La plaque étant rigide, elle ne crée aucun mouvement et tend seulement à la tordre.
 
-Ce mode se retrouve du côté des mesures sous la forme de la contrainte $\delta_1 - \delta_2 - \delta_3 + \delta_4 = 0$, également satisfaite pour toute plaque rigide. Il s'agit du même degré de liberté, inobservable par les capteurs et incontrôlable par la commande.
+Côté mesures, ce mode correspond à la contrainte $\delta_1 - \delta_2 - \delta_3 + \delta_4 = 0$, toujours vraie pour une plaque rigide. C'est le même degré de liberté, inobservable par les capteurs et incontrôlable par la commande.
 
-La répartition à norme minimale présente ici un avantage supplémentaire. Par construction, elle n'injecte aucune composante selon ce mode. La commande ne peut donc pas solliciter la torsion de la plaque, ce qui écarte le risque d'exciter un éventuel mode de flexion structurel absent du modèle. Cette propriété n'est toutefois garantie qu'en l'absence de saturation, l'écrêtage des forces étant appliqué individuellement à chaque inducteur.
+La répartition à norme minimale a ici un avantage : par construction, elle n'injecte rien selon ce mode. La commande ne sollicite donc jamais la torsion de la plaque, ce qui évite d'exciter un éventuel mode de flexion absent du modèle. Cette propriété n'est toutefois garantie qu'en l'absence de saturation, l'écrêtage étant appliqué inducteur par inducteur.
 
 \subsection{Compensation du poids}
 
-Le terme $F_{stat,i}$ de l'équation~\eqref{eq:allocation-explicite} compense le poids de la plaque en anticipation, de sorte que les régulateurs ne travaillent qu'en écarts autour de l'équilibre. C'est cette compensation qui justifie la mise en écarts du modèle établie précédemment.
+Le terme $F_{stat,i}$ de l'\autoref{eq:allocation-explicite} compense le poids de la plaque en anticipation. Les régulateurs ne travaillent ainsi qu'en écarts autour de l'équilibre, ce qui justifie la mise en écarts du modèle.
 
 \begin{equation}
     F_{stat,i} = \frac{m_{tot} \cdot g}{4 \cdot K_{FF}} = \frac{18{,}052 \cdot 9{,}81}{4 \cdot 1{,}15} = 38{,}5\ \mathrm{N}
     \label{eq:feedforward}
 \end{equation}
 
-Le facteur correctif $K_{FF} = 1{,}15$ provient de l'identification en vol du gain réel de la chaîne de force. L'écart résiduel entre le poids compensé et le poids réel est absorbé par l'action intégrale du mode de pompage.
+Le facteur correctif $K_{FF} = 1{,}15$ vient de l'identification en vol du gain réel de la chaîne de force. L'écart résiduel entre le poids compensé et le poids réel est absorbé par l'action intégrale du pompage.
 
 \subsection{Saturations et anti-windup}
 \label{sec:anti-windup}
 
-Chaque force de consigne doit respecter les limites physiques de l'actionneur. Un électro-aimant ne pouvant qu'attirer, une force négative est impossible, d'où $F_{c,i} \geq 0$. Le courant maximal admissible $I_{max} = 12\,\mathrm{A}$ limite par ailleurs la force au pire cas d'entrefer, chariot posé à $\delta_0 = 3\,\mathrm{mm}$ :
+Chaque force de consigne doit respecter les limites de l'actionneur. Un électroaimant ne peut qu'attirer, donc $F_{c,i} \geq 0$. Le courant maximal $I_{max} = 12$~A limite la force au pire cas d'entrefer, chariot posé à $\delta_0 = 3$~mm :
 
 \begin{equation}
     F_{max,i} = \frac{1}{2} \cdot L_{n,i} \cdot \delta_n \cdot \left(\frac{I_{max}}{\delta_0}\right)^{2} \approx 124\ \mathrm{N}
     \label{eq:fmax}
 \end{equation}
 
-Toute consigne sortant de l'intervalle $[0,\ F_{max,i}]$ est écrêtée à la borne correspondante.
+Toute consigne hors de l'intervalle $[0,\ F_{max,i}]$ est écrêtée à la borne la plus proche.
 
-Ces saturations exposent les intégrateurs au phénomène de windup. Tant que la force demandée n'est pas réalisable, l'erreur persiste et l'intégrateur continue d'accumuler sans effet sur la plaque. Lorsque la situation se rétablit, la valeur accumulée maintient une commande erronée le temps de se résorber, ce qui provoque un dépassement important.
+Ces saturations exposent les intégrateurs au windup. Tant que la force demandée n'est pas réalisable, l'erreur persiste et l'intégrateur accumule sans effet sur la plaque. Quand la situation se rétablit, cette valeur accumulée maintient une commande erronée le temps de se résorber, ce qui provoque un fort dépassement.
 
-La protection retenue est une intégration conditionnelle appliquée au niveau modal. En SISO, chaque régulateur disposait directement de sa propre force et pouvait comparer sa commande à la valeur saturée. Ici, le régulateur travaille sur des efforts modaux alors que l'écrêtage porte sur les quatre forces individuelles. Les efforts réellement réalisables sont donc recalculés à partir des forces saturées :
+La protection retenue est une intégration conditionnelle au niveau modal. En SISO, chaque régulateur comparait directement sa force à la valeur saturée. Ici, le régulateur travaille sur les efforts modaux alors que l'écrêtage porte sur les quatre forces. Les efforts réalisables sont donc recalculés à partir des forces saturées :
 
 \begin{equation}
     \boldsymbol u_{sat} = E\,\boldsymbol F_{sat} - \boldsymbol U_{stat}
 \end{equation}
 
-En l'absence de saturation, ces efforts recalculés coïncident exactement avec les efforts demandés. Tout écart non nul traduit donc l'action de l'écrêtage. L'intégrateur du mode $j$ n'est alors incrémenté que si l'effort demandé est effectivement réalisé :
+Sans saturation, ces efforts recalculés valent les efforts demandés. Tout écart traduit donc l'écrêtage. L'intégrateur du mode $j$ n'est incrémenté que si l'effort demandé est réalisé :
 
 \begin{equation}
     \bigl|u_{c,j} - u_{sat,j}\bigr| < tol_j \quad\Longrightarrow\quad \varepsilon_j[k\!+\!1] = \varepsilon_j[k] + h \cdot \bigl(q_{ref,j} - q_j[k]\bigr)
     \label{eq:integration-cond}
 \end{equation}
 
-La tolérance $tol_j$ est fixée à $2\,\%$ de l'effort statique ramené au mode considéré. Un seuil strictement nul gèlerait en effet l'intégrateur au moindre bruit numérique. Dès qu'une saturation empêche de réaliser l'effort demandé sur un mode, l'intégrateur de ce mode est gelé et cesse d'accumuler une erreur qu'il ne peut de toute façon pas corriger. Le gel est appliqué mode par mode : si seul le tangage est bridé, les intégrateurs de pompage et de roulis continuent de fonctionner normalement.
+La tolérance $tol_j$ vaut $2\,\%$ de l'effort statique du mode. Un seuil nul gèlerait l'intégrateur au moindre bruit numérique. Dès qu'une saturation empêche de réaliser l'effort d'un mode, l'intégrateur de ce mode est gelé et cesse d'accumuler une erreur qu'il ne peut pas corriger. Le gel est appliqué mode par mode : si seul le tangage est bridé, le pompage et le roulis continuent normalement.
 
 \section{Conclusion}
