@@ -701,7 +701,7 @@ avec $u_{c,j}$ l'effort demandé (la consigne) et $u_j$ l'effort réellement app
     \label{tab:tau-act}
 \end{table}
 
-Le filtre de Savitzky--Golay, employé en SISO pour estimer la vitesse par dérivation, a été remplacé par un observateur (\autoref{subsec:observateur}). Cela retire un retard de la boucle et évite l'amplification du bruit propre à une dérivation numérique.
+Le filtre de Savitzky--Golay, employé en SISO pour estimer la vitesse par dérivation, a été remplacé par un observateur pour la régulation en MIMO (\autoref{subsec:observateur}). Cela retire un retard de la boucle et évite l'amplification du bruit propre à une dérivation numérique.
 
 Une action intégrale est ajoutée pour réduire l'erreur de position. L'état intégral accumule l'écart entre la consigne et la position réelle :
 

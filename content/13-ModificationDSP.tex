@@ -51,13 +51,64 @@ Chaque état est dès lors implémenter dans le programme en suivant les étapes
 L'état 0 est définit comme suit :
 
 \begin{minted}{c}
+    // State 0 :
+    // Attente de la pression du bouton
+    case STATE_0 :
 
+        if(SystemOn)
+        {
+            GPIO_writePin(LED_D2, 0);
+
+            state = SKIP_FRONT ? STATE_4 : STATE_1;
+        }
+
+    break;
 \end{minted}
 
 L'état 1 est implémenter comme cela :
 
 \begin{minted}{c}
+    // State 1 :
+    // Rampe de courant sur les inducteurs 1&2 jusqu'a atteindre les 3A
+    case STATE_1:
 
+        if(ic1 < I_SP)
+        {
+            ic1 += TAKEOFF_CURRENT_STEP1;
+        }
+        else
+        {
+            ic1 = I_SP;
+        }
+
+        ic2 = ic1;
+
+        mean1 += Current1;
+        mean2 += Current2;
+        dt_mean++;
+
+        if(dt_mean >= 200)
+        {
+            mean1 = mean1 / dt_mean;
+            mean2 = mean2 / dt_mean;
+
+            if((mean1 <= I_SP105 && mean1 >= I_SP095) && (mean2 <= I_SP105 && mean2 >= I_SP095))
+            {
+                mean1 = 0;
+                mean2 = 0;
+                dt_mean = 0;
+
+                state = STATE_2;
+            }
+            else
+            {
+                mean1 = 0;
+                mean2 = 0;
+                dt_mean = 0;
+            }
+        }
+
+        break;
 \end{minted}
 
 L'état 2 est implémenter comme cela :
@@ -136,6 +187,11 @@ La régulation MIMO s'active uniquement lorsque l'arrière commence a se déplac
 
 \end{minted}
 
+\section{Mise en place du code dans la flash}
+LE code fut jusqu'à maintenant réaliser en le plaçant dans la ram. Celui-ci fonctionne correctement et donne le résultat correcte.
+
+Cependant lors de l'implémentation du code dans la flash, le code ne réussissait pas a réaliser l'interruption correctement donnant de très grande oscillation. Il fut dès lors décidé de modifier certains éléments afin de les placer dans
+
 \section{Modifications mineures}
 \subsection{Amélioration du code via l'IA}
 Afin d'optimiser l'appropriation du code source hérité, une première révision syntaxique a été réalisée à l'aide d'outils d'intelligence artificielle. Cette démarche avait pour objectif d'améliorer la structure du programme, d'enrichir les commentaires et d'en accroître la lisibilité globale. Le comportement de la maquette a été rigoureusement contrôlé à la suite de cette restructuration purement formelle. Les résultats obtenus étant strictement identiques à ceux de la version d'origine, il est confirmé que cette intervention n'a introduit aucun dysfonctionnement supplémentaire.
@@ -155,10 +211,12 @@ Toutefois, lors de l'analyse du code source hérité, il a été constaté que c
 
 Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
 
+Par ailleurs, une mesure fut réaliser sans le filtre afin de voir son comportement. Celui-ci est dipsonible dans l'annexe \red{A faire}.
+
 \subsection{Modification de l'emplacement du filtre coupe-bande}
 Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé juste après le calcul de la force. Précédemment, celui-ci se trouvait avant ce calcul et était employé pour le calcul de la consigne de courant.
 
 \subsection{Modification de la variable d'enclenchement}
-Le système présentait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Cependant si la maquette est par exemple enclenché par le bouton mais que la sustentation vient être coupé par l'interface web, celui-ci ne fait rien. Il fut dès lors modifier d'employer une seule variable qui permet d'enclencher et déclencher le tout. 
+Le système présentait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Cependant si la maquette est par exemple enclenché par le bouton mais que la sustentation vient être coupé par l'interface web, celui-ci ne fait rien. Il fut dès lors modifier d'employer une seule variable qui permet d'enclencher et déclencher le tout.
 
 
