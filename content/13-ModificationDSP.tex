@@ -1,36 +1,29 @@
-\chapter{Modification apportée au programme principale (DSP)}
+\chapter{Modification apportée au programme principal (DSP)}
 
 \section{Introduction}
-Suite au différentes modification réaliser sur le hardware ainsi que sur la régulation, le programme principale reçu dès lors d'importante modification. Ce chapitre vient traiter ces différences.
+À la suite des différentes modifications réalisées sur le hardware et sur la régulation, le programme principal a lui aussi reçu d'importantes modifications. Ce chapitre les présente.
+
+L'ensemble du code est disponible sur la page GitHub créée pour ce projet.
 
 La mise en place de Code Composer Studio est disponible dans le manuel, à la \autoref{sec:MiseEnPlace}.
 
 \section{Machine d'état}
-Une machine d'état fut réaliser. Celui-ci doit pouvoir permettre de raéliser la régulation de position et de courant. Mais certaines étapes doivent être respecté afin de réussir cela.
+Une machine d'état a été réalisée. Elle enchaîne la régulation de courant puis la régulation de position, en respectant certaines étapes obligatoires pour réussir le décollage.
 
-Une première machine d'état fut réaliser présente dans les annexes (voir \ref{annexe:MachineEtatSISO})
-
-Les étapes de la machine d'état sont les suivant :
+Une première version, uniquement SISO, est présentée dans l'\autoref{annexe:MachineEtatSISO}. Les étapes de la machine d'état finale sont les suivantes :
 
 \begin{itemize}
-    \item Etat 0 : On attends la pression du boutton
-
-    \item Etat 1 : On monte le courant des inducteurs 1\&2 à 3 A (pour ne pas partir de zéro).
-
-    \item Etat 2 : On augmente le courant des inducteurs 1\&2 avec une rampe "infinie" (régulation de courant seule).
-
-    \item Etat 3 : Lorsque l'inducteur 1\&2 commencent à bouger, on les passe en régulation de position SISO (lévitation de l'avant du véhicule).
-
-    \item Etat 4 : On monte le courant des inducteurs 3\&4 à 3 A (pour ne pas partir de zéro).
-
-    \item Etat 5 : On augmente le courant des inducteurs 3 et 4 avec une rampe "infinie" avec seulement le courant infinie, puis dès qu'un mouvement est détecté on passe imédiatement a la régulation MIMO
-
-    \item Etat 6 : On attends d'éteindre la maquette.
-
-    \item Etat 7 : On affiche un message d'erreur si la maquette rencontre un problème
+    \item État 0 : attente de la pression du bouton.
+    \item État 1 : montée du courant des inducteurs 1 et 2 à 3~A (pour ne pas partir de zéro).
+    \item État 2 : augmentation du courant des inducteurs 1 et 2 par une rampe continue (régulation de courant seule).
+    \item État 3 : dès que les inducteurs 1 et 2 commencent à bouger, passage en régulation de position SISO (lévitation de l'avant).
+    \item État 4 : montée du courant des inducteurs 3 et 4 à 3~A.
+    \item État 5 : augmentation du courant des inducteurs 3 et 4 par une rampe continue, puis bascule immédiate en régulation MIMO dès qu'un mouvement est détecté.
+    \item État 6 : attente de l'arrêt de la maquette.
+    \item État 7 : affichage d'un message d'erreur en cas de problème.
 \end{itemize}
 
-Ceci est alors réalisé comme représenter dans la \autoref{fig:MachEtatMIMO} :
+L'organigramme correspondant est représenté dans la \autoref{fig:MachEtatMIMO} :
 
 \begin{figure}[H]
     \centering
@@ -39,9 +32,9 @@ Ceci est alors réalisé comme représenter dans la \autoref{fig:MachEtatMIMO} :
     \label{fig:MachEtatMIMO}
 \end{figure}
 
-Chaque état est dès lors implémenter dans le programme en suivant les étapes lister dessu..
+Chaque état est ensuite implémenté dans le programme en suivant ces étapes.
 
-L'état 0 est définit comme suit :
+L'état 0 est défini comme suit :
 
 \begin{minted}{c}
     // State 0 :
@@ -58,7 +51,7 @@ L'état 0 est définit comme suit :
     break;
 \end{minted}
 
-L'état 1 est implémenter comme cela :
+L'état 1 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 1 :
@@ -104,7 +97,7 @@ L'état 1 est implémenter comme cela :
         break;
 \end{minted}
 
-L'état 2 est implémenter comme cela :
+L'état 2 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 2 :
@@ -143,7 +136,7 @@ L'état 2 est implémenter comme cela :
         break;
 \end{minted}
 
-L'état 3 est implémenter comme cela :
+L'état 3 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 3 :
@@ -182,7 +175,7 @@ L'état 3 est implémenter comme cela :
         break;
 \end{minted}
 
-L'état 4 est implémenter comme cela :
+L'état 4 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 4 :
@@ -228,7 +221,7 @@ L'état 4 est implémenter comme cela :
         break;
 \end{minted}
 
-L'état 5 est implémenter comme cela :
+L'état 5 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 5 :
@@ -282,7 +275,9 @@ L'état 5 est implémenter comme cela :
         break;
 \end{minted}
 
-L'état 6 est implémenter comme cela :
+Au moment de basculer en MIMO, l'observateur et les intégrateurs sont initialisés à partir des forces déjà appliquées par le SISO. Cette initialisation évite un saut de commande (transition \og bumpless \fg) : la régulation MIMO démarre exactement sur l'état courant de la maquette, sans à-coup.
+
+L'état 6 est implémenté comme suit :
 
 \begin{minted}{c}
     // State 6 :
@@ -337,7 +332,7 @@ L'état 6 est implémenter comme cela :
         break;
 \end{minted}
 
-Il est possible d'arrêter à n'importe quel moment la maquette grâce à une simple condition juste avant la maquette comme suit :
+Il est possible d'arrêter la maquette à n'importe quel moment grâce à une simple condition placée en amont de la machine d'état :
 
 \begin{minted}{c}
     if (!SystemOn && (state != STATE_0) && (state != STATE_6))
@@ -356,16 +351,14 @@ La régulation s'active dès lors tant que l'état est différent de l'état 0 :
 \end{minted}
 
 \section{Régulation de position}
-La régulation de positions a été beaucoup modifié. Une première partie emploie la meme synthèse de régulation que celle précédemment réaliser pour la méthode SISO.
+La régulation de position a été largement modifiée. Une première partie reprend la synthèse SISO utilisée précédemment, tandis que l'implémentation de la méthode MIMO est nouvelle. Cette section présente ces implémentations.
 
-L'implémentation de la méthode MIMO est celle qui change. Cette section vient traiter les différents modification et implémentation réaliser.
-
-Ces coeeficient proviennent des résultats donnée du script python calculant les coefficients de la régulations.
+La théorie de la synthèse MIMO (efforts modaux, retour d'état, observateur, allocation) est développée au \autoref{subsec:RegPIError}. Cette section se limite à sa traduction en code. Les coefficients employés proviennent du script Python de synthèse, exporté directement dans le fichier \texttt{FunctionHeader.h}.
 
 \subsection{Régulation SISO}
-Comme annoncé la régulation reste comme réaliser précédemment et proviennent de la synthèse réaliser par Yersin \cite{Yersin}.
+La régulation SISO reste identique à celle réalisée précédemment, issue de la synthèse de Yersin \cite{Yersin}. Elle ne sert qu'à lever l'avant de la maquette.
 
-Dès lors la vitesse est calculé comme précédemment en employant le fitlre Savitzky comme suit :
+La vitesse est calculée comme auparavant, par dérivation de la position avec le filtre de Savitzky :
 
 \begin{minted}{c}
     // AVANT (SISO) : estimation de la vitesse par derivateur Savitzky-Golay.
@@ -379,12 +372,9 @@ Dès lors la vitesse est calculé comme précédemment en employant le fitlre Sa
     }
 \end{minted}
 
-Pour ce qui est de la régulation, celle-ci reste également identique à celle de Yersin \cite{Yersin} tout en gardant ses coefficients.
+La loi de régulation reste elle aussi identique à celle de Yersin \cite{Yersin}, avec les mêmes coefficients :
 
 \begin{minted}{c}
-    // =================================================================//
-    // B1. REGULATION SISO AVANT (etats 3 a 5, avant bascule MIMO)
-    // ================================================================= //
     if(PosRegFlag1 && !MimoFlag)
     {
         // Loi de retour d'etat par inducteur :
@@ -439,24 +429,23 @@ Pour ce qui est de la régulation, celle-ci reste également identique à celle 
     }
 \end{minted}
 
-Pour ce qui est de la vitesse, c'est encore le filtre Savitzky qui est employé mais uniquement pour cette partie :
+Avec les coefficient provenant du travail de Yersin \cite{Yersin} :
 
 \begin{minted}{c}
-
+    // --- Retour d'etat SISO avant (inducteurs 1 & 2) ---
+    // Loi : fc = KW*consigne - KD*position - KDDOT*vitesse + KR*integrale + m*g
+    #define KW               ((float)-1.4862e4)   // gain sur la consigne de position
+    #define KDDOT            -603.41f             // gain sur la vitesse (Savitzky)
+    #define KD               ((float)-3.8998e4)   // gain sur la position mesuree
+    #define KR               -35.63f              // gain de l'action integrale
 \end{minted}
 
-Pour ce qui est de la régulation de position, celle-ci est active jusqu'au basculement MIMO :
+Cette partie ne sert qu'à lever l'avant, afin de faciliter le passage en régulation MIMO ensuite. Comme elle fonctionnait bien pour cet usage, elle a été conservée telle quelle.
 
-\begin{minted}{c}
+\subsection{Implémentation des observateurs}
+Un observateur est implémenté pour chaque mode (pompage, tangage, roulis). Il estime la position, la vitesse et l'effort à partir de la seule position mesurée, comme décrit au \autoref{subsec:observateur}. Il ne s'active qu'une fois la régulation MIMO enclenchée, donc uniquement lorsque le drapeau \texttt{MimoFlag} est vrai.
 
-\end{minted}
-
-Le but de cette partie est en effet d'uniquement élever la partie avant pour aider pour la régul de position par la suite. Puisque cela fonctionnait pour uniquement lever l'avant, celle-ci fut dès lors garder.
-
-\subsection{Ajout des observateur}
-Les observateurs de vitesse ont été implémenter. Ceux-ci s'active uniquement lorsque la régulation de position bascule du SISO au MIMO.
-
-Cela se présente comme suit :
+Chaque bloc de trois lignes traduit directement l'équation de mise à jour de l'observateur $\hat{x}[k+1] = A_d\,\hat{x}[k] + B_d\,u + L\,(y - C\hat{x})$. La variable \texttt{e\_obs} est l'écart entre la position mesurée \texttt{qm} et la position estimée \texttt{qm\_est}, corrigé par les gains \texttt{OBS\_L}. L'entrée injectée est \texttt{u\_ach}, l'effort réellement appliqué (recalculé après écrêtage et filtre coupe-bande), et non la commande brute, condition nécessaire à la validité de l'estimation :
 
 \begin{minted}{c}
     // MIMO : observateur de Luenberger modal (position/vitesse/force par mode Z,T,R).
@@ -482,14 +471,32 @@ Cela se présente comme suit :
     }
 \end{minted}
 
-Les coefficients sont implémenter dans le fichier \texttt{FunctionHeader.h} comme suit :
+Les gains de l'observateur, exportés par le script de synthèse, sont définis dans \texttt{FunctionHeader.h} :
 
 \begin{minted}{c}
-
+    static const float OBS_AD12[3] = {4.00000000e-05f, 4.00000000e-05f, 4.00000000e-05f};
+    static const float OBS_AD23[3] = {-2.53905745e-06f, -5.36684755e-05f, -5.36684755e-05f};
+    static const float OBS_AD33[3] = {9.92837497e-01f, 9.92837497e-01f, 9.92837497e-01f};
+    static const float OBS_BD3[3]  = {7.16250336e-03f, 7.16250336e-03f, 7.16250336e-03f};
+    static const float OBS_L1[3]   = {8.26596051e-02f, 8.26596104e-02f, 8.26596104e-02f};
+    static const float OBS_L2[3]   = {5.21497898e+01f, 5.21497966e+01f, 5.21497966e+01f};
+    static const float OBS_L3[3]   = {-1.15564501e+05f, -5.46736182e+03f, -5.46736182e+03f};
 \end{minted}
 
-\subsection{Régulation MIMO}
-La régulation MIMO s'active uniquement lorsque l'arrière commence a se déplacer. Lorsque cela est détecter, le système passe en régualtion de position MIMO ce qui donne :
+
+\subsection{Implémentation régulation MIMO}
+La régulation MIMO s'active dès que l'arrière commence à se déplacer (état 5). Le bloc suivant reprend, dans l'ordre, les étapes de la synthèse du \autoref{subsec:RegPIError} :
+
+\begin{enumerate}
+    \item Lissage de la référence, puis calcul de la commande modale $u_{cmd}$ par la loi de retour d'état (gains \texttt{LQI\_Q}, \texttt{LQI\_QD}, \texttt{LQI\_EPS}), pour les trois modes.
+    \item Allocation des trois efforts vers les quatre forces via la matrice \texttt{W\_MAT}, avec ajout de la compensation de poids \texttt{F\_STAT}.
+    \item Écrêtage de chaque force entre $0$ et $F_{max}$.
+    \item Anti-windup : les efforts réellement réalisés sont recalculés avec \texttt{E\_MAT} à partir des forces saturées, et chaque intégrateur \texttt{eps\_m} n'est incrémenté que si son mode n'est pas saturé (tolérance \texttt{AW\_TOL}).
+    \item Filtre coupe-bande, puis conversion force $\to$ courant par la méthode inverse.
+    \item Calcul de l'effort réellement appliqué \texttt{u\_ach}, réinjecté dans l'observateur.
+\end{enumerate}
+
+L'implémentation est la suivante :
 
 \begin{minted}{c}
     if(MimoFlag)
@@ -550,16 +557,41 @@ La régulation MIMO s'active uniquement lorsque l'arrière commence a se déplac
 \end{minted}
 
 \section{Mise en place du code dans la flash}
-LE code fut jusqu'à maintenant réaliser en le plaçant dans la ram. Celui-ci fonctionne correctement et donne le résultat correcte.
+Le code a jusqu'ici été exécuté depuis la RAM. Il fonctionne correctement et donne le résultat attendu.
 
-Cependant lors de l'implémentation du code dans la flash, le code ne réussissait pas a réaliser l'interruption correctement donnant de très grande oscillation. Il fut dès lors décidé de modifier certains éléments afin de les placer dans
+Cependant, une fois le code placé dans la flash, l'interruption ne s'exécutait plus assez rapidement, ce qui provoquait de très fortes oscillations. Il a donc été décidé de conserver certaines parties du code en RAM plutôt qu'en flash. L'interruption principale, par exemple, est allouée en RAM comme suit :
+
+\begin{minted}{c}
+    #ifndef RAM
+    #pragma CODE_SECTION(adcA1ISR, ".TI.ramfunc")
+    #endif
+    __interrupt void adcA1ISR(void)
+    {
+        ...
+    }
+\end{minted}
+
+Cette allocation ne s'applique que lorsque le code est compilé pour la flash. Lorsqu'il est exécuté depuis la RAM, la condition la saute.
+
+Les parties qui furent allouer à la ram sont :
+
+\begin{itemize}
+    \item L'interruption principale
+    \item Les deux interruptions lié à la communication UART
+    \item La fonction de régulation de courant
+    \item La fonction du filtre Savitzky
+    \item La fonction du coupe-bande
+    \item La fonction dédiée à l'envoi des données à l'ESP32
+\end{itemize}
+
+Le résultat se rapproche de celui obtenu en RAM, mais reste moins satisfaisant, la maquette oscillant davantage.
 
 \section{Modifications mineures}
 \subsection{Amélioration du code via l'IA}
 Afin d'optimiser l'appropriation du code source hérité, une première révision syntaxique a été réalisée à l'aide d'outils d'intelligence artificielle. Cette démarche avait pour objectif d'améliorer la structure du programme, d'enrichir les commentaires et d'en accroître la lisibilité globale. Le comportement de la maquette a été rigoureusement contrôlé à la suite de cette restructuration purement formelle. Les résultats obtenus étant strictement identiques à ceux de la version d'origine, il est confirmé que cette intervention n'a introduit aucun dysfonctionnement supplémentaire.
 
 \subsection{Création d'un fichier secondaire .c}
-Ce fichier constitue une révision du travail initial mené par Thomas Freyche. Afin d'améliorer la clarté et la modularité du code source, les définitions ont été scindées sur deux fichiers distincts, bien que la logique de fonctionnement demeure strictement identique. Celle-i vient donc abriter les nombreuses fonctions du code.
+Ce fichier constitue une révision du travail initial de Thomas Freyche. Afin d'améliorer la clarté et la modularité du code, les définitions ont été réparties sur deux fichiers distincts, la logique restant strictement identique. Ce second fichier regroupe les nombreuses fonctions du programme.
 
 \subsection{Modification des coefficients du filtre coupe-bande}
 Toutefois, lors de l'analyse du code source hérité, il a été constaté que ces définitions n'étaient pas utilisées. Une autre variante de coefficients était active :
@@ -573,12 +605,12 @@ Toutefois, lors de l'analyse du code source hérité, il a été constaté que c
 
 Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs non documentés. Par souci de cohérence avec le travail de Laucella \cite{Laucella}, les paramètres ciblant la fréquence de 75~Hz ont été restaurés.
 
-Par ailleurs, une mesure fut réaliser sans le filtre afin de voir son comportement. Celui-ci est dipsonible dans l'annexe \red{A faire}.
+Par ailleurs, une mesure a été réalisée sans le filtre afin d'observer son comportement. Elle est disponible dans l'annexe \red{A faire}.
 
 \subsection{Modification de l'emplacement du filtre coupe-bande}
 Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé juste après le calcul de la force. Précédemment, celui-ci se trouvait avant ce calcul et était employé pour le calcul de la consigne de courant.
 
 \subsection{Modification de la variable d'enclenchement}
-Le système présentait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Cependant si la maquette est par exemple enclenché par le bouton mais que la sustentation vient être coupé par l'interface web, celui-ci ne fait rien. Il fut dès lors modifier d'employer une seule variable qui permet d'enclencher et déclencher le tout.
+Le système utilisait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Si la maquette était enclenchée par le bouton mais coupée depuis l'interface web, la commande n'avait aucun effet. Une seule variable a donc été retenue pour gérer à la fois l'enclenchement et le déclenchement.
 
 
