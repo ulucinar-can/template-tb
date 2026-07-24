@@ -51,296 +51,70 @@ Chaque état est dès lors implémenter dans le programme en suivant les étapes
 L'état 0 est définit comme suit :
 
 \begin{minted}{c}
-    // State 0 :
-    // Attente de la pression du bouton
-    case STATE_0 :
 
-        if(SystemOn)
-        {
-            GPIO_writePin(LED_D2, 0);
-
-            state = SKIP_FRONT ? STATE_4 : STATE_1;
-        }
-
-    break;
 \end{minted}
 
 L'état 1 est implémenter comme cela :
 
 \begin{minted}{c}
-    // State 1 :
-    // Rampe de courant sur les inducteurs 1&2 jusqu'a atteindre les 3A
-    case STATE_1:
 
-        if(ic1 < I_SP)
-        {
-            ic1 += TAKEOFF_CURRENT_STEP1;
-        }
-        else
-        {
-            ic1 = I_SP;
-        }
-
-        ic2 = ic1;
-
-        mean1 += Current1;
-        mean2 += Current2;
-        dt_mean++;
-
-        if(dt_mean >= 200)
-        {
-            mean1 = mean1 / dt_mean;
-            mean2 = mean2 / dt_mean;
-
-            if((mean1 <= I_SP105 && mean1 >= I_SP095) && (mean2 <= I_SP105 && mean2 >= I_SP095))
-            {
-                mean1 = 0;
-                mean2 = 0;
-                dt_mean = 0;
-
-                state = STATE_2;
-            }
-            else
-            {
-                mean1 = 0;
-                mean2 = 0;
-                dt_mean = 0;
-            }
-        }
-
-        break;
 \end{minted}
 
 L'état 2 est implémenter comme cela :
 
 \begin{minted}{c}
-    // State 2 :
-    // Rampe de courant "infinie" jusqu'au decollage de l'avant
-    case STATE_2:
 
-        if(Position1 <= Position_c1_dec && Position2 <= Position_c2_dec)
-        {
-            Position_c1 = Position1;
-            Position_c2 = Position2;
-
-            xr1 = 0.0f;
-            xr2 = 0.0f;
-            pos_est1 = Position1; vit_est1 = 0.0f; for_est1 = 0.0f;
-            pos_est2 = Position2; vit_est2 = 0.0f; for_est2 = 0.0f;
-
-            state = STATE_3;
-        }
-        else if(ic1 < 9.5f)
-        {
-            ic1 += TAKEOFF_CURRENT_STEP1;
-        }
-        else
-        {
-            ic1 = 9.5f;
-        }
-
-        ic2 = ic1;
-
-        break;
 \end{minted}
 
 L'état 3 est implémenter comme cela :
 
 \begin{minted}{c}
-    // State 3 :
-    // Regulation SISO de l'avant, rampe de consigne 3mm -> 2mm
-    case STATE_3:
 
-        if(!PosRegFlag1) PosRegFlag1 = true;
-
-        if(Position_c1 > DELTA_N)
-        {
-            Position_c1 -= 2.5 * 4e-7;
-        }
-        else
-        {
-            Position_c1 = DELTA_N;
-        }
-
-        if(Position_c2 > DELTA_N)
-        {
-            Position_c2 -= 2.5 * 4e-7;
-        }
-        else
-        {
-            Position_c2 = DELTA_N;
-        }
-
-        i_store++;
-
-        if(i_store == I_STORE_2E_DECOLLAGE)
-        {
-            i_store = 0;
-
-            state = SKIP_BACK ? STATE_7 : STATE_4;
-        }
-
-        break;
 \end{minted}
 
 L'état 4 est implémenter comme cela :
 
 \begin{minted}{c}
-    // State 4 :
-    // Rampe de courant sur les inducteurs 3&4 jusqu'a atteindre les 3A
-    case STATE_4:
 
-        if(ic3 < I_SP)
-        {
-            ic3 += TAKEOFF_CURRENT_STEP1;
-        }
-        else
-        {
-            ic3 = I_SP;
-        }
-
-        ic4 = ic3;
-
-        mean3 += Current3;
-        mean4 += Current4;
-        dt_mean++;
-
-        if(dt_mean >= 200)
-        {
-            mean3 = mean3 / dt_mean;
-            mean4 = mean4 / dt_mean;
-
-            if((mean3 <= I_SP105 && mean3 >= I_SP095) && (mean4 <= I_SP105 && mean4 >= I_SP095))
-            {
-                mean3 = 0;
-                mean4 = 0;
-                dt_mean = 0;
-
-                state = STATE_5;
-            }
-            else
-            {
-                mean3 = 0;
-                mean4 = 0;
-                dt_mean = 0;
-            }
-        }
-
-        break;
 \end{minted}
 
 L'état 5 est implémenter comme cela \red{a modifier}:
 
 \begin{minted}{c}
-    // State 5 :
-    // Rampe de courant "infinie" jusqu'au decollage de l'arriere,
-    // puis bascule bumpless en regulation MIMO
-    case STATE_5:
 
-        if(Position3 <= Position_c3_dec && Position4 <= Position_c4_dec)
-        {
-            uint16_t j;
-            float f_init0 = fc1f;
-            float f_init1 = fc2f;
-            float f_init2 = F_STAT[2];
-            float f_init3 = F_STAT[3];
-
-            for(j = 0; j < 3; j++)
-            {
-                float up = E_MAT[j][0]*f_init0 + E_MAT[j][1]*f_init1
-                        + E_MAT[j][2]*f_init2 + E_MAT[j][3]*f_init3 - U_STAT[j];
-                qm_ref[j] = qm[j];
-                qm_est[j] = qm[j];
-                vm_est[j] = 0.0f;
-                um_est[j] = up;
-                eps_m[j]  = -up * LQI_EPS_INV[j];
-                u_cmd[j]  = up;
-                u_sat[j]  = up;
-                u_ach[j]  = up;
-            }
-
-            IN3[1] = F_STAT[2]; IN3[2] = F_STAT[2];
-            OUT3[0] = F_STAT[2]; OUT3[1] = F_STAT[2];
-            IN4[1] = F_STAT[3]; IN4[2] = F_STAT[3];
-            OUT4[0] = F_STAT[3]; OUT4[1] = F_STAT[3];
-
-            MimoFlag = true;
-
-            state = STATE_6;
-        }
-        else if(ic3 < 9.5f)
-        {
-            ic3 += TAKEOFF_CURRENT_STEP1;
-        }
-        else
-        {
-            ic3 = 9.5f;
-        }
-
-        ic4 = ic3;
-
-
-        break;
 \end{minted}
 
 L'état 6 est implémenter comme cela :
 
 \begin{minted}{c}
-    // State 6 :
-    // Attend que le bouton soit presse a nouveau pour eteindre la maquette
-    case STATE_6:
 
-        if(!SystemOn)
-        {
-            uint16_t j;
-
-            GPIO_writePin(LED_D2, 1);
-
-            for(i = 0; i < NUM_OF_PWM_CHANNEL; i++)
-            {
-                dutyFine = ((float)(duty_cycle_table[i] * TIME_BASE_PERIOD) * INV_FACTOR);
-                compCount = (dutyFine * (float32_t)(EPWM_TIMER_TBPRD << 8)) * INV_FACTOR;
-                HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_A, compCount);
-                HRPWM_setCounterCompareValue(ePWM[i], HRPWM_COUNTER_COMPARE_B, compCount);
-            }
-
-            PosRegFlag1 = false;
-            MimoFlag = false;
-
-            i_store = 0;
-
-            integral_i1 = 0.0f; ue1 = 0.0f; ic1 = 0.0f;
-            integral_i2 = 0.0f; ue2 = 0.0f; ic2 = 0.0f;
-            integral_i3 = 0.0f; ue3 = 0.0f; ic3 = 0.0f;
-            integral_i4 = 0.0f; ue4 = 0.0f; ic4 = 0.0f;
-
-            xr1 = 0.0f; ep1 = 0.0f;
-            xr2 = 0.0f; ep2 = 0.0f;
-
-            for(j = 0; j < 3; j++)
-            {
-                eps_m[j] = 0.0f;
-                u_cmd[j] = 0.0f;
-                u_sat[j] = 0.0f;
-                u_ach[j] = 0.0f;
-                vm_est[j] = 0.0f;
-                um_est[j] = 0.0f;
-                qm_est[j] = qm[j];
-                qm_ref[j] = qm_target[j];
-            }
-
-            status = SFO();
-            if (status == SFO_ERROR) error();
-
-            state = STATE_0;
-        }
-
-        break;
 \end{minted}
 
 \section{Régulation de position}
-\subsection{Ajout des observateur}
+La régulation de positions a été beaucoup modifié. Une première partie emploie la meme synthèse de régulation que celle précédemment réaliser pour la méthode SISO.
+
+L'implémentation de la méthode MIMO est celle qui change. Cette section vient traiter les différents modification et implémentation réaliser.
+
+Ces coeeficient proviennent des résultats donnée du script python calculant les coefficients de la régulations.
+
 \subsection{Régulation SISO}
+Comme annoncé la régulation reste comme réaliser précédemment et proviennent de la synthèse réaliser par Yersin \cite{Yersin}.
+
+\subsection{Ajout des observateur}
+Les observateurs de vitesse ont été implémenter. Ceux-ci s'active uniquement lorsque la régulation de position bascule du SISO au MIMO.
+
+Cela se présente comme suit :
+
+\begin{minted}{c}
+
+\end{minted}
+
+Les coefficients sont implémenter dans le fichier \texttt{FunctionHeader.h} comme suit :
+
+\begin{minted}{c}
+
+\end{minted}
+
 \subsection{Régulation MIMO}
 
 \section{Modifications mineures}
