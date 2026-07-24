@@ -1,0 +1,32 @@
+\chapter{Alimentation}
+
+\section{Introduction}
+La maquette a jusqu'ici été alimentée par une alimentation de laboratoire. Afin de la rendre autonome, un convertisseur AC/DC a été implémenté.
+
+\section{Vérification de l'alimentation}
+L'alimentation a d'abord été vérifiée afin de garantir la bonne tension de sortie. Un potentiomètre permet de régler précisément cette tension. Elle a été fixée à 48.05~V, comme présenté dans la \autoref{fig:MesAlim} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-Alim/VerifAlim.jpeg}
+    \caption{Mesure de la sortie de l'alimentation}
+    \label{fig:MesAlim}
+\end{figure}
+
+Le courant de sortie maximal de l'alimentation est de 8.3~A.
+
+\section{Ajout d'un fusible}
+La maquette ne possédait aucun fusible. Un fusible a donc été ajouté afin de protéger le reste de la maquette en cas de courant trop élevé. Il est placé sur le câble rouge de la borne $V+$ à la sortie de l'alimentation. Il a été fixé à 5~A, une valeur suffisante pour alimenter l'ensemble de la maquette tout en laissant une marge de fonctionnement.
+
+En cas de rupture du fusible, celui-ci peut être retiré entièrement grâce à des cosses prévues à cet effet, ce qui facilite son remplacement.
+
+\section{Conclusion}
+La maquette a ensuite été essayée avec cette alimentation. Cette dernière a été placée juste en dessous de la maquette, sur une plaque en bois servant de support :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-Alim/EmplacementAlim.jpeg}
+    \caption{Ajout de l'alimentation}
+\end{figure}
+
+L'alimentation est dès lors considérée comme fonctionnelle.

@@ -556,6 +556,48 @@ L'implémentation est la suivante :
     }
 \end{minted}
 
+\section{Vérification du système en marche}
+Une fois la régulation implémenté, le système fut dès lors vérifier en réalisant une mesure des composantes suivantes :
+
+\begin{itemize}
+    \item La mesure des éléments de la positions dans l'espace (Pompage, tangage et roulis)
+    \item Le mesure du comportement par inducteurs
+\end{itemize}
+
+Celui-ci fut mesuré une première fois sans aucune intervention pour voir son comportement et une fois en y ajoutant une oscillation.
+
+Pour commencer le profil du système dans l'espace sans intervention donnes les résultats des figures \ref{fig:PompageSansIntervention} à \ref{fig:RoulisSansIntervention} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \caption{Comportement du pompage sans intervention extérieur}
+    \label{fig:PompageSansIntervention}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \caption{Comportement du tangage sans intervention extérieur}
+    \label{fig:TangageSansIntervention}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \caption{Comportement du roulis sans intervention extérieur}
+    \label{fig:RoulisSansIntervention}
+\end{figure}
+
+Ensuite le comportement par inducteurs sans intervention présente dans les figures \ref{fig:Ind1SansIntervention} à \ref{fig:Ind4SansIntervention} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \caption{Comportement de l'inducteur 1 sans intervention extérieur}
+    \label{fig:Ind1SansIntervention}
+\end{figure}
+
 \section{Mise en place du code dans la flash}
 Le code a jusqu'ici été exécuté depuis la RAM. Il fonctionne correctement et donne le résultat attendu.
 
