@@ -100,6 +100,20 @@ Ces coeeficient proviennent des résultats donnée du script python calculant le
 \subsection{Régulation SISO}
 Comme annoncé la régulation reste comme réaliser précédemment et proviennent de la synthèse réaliser par Yersin \cite{Yersin}.
 
+Pour ce qui est de la vitesse, c'est encore le filtre Savitzky qui est employé mais uniquement pour cette partie :
+
+\begin{minted}{c}
+
+\end{minted}
+
+Pour ce qui est de la régulation de position, celle-ci est active jusqu'au basculement MIMO :
+
+\begin{minted}{c}
+
+\end{minted}
+
+Le but de cette partie est en effet d'uniquement élever la partie avant pour aider pour la régul de position par la suite. Puisque cela fonctionnait pour uniquement lever l'avant, celle-ci fut dès lors garder.
+
 \subsection{Ajout des observateur}
 Les observateurs de vitesse ont été implémenter. Ceux-ci s'active uniquement lorsque la régulation de position bascule du SISO au MIMO.
 
@@ -116,6 +130,11 @@ Les coefficients sont implémenter dans le fichier \texttt{FunctionHeader.h} com
 \end{minted}
 
 \subsection{Régulation MIMO}
+La régulation MIMO s'active uniquement lorsque l'arrière commence a se déplacer. Lorsque cela est détecter, le système passe en régualtion de position MIMO ce qui donne :
+
+\begin{minted}{c}
+
+\end{minted}
 
 \section{Modifications mineures}
 \subsection{Amélioration du code via l'IA}
@@ -140,6 +159,6 @@ Cette disparité provient vraisemblablement d'essais expérimentaux antérieurs 
 Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé juste après le calcul de la force. Précédemment, celui-ci se trouvait avant ce calcul et était employé pour le calcul de la consigne de courant.
 
 \subsection{Modification de la variable d'enclenchement}
-
+Le système présentait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Cependant si la maquette est par exemple enclenché par le bouton mais que la sustentation vient être coupé par l'interface web, celui-ci ne fait rien. Il fut dès lors modifier d'employer une seule variable qui permet d'enclencher et déclencher le tout. 
 
 
