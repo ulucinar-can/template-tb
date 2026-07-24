@@ -382,7 +382,61 @@ Dès lors la vitesse est calculé comme précédemment en employant le fitlre Sa
 Pour ce qui est de la régulation, celle-ci reste également identique à celle de Yersin \cite{Yersin} tout en gardant ses coefficients.
 
 \begin{minted}{c}
+    // =================================================================//
+    // B1. REGULATION SISO AVANT (etats 3 a 5, avant bascule MIMO)
+    // ================================================================= //
+    if(PosRegFlag1 && !MimoFlag)
+    {
+        // Loi de retour d'etat par inducteur :
+        //   fc = Kw*consigne - Kd*position - Kddot*vitesse + Kr*integrale + m*g
+        //   (Kw,Kd,Kddot,Kr < 0). Anti-windup par back-calculation (fce),
+        //   puis coupe-bande IIR et transformee inverse force->courant.
 
+        // --- Inducteur 1 ---
+        // Calcul de la force de consigne 1
+        ep1 = Position_c1 - Position1;
+        xr1 += (ep1 - fce1);
+        sum_vp1 = v1 * Kddot + Position1 * Kd;
+        fc1_prim = Kw * Position_c1 + Kr * xr1 * I - sum_vp1 + FP;
+
+        // Antiwindup
+        fc1 = fc1_prim;
+        if (fc1_prim <= 0)   fc1 = 0;
+        if (fc1_prim >= FMAX1) fc1 = FMAX1;
+        fce1 = (fc1_prim - fc1) * K_ANTIWINDUP * ANTIWINDUP_EN;
+
+        // Filtre coupe bande
+        IN1[0] = fc1;
+        fc1f = IIR_Filter(IN1, OUT1);
+        if (fc1f <= 0)   fc1f = 0;
+        if (fc1f >= FMAX1) fc1f = FMAX1;
+
+        // Calcul du courant de consigne 1
+        ic1 = (sqrtf(K_FC1 * fc1f)) * Position1;
+
+        // --- Inducteur 2 ---
+        // Inductor 2 : Filtre Bandstop + State Regulation
+        // Calcul de la force de consigne 2
+        ep2 = Position_c2 - Position2;
+        xr2 += (ep2 - fce2);
+        sum_vp2 = v2 * Kddot + Position2 * Kd;
+        fc2_prim = Kw * Position_c2 + Kr * xr2 * I - sum_vp2 + FP;
+
+        // Antiwindup
+        fc2 = fc2_prim;
+        if (fc2_prim <= 0)   fc2 = 0;
+        if (fc2_prim >= FMAX2) fc2 = FMAX2;
+        fce2 = (fc2_prim - fc2) * K_ANTIWINDUP * ANTIWINDUP_EN;
+
+        // Filtre coupe bande
+        IN2[0] = fc2;
+        fc2f = IIR_Filter(IN2, OUT2);
+        if (fc2f <= 0)   fc2f = 0;
+        if (fc2f >= FMAX2) fc2f = FMAX2;
+
+        // Transform e inverse pour calculer le courant   partir de la force
+        ic2 = (sqrtf(K_FC2 * fc2f)) * Position2;
+    }
 \end{minted}
 
 Pour ce qui est de la vitesse, c'est encore le filtre Savitzky qui est employé mais uniquement pour cette partie :
@@ -431,7 +485,7 @@ Cela se présente comme suit :
 Les coefficients sont implémenter dans le fichier \texttt{FunctionHeader.h} comme suit :
 
 \begin{minted}{c}
-    
+
 \end{minted}
 
 \subsection{Régulation MIMO}
