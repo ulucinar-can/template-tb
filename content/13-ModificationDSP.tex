@@ -346,6 +346,15 @@ Il est possible d'arrêter à n'importe quel moment la maquette grâce à une si
     }
 \end{minted}
 
+La régulation s'active dès lors tant que l'état est différent de l'état 0 :
+
+\begin{minted}{c}
+    if(state != STATE_0)
+    {
+        ...
+    }
+\end{minted}
+
 \section{Régulation de position}
 La régulation de positions a été beaucoup modifié. Une première partie emploie la meme synthèse de régulation que celle précédemment réaliser pour la méthode SISO.
 
@@ -355,6 +364,26 @@ Ces coeeficient proviennent des résultats donnée du script python calculant le
 
 \subsection{Régulation SISO}
 Comme annoncé la régulation reste comme réaliser précédemment et proviennent de la synthèse réaliser par Yersin \cite{Yersin}.
+
+Dès lors la vitesse est calculé comme précédemment en employant le fitlre Savitzky comme suit :
+
+\begin{minted}{c}
+    // AVANT (SISO) : estimation de la vitesse par derivateur Savitzky-Golay.
+    if(PosRegFlag1 && !MimoFlag)
+    {
+        pos1Buff[FILTWINDOW-1] = Position1;
+        v1 = savitzky_Filter(pos1Buff);
+
+        pos2Buff[FILTWINDOW-1] = Position2;
+        v2 = savitzky_Filter(pos2Buff);
+    }
+\end{minted}
+
+Pour ce qui est de la régulation, celle-ci reste également identique à celle de Yersin \cite{Yersin} tout en gardant ses coefficients.
+
+\begin{minted}{c}
+
+\end{minted}
 
 Pour ce qui est de la vitesse, c'est encore le filtre Savitzky qui est employé mais uniquement pour cette partie :
 
@@ -376,20 +405,94 @@ Les observateurs de vitesse ont été implémenter. Ceux-ci s'active uniquement 
 Cela se présente comme suit :
 
 \begin{minted}{c}
+    // MIMO : observateur de Luenberger modal (position/vitesse/force par mode Z,T,R).
+    if(MimoFlag)
+    {
+        float e_obs0 = qm[0] - qm_est[0];
+        qm_est[0] = qm_est[0] + OBS_AD12[0] * vm_est[0] + OBS_L1[0] * e_obs0;
+        float v_new0 = vm_est[0] + OBS_AD23[0] * um_est[0] + OBS_L2[0] * e_obs0;
+        um_est[0] = OBS_AD33[0] * um_est[0] + OBS_BD3[0] * u_ach[0] + OBS_L3[0] * e_obs0;
+        vm_est[0] = v_new0;
 
+        float e_obs1 = qm[1] - qm_est[1];
+        qm_est[1] = qm_est[1] + OBS_AD12[1] * vm_est[1] + OBS_L1[1] * e_obs1;
+        float v_new1 = vm_est[1] + OBS_AD23[1] * um_est[1] + OBS_L2[1] * e_obs1;
+        um_est[1] = OBS_AD33[1] * um_est[1] + OBS_BD3[1] * u_ach[1] + OBS_L3[1] * e_obs1;
+        vm_est[1] = v_new1;
+
+        float e_obs2 = qm[2] - qm_est[2];
+        qm_est[2] = qm_est[2] + OBS_AD12[2] * vm_est[2] + OBS_L1[2] * e_obs2;
+        float v_new2 = vm_est[2] + OBS_AD23[2] * um_est[2] + OBS_L2[2] * e_obs2;
+        um_est[2] = OBS_AD33[2] * um_est[2] + OBS_BD3[2] * u_ach[2] + OBS_L3[2] * e_obs2;
+        vm_est[2] = v_new2;
+    }
 \end{minted}
 
 Les coefficients sont implémenter dans le fichier \texttt{FunctionHeader.h} comme suit :
 
 \begin{minted}{c}
-
+    
 \end{minted}
 
 \subsection{Régulation MIMO}
 La régulation MIMO s'active uniquement lorsque l'arrière commence a se déplacer. Lorsque cela est détecter, le système passe en régualtion de position MIMO ce qui donne :
 
 \begin{minted}{c}
+    if(MimoFlag)
+    {
+        qm_ref[0] += (qm_target[0] - qm_ref[0]) * REF_SMOOTH;
+        u_cmd[0] = LQI_Q[0]*(qm[0] - qm_ref[0]) + LQI_QD[0]*vm_est[0] - LQI_EPS[0]*eps_m[0]*I;
+        qm_ref[1] += (qm_target[1] - qm_ref[1]) * REF_SMOOTH;
+        u_cmd[1] = LQI_Q[1]*(qm[1] - qm_ref[1]) + LQI_QD[1]*vm_est[1] - LQI_EPS[1]*eps_m[1]*I;
+        qm_ref[2] += (qm_target[2] - qm_ref[2]) * REF_SMOOTH;
+        u_cmd[2] = LQI_Q[2]*(qm[2] - qm_ref[2]) + LQI_QD[2]*vm_est[2] - LQI_EPS[2]*eps_m[2]*I;
 
+        fc1 = F_STAT[0] + W_MAT[0][0]*u_cmd[0] + W_MAT[0][1]*u_cmd[1] + W_MAT[0][2]*u_cmd[2];
+        fc2 = F_STAT[1] + W_MAT[1][0]*u_cmd[0] + W_MAT[1][1]*u_cmd[1] + W_MAT[1][2]*u_cmd[2];
+        fc3 = F_STAT[2] + W_MAT[2][0]*u_cmd[0] + W_MAT[2][1]*u_cmd[1] + W_MAT[2][2]*u_cmd[2];
+        fc4 = F_STAT[3] + W_MAT[3][0]*u_cmd[0] + W_MAT[3][1]*u_cmd[1] + W_MAT[3][2]*u_cmd[2];
+
+        if (fc1 < 0) fc1 = 0; else if (fc1 > FMAX1) fc1 = FMAX1;
+        if (fc2 < 0) fc2 = 0; else if (fc2 > FMAX2) fc2 = FMAX2;
+        if (fc3 < 0) fc3 = 0; else if (fc3 > FMAX3) fc3 = FMAX3;
+        if (fc4 < 0) fc4 = 0; else if (fc4 > FMAX4) fc4 = FMAX4;
+
+        u_sat[0] = E_MAT[0][0]*fc1 + E_MAT[0][1]*fc2 + E_MAT[0][2]*fc3 + E_MAT[0][3]*fc4 - U_STAT[0];
+        float def0 = u_cmd[0] - u_sat[0];
+        if (def0 > -AW_TOL[0] && def0 < AW_TOL[0]) eps_m[0] += (qm_ref[0] - qm[0]) * H;
+
+        u_sat[1] = E_MAT[1][0]*fc1 + E_MAT[1][1]*fc2 + E_MAT[1][2]*fc3 + E_MAT[1][3]*fc4 - U_STAT[1];
+        float def1 = u_cmd[1] - u_sat[1];
+        if (def1 > -AW_TOL[1] && def1 < AW_TOL[1]) eps_m[1] += (qm_ref[1] - qm[1]) * H;
+
+        u_sat[2] = E_MAT[2][0]*fc1 + E_MAT[2][1]*fc2 + E_MAT[2][2]*fc3 + E_MAT[2][3]*fc4 - U_STAT[2];
+        float def2 = u_cmd[2] - u_sat[2];
+        if (def2 > -AW_TOL[2] && def2 < AW_TOL[2]) eps_m[2] += (qm_ref[2] - qm[2]) * H;
+
+        IN1[0] = fc1;
+        fc1f = IIR_Filter(IN1, OUT1);
+        if (fc1f < 0) fc1f = 0; else if (fc1f > FMAX1) fc1f = FMAX1;
+        ic1 = sqrtf(K_FC1 * fc1f) * Position1;
+
+        IN2[0] = fc2;
+        fc2f = IIR_Filter(IN2, OUT2);
+        if (fc2f < 0) fc2f = 0; else if (fc2f > FMAX2) fc2f = FMAX2;
+        ic2 = sqrtf(K_FC2 * fc2f) * Position2;
+
+        IN3[0] = fc3;
+        fc3f = IIR_Filter(IN3, OUT3);
+        if (fc3f < 0) fc3f = 0; else if (fc3f > FMAX3) fc3f = FMAX3;
+        ic3 = sqrtf(K_FC3 * fc3f) * Position3;
+
+        IN4[0] = fc4;
+        fc4f = IIR_Filter(IN4, OUT4);
+        if (fc4f < 0) fc4f = 0; else if (fc4f > FMAX4) fc4f = FMAX4;
+        ic4 = sqrtf(K_FC4 * fc4f) * Position4;
+
+        u_ach[0] = E_MAT[0][0]*fc1f + E_MAT[0][1]*fc2f + E_MAT[0][2]*fc3f + E_MAT[0][3]*fc4f - U_STAT[0];
+        u_ach[1] = E_MAT[1][0]*fc1f + E_MAT[1][1]*fc2f + E_MAT[1][2]*fc3f + E_MAT[1][3]*fc4f - U_STAT[1];
+        u_ach[2] = E_MAT[2][0]*fc1f + E_MAT[2][1]*fc2f + E_MAT[2][2]*fc3f + E_MAT[2][3]*fc4f - U_STAT[2];
+    }
 \end{minted}
 
 \section{Mise en place du code dans la flash}
