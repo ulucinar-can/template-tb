@@ -15,7 +15,7 @@ La régulation de position en Single Input Single Output (SISO) n'ayant pas fait
 \section{Analyse de la régulation de courant}
 
 \subsection{Changement des valeurs d'inductances}
-Suite a la découverte des nouvelles valeurs d'inductances, il est néscessaire de les inclures dans le système a régler. Ceux-ci apparaissent principalement dans l'équation du système $G_{ui}$. Pour rappel, le système $G_{ui}$ est décrit comme telle :
+À la suite de la découverte des nouvelles valeurs d'inductance, il est nécessaire de les inclure dans le système à régler. Elles apparaissent principalement dans l'équation du système $G_{ui}$, rappelée ci-dessous :
 
 \begin{equation}
     G_{ui}(s) = K_{ui}\cdot\frac{s}{1 + a_1 \cdot s + a_2\cdot s^2}
@@ -135,7 +135,7 @@ L'erreur a bel et bien diminué. Il est dès lors possible de rechercher la nouv
     \tau_{iBF1} = 1.60 \text{ms}\quad \tau_{iBF2} = 1.68 \text{ms} \quad \tau_{iBF3} = 1.60 \text{ms} \quad \tau_{iBF4} = 1.60 \text{ms}
 \end{equation*}
 
-Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle définit pour une marge de phase a 45°. Dès lors une valeur moyenne sera employer pour la synthèse de la régulation de position puisque les 4 valeurs sont proches l'une de l'autre donnant alors :
+La valeur de $\tau_{iBF}$ est bien plus grande que celle définie pour une marge de phase de 45°. Les quatre valeurs étant proches, une valeur moyenne est employée pour la synthèse de la régulation de position :
 
 \begin{equation}
     \tau_{iBF,moy} = 1.62 \text{ms}
@@ -627,9 +627,9 @@ avec $m = m_{tot} = 18{,}052$~kg la masse suspendue, $b$ le demi-écartement des
 
 Les fils sont attachés aux pieds de la maquette lors de la mesure. Les distances $D$ par axe sont disponibles dans la \autoref{fig:VueDessus}. La distance en X vaut 385~mm ($D_X = 0{,}385$) et la distance en Y vaut 280~mm ($D_Y = 0{,}280$).
 
-La mesure est réaliser en suivant les étapes décrites dans l'\autoref{annexe:MesBifilaire}.
+La mesure est réalisée en suivant les étapes décrites dans l'\autoref{annexe:MesBifilaire}.
 
-Une fois les mesures réaliser, les oscillations suivantes sont retrouvé :
+Une fois les mesures réalisées, les oscillations suivantes sont obtenues :
 
 \begin{equation}
     T_X = 2.267~s \qquad T_Y = 3.833~s
