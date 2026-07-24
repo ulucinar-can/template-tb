@@ -573,11 +573,11 @@ Cependant, une fois le code placé dans la flash, l'interruption ne s'exécutait
 
 Cette allocation ne s'applique que lorsque le code est compilé pour la flash. Lorsqu'il est exécuté depuis la RAM, la condition la saute.
 
-Les parties qui furent allouer à la ram sont :
+Les parties allouées à la RAM sont les suivantes :
 
 \begin{itemize}
     \item L'interruption principale
-    \item Les deux interruptions lié à la communication UART
+    \item Les deux interruptions liées à la communication UART
     \item La fonction de régulation de courant
     \item La fonction du filtre Savitzky
     \item La fonction du coupe-bande
@@ -614,4 +614,8 @@ Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé j
 Le système utilisait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Si la maquette était enclenchée par le bouton mais coupée depuis l'interface web, la commande n'avait aucun effet. Une seule variable a donc été retenue pour gérer à la fois l'enclenchement et le déclenchement.
 
 \section{Conclusion}
-Les différentes implémentation réaliser ont permis d'obtenir un code bien plus structurer que ceux réaliser jusqu'à maintenant.
+Les différentes implémentations réalisées ont permis d'obtenir un code bien plus structuré que les versions précédentes.
+
+Le programme a été testé et son bon fonctionnement a été confirmé.
+
+Il reste maintenant à améliorer la régulation de position. La structure est en place ; il faut désormais y implémenter les bons coefficients.
