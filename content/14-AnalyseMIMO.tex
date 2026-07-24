@@ -1,32 +1,124 @@
-\chapter{Alimentation}
+\chapter{Mesure du comportement de la maquette suite à l'implémentation de la régulation de postion MIMO}
 
 \section{Introduction}
-La maquette a jusqu'ici été alimentée par une alimentation de laboratoire. Afin de la rendre autonome, un convertisseur AC/DC a été implémenté.
+Suite aux différentes modifications réalisé pour la régulation de position, une mesure du comportement général de la maquette fut réaliser. Celle-ci est dès lors présenter dans ce chapitre.
 
-\section{Vérification de l'alimentation}
-L'alimentation a d'abord été vérifiée afin de garantir la bonne tension de sortie. Un potentiomètre permet de régler précisément cette tension. Elle a été fixée à 48.05~V, comme présenté dans la \autoref{fig:MesAlim} :
+\section{Mesure du système}
+Comparer aux mesures précédente, les mesures présentes ici démontrerons les mesures modaux. Cela vient alors se concentrer sur le positionnement du pompage, tangage et du roulis. Une mesure du comportement par inducteur fut également réaliser.
+
+Deux mesures furent réaliser :
+
+\begin{itemize}
+    \item Une première mesure sans intervention externe
+    \item Une seconde mesure avec l'ajout d'une perturbation
+\end{itemize}
+
+La perturbation fut réaliser en venant simplement appuyer sur l'un des côtés de la maquette.
+
+\subsection{Mesure sans intervention externe}
+Pour commencer le profil du système dans l'espace sans intervention donnes les résultats des figures \ref{fig:PompageSansIntervention} à \ref{fig:RoulisSansIntervention} :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{assets/content/14-Alim/VerifAlim.jpeg}
-    \caption{Mesure de la sortie de l'alimentation}
-    \label{fig:MesAlim}
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Pompage.png}
+    \caption{Comportement du pompage sans intervention extérieur}
+    \label{fig:PompageSansIntervention}
 \end{figure}
 
-Le courant de sortie maximal de l'alimentation est de 8.3~A.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Tangage.png}
+    \caption{Comportement du tangage sans intervention extérieur}
+    \label{fig:TangageSansIntervention}
+\end{figure}
 
-\section{Ajout d'un fusible}
-La maquette ne possédait aucun fusible. Un fusible a donc été ajouté afin de protéger le reste de la maquette en cas de courant trop élevé. Il est placé sur le câble rouge de la borne $V+$ à la sortie de l'alimentation. Il a été fixé à 5~A, une valeur suffisante pour alimenter l'ensemble de la maquette tout en laissant une marge de fonctionnement.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Roulis.png}
+    \caption{Comportement du roulis sans intervention extérieur}
+    \label{fig:RoulisSansIntervention}
+\end{figure}
 
-En cas de rupture du fusible, celui-ci peut être retiré entièrement grâce à des cosses prévues à cet effet, ce qui facilite son remplacement.
+Ensuite le comportement par inducteurs sans intervention présente dans les figures \ref{fig:Ind1SansIntervention} à \ref{fig:Ind4SansIntervention} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Ind1.png}
+    \caption{Comportement de l'inducteur 1 sans intervention extérieur}
+    \label{fig:Ind1SansIntervention}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Ind2.png}
+    \caption{Comportement de l'inducteur 2 sans intervention extérieur}
+    \label{fig:Ind2SansIntervention}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Ind3.png}
+    \caption{Comportement de l'inducteur 3 sans intervention extérieur}
+    \label{fig:Ind3SansIntervention}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Ind4.png}
+    \caption{Comportement de l'inducteur 4 sans intervention extérieur}
+    \label{fig:Ind4SansIntervention}
+\end{figure}
+
+Il est alors possible de venir se concentrer sur la force emises par inducteur donnant ainsi la \autoref{fig:ForceSansIntervention} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{assets/content/14-MesureMIMO/SansIntervention/Force.png}
+    \caption{Comportement des forces sans intervention externe}
+    \label{fig:ForceSansIntervention}
+\end{figure}
+
+Il est possible de calculer les écarts entre la force théorique de pesanteur et la force réellement émises par le système donnant ainsi le \autoref{tab:forces_inducteurs_v3} :
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l cccc}
+        \toprule
+        \textbf{Inducteur} & \makecell[c]{\textbf{Force moyenne}                         \\ \textbf{[N]}} & \makecell[c]{\textbf{Force théorique $F_p$} \\ \textbf{[N]}} & \makecell[c]{\textbf{Écart} \\ \textbf{[N]}} & \makecell[c]{\textbf{Écart} \\ \textbf{[\%]}} \\
+        \midrule
+        1                  & 64.44                               & 44.27 & 20.17 & 45.56 \\
+        2                  & 64.90                               & 44.27 & 20.63 & 46.60 \\
+        3                  & 67.25                               & 44.27 & 22.98 & 51.91 \\
+        4                  & 68.46                               & 44.27 & 24.19 & 54.63 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparaison des forces moyennes et théoriques par inducteur sans intervention}
+    \label{tab:forces_inducteurs_v3}
+\end{table}
+
+\subsection{Mesure avec l'ajout d'une perturbation}
+
+
+
+Comme précédement il est possible de calculer les écarts entre la force moyenne et la force théorique donnant le \autoref{tab:forces_inducteurs_v4} :
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l cccc}
+        \toprule
+        \textbf{Inducteur} & \makecell[c]{\textbf{Force moyenne}                         \\ \textbf{[N]}} & \makecell[c]{\textbf{Force théorique $F_p$} \\ \textbf{[N]}} & \makecell[c]{\textbf{Écart} \\ \textbf{[N]}} & \makecell[c]{\textbf{Écart} \\ \textbf{[\%]}} \\
+        \midrule
+        1                  & 66.34                               & 44.27 & 22.07 & 49.85 \\
+        2                  & 65.99                               & 44.27 & 21.71 & 49.04 \\
+        3                  & 67.28                               & 44.27 & 23.01 & 51.97 \\
+        4                  & 68.96                               & 44.27 & 24.69 & 55.76 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparaison des forces moyennes et théoriques par inducteur avec une perturbation}
+    \label{tab:forces_inducteurs_v4}
+\end{table}
+
+\subsection{Analyse des mesures}
+
 
 \section{Conclusion}
-La maquette a ensuite été essayée avec cette alimentation. Cette dernière a été placée juste en dessous de la maquette, sur une plaque en bois servant de support :
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{assets/content/14-Alim/EmplacementAlim.jpeg}
-    \caption{Ajout de l'alimentation}
-\end{figure}
-
-L'alimentation est dès lors considérée comme fonctionnelle.
