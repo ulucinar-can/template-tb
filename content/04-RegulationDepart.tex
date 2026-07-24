@@ -1,4 +1,4 @@
-\chapter{La régulation}
+\chapter{Situation de départ - La régulation}
 
 Ce chapitre se concentre principalement sur les travaux réalisés par Laucella \cite{Laucella} et Yersin \cite{Yersin}.
 
@@ -574,7 +574,7 @@ L'organe de mesure du courant $G_{mi}$ est également approximé par un filtre p
     G_{mi} = \frac{K_{mi}}{1+s \cdot\tau_{mi}} = \frac{1}{1+s \cdot\tau_{mi}}
 \end{equation}
 
-La constante de temps du capteur est déterminée à partir de la fiche technique du fabricant \cite{CaptCour}, qui indique une bande passante de 50~kHz. Afin de respecter le critère de Shannon \cite{Shanon}, la fréquence de coupure du filtre anti-repliement a été fixée à 25~kHz, ce qui correspond à la fréquence d'échantillonnage du DSP :
+La constante de temps du capteur est déterminée à partir de la fiche technique du fabricant \cite{CaptCour}, qui indique une bande passante de 50~kHz. La fréquence de coupure retenue pour modéliser le capteur a été fixée à 25~kHz, soit la fréquence d'échantillonnage du DSP :
 
 \begin{equation}
     \tau_{mi} = \frac{1}{2\pi\cdot f_{mi}} = \frac{1}{2\pi\cdot 25\cdot 10^3} = 6.4 \text{ $\mu$s}
