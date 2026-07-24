@@ -4,17 +4,27 @@
 La maquette fut alimenté jusqu'à maintenant pas une alimentation de laboratoire. Afin de rendre la maquette autonome, un convertisseur AC/DC fut implémenter.
 
 \section{Vérification de l'alimentation}
-L'alimentation fut dans un premier temps vérifier afin de garantir la bonne tension d'alimentation. Un potentiomètre permet de correctement définir la tension de sortie de celui-ci. Il fut dès alors fixer à 48V :
+L'alimentation fut dans un premier temps vérifier afin de garantir la bonne tension d'alimentation. Un potentiomètre permet de correctement définir la tension de sortie de celui-ci. Il fut dès alors fixer à 48.05V comme présenter dans la \autoref{fig:MesAlim} :
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/shared/MesureCondoCan.JPG}
+    \caption{Mesure de la sortie de l'alimentation}
+    \label{fig:MesAlim}
+\end{figure}
 
 Le courant de sortie max de l'alimentation est de 8.3A.
 
 \section{Ajout d'un fusible}
-La maquette ne possède aucun fusible. Il fut dès lors ajouter afin de protéger le restant de la maquette dans le cas d'un courant bien trop éléver :
-
-
-Le fusible fut fixer a 5A pour garantir un courant suffisant pour l'alimentation intégrale de la maquette et laisser une certaine marge de fonctionnemnt.
+La maquette ne possède aucun fusible. Il fut dès lors ajouter afin de protéger le restant de la maquette dans le cas d'un courant bien trop éléver. Celui-ci est placé sur le câble rouge indiquant la borne $V+$ de la sortie de l'alimentation. Le fusible fut fixer a 5A pour garantir un courant suffisant pour l'alimentation intégrale de la maquette et laisser une certaine marge de fonctionnemnt.
 
 \section{Conclusion}
-La maquette fut dès lors essayer avec l'alimentation. Celle-ci fonctionne sans problème venant dès lors confirmer le bon fonctionnement de l'alimentation.
+La maquette fut dès lors essayer avec l'alimentation. Celle-ci fut dès lors ajouter juste en dessous de la maquette via une plaque en bois pour venir agir comme d'un support :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{assets/content/14-Alim/EmplacementAlim.jpeg}
+    \caption{Ajout de l'alimentation}
+\end{figure}
+
+L'alimentation est dès lors considérée comme fonctionnelle.

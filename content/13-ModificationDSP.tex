@@ -275,7 +275,7 @@ L'état 5 est implémenté comme suit :
         break;
 \end{minted}
 
-Au moment de basculer en MIMO, l'observateur et les intégrateurs sont initialisés à partir des forces déjà appliquées par le SISO. Cette initialisation évite un saut de commande (transition \og bumpless \fg) : la régulation MIMO démarre exactement sur l'état courant de la maquette, sans à-coup.
+Au moment de basculer en MIMO, l'observateur et les intégrateurs sont initialisés à partir des forces déjà appliquées par le SISO. Cette initialisation évite un saut de commande (transition \og bumpless \fg). La régulation MIMO démarre exactement sur l'état courant de la maquette, sans à-coup.
 
 L'état 6 est implémenté comme suit :
 
@@ -353,7 +353,7 @@ La régulation s'active dès lors tant que l'état est différent de l'état 0 :
 \section{Régulation de position}
 La régulation de position a été largement modifiée. Une première partie reprend la synthèse SISO utilisée précédemment, tandis que l'implémentation de la méthode MIMO est nouvelle. Cette section présente ces implémentations.
 
-La théorie de la synthèse MIMO (efforts modaux, retour d'état, observateur, allocation) est développée au \autoref{subsec:RegPIError}. Cette section se limite à sa traduction en code. Les coefficients employés proviennent du script Python de synthèse, exporté directement dans le fichier \texttt{FunctionHeader.h}.
+La théorie de la synthèse MIMO (efforts modaux, retour d'état, observateur, allocation) est développée à la \autoref{sec:RegPosMIMO}. Cette section se limite à sa traduction en code. Les coefficients employés proviennent du script Python de synthèse, exporté directement dans le fichier \texttt{FunctionHeader.h}.
 
 \subsection{Régulation SISO}
 La régulation SISO reste identique à celle réalisée précédemment, issue de la synthèse de Yersin \cite{Yersin}. Elle ne sert qu'à lever l'avant de la maquette.
@@ -485,12 +485,12 @@ Les gains de l'observateur, exportés par le script de synthèse, sont définis 
 
 
 \subsection{Implémentation régulation MIMO}
-La régulation MIMO s'active dès que l'arrière commence à se déplacer (état 5). Le bloc suivant reprend, dans l'ordre, les étapes de la synthèse du \autoref{subsec:RegPIError} :
+La régulation MIMO s'active dès que l'arrière commence à se déplacer (état 5). Le bloc suivant reprend, dans l'ordre, les étapes de la synthèse développées à la \autoref{subsec:RetourEtat} et à la \autoref{subsec:RepartitionForces} :
 
 \begin{enumerate}
     \item Lissage de la référence, puis calcul de la commande modale $u_{cmd}$ par la loi de retour d'état (gains \texttt{LQI\_Q}, \texttt{LQI\_QD}, \texttt{LQI\_EPS}), pour les trois modes.
     \item Allocation des trois efforts vers les quatre forces via la matrice \texttt{W\_MAT}, avec ajout de la compensation de poids \texttt{F\_STAT}.
-    \item Écrêtage de chaque force entre $0$ et $F_{max}$.
+    \item Limitation de chaque force entre $0$ et $F_{max}$.
     \item Anti-windup : les efforts réellement réalisés sont recalculés avec \texttt{E\_MAT} à partir des forces saturées, et chaque intégrateur \texttt{eps\_m} n'est incrémenté que si son mode n'est pas saturé (tolérance \texttt{AW\_TOL}).
     \item Filtre coupe-bande, puis conversion force $\to$ courant par la méthode inverse.
     \item Calcul de l'effort réellement appliqué \texttt{u\_ach}, réinjecté dans l'observateur.
@@ -613,4 +613,5 @@ Afin d'éviter un retard d'une période de 40~$\mu$s, le filtre a été placé j
 \subsection{Modification de la variable d'enclenchement}
 Le système utilisait deux variables distinctes pour l'enclenchement et le déclenchement de la maquette. Si la maquette était enclenchée par le bouton mais coupée depuis l'interface web, la commande n'avait aucun effet. Une seule variable a donc été retenue pour gérer à la fois l'enclenchement et le déclenchement.
 
-
+\section{Conclusion}
+Les différentes implémentation réaliser ont permis d'obtenir un code bien plus structurer que ceux réaliser jusqu'à maintenant.

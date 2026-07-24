@@ -142,6 +142,7 @@ Comme constater la valeur de $\tau_{iBF}$ est bien plus grande que celle défini
 \end{equation}
 
 \section{Régulation de positions}
+\label{sec:RegPosMIMO}
 La régulation SISO précédente traite chaque inducteur comme un système indépendant. Chaque boucle mesure son propre entrefer et calcule sa propre force sans tenir compte des trois autres. Or les quatre inducteurs portent la même plaque rigide. Lorsque l'inducteur 1 augmente sa force, il ne lève pas uniquement son coin mais fait pivoter toute la plaque, ce qui modifie aussi les entrefers des inducteurs 2, 3 et 4. Les quatre boucles se perturbent donc en permanence.
 
 L'idée de la régulation MIMO est de ne plus réguler quatre entrefers indépendants mais directement les mouvements de la plaque. Une plaque rigide qui ne se déplace que verticalement possède trois mouvements possibles, appelés modes :
@@ -440,6 +441,7 @@ En regroupant les facteurs communs, les relations finales sont :
 Ces relations sont simples à interpréter. L'entrefer moyen $\bar\delta$ est la moyenne des quatre mesures. Le tangage $\theta$ vient de l'écart entre les inducteurs avant et arrière, rapporté à leur écartement. Le roulis $\varphi$ s'obtient de même entre la gauche et la droite. La reconstruction ne demande donc que trois sommes pondérées en temps réel, sans aucune inversion de matrice.
 
 \subsection{Définition du système}
+\label{subsec:DefSysteme}
 La géométrie étant définie, il reste à établir les équations physiques. La régulation précédente n'utilisait que la loi de Newton. Cette fois, le corps rigide complet est considéré. Newton exprime la translation et Euler \cite{Euler} exprime les rotations.
 
 La loi de Newton s'écrit comme précédemment, mais pour le corps complet :
@@ -674,6 +676,7 @@ Ces deux inerties ne sont pas employées telles quelles pour la synthèse. Le ta
 De la même manière, le pompage emploie l'inertie corrigée $M_{syn} = m_{tot}/K_{SYN} = 15{,}70$~kg. C'est bien $J_{syn}$ et $M_{syn}$ qui remplacent $I_j$ dans le modèle. Le tangage et le roulis partageant la même inertie de synthèse, leurs gains seront par conséquent identiques.
 
 \subsection{Modèle de la synthèse}
+\label{subsec:ModeleSynthese}
 L'effort $u_j$ précédent correspond au cas idéal où l'actionneur fournirait instantanément l'effort demandé. En réalité, l'effort met un certain temps à rejoindre sa consigne. Plutôt que de modéliser chaque élément de la chaîne, l'ensemble est approximé par un système du premier ordre. Les retards du filtre coupe-bande, de la boucle de courant, des capteurs et du filtre RC sont cumulés dans une constante de temps équivalente $\tau_{act}$ :
 
 \begin{equation}
@@ -796,6 +799,7 @@ L'exponentielle est calculée par \texttt{expm} de SciPy après multiplication p
 Cette fonction est appelée trois fois : pour le modèle du retour d'état, pour celui de l'observateur et pour le modèle simulé de vérification.
 
 \subsection{Synthèse du retour d'état}
+\label{subsec:RetourEtat}
 Le modèle d'état étant établi, la synthèse du retour d'état peut commencer. En boucle ouverte, la commande $u_{c,j}$ est libre :
 
 \begin{equation}
@@ -957,6 +961,7 @@ Une matrice et sa transposée ont les mêmes valeurs propres, donc $\operatornam
 Les pôles de l'observateur sont $-700$, $-760$ et $-820$~rad/s. Ils sont environ neuf fois plus rapides que ceux du régulateur, pour que l'estimation converge avant que la commande n'agisse. Les accélérer davantage amplifierait le bruit du capteur.
 
 \subsection{Répartition des forces}
+\label{subsec:RepartitionForces}
 Le dernier point est la répartition des forces. En SISO, la force de chaque inducteur sortait directement du régulateur et servait telle quelle à la méthode inverse. Ici, la régulation ne fournit que les trois efforts modaux $\boldsymbol u_c$. Il faut donc redescendre de ces trois grandeurs vers les quatre forces à commander.
 
 Le problème est l'inverse de la reconstruction de position. La matrice $E$ étant de dimension $3\times4$, le système est sous-déterminé : trois équations pour quatre inconnues. Il existe donc une infinité de répartitions donnant les mêmes efforts. Un critère est nécessaire pour en retenir une.
