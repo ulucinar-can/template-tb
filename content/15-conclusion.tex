@@ -1,54 +1,64 @@
 \chapter{Conclusion}
 
-\section{Amélioration future}
-Les amélioration pouvant être apporté sur la maquette serait principalement de réaliser une nouvelle synthèse de la régualtion de positon MIMO. Celle-ci serait synthétiser par un vrai régulateur LQI et en employant la méthode de Riccati \cite{Riccati}.
+\section{Travaux réalisés}
+Ce travail a permis de reprendre le démonstrateur là où le précédent travail de bachelor l'avait laissé, puis de le faire progresser sur plusieurs plans.
 
-Ensuite il faudrait trouver un moyen de correctemnt inclure le code dans la flash sans que des problèmes d'oscillations arrivent.
+Dans un premier temps, le fonctionnement du matériel a été vérifié : circuit de précharge, convertisseurs DC/DC, capteurs de courant et de position. Ces mesures ont permis de valider l'électronique de la carte principale et de corriger un défaut de soudure sur le convertisseur 24~V.
 
-Ajouter des élement dans l'interface WEB pour y ajouter différentes fonctions permettant d'interagir avec la maquette.
+La masse réelle de la partie lévitante a ensuite été mesurée (18.052~kg au lieu des 13.6~kg supposés), et la valeur des inductances a été redéterminée au RLC-mètre, révélant un écart important avec la valeur théorique. Ces deux corrections ont directement alimenté la synthèse des régulations.
+
+Les circuits de conditionnement ont été modifiés pour exploiter toute la plage de l'ADC, et un filtre RC a été ajouté sur les mesures de position. La plaque de référence, découverte ondulée, a été remplacée par une plaque en composite d'aluminium bien plus régulière.
+
+Côté logiciel, la régulation de courant a été reprise et une erreur de synthèse présente depuis plusieurs travaux a été corrigée. Surtout, une régulation de position en MIMO a été mise en place, en remplacement de l'approche SISO : reconstruction modale de la position, retour d'état avec observateur, allocation des efforts sur les quatre inducteurs et anti-windup. Une nouvelle machine d'état gère l'ensemble de la séquence de décollage, et l'interface web embarquée a été complétée avec l'affichage du courant. Enfin, la maquette a été rendue autonome grâce à l'ajout d'une alimentation propre.
 
 \section{Retour sur les hypothèses}
-Le tableau ci-dessous dresse le bilan des hypothèses de recherche formulées dans la \autoref{sec:Hypothese} pour expliquer le problème de lévitation.
+Les hypothèses de recherche formulées dans la \autoref{sec:Hypothese} sont reprises ci-dessous, chacune accompagnée de son verdict à l'issue du projet :
 
-\begin{table}[htbp]
-    \centering
-    \renewcommand{\arraystretch}{1.5} % Permet d'aérer les lignes du tableau
-    \begin{tabular}{|p{12cm}|c|}
-        \hline
-        \textbf{Hypothèse de recherche}                                                                                                                      & \textbf{Bilan} \\
-        \hline
-        Les interruptions liées à la communication sans fil perturbent le bon déroulement de l'interruption dédiée à la régulation.                          & $\times$       \\
-        \hline
-        Les contraintes temporelles ne sont plus respectées, ce qui nécessite une vérification de la durée d'exécution des tâches au sein de l'interruption. & $\times$       \\
-        \hline
-        L'ajout d'une action intégrale sur la régulation de l'inducteur 3 engendre une instabilité du système.                                               & $\sim$         \\
-        \hline
-        Une mauvaise calibration globale du système empêche le décollage.                                                                                    & $\checkmark$   \\
-        \hline
-        L'intégration de l'électronique embarquée a modifié la masse totale du système, faussant ainsi les paramètres de la régulation.                      & $\checkmark$   \\
-        \hline
-        Une erreur a été introduite lors de la phase de synthèse des régulateurs.                                                                            & $\checkmark$   \\
-        \hline
-        La condition de transition de l'état 2 à l'état 3 de la machine d'états, basée sur un seuil de position de 99~\%, n'est pas suffisamment robuste.    & $-$            \\
-        \hline
-        La carte principale présente un défaut matériel.                                                                                                     & $\sim$         \\
-        \hline
-        Les broches du DSP ne sont pas correctement reliées au reste de la carte principale.                                                                 & $-$            \\
-        \hline
-        L'inductance nominale calculée est incorrecte.                                                                                                       & $\checkmark$   \\
-        \hline
-        L'erreur n'est pas calculée correctement pour la boucle de régulation de position.                                                                   & $\sim$         \\
-        \hline
-    \end{tabular}
-    \vspace{0.3cm}
-    \caption{Bilan de la validation des hypothèses de recherche ($\checkmark$ : validée, $\times$ : invalidée, $\sim$ : partiellement validée, $-$ : non testée)}
-    \label{tab:bilan_hypotheses}
-\end{table}
+\begin{itemize}
+    \item Les interruptions liées à la communication sans fil perturbent l'interruption de régulation. Invalidée : les mesures d'exécution du programme montrent que l'interruption tient largement dans la période de 40~$\mu$s, avec ou sans la communication UART.
 
-Les hypothèses temporelles (interruptions et communication UART) ont été invalidées par les mesures d'exécution du programme. La modification de la masse totale (18.052~kg au lieu de 13.6~kg) ainsi que l'inductance nominale erronée (environ 7.7~mH à 8.65~mH mesurés contre 4.9~mH calculés) ont été confirmées par les mesures, de même que l'erreur de synthèse de la régulation de courant (omission de la constante $K_{ui}$, \autoref{subsec:RegPIError}). Le défaut matériel de la carte principale n'a été que partiellement confirmé : une broche mal soudée sur le convertisseur 24~V a été corrigée, le reste de l'électronique ayant été validé.
+    \item Les contraintes temporelles ne sont plus respectées. Invalidée pour la même raison : la durée d'exécution des tâches laisse une marge confortable.
 
-\section{Conclusion générale}
-Ce travail fut
+    \item L'ajout d'une action intégrale sur l'inducteur 3 engendre une instabilité. Partiellement validée : un comportement anormal a bien été observé sur cet inducteur, sans qu'il soit possible de le désigner comme cause unique du problème.
+
+    \item Une mauvaise calibration globale empêche le décollage. Validée : la plaque de référence, découverte ondulée, faussait les mesures de position. Son remplacement a nettement amélioré la situation.
+
+    \item L'intégration de l'électronique embarquée a modifié la masse totale. Validée : la pesée donne 18.052~kg au lieu des 13.6~kg supposés, ce qui fausse les paramètres de la régulation.
+
+    \item Une erreur a été introduite lors de la synthèse des régulateurs. Validée : la constante $K_{ui}$ avait été omise dans la synthèse de la régulation de courant (\autoref{subsec:RegPIError}).
+
+    \item La condition de transition à 99~\% de la machine d'état n'est pas robuste. Non testée : cette piste n'a pas été approfondie, la machine d'état ayant par ailleurs été entièrement revue.
+
+    \item La carte principale présente un défaut matériel. Partiellement validée : une broche mal soudée sur le convertisseur 24~V a été trouvée et corrigée, mais le reste de l'électronique s'est révélé sain.
+
+    \item Les broches du DSP ne sont pas correctement reliées à la carte principale. Non testée : cette hypothèse n'a pas été vérifiée, faute de temps.
+
+    \item L'inductance nominale calculée est incorrecte. Validée : les mesures au RLC-mètre donnent entre 7.7~mH et 8.65~mH contre 4.9~mH en théorie.
+
+    \item L'erreur n'est pas calculée correctement pour la boucle de position. Partiellement validée : la mesure du programme en fonctionnement a révélé une erreur transmise incohérente sur l'inducteur 1, sans que cela explique à lui seul le problème de lévitation.
+\end{itemize}
+
+\section{Améliorations futures}
+La principale amélioration à apporter à la maquette serait de refaire la synthèse de la régulation de position MIMO. Celle-ci devrait être synthétisée par un véritable régulateur LQI, au moyen de la méthode de Riccati \cite{Riccati}, plutôt que par le placement de pôles empirique actuel.
+
+Il faudrait ensuite trouver un moyen d'exécuter correctement le code depuis la flash, sans les problèmes d'oscillations rencontrés.
+
+Enfin, l'interface utilisateur pourrait être enrichie. Elle ne sert actuellement qu'à afficher la position et le courant, et à enclencher ou couper la maquette. Il serait intéressant d'y ajouter des fonctions permettant d'interagir davantage avec la maquette.
+
+L'ordre de priorité serait dès lors le suivant :
+
+\begin{itemize}
+    \item Réaliser une meilleure synthèse de la régulation de position.
+    \item Améliorer l'exécution du code depuis la flash.
+    \item Ajouter des fonctions d'interaction sur l'interface utilisateur.
+\end{itemize}
+
+\section{Conclusion}
+Ce travail a été intellectuellement très enrichissant. Il m'a permis de consolider mes bases en mécatronique et d'aborder des notions que je n'avais jamais mises en pratique jusqu'ici.
+
+Il m'a également permis de mettre à l'épreuve les différentes compétences acquises durant mes trois années de bachelor.
+
+Bien que le résultat ne soit pas encore pleinement satisfaisant, ce travail constitue une avancée importante dans le projet.
 
 \vfil
 \hspace{8cm}\makeatletter\@author\makeatother\par
