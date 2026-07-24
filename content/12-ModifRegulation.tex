@@ -143,14 +143,14 @@ La valeur de $\tau_{iBF}$ est bien plus grande que celle définie pour une marge
 
 \section{Régulation de positions}
 \label{sec:RegPosMIMO}
-La régulation SISO précédente traite chaque inducteur comme un système indépendant. Chaque boucle mesure son propre entrefer et calcule sa propre force sans tenir compte des trois autres. Or les quatre inducteurs portent la même plaque rigide. Lorsque l'inducteur 1 augmente sa force, il ne lève pas uniquement son coin mais fait pivoter toute la plaque, ce qui modifie aussi les entrefers des inducteurs 2, 3 et 4. Les quatre boucles se perturbent donc en permanence.
+La régulation SISO précédente traite chaque inducteur comme un système indépendant. Chaque boucle mesure son propre entrefer et calcule sa propre force sans tenir compte des trois autres. Or les quatre inducteurs portent la même maquette rigide. Lorsque l'inducteur 1 augmente sa force, il ne lève pas uniquement son coin mais fait pivoter toute la maquette, ce qui modifie aussi les entrefers des inducteurs 2, 3 et 4. Les quatre boucles se perturbent donc en permanence.
 
 L'idée de la régulation MIMO est de ne plus réguler quatre entrefers indépendants mais directement les mouvements de la plaque. Une plaque rigide qui ne se déplace que verticalement possède trois mouvements possibles, appelés modes :
 
 \begin{itemize}
-    \item Le pompage : la plaque monte ou descend en restant horizontale.
-    \item Le tangage : la plaque pivote autour de son axe $Y$, l'avant descend pendant que l'arrière monte (ou inversement).
-    \item Le roulis : la plaque pivote autour de son axe $X$, la gauche descend pendant que la droite monte (ou inversement).
+    \item Le pompage : la maquette monte ou descend en restant horizontale.
+    \item Le tangage : la maquette pivote autour de son axe $Y$, l'avant descend pendant que l'arrière monte (ou inversement).
+    \item Le roulis : la maquette pivote autour de son axe $X$, la gauche descend pendant que la droite monte (ou inversement).
 \end{itemize}
 
 Les déplacements horizontaux et la rotation autour de l'axe vertical ne sont pas régulés. De légers mouvements restent possibles dans ces directions, mais aucun capteur ne permet d'y connaître la position. Ces degrés de liberté sont de toute façon bloqués par le guidage mécanique.
