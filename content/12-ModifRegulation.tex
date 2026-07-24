@@ -145,7 +145,7 @@ La valeur de $\tau_{iBF}$ est bien plus grande que celle définie pour une marge
 \label{sec:RegPosMIMO}
 La régulation SISO précédente traite chaque inducteur comme un système indépendant. Chaque boucle mesure son propre entrefer et calcule sa propre force sans tenir compte des trois autres. Or les quatre inducteurs portent la même maquette rigide. Lorsque l'inducteur 1 augmente sa force, il ne lève pas uniquement son coin mais fait pivoter toute la maquette, ce qui modifie aussi les entrefers des inducteurs 2, 3 et 4. Les quatre boucles se perturbent donc en permanence.
 
-L'idée de la régulation MIMO est de ne plus réguler quatre entrefers indépendants mais directement les mouvements de la plaque. Une plaque rigide qui ne se déplace que verticalement possède trois mouvements possibles, appelés modes :
+L'idée de la régulation MIMO est de ne plus réguler quatre entrefers indépendants mais directement les mouvements de la maquette. Une maquette rigide qui ne se déplace que verticalement possède trois mouvements possibles, appelés modes :
 
 \begin{itemize}
     \item Le pompage : la maquette monte ou descend en restant horizontale.
@@ -168,7 +168,7 @@ La régulation de position suit dès lors le principe de la \autoref{fig:NewSche
 Par manque de temps, l'intelligence artificielle a été employée pour générer le script calculant les coefficients de la régulation de position.
 
 \subsection{Définition de la géométrie}
-La nouvelle régulation nécessite de définir le centre de gravité de la partie lévitante. Il est supposé au centre de la plaque :
+La nouvelle régulation nécessite de définir le centre de gravité de la partie lévitante. Il est supposé au centre de la maquette :
 
 \begin{figure}[H]
     \centering
@@ -177,7 +177,7 @@ La nouvelle régulation nécessite de définir le centre de gravité de la parti
     \label{fig:VueDessus}
 \end{figure}
 
-Le repère 1 désigne les cartes de puissance, 2 les profilés en aluminium, 3 la carte principale et 4 la plaque en bois.
+Le repère 1 désigne les cartes de puissance, 2 les profilés en aluminium, 3 la carte principale et 4 la maquette en bois.
 
 Les cotes de la \autoref{fig:VueDessus} donnent l'écart entre les pieds. La distance entre deux inducteurs est de 280~mm sur l'axe X et de 260~mm sur l'axe Y.
 
@@ -199,7 +199,7 @@ La position des inducteurs par rapport au centre de gravité est donnée par le 
     \label{tab:geom-inducteurs}
 \end{table}
 
-La position de la plaque est décrite par trois grandeurs :
+La position de la maquette est décrite par trois grandeurs :
 
 \begin{itemize}
     \item $\bar\delta$ : l'entrefer moyen (pompage) [m]
@@ -209,7 +209,7 @@ La position de la plaque est décrite par trois grandeurs :
 
 Comme précédemment, l'entrefer diminue lorsque la partie lévitante monte.
 
-Considérons l'inducteur $i$ situé aux distances $x_i$ et $y_i$. Lorsque la plaque tourne d'un angle de tangage $\theta$, le coin en $x_i$ se déplace verticalement de $x_i\cdot\sin(\theta)$. Les angles restant très petits, l'approximation $\sin(\theta)\approx\theta$ est admise. Le déplacement vaut alors simplement $x_i\cdot\theta$.
+Considérons l'inducteur $i$ situé aux distances $x_i$ et $y_i$. Lorsque la maquette tourne d'un angle de tangage $\theta$, le coin en $x_i$ se déplace verticalement de $x_i\cdot\sin(\theta)$. Les angles restant très petits, l'approximation $\sin(\theta)\approx\theta$ est admise. Le déplacement vaut alors simplement $x_i\cdot\theta$.
 
 Le même principe s'applique au roulis avec la distance $y_i$.
 
@@ -259,7 +259,7 @@ avec :
 
 La matrice $G$ ne dépend que de la géométrie de la maquette. Le vecteur $\vec{q}$ regroupe les inconnues.
 
-Le système compte quatre équations pour trois inconnues. La plaque étant rigide, une solution exacte existerait sans bruit ni défaut géométrique. En pratique, le bruit de mesure et les imperfections de la maquette font qu'aucun $\vec{q}$ ne satisfait exactement les quatre équations.
+Le système compte quatre équations pour trois inconnues. La maquette étant rigide, une solution exacte existerait sans bruit ni défaut géométrique. En pratique, le bruit de mesure et les imperfections de la maquette font qu'aucun $\vec{q}$ ne satisfait exactement les quatre équations.
 
 La méthode des moindres carrés \cite{MoindreCarre} est employée pour ce type de système surdéterminé. Elle retient l'inconnue qui minimise l'erreur sur l'ensemble des mesures. Elle s'applique à tout système linéaire de la forme :
 
@@ -467,7 +467,7 @@ Le système présente deux inerties, une autour de l'axe $X$ (roulis) et une aut
 
 Le couple autour de l'axe $Y$ créé par un inducteur vaut sa force $F_i$ multipliée par son bras de levier $x_i$. Le couple autour de l'axe $X$ s'écrit de même avec $y_i$. La pesanteur s'applique au centre de gravité, son bras de levier est nul : elle ne crée aucun couple et n'apparaît donc pas ici.
 
-Le signe négatif vient de la convention sur les entrefers. Un tangage $\theta$ positif augmente les entrefers du côté des $x$ positifs, donc abaisse ce côté de la plaque. Or une force $F_i$ positive attire la plaque vers le haut et referme l'entrefer : elle fait diminuer $\theta$. Le roulis suit la même logique. La loi d'Euler s'écrit donc :
+Le signe négatif vient de la convention sur les entrefers. Un tangage $\theta$ positif augmente les entrefers du côté des $x$ positifs, donc abaisse ce côté de la maquette. Or une force $F_i$ positive attire la maquette vers le haut et referme l'entrefer : elle fait diminuer $\theta$. Le roulis suit la même logique. La loi d'Euler s'écrit donc :
 
 \begin{equation}
     J_Y \cdot \ddot\theta = -\sum_{i=1}^{4} x_i\cdot F_i
@@ -875,7 +875,7 @@ La référence $q_{ref,j}$ n'est pas appliquée en échelon, ce qui demanderait 
     \boldsymbol{q}_{cible} = (\delta_n,\ 0,\ 0)
     \label{eq:lissage-ref}
 \end{equation}
-la cible étant la plaque horizontale ($\theta = \varphi = 0$) à l'entrefer nominal $\delta_n = 2$~mm.
+la cible étant la maquette horizontale ($\theta = \varphi = 0$) à l'entrefer nominal $\delta_n = 2$~mm.
 
 Ces trois gains sont positifs ($K_1$ et $K_2$ étant négatifs, $K_4$ positif). Cette nomenclature reprend celle du script et du code.
 
@@ -939,7 +939,7 @@ L'équation de sortie décrit la grandeur mesurée. L'état intégral $\varepsil
 
 La matrice $C$ indique que seule la position $q_j$ est mesurée, reconstruite à partir des quatre entrefers par $T$. La matrice $D$ est nulle car la sortie ne dépend pas de l'entrée.
 
-Dans l'implémentation, l'entrée $u_{c,j}$ de l'observateur est remplacée par l'effort réellement appliqué, recalculé après écrêtage et filtrage coupe-bande. L'observateur subit ainsi la même excitation que la plaque, ce qui est la condition de validité de l'équation d'erreur ci-dessous.
+Dans l'implémentation, l'entrée $u_{c,j}$ de l'observateur est remplacée par l'effort réellement appliqué, recalculé après écrêtage et filtrage coupe-bande. L'observateur subit ainsi la même excitation que la maquette, ce qui est la condition de validité de l'équation d'erreur ci-dessous.
 
 Il reste à déterminer le gain $L$. L'erreur d'estimation est l'écart entre l'état réel et l'état estimé :
 
@@ -996,13 +996,13 @@ La différence entre les quatre actionneurs et les trois efforts contrôlés lai
 
 Elle tire davantage sur une diagonale et relâche l'autre. Ses trois sommes étant nulles, elle ne produit ni force totale, ni couple de tangage, ni couple de roulis. La maquette étant rigide, elle ne crée aucun mouvement et tend seulement à la tordre.
 
-Côté mesures, ce mode correspond à la contrainte $\delta_1 - \delta_2 - \delta_3 + \delta_4 = 0$, toujours vraie pour une plaque rigide. C'est le même degré de liberté, inobservable par les capteurs et incontrôlable par la commande.
+Côté mesures, ce mode correspond à la contrainte $\delta_1 - \delta_2 - \delta_3 + \delta_4 = 0$, toujours vraie pour une maquette rigide. C'est le même degré de liberté, inobservable par les capteurs et incontrôlable par la commande.
 
-La répartition à norme minimale a ici un avantage : par construction, elle n'injecte rien selon ce mode. La commande ne sollicite donc jamais la torsion de la plaque, ce qui évite d'exciter un éventuel mode de flexion absent du modèle. Cette propriété n'est toutefois garantie qu'en l'absence de saturation, l'écrêtage étant appliqué inducteur par inducteur.
+La répartition à norme minimale a ici un avantage : par construction, elle n'injecte rien selon ce mode. La commande ne sollicite donc jamais la torsion de la maquette, ce qui évite d'exciter un éventuel mode de flexion absent du modèle. Cette propriété n'est toutefois garantie qu'en l'absence de saturation, l'écrêtage étant appliqué inducteur par inducteur.
 
 \subsection{Compensation du poids}
 
-Le terme $F_{stat,i}$ de l'\autoref{eq:allocation-explicite} compense le poids de la plaque en anticipation. Les régulateurs ne travaillent ainsi qu'en écarts autour de l'équilibre, ce qui justifie la mise en écarts du modèle.
+Le terme $F_{stat,i}$ de l'\autoref{eq:allocation-explicite} compense le poids de la maquette en anticipation. Les régulateurs ne travaillent ainsi qu'en écarts autour de l'équilibre, ce qui justifie la mise en écarts du modèle.
 
 \begin{equation}
     F_{stat,i} = \frac{m_{tot} \cdot g}{4 \cdot K_{FF}} = \frac{18{,}052 \cdot 9{,}81}{4 \cdot 1{,}15} = 38{,}5\ \mathrm{N}
@@ -1023,7 +1023,7 @@ Chaque force de consigne doit respecter les limites de l'actionneur. Un électro
 
 Toute consigne hors de l'intervalle $[0,\ F_{max,i}]$ est écrêtée à la borne la plus proche.
 
-Ces saturations exposent les intégrateurs au windup. Tant que la force demandée n'est pas réalisable, l'erreur persiste et l'intégrateur accumule sans effet sur la plaque. Quand la situation se rétablit, cette valeur accumulée maintient une commande erronée le temps de se résorber, ce qui provoque un fort dépassement.
+Ces saturations exposent les intégrateurs au windup. Tant que la force demandée n'est pas réalisable, l'erreur persiste et l'intégrateur accumule sans effet sur la maquette. Quand la situation se rétablit, cette valeur accumulée maintient une commande erronée le temps de se résorber, ce qui provoque un fort dépassement.
 
 La protection retenue est une intégration conditionnelle au niveau modal. En SISO, chaque régulateur comparait directement sa force à la valeur saturée. Ici, le régulateur travaille sur les efforts modaux alors que l'écrêtage porte sur les quatre forces. Les efforts réalisables sont donc recalculés à partir des forces saturées :
 
