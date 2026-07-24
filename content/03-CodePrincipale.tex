@@ -266,7 +266,7 @@ La fonction \texttt{SendFloatAsText} permet la transmission des données de posi
 Cette fonction récupère quatre variables puis les envoie à l'ESP32, qui s'occupe de l'affichage.
 
 \section{Les interruptions}
-Le programme possède plusieurs interruptions. La principale, dénommée \texttt{adcA1ISR}, exécute l'algorithme du programme. Cette interruption correspond donc à l'algorithme de base décrit dans l'\autoref{sec:Algo}.
+Le programme possède plusieurs interruptions. La principale, dénommée \texttt{adcA1ISR}, exécute l'algorithme du programme. Cette interruption correspond donc à l'algorithme de base décrit dans la \autoref{sec:Algo}.
 
 Les deux autres interruptions sont employées pour la communication UART entre la carte d'évaluation et l'ESP32. La transmission permet, comme expliqué précédemment, d'envoyer les données à l'ESP32. Celle-ci se décrit comme suit :
 

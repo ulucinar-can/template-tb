@@ -212,7 +212,7 @@ Une fois cela réalisé, il est possible d'employer la liaison USB comme communi
 \label{annexe:MethodeMesurePosition}
 Afin de réaliser une lecture et un enregistrement des données issues du programme principal, une fonction et un script Python ont été réalisés. Ceux-ci se trouvent dans le dossier \texttt{MesureSysteme}.
 
-Il est nécessaire d'activer la liaison de communication via le câble USB (voir l'\autoref{annexe:LiaisonUSB}).
+Il est nécessaire d'activer la liaison de communication via le câble USB (voir la \autoref{annexe:LiaisonUSB}).
 
 La fonction \texttt{SendFloatAsText} a été modifiée pour permettre un envoi plus important de valeurs. Celle-ci a été étendue à 32 valeurs afin de permettre l'envoi, pour chaque inducteur, de la consigne de position, de la position mesurée, de l'erreur de position, de la consigne de courant, du courant mesuré, de la consigne de force, de l'intégrale de la régulation de position et, pour finir, de la vitesse. La fonction résultante est la suivante :
 
@@ -312,7 +312,7 @@ Pour réaliser un mapping de la plaque, un code de mesure et un script Python on
 
 Le code emploie simplement la fonction déjà réalisée \texttt{SendFloatAsText} en envoyant les quatre valeurs de position filtrées.
 
-Il est nécessaire d'activer la liaison de communication via le câble USB (voir l'\autoref{annexe:LiaisonUSB}).
+Il est nécessaire d'activer la liaison de communication via le câble USB (voir la \autoref{annexe:LiaisonUSB}).
 
 Il suffit dès lors de compiler le code dans la carte d'évaluation et de lancer le script Python. Une fois cela fait, il ne reste qu'à suivre les indications du script.
 
